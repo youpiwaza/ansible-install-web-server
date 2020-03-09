@@ -1,0 +1,3 @@
+---
+packagesToInstall: ['vim', 'htop', 'zsh']
+...

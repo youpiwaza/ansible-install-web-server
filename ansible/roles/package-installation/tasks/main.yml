@@ -1,0 +1,25 @@
+---
+### Install desired packages ###
+
+# https://docs.ansible.com/ansible/latest/modules/apt_module.html#apt-module
+- name: Ubuntu multiple package installations
+  apt:
+    cache_valid_time: '3600'
+    force_apt_get: yes
+    name: '{{ packagesToInstall }}'
+    update_cache: yes
+    state: latest
+
+- name: Remove useless packages from the cache
+  apt:
+    autoclean: yes
+
+- name: Remove dependencies that are no longer required
+  apt:
+    autoremove: yes
+
+# https://coderwall.com/p/0nckqg/ansible-reboot-ubuntu-if-needed, cf. comments
+- name: Reboot system if required
+  command: shutdown -r now 'Rebooting to complete system upgrade'
+    removes=/var/run/reboot-required
+...
