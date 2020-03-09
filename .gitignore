@@ -1,1 +1,5 @@
+# Real hosts file
 hosts
+
+# Real variables file
+ansible/vars/main.yml
