@@ -1,0 +1,13 @@
+---
+### User feedback
+# https://docs.ansible.com/ansible/latest/reference_appendices/test_strategies.html
+- name: Get release information
+  command: lsb_release -a
+  register: result
+
+- name: Confirmation
+  assert:
+    that: '"No LSB modules are available" in result.stderr'
+    fail_msg: "KO / There's still updates to be made ?\n{{ result.stderr }}\n{{ result.stdout }}"
+    success_msg: "OK / Release & packages upgraded if needed.\nActual release :\n{{ result.stdout }}"
+...

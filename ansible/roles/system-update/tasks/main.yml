@@ -1,0 +1,13 @@
+---
+- name: Update system
+  include: update-os.yml
+
+- name: Update packages
+  include: update-packages.yml
+
+- name: Clean dependancies et reboot if needed
+  include: clean-packages.yml
+
+- name: User feedback
+  include: confirmation.yml
+...

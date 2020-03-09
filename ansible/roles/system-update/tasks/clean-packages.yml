@@ -1,0 +1,13 @@
+---
+### Clean packages and dependancies, then reboot if needed
+- name: Remove useless packages from the cache
+  apt:
+    autoclean: yes
+
+- name: Remove dependencies that are no longer required
+  apt:
+    autoremove: yes
+
+- name: Reboot system if required
+  include: reboot-if-needed.yml
+...

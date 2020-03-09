@@ -1,0 +1,14 @@
+---
+### Update OS and packages
+- name: Only run "update_cache=yes" if the last one is more than 3600 seconds ago
+  apt:
+    update_cache: yes
+    cache_valid_time: 3600
+
+- name: Upgrade installed packages
+  apt:
+    upgrade: dist
+
+- name: Reboot system if required
+  include: reboot-if-needed.yml
+...
