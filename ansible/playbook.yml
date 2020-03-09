@@ -8,7 +8,7 @@
 
   roles:
     # - system-update
-    # - package-installation
+    - package-installation
     # Create a dedicated user, only if a local SSH key is present
-    - user
+    # - user
 ...
