@@ -1,5 +1,5 @@
 ---
-### Users ###
+### Users
 # Check if local SSH key is defined
 # https://stackoverflow.com/a/60202871/12026487
 - name: 'Check for local SSH key at ~/.ssh/{{ user }}-ssh-key-ed25519.pub, else skipping user creation !'

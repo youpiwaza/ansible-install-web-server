@@ -1,5 +1,5 @@
 ---
-### Install desired packages ###
+### Install desired packages
 
 # https://docs.ansible.com/ansible/latest/modules/apt_module.html#apt-module
 - name: Ubuntu multiple package installations
