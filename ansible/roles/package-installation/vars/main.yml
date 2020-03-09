@@ -1,3 +1,10 @@
 ---
-packagesToInstall: ['vim', 'htop', 'zsh']
+packagesToInstall: [
+  # Process viewer / https://hisham.hm/htop/
+  'htop',
+  # Text editor / https://www.vim.org/
+  'vim',
+  # Shell++ / https://www.zsh.org/
+  'zsh'
+]
 ...
