@@ -3,3 +3,6 @@ hosts
 
 # Real variables file
 ansible/vars/main.yml
+
+# Secret README files
+**/*_secret*
