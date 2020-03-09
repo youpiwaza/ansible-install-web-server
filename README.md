@@ -8,6 +8,7 @@ Requirements :
 
 - A working terminal
 - A working SSH access through terminal (private key & ssh-agent on local machine, & public key on server)
+- Be careful on your login configuration (hosts) if you edited the SSH port (default: 22)
 
 Note: I'm letting this repo public for educationnal purposes, and obfuscate real ids files, but if you want to use it, feel free to replace *_not_so_real files with your ids :)
 
