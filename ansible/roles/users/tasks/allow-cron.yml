@@ -1,0 +1,17 @@
+---
+### Allow to use CRONtab to user, only when specified
+#   https://help.ubuntu.com/community/CronHowto
+- name: '{{ item.name }} can use CRON : {{ item.allowCron }}'
+  lineinfile:
+    # Add user name to authorized users (1 per line)
+    line: '{{ item.name }}'
+    # File to modify
+    path: '/etc/cron.allow'
+    # Create file if it doesn't exist
+    create: yes
+  when:
+    # register isn't templatable / is_local_ssh_key_{{ item.name }} // KO
+    # - is_local_ssh_key.stat.exists
+    - users is defined
+    - item.allowCron|default(false)|bool == true
+...

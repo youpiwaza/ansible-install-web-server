@@ -22,4 +22,8 @@
 - name: Add sudoers rights
   include: add-sudoer.yml
   loop: '{{ users }}'
+
+- name: Add CRON rights
+  include: allow-cron.yml
+  loop: '{{ users }}'
 ...
