@@ -1,0 +1,13 @@
+---
+### Create user
+# https://docs.ansible.com/ansible/latest/modules/user_module.html#user-module
+- name: 'Create a new user {{ item.name }}'
+  user:
+    name: '{{ item.name }}'
+    # Default shell : zsh
+    shell: /usr/bin/zsh
+  when:
+    # register isn't templatable / is_local_ssh_key_{{ item.name }} // KO
+    # - is_local_ssh_key.stat.exists
+    - users is defined
+...

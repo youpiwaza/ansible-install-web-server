@@ -29,5 +29,5 @@ Working on Windows WSL, personnal notes for my setup
 > ssh-add ~/.ssh/masamune-ssh-key-ed25519-yay
 
 # Lancer le playbook
-> ansible-playbook -i hosts playbook.yml | sed 's/\\n/\n/g'
+> ansible-playbook -i hosts playbook.yml
 ```

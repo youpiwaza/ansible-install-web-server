@@ -1,0 +1,8 @@
+# Create a user, postfixed with a random string
+# https://passwordsgenerator.net/
+# No uppercase, max 32 chars
+users:
+  # No more chars than this               |
+  - name: the_builder_guy_5kk2dnjtbcxttd7g
+  - name: the_cron_guy_nvhrg559y8hb5qka2d2
+  - name: the_docker_guy_avwr8m2kq22nx22n5

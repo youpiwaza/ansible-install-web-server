@@ -1,0 +1,12 @@
+---
+### Add sudoer rights to user
+- name: '{{ item.name }} become sudoer'
+  template:
+    dest: '/etc/sudoers.d/{{ item.name }}-sudoer'
+    src: templates/sudoers.j2
+    validate: 'visudo -cf %s'
+  when:
+    # register isn't templatable / is_local_ssh_key_{{ item.name }} // KO
+    # - is_local_ssh_key.stat.exists
+    - users is defined
+...

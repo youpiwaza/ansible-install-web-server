@@ -1,0 +1,27 @@
+---
+### Add SSH key for user
+# https://docs.ansible.com/ansible/latest/modules/authorized_key_module.html
+- name: 'Set SSH key taken from file, for {{ item.name }}'
+  authorized_key:
+    # Need to be generated BEFORE, and added to local SSH agent
+    key: "{{ lookup('file', '~/.ssh/{{ item.name }}-ssh-key-ed25519.pub') }}"
+    state: present
+    user: '{{ item.name }}'
+  when:
+    # register isn't templatable / is_local_ssh_key_{{ item.name }} // KO
+    # - is_local_ssh_key.stat.exists
+    - users is defined
+
+# # TODO: SSH key generation on the fly
+# #   Need to find a way to automate private key recovery on local machine, check ansible > local_action
+# - name: 'Create a 2048-bit SSH key for user {{ item.name }} in ~{{ item.name }}/.ssh/id_rsa'
+#   user:
+#     name: '{{ item.name }}'
+#     generate_ssh_key: yes
+#     ssh_key_bits: 2048
+#     ssh_key_file: .ssh/id_rsa
+#   when:
+    # # register isn't templatable / is_local_ssh_key_{{ item.name }} // KO
+    # # - is_local_ssh_key.stat.exists
+    # - users is defined
+...

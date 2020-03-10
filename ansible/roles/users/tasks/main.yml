@@ -1,52 +1,25 @@
 ---
 ### Users
+
 # Check if local SSH key is defined
 # https://stackoverflow.com/a/60202871/12026487
-- name: 'Check for local SSH key at ~/.ssh/{{ user }}-ssh-key-ed25519.pub, else skipping user creation !'
-  local_action: stat path='~/.ssh/{{ user }}-ssh-key-ed25519.pub'
-  register: is_local_ssh_key
-
-# https://docs.ansible.com/ansible/latest/modules/user_module.html#user-module
-- name: 'Create a new user {{ user }}'
-  user:
-    name: '{{ user }}'
-    # Default shell : zsh
-    shell: /usr/bin/zsh
+- name: 'Check for local SSH key at ~/.ssh/{{ item.name }}-ssh-key-ed25519.pub, else skipping user creation !'
+  local_action: stat path='~/.ssh/{{ item.name }}-ssh-key-ed25519.pub'
+  loop: '{{ users }}'
+  # register isn't templatable
+  # register: is_local_ssh_key
   when:
-    - is_local_ssh_key.stat.exists
-    - user is defined
+    - users is defined
 
-# https://docs.ansible.com/ansible/latest/modules/authorized_key_module.html
-- name: 'Set SSH key taken from file, for {{ user }}'
-  authorized_key:
-    # Need to be generated before, and added to local SSH agent
-    key: "{{ lookup('file', '~/.ssh/{{ user }}-ssh-key-ed25519.pub') }}"
-    state: present
-    user: '{{ user }}'
-  when:
-    - is_local_ssh_key.stat.exists
-    - user is defined
+- name: Create all users
+  include: create.yml
+  loop: '{{ users }}'
 
-- name: '{{ user }} become sudoer'
-  template:
-    dest: '/etc/sudoers.d/{{ user }}-sudoer'
-    # Possibilité de forcer la création même si le fichier existe déjà
-    # force: yes
-    src: templates/sudoers.j2
-    validate: 'visudo -cf %s'
-  when:
-    - is_local_ssh_key.stat.exists
-    - user is defined
+- name: Add SSH keys
+  include: add-ssh.yml
+  loop: '{{ users }}'
 
-# # TODO: SSH key generation on the fly
-# #   Need to find a way to automate private key recovery on local machine, check ansible > local_action
-# - name: 'Create a 2048-bit SSH key for user {{ user }} in ~{{ user }}/.ssh/id_rsa'
-#   user:
-#     name: '{{ user }}'
-#     generate_ssh_key: yes
-#     ssh_key_bits: 2048
-#     ssh_key_file: .ssh/id_rsa
-#   when:
-    # - is_local_ssh_key.stat.exists
-    # - user is defined
+- name: Add sudoers rights
+  include: add-sudoer.yml
+  loop: '{{ users }}'
 ...
