@@ -1,0 +1,22 @@
+---
+### ZSH configuration, used for each user
+# Install for each user
+- name: 'Cloning oh-my-zsh for {{ item.name }}'
+  git:
+    repo: https://github.com/ohmyzsh/ohmyzsh.git
+    dest: '/home/{{ item.name }}/.oh-my-zsh'
+
+## Create the .zshrc file, only if it doesn't exist already, to prevent local config override
+# If config is already here, new theme won't be applied
+- name: "Check for {{ item.name }}'s .zshrc"
+  stat:
+    path: '/home/{{ item.name }}/.zshrc'
+  register: is_zshrc
+
+# Note: Might need to > 'source .zshrc' if still logged in to apply changes
+- name: 'Create .zshrc for {{ item.name }} if needed'
+  template:
+    dest: '/home/{{ item.name }}/.zshrc'
+    src: templates/zshrc.j2
+  when: is_zshrc.stat.exists|default(false)|bool == false
+...
