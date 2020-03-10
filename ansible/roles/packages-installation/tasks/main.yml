@@ -24,7 +24,7 @@
   command: shutdown -r now 'Rebooting to complete system upgrade'
     removes=/var/run/reboot-required
 
-# Configure installed softwares
-- name: Configure vim text editor
+## Configure installed softwares
+- name: Configure vim text editor for all users
   include: config-vim.yml
 ...

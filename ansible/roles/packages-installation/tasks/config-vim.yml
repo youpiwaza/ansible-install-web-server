@@ -1,8 +1,8 @@
 ---
 ### Configure the text editor vim
-- name: Configure vim text editor
+- name: Configure vim text editor for all users
   template:
-    dest: '/home/{{ user }}/.vimrc'
+    dest: /etc/vim/vimrc.local
     src: templates/vimrc.j2
   # Only if vim is installed
   #   https://docs.ansible.com/ansible/latest/modules/package_facts_module.html

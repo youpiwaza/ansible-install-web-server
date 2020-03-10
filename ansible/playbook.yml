@@ -8,8 +8,8 @@
 
   roles:
     # - system-update
-    # - packages-installation
-    - users
+    - packages-installation
+    # - users
     # /!\ Needs a set up SSH connexion to prevent lockdown
     # - security
 ...
