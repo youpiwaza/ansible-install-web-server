@@ -4,4 +4,8 @@
 # Prevent root login (only sudoers)
 - name: Prevent root login
   include: prevent-root-login.yml
+
+# Prevent password connection (only ssh)
+- name: Prevent password connexion
+  include: prevent-password-connexion.yml
 ...
