@@ -1,0 +1,11 @@
+---
+### Prevent root login (only sudoers)
+- name: Prevent root login
+  lineinfile:
+    # Replace line with
+    line: PermitRootLogin no
+    # File to modify
+    path: /etc/ssh/sshd_config
+    # Attention à l'échappement
+    regexp: '^PermitRootLogin'
+...

@@ -9,5 +9,7 @@
   roles:
     # - system-update
     # - packages-installation
-    - users
+    # - users
+    # /!\ Needs a set up SSH connexion to prevent lockdown
+    - security
 ...
