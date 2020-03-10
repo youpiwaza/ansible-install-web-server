@@ -8,4 +8,5 @@
     path: /etc/ssh/sshd_config
     # Attention à l'échappement
     regexp: '^PermitRootLogin'
+  notify: ssh restart
 ...
