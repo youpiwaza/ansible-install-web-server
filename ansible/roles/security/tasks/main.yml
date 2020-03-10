@@ -5,7 +5,7 @@
 - name: Prevent root login
   include: prevent-root-login.yml
 
-# Prevent password connection (only ssh)
-- name: Prevent password connexion
-  include: prevent-password-connexion.yml
+# Prevent password authentication (only ssh)
+- name: Prevent password authentication
+  include: prevent-password-authentication.yml
 ...
