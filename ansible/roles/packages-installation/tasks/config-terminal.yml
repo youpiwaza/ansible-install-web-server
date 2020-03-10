@@ -1,0 +1,29 @@
+---
+### Configure the terminal, with zsh + oh-my-zsh + powerlevel10k
+#   ZSH                 / https://www.zsh.org/
+#   Oh My ZSH           / https://ohmyz.sh/
+#   Powerlevel10k theme / https://github.com/romkatv/powerlevel10k#oh-my-zsh
+
+# Note: Zsh should be set as the default shell / https://github.com/ohmyzsh/ohmyzsh/wiki/Installing-ZSH
+# This is defined during user creation
+
+# Oh my zsh global installation / https://stackoverflow.com/questions/31624649/how-can-i-get-a-secure-system-wide-oh-my-zsh-configuration
+
+# Only if zsh is installed
+#   https://docs.ansible.com/ansible/latest/modules/package_facts_module.html
+# TODO: KO / Requirements > For Debian-based systems python-apt package must be installed on targeted hosts
+# when: "'zsh' in ansible_facts.packages"
+
+- name: Cloning oh-my-zsh
+  git:
+    repo: https://github.com/ohmyzsh/ohmyzsh.git
+    dest: '/home/{{ my_remote_user }}/.oh-my-zsh'
+  register: cloning
+
+# Default config / https://github.com/ohmyzsh/ohmyzsh/blob/master/templates/zshrc.zsh-template
+- name: Creating new .zshrc for all users
+  template:
+    dest: /etc/zsh/zshrc
+    src: templates/zshrc.j2
+  when: cloning is success
+...

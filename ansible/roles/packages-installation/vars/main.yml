@@ -1,10 +1,14 @@
 ---
 packagesToInstall: [
-  # Process viewer / https://hisham.hm/htop/
+  # CLI for data transfer / https://curl.haxx.se/   / Required for Oh my ZSH
+  'curl',
+  # Versionning           / https://git-scm.com/    / Required for Oh my ZSH
+  'git',
+  # Process viewer        / https://hisham.hm/htop/
   'htop',
-  # Text editor / https://www.vim.org/
+  # Text editor           / https://www.vim.org/
   'vim',
-  # Shell++ / https://www.zsh.org/
+  # Shell++               / https://www.zsh.org/
   'zsh'
 ]
 ...

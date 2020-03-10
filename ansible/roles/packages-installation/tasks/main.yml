@@ -27,4 +27,7 @@
 ## Configure installed softwares
 - name: Configure vim text editor for all users
   include: config-vim.yml
+
+- name: Configure terminal for all users
+  include: config-terminal.yml
 ...
