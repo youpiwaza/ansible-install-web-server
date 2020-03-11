@@ -1,0 +1,35 @@
+---
+# First playbook : Localhost only
+
+- name: Ajout d'une clé SSH
+  hosts: 127.0.0.1
+  connection: local
+  vars_files:
+  - vars/main.yml
+
+  tasks:
+    # Remove eventual previous local keys
+    - name: Remove eventual previous local keys
+      local_action: 'command ssh-keygen -f "/root/.ssh/known_hosts" -R "{{ my_ssh_remote_host }}"'
+
+    # Generate SSH keys locally
+    #   https://www.ssh.com/ssh/keygen
+    #   http://man.openbsd.org/cgi-bin/man.cgi/OpenBSD-current/man1/ssh-keygen.1?query=ssh-keygen%26sec=1
+    # -a          / Number of derivation (more = secure++)
+    # -c          / Comment
+    # -f          / Filename
+    # -N          / Passphrase
+    # -t ed25519  / Algorithm type / ed25519 - this is a new algorithm added in OpenSSH
+    - name: "Generate SSH keys locally ONLY IF they don't exist yet"
+      local_action: 'command ssh-keygen -f ~/.ssh/{{ my_remote_user }}-ssh-key-ed25519 -a 100 -t ed25519 -N "{{ my_ssh_passphrase }}" -C "{{ my_mail }}"'
+      # Only create files if they don't exist
+      args:
+        creates: ~/.ssh/{{ my_remote_user }}-ssh-key-ed25519
+    
+    ### Pretty funky when automated, cf. /server-related-tutorials/02-ansible/08-ssh-key-generation-ful
+    ### Better generate a file with manual commands to execute afterward..
+    - name: Generate a file with manual commands to execute afterward..
+      template:
+        dest: manual-commands.md
+        src: templates/ssh-manual-commands.j2
+...

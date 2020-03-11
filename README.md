@@ -17,17 +17,16 @@ Note: I'm letting this repo public for educationnal purposes, and obfuscate real
 Working on Windows WSL, personnal notes for my setup
 
 ```bash
-# WSL
-# Reco SSH, si ssh configuré correctement
-> ssh awesome
-# Pass phrase
+# Une seule fois, lancer le playbook pour configurer la première connexion
+> ansible-playbook -i hosts first-connexion-setup.yml | sed 's/\\n/\n/g'
+# Executer les commandes dans le fichier généré 'manual-commands.md'
 
 # Acceder au projet
 > cd ~/../c/Users/Patolash/Documents/_dev/ansible-install-web-server/ansible
-# Configurer l'agent SSH en local
+# Cf. manual-commands.md
 > eval `ssh-agent`
-> ssh-add ~/.ssh/masamune-ssh-key-ed25519-yay
+> ssh-add ~/.ssh/YOUR_REMOTE_USER-ssh-key-ed25519
 
-# Lancer le playbook
+# Lancer le playbook d'installation
 > ansible-playbook -i hosts playbook.yml | sed 's/\\n/\n/g'
 ```

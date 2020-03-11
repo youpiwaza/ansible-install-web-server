@@ -6,3 +6,6 @@ hosts
 
 # Secret README files
 **/*_secret*
+
+# Generated files
+manual-commands.md
