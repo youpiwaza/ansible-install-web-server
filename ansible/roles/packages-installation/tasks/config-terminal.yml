@@ -46,4 +46,8 @@
   template:
     dest: /etc/zsh/zshrc
     src: templates/zshrc.j2
+
+- name: Install and setup zsh for all users
+  include: utils-zshrc.yml
+  loop: '{{ lists_merged }}'
 ...

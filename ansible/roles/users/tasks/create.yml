@@ -4,8 +4,9 @@
 - name: 'Create a new user {{ item.name }}'
   user:
     name: '{{ item.name }}'
-    # Default shell : zsh
-    shell: /usr/bin/zsh
+    # BE CAREFUL, if the terminal isn't installed, it prevents users from ssh login !
+    # zsh will be set as default shell after it's installation
+    shell: /bin/bash
   when:
     # register isn't templatable / is_local_ssh_key_{{ item.name }} // KO
     # - is_local_ssh_key.stat.exists

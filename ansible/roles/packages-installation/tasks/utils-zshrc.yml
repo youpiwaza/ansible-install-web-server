@@ -19,4 +19,11 @@
     dest: '/home/{{ item.name }}/.zshrc'
     src: templates/zshrc.j2
   when: is_zshrc.stat.exists|default(false)|bool == false
+
+## Set user's terminal to zsh, AFTER INSTALLATION
+# else it prevents SSH login !
+- name: 'Change default terminal for {{ item.name }}'
+  user:
+    name: '{{ item.name }}'
+    shell: /usr/bin/zsh
 ...
