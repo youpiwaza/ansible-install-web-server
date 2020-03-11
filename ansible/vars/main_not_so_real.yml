@@ -1,1 +1,3 @@
 my_remote_user: YOUR_REMOTE_USER
+# Used for iptables firewall rules
+custom_ssh_port: 6969

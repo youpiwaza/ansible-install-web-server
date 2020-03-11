@@ -1,0 +1,15 @@
+### Restore iptables config on restart
+# Config file based on nikjj's
+#   https://github.com/nickjj/ansible-iptables/blob/master/files/etc/systemd/system/iptables-restore.service
+
+[Unit]
+Description=Restore iptables rules
+Before=network-pre.target
+Conflicts=shutdown.target
+
+[Service]
+Type=oneshot
+ExecStart=/sbin/iptables-restore /var/lib/iptables/rules-save
+
+[Install]
+WantedBy=basic.target

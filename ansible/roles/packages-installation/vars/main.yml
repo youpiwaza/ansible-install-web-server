@@ -6,6 +6,8 @@ packagesToInstall: [
   'fonts-powerline',
   # Versionning           / https://git-scm.com/                  / Required for Oh my ZSH
   'git',
+  # Firewall              / https://doc.ubuntu-fr.org/iptables    / Required for Oh my ZSH
+  'iptables',
   # Process viewer        / https://hisham.hm/htop/
   'htop',
   # Text editor           / https://www.vim.org/

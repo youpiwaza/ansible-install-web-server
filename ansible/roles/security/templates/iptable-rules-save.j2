@@ -1,0 +1,39 @@
+### iptables config file
+# Config file based on nikjj's
+#   https://github.com/nickjj/ansible-iptables
+#
+# Raw iptables config file example
+#   https://help.ubuntu.com/lts/serverguide/firewall.html
+# iptables options
+#   https://help.ubuntu.com/community/IptablesHowTo?action=show&redirect=Iptables
+
+# Rather than make a big convoluted mess by trying to parse an iptables config
+# file, you can just supply a raw config file.
+#
+# The default set up will lock down your server, and then open up:
+# port 22 (SSH) and allow pings from the outside world.
+*filter
+
+# --- Disallow everything as the default filter policy.
+:INPUT DROP [0:0]
+:FORWARD DROP [0:0]
+:OUTPUT ACCEPT [0:0] 
+
+# --- Allow unrestricted traffic on a few local network adapters.
+# -A INPUT -i lo -j ACCEPT
+# -A INPUT -i eth1 -j ACCEPT
+-A INPUT  -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
+-A OUTPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
+
+# --- Allow the outside world to connect to SSH (22).
+# -A INPUT -p tcp -m tcp --dport 22 -j ACCEPT
+# -A INPUT -p tcp --dport 22 -j ACCEPT
+
+# Allow SSH only on custom port
+# cf. /ansible/vars/main.yml
+-A INPUT -p tcp --dport {{ custom_ssh_port }} -j ACCEPT
+
+# --- Allow the outside world to send all ICMP requests (ping, etc.).
+-A INPUT -p icmp -m icmp --icmp-type 255 -j ACCEPT
+
+COMMIT

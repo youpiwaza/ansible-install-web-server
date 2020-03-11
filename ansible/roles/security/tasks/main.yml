@@ -8,4 +8,8 @@
 # Prevent password authentication (only ssh)
 - name: Prevent password authentication
   include: prevent-password-authentication.yml
+
+# # Configure iptables firewall
+# - name: Configure iptables firewall
+#   include: configure-firewall.yml
 ...

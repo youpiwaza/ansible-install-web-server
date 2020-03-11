@@ -1,0 +1,46 @@
+---
+### Configure iptables firewall
+# Requires 'iptables' package
+#   https://doc.ubuntu-fr.org/iptables
+#     Ansible config only edits current rules, wipped on server restart
+#     # https://docs.ansible.com/ansible/latest/modules/iptables_module.html
+#   Better supply a raw config file
+#   https://github.com/nickjj/ansible-iptables
+- name: Configure iptables firewall / Create /var/lib/iptables directory
+  file:
+    path: /var/lib/iptables
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+
+- name: Generate iptables config
+  template:
+    src: iptable-rules-save.j2
+    dest: /var/lib/iptables/rules-save
+    owner: root
+    group: root
+    mode: 0644
+  register: iptables_register_config
+
+# Restore config on restart
+- name: Restore config on restart / Copy systemd unit file
+  template:
+    src: iptables-restore.service.j2
+    dest: /etc/systemd/system/iptables-restore.service
+    owner: root
+    group: root
+    mode: 0644
+  register: iptables_register_unit
+
+- name: Reload systemd daemon
+  command: "systemctl daemon-reload"
+  when: iptables_register_unit.changed
+
+- name: Restart iptables service
+  service:
+    name: "iptables-restore"
+    state: "restarted"
+    enabled: True
+  when: iptables_register_config.changed
+...
