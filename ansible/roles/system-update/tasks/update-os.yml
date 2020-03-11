@@ -13,9 +13,10 @@
 - name: Reboot system if required
   include: reboot-if-needed.yml
 
+# TODO: Fix
 # https://www.linuxnix.com/ubuntu-linuxhow-to-do-unattended-os-release-upgrade/
-- name: Run do-release-upgrade non-interactively.
-  command: do-release-upgrade -f DistUpgradeViewNonInteractive
-  register: result
-  failed_when: '"No new release found" not in result.stdout'
+# - name: Run do-release-upgrade non-interactively.
+#   command: do-release-upgrade -f DistUpgradeViewNonInteractive
+#   register: result
+  # failed_when: '"No new release found" not in result.stdout'
 ...
