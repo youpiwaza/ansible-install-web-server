@@ -1,22 +1,22 @@
 ---
 ### Users
+- name: Generate SSH keys locally
+  include: generate-ssh-key.yml
+  loop: '{{ users }}'
 
 # Check if local SSH key is defined
+#   No longer needed as they will be generated if needed
 # https://stackoverflow.com/a/60202871/12026487
-- name: 'Check for local SSH key at ~/.ssh/{{ item.name }}-ssh-key-ed25519.pub, else skipping user creation !'
-  local_action: stat path='~/.ssh/{{ item.name }}-ssh-key-ed25519.pub'
-  loop: '{{ users }}'
-  # register isn't templatable
-  # register: is_local_ssh_key
-  when:
-    - users is defined
+# - name: 'Check for local SSH key at ~/.ssh/{{ item.name }}-ssh-key-ed25519.pub, else skipping user creation !'
+#   local_action: stat path='~/.ssh/{{ item.name }}-ssh-key-ed25519.pub'
+#   loop: '{{ users }}'
 
 - name: Create all users
   include: create.yml
   loop: '{{ users }}'
 
 - name: Add SSH keys
-  include: add-ssh.yml
+  include: add-ssh-key.yml
   loop: '{{ users }}'
 
 - name: Add sudoers rights
