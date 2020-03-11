@@ -1,6 +1,6 @@
 ---
 # https://coderwall.com/p/0nckqg/ansible-reboot-ubuntu-if-needed, cf. comments
-- name: Reboot system if required
+- name: Reboot system if required / If connexion drop, wait a minute and replay cookbook
   command: shutdown -r now 'Rebooting to complete system upgrade'
     removes=/var/run/reboot-required
 ...
