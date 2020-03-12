@@ -23,30 +23,39 @@
     file: ../../users/vars/main.yml
     name: loaded_users
 
-## Merge remote_user with created users, to allow loop refacto
-#   https://blog.crisp.se/2016/10/20/maxwenzin/how-to-append-to-lists-in-ansible
-# Create a single element list
-- name: Setup a list containing remote_user, to be merged into users
-  set_fact:
-    list_of_remote_user_only:
-      - name: '{{ my_remote_user }}'
+# TODO: Set {{ homeDirectory }} dynamically and merge utils-zshrc.yml and utils-zshrc-for-root.yml
+# root's $HOME directory isn't the same as others users
+# Others have /home/$USERNAME
+# root has /root
 
-- name: Merge the two lists
-  set_fact:
-    # Users list is in users var
-    lists_merged: "{{ loaded_users.users + list_of_remote_user_only }}"
+# ## Merge remote_user with created users, to allow loop refacto
+# #   https://blog.crisp.se/2016/10/20/maxwenzin/how-to-append-to-lists-in-ansible
+# # Create a single element list
+# - name: Setup a list containing remote_user, to be merged into users
+#   set_fact:
+#     list_of_remote_user_only:
+#       - name: '{{ my_remote_user }}'
+
+# - name: Merge the two lists
+#   set_fact:
+#     # Users list is in users var
+#     lists_merged: "{{ loaded_users.users + list_of_remote_user_only }}"
 
 ## Loop for every user, including remote_user
 - name: Install and setup zsh for all users
   include: utils-zshrc.yml
-  loop: '{{ lists_merged }}'
+  loop: '{{ loaded_users.users }}'
+  # loop: '{{ lists_merged }}'
 
-# Default config / https://github.com/ohmyzsh/ohmyzsh/blob/master/templates/zshrc.zsh-template
-# TODO: Fix root tweak (root's $HOME directory isn't the same as others users)
+# root tweak : root's $HOME directory isn't the same as others users
 # Others have /home/$USERNAME
 # root has /root
+- name: Install and setup zsh for root
+  include: utils-zshrc-for-root.yml
+
+# Default config / https://github.com/ohmyzsh/ohmyzsh/blob/master/templates/zshrc.zsh-template
 - name: Creating zshrc default configuration for all users
   template:
     dest: /etc/zsh/zshrc
-    src: templates/zshrc-default.j2
+    src: templates/zshrc.j2
 ...

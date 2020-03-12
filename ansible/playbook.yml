@@ -6,10 +6,20 @@
   vars_files:
   - vars/main.yml
 
+  # TODO:
+  # As root
+  # - Install all users, including SSH keys
+  # - Change SSH port to custom
+  #
+  # As the builder_guy
+  # - Login as the_builder_guy -p NEW_SSH_PORT
+  # - All other stuff, including remove root password access
+
+
   roles:
+    # - users
     # - system-update
     - packages-installation
-    # - users
-    # /!\ Needs a set up SSH connexion to prevent lockdown
-    # - security
+    #   # /!\ Needs a set up SSH connexion to prevent lockdown
+    #   - security
 ...
