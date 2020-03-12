@@ -32,4 +32,7 @@
       template:
         dest: '__{{ my_remote_user }}-manual-commands-generated.md'
         src: templates/ssh-manual-commands.j2
+
+    - debug:
+        msg: 'You must now add {{ my_remote_user }} to your local SSH agent before proceeding. See generated files __{{ my_remote_user }}-manual-commands-generated.md'
 ...
