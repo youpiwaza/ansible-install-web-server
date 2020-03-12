@@ -8,4 +8,4 @@ hosts
 **/*_secret*
 
 # Generated files
-manual-commands.md
+**/*-generated*
