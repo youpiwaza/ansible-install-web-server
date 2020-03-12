@@ -5,10 +5,18 @@ users:
   # No more chars than this for name      |
   - name: the_builder_guy_5kk2dnjtbcxttd7g
     allowCron: no
+    mail: your_email
+    ssh_passphrase: 'your_pass_phrase'
     sudoer: yes
+
   - name: the_cron_guy_nvhrg559y8hb5qka2d2
     allowCron: yes
+    mail: your_email
+    ssh_passphrase: 'your_pass_phrase'
     sudoer: no
+
   - name: the_docker_guy_avwr8m2kq22nx22n5
     allowCron: no
+    mail: your_email
+    ssh_passphrase: 'your_pass_phrase'
     sudoer: no

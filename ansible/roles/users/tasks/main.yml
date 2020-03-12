@@ -26,4 +26,8 @@
 - name: Add CRON rights
   include: allow-cron.yml
   loop: '{{ users }}'
+
+- name: Generate a file with manual commands for convenience
+  include: generate-users-manual-commands.yml
+  loop: '{{ users }}'
 ...
