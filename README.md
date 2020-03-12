@@ -21,13 +21,19 @@ Working on Windows WSL, personnal notes for my setup
 > cd ~/../c/Users/Patolash/Documents/_dev/ansible-install-web-server/ansible
 
 # Une seule fois, lancer le playbook pour configurer la première connexion
-> ansible-playbook -i hosts first-connexion-setup.yml | sed 's/\\n/\n/g'
+> ansible-playbook -i hosts 1-first-connexion-setup.yml | sed 's/\\n/\n/g'
 # Executer les commandes dans le fichier généré 'manual-commands.md'
 
-# Cf. manual-commands.md
+# Add ~root ssh key to local ssh agent, cf. __root-manual-commands.md
 > eval `ssh-agent`
 > ssh-add ~/.ssh/YOUR_REMOTE_USER-ssh-key-ed25519
 
+# Lancer le playbook de création des utilisateurs et changement du port SSH
+> ansible-playbook -i hosts 2-generate-users-and-change-ssh-port.yml | sed 's/\\n/\n/g'
+
+# Add ~the_buildedr_guy ssh key to local ssh agent, cf. _the_buildedr_guy-manual-commands.md
+> ssh-add ~/.ssh/_the_buildedr_guy-ssh-key-ed25519
+
 # Lancer le playbook d'installation
-> ansible-playbook -i hosts playbook.yml | sed 's/\\n/\n/g'
+> ansible-playbook -i hostsWithCustomSSHPort 3-playbook.yml | sed 's/\\n/\n/g'
 ```

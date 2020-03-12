@@ -1,6 +1,5 @@
 ---
 # First playbook : Localhost only
-
 - name: Ajout d'une clé SSH
   hosts: 127.0.0.1
   connection: local

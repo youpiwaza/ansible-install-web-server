@@ -1,0 +1,17 @@
+---
+- name: Install my web server / Generate users and set cutom SSH port
+  hosts: likorne
+  remote_user: '{{ my_remote_user }}'
+  become: yes
+  vars_files:
+  - vars/main.yml
+  - roles/users/vars/main.yml
+
+  roles:
+    - users
+    - custom-ssh-port
+
+  tasks:
+    - debug:
+        msg: 'You must add {{ users.0.name }} to your local SSH agent before proceeding. See generated files _{{ users.0.name }}-manual-commands-generated.md'
+...

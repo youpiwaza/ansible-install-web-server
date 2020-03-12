@@ -1,5 +1,6 @@
 # Real hosts file
 hosts
+hostsWithCustomSSHPort
 
 # Real variables file
 **/vars/main.yml
