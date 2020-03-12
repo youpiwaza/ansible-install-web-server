@@ -17,4 +17,7 @@
 
 # Try connecting with
 > ssh {{ my_remote_user }}@{{ my_ssh_remote_host }}
+
+## If custom SSH port has already been set
+> ssh {{ my_remote_user }}@{{ my_ssh_remote_host }} -p {{ custom_ssh_port }}
 ```

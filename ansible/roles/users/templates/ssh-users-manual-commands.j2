@@ -11,6 +11,6 @@
 # (Optionnal) Verify key has been added to local ssh agent
 > ssh-add -l
 
-# Try connecting with
-> ssh {{ item.name }}@{{ my_ssh_remote_host }}
+## Try connecting with the new custom SSH port
+> ssh {{ item.name }}@{{ my_ssh_remote_host }} -p {{ custom_ssh_port }}
 ```

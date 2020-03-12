@@ -31,8 +31,8 @@ Working on Windows WSL, personnal notes for my setup
 # Lancer le playbook de création des utilisateurs et changement du port SSH
 > ansible-playbook -i hosts 2-generate-users-and-change-ssh-port.yml | sed 's/\\n/\n/g'
 
-# Add ~the_buildedr_guy ssh key to local ssh agent, cf. _the_buildedr_guy-manual-commands.md
-> ssh-add ~/.ssh/_the_buildedr_guy-ssh-key-ed25519
+# Add ~the_builder_guy ssh key to local ssh agent, cf. _the_builder_guy-manual-commands.md
+> ssh-add ~/.ssh/_the_builder_guy-ssh-key-ed25519
 
 # Lancer le playbook d'installation
 > ansible-playbook -i hostsWithCustomSSHPort 3-playbook.yml | sed 's/\\n/\n/g'
