@@ -1,5 +1,6 @@
 ---
 ### Update OS and packages, then reboot if needed
+#   https://help.ubuntu.com/lts/serverguide/installing-upgrading.html
 - name: Only run "update_cache=yes" if the last one is more than 3600 seconds ago
   apt:
     update_cache: yes
@@ -15,8 +16,14 @@
 
 # TODO: Fix
 # https://www.linuxnix.com/ubuntu-linuxhow-to-do-unattended-os-release-upgrade/
-# - name: Run do-release-upgrade non-interactively.
-#   command: do-release-upgrade -f DistUpgradeViewNonInteractive
-#   register: result
-  # failed_when: '"No new release found" not in result.stdout'
+- name: Run do-release-upgrade non-interactively.
+  command: do-release-upgrade -f DistUpgradeViewNonInteractive
+  register: result
+  failed_when: "result.stderr != ''"
+
+- debug:
+    msg: "Ubuntu upgrade message : {{ result.stdout }}"
+
+- name: Reboot system if required
+  include: reboot-if-needed.yml
 ...
