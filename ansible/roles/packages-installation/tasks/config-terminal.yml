@@ -42,8 +42,11 @@
   loop: '{{ lists_merged }}'
 
 # Default config / https://github.com/ohmyzsh/ohmyzsh/blob/master/templates/zshrc.zsh-template
+# TODO: Fix root tweak (root's $HOME directory isn't the same as others users)
+# Others have /home/$USERNAME
+# root has /root
 - name: Creating zshrc default configuration for all users
   template:
     dest: /etc/zsh/zshrc
-    src: templates/zshrc.j2
+    src: templates/zshrc-default.j2
 ...
