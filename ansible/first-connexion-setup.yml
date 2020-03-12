@@ -30,6 +30,6 @@
     ### Better generate a file with manual commands to execute afterward..
     - name: Generate a file with manual commands to execute afterward..
       template:
-        dest: manual-commands.md
+        dest: _{{ my_remote_user }}-manual-commands-generated.md
         src: templates/ssh-manual-commands.j2
 ...
