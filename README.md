@@ -17,12 +17,13 @@ Note: I'm letting this repo public for educationnal purposes, and obfuscate real
 Working on Windows WSL, personnal notes for my setup
 
 ```bash
+# Acceder au projet
+> cd ~/../c/Users/Patolash/Documents/_dev/ansible-install-web-server/ansible
+
 # Une seule fois, lancer le playbook pour configurer la première connexion
 > ansible-playbook -i hosts first-connexion-setup.yml | sed 's/\\n/\n/g'
 # Executer les commandes dans le fichier généré 'manual-commands.md'
 
-# Acceder au projet
-> cd ~/../c/Users/Patolash/Documents/_dev/ansible-install-web-server/ansible
 # Cf. manual-commands.md
 > eval `ssh-agent`
 > ssh-add ~/.ssh/YOUR_REMOTE_USER-ssh-key-ed25519
