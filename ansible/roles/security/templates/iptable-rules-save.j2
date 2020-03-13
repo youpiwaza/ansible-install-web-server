@@ -36,6 +36,8 @@
 -A OUTPUT -o lo -j ACCEPT
 
 # --- Allow the outside world to send all ICMP requests (ping, etc.).
+# Autoriser l'ensemble des pings
+#   https://www.frozentux.net/iptables-tutorial/chunkyhtml/a6339.html
 -A INPUT -p icmp -m icmp --icmp-type 255 -j ACCEPT
 
 # --- Allow the outside world to connect to SSH (22).
@@ -99,5 +101,9 @@
 # La communication entre le service RTM et votre serveur nécessite également que vous autorisiez les connexions entrantes et sortantes sur les ports UDP 6100 à 6200
 -A INPUT -p udp --dport 6100:6200 -j ACCEPT
 -A OUTPUT -p udp --dport 6100:6200 -j ACCEPT
+
+# Activation des logs
+-A INPUT -j LOG --log-prefix='[netfilter] '
+-A FORWARD -j LOG --log-prefix='[netfilter] '
 
 COMMIT

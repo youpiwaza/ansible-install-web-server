@@ -6,6 +6,14 @@
 #     # https://docs.ansible.com/ansible/latest/modules/iptables_module.html
 #   Better supply a raw config file
 #   https://github.com/nickjj/ansible-iptables
+#
+# iptable rules inspection  > sudo iptables -L
+
+# TODO: Not sure, to be tested
+#   iptables original logs    > sudo vim /var/log/kern.log
+#   iptables original logs    > sudo vim /var/log/syslog
+#   iptables new logs path    > sudo vim /var/log/iptables.log
+
 - name: Configure iptables firewall / Create /var/lib/iptables directory
   file:
     path: /var/lib/iptables
@@ -15,7 +23,7 @@
     mode: 0755
 
 # User validation : local generation of iptables config file
-- name: User validation : local generation of iptables config file
+- name: Playbook validation > local generation of iptables config file
   template:
     src: iptable-rules-save.j2
     dest: _iptable-rules-save-generated
@@ -32,7 +40,7 @@
   register: iptables_register_config
 
 # Restore config on restart
-- name: Restore config on restart / Copy systemd unit file
+- name: Restore iptables config on restart / Copy systemd unit file
   template:
     src: iptables-restore.service.j2
     dest: /etc/systemd/system/iptables-restore.service
@@ -49,6 +57,25 @@
   service:
     name: "iptables-restore"
     state: "restarted"
-    enabled: True
+    enabled: yes
   when: iptables_register_config.changed
+
+## Custom log file
+#   https://askubuntu.com/a/348448
+- name: Add a /etc/rsyslog.d/ rule file for iptables
+  lineinfile:
+    # Scan for '[netfilter] ' log-prefix added in /templates/iptable-rules-save.j2
+    line: ':msg,contains,"[netfilter] " /var/log/iptables.log'
+    path: /etc/rsyslog.d/my_iptables.conf
+    # Create a file and add a line if it didn't exist before
+    create: yes
+  register: iptables_register_log_config
+  # TODO: validate > rsyslogd -f /etc/rsyslog.conf -N1
+
+- name: Restart rsyslog service
+  service:
+    name: "rsyslog"
+    state: "restarted"
+    enabled: yes
+  when: iptables_register_log_config.changed
 ...
