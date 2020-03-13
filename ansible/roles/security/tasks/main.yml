@@ -1,17 +1,17 @@
 ---
 ### Security
 
-# # Prevent root login (only sudoers)
-# - name: Prevent root login
-#   include: prevent-root-login.yml
+# Prevent root login (only sudoers)
+- name: Prevent root login
+  include: prevent-root-login.yml
 
-# # Prevent password authentication (only ssh)
-# - name: Prevent password authentication
-#   include: prevent-password-authentication.yml
+# Prevent password authentication (only ssh)
+- name: Prevent password authentication
+  include: prevent-password-authentication.yml
 
-# # Configure iptables firewall
-# - name: Configure iptables firewall
-#   include: configure-firewall.yml
+# Configure iptables firewall
+- name: Configure iptables firewall
+  include: configure-firewall.yml
 
 # Configure fail2ban, bruteforce and spam prevention
 # vars available in /ansible/roles/security/vars/main.yml

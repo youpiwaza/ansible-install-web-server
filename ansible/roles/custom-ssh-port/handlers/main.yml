@@ -1,6 +1,6 @@
 ---
 ### Event based tasks ###
 # Load new SSH configuration
-- name: ssh restart
+- name: restart ssh
   action: service name=ssh state=restarted
 ...
