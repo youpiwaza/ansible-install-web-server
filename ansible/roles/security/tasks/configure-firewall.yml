@@ -14,6 +14,14 @@
     group: root
     mode: 0755
 
+# User validation : local generation of iptables config file
+- name: User validation : local generation of iptables config file
+  template:
+    src: iptable-rules-save.j2
+    dest: _iptable-rules-save-generated
+  delegate_to: 127.0.0.1
+  register: iptables_register_config
+
 - name: Generate iptables config
   template:
     src: iptable-rules-save.j2
