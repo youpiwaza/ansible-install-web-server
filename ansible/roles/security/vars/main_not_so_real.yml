@@ -97,4 +97,15 @@ fail2ban_services:
   #   # How should the ban be applied?
   #   # OPTIONAL: Defaults to the banaction listed above.
   #   banaction: iptables-multiport
+
+# Prevent SSH bruteforce
+  - name: ssh
+    port: ssh
+    filter: sshd
+    logpath: /var/log/auth.log
+
+  # - name: postfix
+  #   port: smtp,ssmtp
+  #   filter: postfix
+  #   logpath: /var/log/mail.log
 ...
