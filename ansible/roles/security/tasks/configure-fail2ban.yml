@@ -3,6 +3,25 @@
 # Mostly based on great cookbook by nickjj, he truely did an amazing job
 #   https://github.com/nickjj/ansible-fail2ban
 
+# What to do when a filter is triggered
+#   Actions folder  /etc/fail2ban/action.d
+# How to catch malicious behavior (can also create filters)
+#   Filters folder  /etc/fail2ban/filter.d
+
+# fail2ban main commands
+# Display current jails
+# > sudo fail2ban-client status
+#
+# Display status from a specific jail (ex: ssh)
+# > sudo fail2ban-client status ssh
+#
+# Unban client (169.169.169.169) from jail (ssh)
+# > sudo fail2ban-client set ssh unbanip 169.169.169.169
+
+# TODO: validate / Test commands
+# Example : test sshd filter on current logs
+# > sudo fail2ban-regex /var/log/auth.log /etc/fail2ban/filter.d/sshd.conf
+
 # Ensure fail2ban is running
 - name: Ensure fail2ban is running
   service:

@@ -22,6 +22,9 @@ fail2ban_ignoreip: 127.0.0.1/8
 # How long in seconds should the ban last for ? 60s x 10 = 10mn
 fail2ban_bantime: 600
 
+# A host is banned if it has generated "maxretry" during the last "findtime" seconds
+fail2ban_findtime: 600
+
 # How many times can they try before getting banned?
 fail2ban_maxretry: 6
 
@@ -36,6 +39,14 @@ fail2ban_backend: polling
 # Where should e-mail reports be sent to?
 # fail2ban_destemail: root@localhost
 fail2ban_destemail: '{{ my_mail }}'
+
+# Name of the sender for mta actions
+fail2ban_sendername: Fail2Ban
+
+# Email address of the sender
+fail2ban_sender: localhost@ubuntu
+
+
 
 # How should the ban be applied?
 # iptables, iptables-new, iptables-multiport, shorewall, etc.
@@ -100,7 +111,9 @@ fail2ban_services:
 
 # Prevent SSH bruteforce
   - name: ssh
-    port: ssh
+    # port: ssh
+    # custom ssh port
+    port: '{{ custom_ssh_port }}'
     filter: sshd
     logpath: /var/log/auth.log
 

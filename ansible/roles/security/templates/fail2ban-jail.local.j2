@@ -2,11 +2,15 @@
 
 ignoreip = {{ fail2ban_ignoreip }}
 bantime  = {{ fail2ban_bantime }}
+findtime = {{ fail2ban_findtime }}
 maxretry = {{ fail2ban_maxretry }}
 
 backend = {{fail2ban_backend}}
 
 destemail = {{ fail2ban_destemail }}
+sendername = {{ fail2ban_sendername }}
+sender = {{ fail2ban_sender }}
+
 banaction = {{ fail2ban_banaction }}
 mta = {{ fail2ban_mta }}
 protocol = {{ fail2ban_protocol }}
