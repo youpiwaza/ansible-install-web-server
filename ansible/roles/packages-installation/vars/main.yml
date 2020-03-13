@@ -12,9 +12,15 @@ packagesToInstall: [
   'iptables',
   # Process viewer        / https://hisham.hm/htop/
   'htop',
+  # Time sync             / https://fr.wikipedia.org/wiki/Network_Time_Protocol
+  'ntp',
   # Text editor           / https://www.vim.org/
   'vim',
   # Shell++               / https://www.zsh.org/
   'zsh'
 ]
+
+## Config vars
+# time
+clock_timezone: 'Europe/Paris'
 ...

@@ -10,11 +10,9 @@
   - roles/users/vars/main.yml
 
   roles:
-    # - users
     # - system-update
-    # - packages-installation
-    #   # /!\ Needs a set up SSH connexion to prevent lockdown
-      - security
-
-
+    - packages-installation
+    # /!\ Needs a set up SSH connexion to prevent lockdown
+    # See /README.md and follow steps 1 & 2 before use
+    # - security
 ...

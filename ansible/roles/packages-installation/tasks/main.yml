@@ -1,33 +1,36 @@
 ---
-### Install desired packages
+### Install desired packages and configuration
+# # https://docs.ansible.com/ansible/latest/modules/apt_module.html#apt-module
+# - name: Ubuntu multiple package installations
+#   apt:
+#     cache_valid_time: '3600'
+#     force_apt_get: yes
+#     name: '{{ packagesToInstall }}'
+#     update_cache: yes
+#     state: latest
+#   become: yes
 
-# https://docs.ansible.com/ansible/latest/modules/apt_module.html#apt-module
-- name: Ubuntu multiple package installations
-  apt:
-    cache_valid_time: '3600'
-    force_apt_get: yes
-    name: '{{ packagesToInstall }}'
-    update_cache: yes
-    state: latest
-  become: yes
+# - name: Remove useless packages from the cache
+#   apt:
+#     autoclean: yes
 
-- name: Remove useless packages from the cache
-  apt:
-    autoclean: yes
+# - name: Remove dependencies that are no longer required
+#   apt:
+#     autoremove: yes
 
-- name: Remove dependencies that are no longer required
-  apt:
-    autoremove: yes
+# # https://coderwall.com/p/0nckqg/ansible-reboot-ubuntu-if-needed, cf. comments
+# - name: Reboot system if required
+#   command: shutdown -r now 'Rebooting to complete system upgrade'
+#     removes=/var/run/reboot-required
 
-# https://coderwall.com/p/0nckqg/ansible-reboot-ubuntu-if-needed, cf. comments
-- name: Reboot system if required
-  command: shutdown -r now 'Rebooting to complete system upgrade'
-    removes=/var/run/reboot-required
+# Configure clock, time zone and time sync
+- name: Configure clock, time zone and time sync 
+  include: config-time.yml
 
-## Configure installed softwares
-- name: Configure vim text editor for all users
-  include: config-vim.yml
+# ## Configure installed softwares
+# - name: Configure vim text editor for all users
+#   include: config-vim.yml
 
-- name: Configure terminal for all users
-  include: config-terminal.yml
+# - name: Configure terminal for all users
+#   include: config-terminal.yml
 ...

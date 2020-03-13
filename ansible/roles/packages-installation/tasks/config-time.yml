@@ -1,0 +1,48 @@
+---
+### Configure clock, time zone and time sync
+# https://help.ubuntu.com/lts/serverguide/NTP.html
+
+# Commands
+# Current status of time and time configuration
+# > timedatectl status
+# Details
+# > systemctl status systemd-timesyncd
+
+# Configuration files
+# /etc/systemd/timesyncd.conf
+
+# Timezone configuration
+# > timedatectl list-timezones
+# Europe/Paris
+
+# If clock isn't synchronized
+#   https://askubuntu.com/questions/1046214/enable-system-clock-synchronization
+
+# Synchronize, make sur ntp package is installed, and start on reboot
+# TODO: validate > ntpq -p
+# - name: Time synchronization / Check for ntp package
+#   apt:
+#     name: ntp
+#     state: present
+
+# - name: Ensure ntp is running and willon a fresh reboot too
+#   service:
+#     enabled: yes
+#     name: ntp
+#     state: started
+
+# We'll keep ubuntu's default servers..
+
+# Change time zone
+- name: Register timezone infos
+  stat:
+    path: '/usr/share/zoneinfo/{{ clock_timezone }}'
+  register: clock_tzfile_st
+
+- name: Check if specified timezone is available
+  fail: 
+    msg: "The specified timezone '{{ clock_timezone }}' is not available"
+  when: not clock_tzfile_st.stat.exists
+
+# timedatectl set-timezone
+...
