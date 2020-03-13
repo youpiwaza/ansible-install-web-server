@@ -93,4 +93,11 @@
 -A INPUT -p tcp --dport 995 -j ACCEPT
 -A OUTPUT -p tcp --dport 995 -j ACCEPT  
 
+# Autoriser le monitoring OVH (RTM)
+#   https://docs.ovh.com/fr/dedicated/monitoring-ip-ovh/
+# Tous les pings deja autorises (icmp)
+# La communication entre le service RTM et votre serveur nécessite également que vous autorisiez les connexions entrantes et sortantes sur les ports UDP 6100 à 6200
+-A INPUT -p udp --dport 6100:6200 -j ACCEPT
+-A OUTPUT -p udp --dport 6100:6200 -j ACCEPT
+
 COMMIT
