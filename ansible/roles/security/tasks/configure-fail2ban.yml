@@ -47,4 +47,28 @@
     name: fail2ban
     state: started
     enabled: yes
+
+# Recommandation / Service hardening
+#   https://wiki.archlinux.org/index.php/Fail2ban#Service_hardening
+- name: fail2ban / Service hardening / Create a directory /etc/systemd/system/fail2ban.service.d/ if it does not exist
+  file:
+    mode: '0755'
+    path: /etc/systemd/system/fail2ban.service.d/
+    state: directory
+
+- name: fail2ban / Service hardening / Create a directory /var/log/fail2ban as root if it does not exist
+  file:
+    group: root
+    mode: '0755'
+    owner: root
+    path: /var/log/fail2ban
+    state: directory
+
+- name: fail2ban / Service hardening / Create a drop-in configuration file for fail2ban service
+  template:
+    dest: /etc/systemd/system/fail2ban.service.d/override.conf
+    src: fail2ban-service-d-override.j2
+  notify:
+    - reload systemd daemon
+    - restart fail2ban
 ...

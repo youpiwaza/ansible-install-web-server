@@ -9,7 +9,10 @@ fail2ban_loglevel: 3
 
 # Where should log outputs be sent to ?
 # SYSLOG, STDERR, STDOUT, file
-fail2ban_logtarget: /var/log/fail2ban.log
+# fail2ban_logtarget: /var/log/fail2ban.log
+# Recommandation / Service hardening
+#   https://wiki.archlinux.org/index.php/Fail2ban#Service_hardening
+fail2ban_logtarget: /var/log/fail2ban/fail2ban.log
 
 # Where should the socket be created ?
 fail2ban_socket: /var/run/fail2ban/fail2ban.sock
