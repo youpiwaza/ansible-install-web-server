@@ -1,0 +1,31 @@
+---
+### Configure fail2ban, bruteforce and spam prevention
+# Mostly based on great cookbook by nickjj, he truely did an amazing job
+#   https://github.com/nickjj/ansible-fail2ban
+
+# Ensure fail2ban is running
+- name: Ensure fail2ban is running
+  service:
+    name: fail2ban
+    state: started
+
+- name: 'Create fail2ban configuration file /etc/fail2ban/fail2ban.local'
+  template:
+    dest: /etc/fail2ban/fail2ban.local
+    src: fail2ban-fail2ban.local.j2
+  notify:
+    - restart fail2ban
+
+- name: 'Create fail2ban configuration file /etc/fail2ban/jail.local'
+  template:
+    dest: /etc/fail2ban/jail.local
+    src: fail2ban-jail.local.j2
+  notify:
+    - restart fail2ban
+
+- name: Ensure fail2ban starts on a fresh reboot
+  service:
+    name: fail2ban
+    state: started
+    enabled: yes
+...
