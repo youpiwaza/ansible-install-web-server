@@ -1,6 +1,10 @@
 ---
 ### Configure clock, time zone and time sync
+# Mostly based on fabiocorneti's amazing work
+#   https://github.com/fabiocorneti/ansible-clock
 # https://help.ubuntu.com/lts/serverguide/NTP.html
+
+# Packages necessaires : ntp, tzdata
 
 # Commands
 # Current status of time and time configuration
@@ -11,32 +15,13 @@
 # Configuration files
 # /etc/systemd/timesyncd.conf
 
-# Timezone configuration
-# > timedatectl list-timezones
-# Europe/Paris
-
-# If clock isn't synchronized
+# If clock isn't synchronized, install, configure NTP & servers ( pool.ntp.org )
 #   https://askubuntu.com/questions/1046214/enable-system-clock-synchronization
 
-# Synchronize, make sur ntp package is installed, and start on reboot
-# TODO: validate > ntpq -p
-# - name: Time synchronization / Check for ntp package
-#   apt:
-#     name: ntp
-#     state: present
-
-# - name: Ensure ntp is running and willon a fresh reboot too
-#   service:
-#     enabled: yes
-#     name: ntp
-#     state: started
-
-# We'll keep ubuntu's default servers..
-
-# Change time zone
+## Change time zone
 - name: Register timezone infos
   stat:
-    path: '/usr/share/zoneinfo/{{ clock_timezone }}'
+    path: '{{ clock_tz_dir }}{{ clock_timezone }}'
   register: clock_tzfile_st
 
 - name: Check if specified timezone is available
@@ -44,5 +29,56 @@
     msg: "The specified timezone '{{ clock_timezone }}' is not available"
   when: not clock_tzfile_st.stat.exists
 
-# timedatectl set-timezone
+- name: Set timezone in system configuration
+  template:
+    src: templates/time-timezone.j2
+    dest: /etc/timezone
+  # ansible_date_time > variable globale ansible
+  when: (ansible_date_time.tz != clock_timezone)
+
+# Prevent hardware desync
+- name: Update /etc/localtime
+  command: dpkg-reconfigure --frontend noninteractive tzdata
+  when: (ansible_date_time.tz != clock_timezone)
+  notify:
+    - Sync hardware clock
+
+- name: Set timezone
+  command: 'timedatectl set-timezone {{ clock_timezone }}'
+  when: (ansible_date_time.tz != clock_timezone)
+  notify:
+    - Sync hardware clock
+
+# Automatic sync with ntp
+- name: Write ntpd configuration to /etc/ntp.conf
+  template:
+    src: templates/time-ntp.conf.j2
+    dest: /etc/ntp.conf
+  notify:
+    - Restart ntpd
+
+- name: Check for ntpd restart
+  command: /bin/true
+  when: ansible_date_time.tz != clock_timezone
+  notify:
+    - Restart ntpd
+
+- name: Ensure that ntpd is started and will restart on reboot
+  service:
+    name: '{{ clock_ntpd_service }}'
+    enabled: true
+    state: started
+
+## Remove timedatectl status warning
+# Warning:  The system is configured to read the RTC time in the local time zone.
+#           This mode can not be fully supported. It will create various problems
+#           with time zone changes and daylight saving time adjustments. The RTC
+#           time is never updated, it relies on external facilities to maintain it.
+#           If at all possible, use RTC in UTC by calling
+#           'timedatectl set-local-rtc 0'.
+#
+# Note: It only desactivate RTC in local TZ in timedatectl status
+- name: Remove timedatectl status warning when using localtime
+  command: command: timedatectl set-local-rtc 0
+  when: clock_hwclock_sync == 'localtime'
 ...

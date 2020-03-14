@@ -14,13 +14,31 @@ packagesToInstall: [
   'htop',
   # Time sync             / https://fr.wikipedia.org/wiki/Network_Time_Protocol
   'ntp',
+  # Time zone data        / https://launchpad.net/ubuntu/+source/tzdata
+  'tzdata',
   # Text editor           / https://www.vim.org/
   'vim',
   # Shell++               / https://www.zsh.org/
   'zsh'
 ]
 
-## Config vars
-# time
+### Config vars
+## time
+# https://github.com/fabiocorneti/ansible-clock
+# If set, the hardware clock will be set to the current system time if the timezone is changed; valid values are utc or localtime. Defaults to null.
+#   https://askubuntu.com/questions/175452/hwclock-not-in-sync-with-system-clock
+clock_hwclock_sync: 'localtime'
+clock_ntpd_driftfile: '/var/lib/ntp/ntp.drift'
+clock_ntpd_enable: true
+# Find the most appropriate server / https://www.pool.ntp.org/zone/@
+clock_ntpd_servers:
+  - 0.europe.pool.ntp.org
+  - 1.europe.pool.ntp.org
+  - 2.europe.pool.ntp.org
+  - 3.europe.pool.ntp.org
+clock_ntpd_service: 'ntp'
+# Timezone configuration
+# > timedatectl list-timezones
 clock_timezone: 'Europe/Paris'
+clock_tz_dir: '/usr/share/zoneinfo/'
 ...
