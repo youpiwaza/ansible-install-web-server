@@ -67,7 +67,8 @@ fail2ban_chain: INPUT
 
 # What should the default ban action be?
 # action_, action_mw, action_mwl
-fail2ban_action: action_
+# fail2ban_action: action_
+fail2ban_action: action_mwl
 
 
 
