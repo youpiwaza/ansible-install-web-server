@@ -1,0 +1,12 @@
+---
+### Prevent PAM
+- name: Prevent PAM / Privileged Access Management
+  lineinfile:
+    # Replace line with
+    line: UsePAM no
+    # File to modify
+    path: /etc/ssh/sshd_config
+    # Attention à l'échappement
+    regexp: '^UsePAM'
+  notify: restart ssh
+...

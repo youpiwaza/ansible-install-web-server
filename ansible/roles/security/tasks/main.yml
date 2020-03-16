@@ -9,6 +9,12 @@
 - name: Prevent password authentication
   include: prevent-password-authentication.yml
 
+### /!\ Prevent SSH connexion
+### Prevent PAM / Privileged Access Management for Active Directory Domain Services
+### https://docs.microsoft.com/en-us/microsoft-identity-manager/pam/privileged-identity-management-for-active-directory-domain-services
+### - name: Prevent PAM
+###   include: prevent-PAM.yml
+
 # Configure iptables firewall
 - name: Configure iptables firewall
   include: configure-firewall.yml
