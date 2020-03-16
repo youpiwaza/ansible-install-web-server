@@ -34,12 +34,6 @@
 # Better view with chrony CLI
 # > chronyc tracking
 
-# Configuration files
-# /etc/systemd/timesyncd.conf
-
-# If clock isn't synchronized, install, configure NTP & servers ( pool.ntp.org )
-#   https://askubuntu.com/questions/1046214/enable-system-clock-synchronization
-
 ## Change time zone
 - name: Register timezone infos
   stat:
