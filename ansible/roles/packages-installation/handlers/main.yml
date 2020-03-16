@@ -1,4 +1,10 @@
 ---
+## Emails
+- name: Restart postfix
+  service:
+    name: postfix
+    state: restarted
+
 ## Time
 # One shot synchronization
 - name: 'Chrony one-shot sync'

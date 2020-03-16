@@ -1,0 +1,79 @@
+---
+### Configure the server to send emails, for warnings from firewall, fail2ban, etc.
+# https://hostadvice.com/how-to/how-to-setup-postfix-as-send-only-mail-server-on-an-ubuntu-18-04-dedicated-server-or-vps/
+# https://www.grafikart.fr/tutoriels/postfix-sendonly-695
+#
+# Emails can be blocked for spam if SPF/DKIM/DMARC aren't configured properly
+# Log file: > sudo vim /var/log/mail.log
+
+# Emails aren't even going to spam if a different sender is used
+# Currently works with default sender but goes into spam > use a gmail filter
+
+# TODO: configure SPF/DKIM/DMARC
+# Note: mail.cnf seems overrident by hostname and hosts files, still can use this config
+# TODO: change mail expeditor (dedicated user ?)
+
+# ## Point your server to a Fully Qualified Domain Name (FQDN)
+# - name: Email / Comment original host name in /etc/hostname
+#   lineinfile:
+#     path: '/etc/hostname'
+#     line: '# {{ ansible_hostname }}'
+#     regexp: '^{{ ansible_hostname }}'
+
+# - name: Email / Add email host name to /etc/hostname
+#   lineinfile:
+#     # Replace line with
+#     line: '{{ email_hostname }}'
+#     # File to modify
+#     path: '/etc/hostname'
+#     # It's also possible to create a file and add a line if it didn't exist before
+#     create: yes
+
+# # TODO: KO
+# - name: Email / Comment original domain name in /etc/hosts
+#   lineinfile:
+#     backrefs: yes
+#     line: '# \1'
+#     path: /etc/hosts
+#     regexp: '(^{{ ansible_host }} {{ ansible_hostname }}*)'
+#     state: present
+
+# - name: Email / Add email domain name to /etc/hosts
+#   lineinfile:
+#     # Replace line with something like
+#     #     '198.51.100.3       mail.example.com                             mail'
+#     line: '{{ ansible_host }} {{ email_hostname }}.{{ email_domain_name }} {{ email_hostname }}'
+#     # File to modify
+#     path: '/etc/hosts'
+#     # It's also possible to create a file and add a line if it didn't exist before
+#     create: yes
+#     insertafter: '#{{ ansible_host }} {{ ansible_hostname }}*'
+
+## Postfix configuration
+- name: Email / Postfix / Delete original /etc/mailname
+  file:
+    path: /etc/mailname
+    state: absent
+
+- name: Email / Postfix / Add email domain name to /etc/mailname
+  lineinfile:
+    # Replace line with something like
+    #     'mail.example.com'
+    line: '{{ email_hostname }}.{{ email_domain_name }}'
+    # File to modify
+    path: '/etc/mailname'
+    # It's also possible to create a file and add a line if it didn't exist before
+    create: yes
+
+- name: Email / Postfix / Configuration
+  template:
+    dest: /etc/postfix/main.cf
+    src: templates/email-postfix-main.cf.j2
+  notify: Restart postfix
+
+- name: Email / Postfix / Ensure postfix is started and enabled at boot.
+  service:
+    name: postfix
+    state: started
+    enabled: true
+...

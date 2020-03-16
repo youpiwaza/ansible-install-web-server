@@ -14,8 +14,12 @@ packagesToInstall: [
   'iptables',
   # Process viewer        / https://hisham.hm/htop/
   'htop',
+  # Mail testing          / https://mailutils.org/
+  'mailutils',
   # Old time sync         / https://fr.wikipedia.org/wiki/Network_Time_Protocol
   # 'ntp',
+  # Send emails (MTA)     / http://www.postfix.org/
+  'postfix',
   # Time zone data        / https://launchpad.net/ubuntu/+source/tzdata
   'tzdata',
   # Text editor           / https://www.vim.org/
@@ -31,7 +35,7 @@ packagesToInstall: [
 email_hostname: whatever
 email_domain_name: my-domain.com
 
-# which will result in mail sent from whatever@my-domain.com
+# which will result in mail sent from email_hostname@email_domain_name, here whatever@my-domain.com
 
 ## time
 # https://github.com/fabiocorneti/ansible-clock

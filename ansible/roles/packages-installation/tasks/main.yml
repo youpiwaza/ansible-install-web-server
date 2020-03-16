@@ -24,8 +24,8 @@
 #     removes=/var/run/reboot-required
 
 # Configure clock, time zone and time sync
-- name: Configure clock, time zone and time sync 
-  include: config-time.yml
+# - name: Configure clock, time zone and time sync 
+#   include: config-time.yml
 
 # ## Configure installed softwares
 # - name: Configure vim text editor for all users
@@ -33,4 +33,7 @@
 
 # - name: Configure terminal for all users
 #   include: config-terminal.yml
+
+- name: Configure the server to send emails
+  include: config-emails.yml
 ...
