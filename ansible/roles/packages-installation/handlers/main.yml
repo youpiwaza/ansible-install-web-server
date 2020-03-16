@@ -14,7 +14,7 @@
     name: chrony.service
     state: restarted
 
-# Shut's down chrony !?
+# Shut's down chrony
 # - name: 'Restart timesyncd service'
 #   systemd:
 #     enabled: yes

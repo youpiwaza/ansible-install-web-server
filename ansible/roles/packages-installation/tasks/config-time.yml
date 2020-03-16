@@ -9,13 +9,24 @@
 #     After the initial time sync, Chrony never steps the clock.
 #     This ensures stable and consistent time intervals for system services and applications.
 
-# Packages necessaires : chrony, #ntp, tzdata
+# Note: chrony conlficts with BOTH ntp AND systemd-timesyncd
+#   https://unix.stackexchange.com/questions/504381/chrony-vs-systemd-timesyncd-what-are-the-differences-and-use-cases-as-ntp-cli
+#
+# Choice: chrony, as it got better performances, and can act as an ntp server (if later we implements docker swarms)
+
+# Note: In this playbook:
+#   - systemd-timesyncd is configured but desactivated.
+#   - ntp is configured but commented.
+
+# Requires following packages : chrony, #ntp, tzdata
 
 # Commands
 # Current status of time and time configuration
 # > timedatectl status
 # Details
 # > systemctl status systemd-timesyncd
+# Note: timesyncd should be off !
+
 # See server time difference, WITHOUT sync
 # > sudo chronyd -Q
 # See server time difference, WITH sync
@@ -136,7 +147,7 @@
     dest: /etc/systemd/timesyncd.conf.d/timesyncd.conf
   notify: 'Restart timesyncd service'
 
-# Shut's down chrony !?
+# Shut's down chrony
 # - name: Ensure that timesyncd.service is started and will restart on reboot
 #   systemd:
 #     name: systemd-timesyncd.service
