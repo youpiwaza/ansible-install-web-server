@@ -3,7 +3,7 @@ hosts
 hostsWithCustomSSHPort
 
 # Real variables file
-**/vars/main.yml
+**/**/vars/main.yml
 
 # Secret README files
 **/*_secret*
