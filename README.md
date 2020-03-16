@@ -38,7 +38,7 @@ Working on Windows WSL, personnal notes for my setup
 > ansible-playbook -i hostsWithCustomSSHPort 3-playbook.yml | sed 's/\\n/\n/g'
 ```
 
-# Plan de route
+## Plan de route
 
 Copier/coller des TODOs effectuées, pour avoir la logique de l'installation avec moins de jargon technique, et avec les priorités.
 

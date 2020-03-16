@@ -1,0 +1,25 @@
+# https://wiki.archlinux.org/index.php/systemd-timesyncd
+
+# This file is part of systemd.
+#
+#  systemd is free software; you can redistribute it and/or modify it
+#  under the terms of the GNU Lesser General Public License as published by
+#  the Free Software Foundation; either version 2.1 of the License, or
+#  (at your option) any later version.
+#
+# Entries in this file show the compile time defaults.
+# You can change settings by editing this file.
+# Defaults can be restored by simply deleting this file.
+#
+# See timesyncd.conf(5) for details.
+
+[Time]
+#NTP=
+NTP= {{ clock_ntpd_servers.0 }} {{ clock_ntpd_servers.1 }} {{ clock_ntpd_servers.2 }} {{ clock_ntpd_servers.3 }}
+
+#FallbackNTP=ntp.ubuntu.com
+FallbackNTP= {{ clock_ntpd_fallback_servers.0 }} {{ clock_ntpd_fallback_servers.1 }} {{ clock_ntpd_fallback_servers.2 }}
+
+#RootDistanceMaxSec=5
+#PollIntervalMinSec=32
+#PollIntervalMaxSec=2048

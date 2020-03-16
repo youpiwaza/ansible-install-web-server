@@ -1,6 +1,6 @@
 # /etc/ntp.conf, configuration for ntpd; see ntp.conf(5) for help
 
-driftfile {{ clock_ntpd_driftfile }}
+driftfile /var/lib/ntp/ntp.drift
 
 restrict default kod nomodify notrap nopeer noquery
 restrict -6 default kod nomodify notrap nopeer noquery

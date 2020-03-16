@@ -2,15 +2,26 @@
 ### Configure clock, time zone and time sync
 # Mostly based on fabiocorneti's amazing work
 #   https://github.com/fabiocorneti/ansible-clock
-# https://help.ubuntu.com/lts/serverguide/NTP.html
+# https://help.ubuntu.com/lts/serverguide/NTP.html#timeservers
+# Prefer chrony over ntp  / https://chrony.tuxfamily.org/comparison.html
+# Clearer doc             / https://wiki.archlinux.org/index.php/Chrony
+# System clock sync:no    / https://opensource.com/article/18/12/manage-ntp-chrony
+#     After the initial time sync, Chrony never steps the clock.
+#     This ensures stable and consistent time intervals for system services and applications.
 
-# Packages necessaires : ntp, tzdata
+# Packages necessaires : chrony, #ntp, tzdata
 
 # Commands
 # Current status of time and time configuration
 # > timedatectl status
 # Details
 # > systemctl status systemd-timesyncd
+# See server time difference, WITHOUT sync
+# > sudo chronyd -Q
+# See server time difference, WITH sync
+# > sudo chronyd -q
+# Better view with chrony CLI
+# > chronyc tracking
 
 # Configuration files
 # /etc/systemd/timesyncd.conf
@@ -49,36 +60,97 @@
   notify:
     - Sync hardware clock
 
-# Automatic sync with ntp
-- name: Write ntpd configuration to /etc/ntp.conf
+## Old / Ntp configuration
+# # Automatic sync with ntp
+# - name: Write ntpd configuration to /etc/ntp.conf
+#   template:
+#     src: templates/old-time-ntp.conf.j2
+#     dest: /etc/ntp.conf
+#   notify:
+#     - Restart ntpd
+
+# - name: Check for ntpd restart
+#   command: /bin/true
+#   when: ansible_date_time.tz != clock_timezone
+#   notify:
+#     - Restart ntpd
+
+# - name: Ensure that ntpd is started and will restart on reboot
+#   service:
+#     name: '{{ clock_ntpd_service }}'
+#     enabled: true
+#     state: started
+
+# ## Remove timedatectl status warning
+# # Warning:  The system is configured to read the RTC time in the local time zone.
+# #           This mode can not be fully supported. It will create various problems
+# #           with time zone changes and daylight saving time adjustments. The RTC
+# #           time is never updated, it relies on external facilities to maintain it.
+# #           If at all possible, use RTC in UTC by calling
+# #           'timedatectl set-local-rtc 0'.
+# #
+# # Note: It only desactivate RTC in local TZ in timedatectl status
+# - name: Remove timedatectl status warning when using localtime
+#   command: command: timedatectl set-local-rtc 0
+#   when: clock_hwclock_sync == 'localtime'
+
+## Chrony configuration
+
+# # Local verification
+# - name: Local verification chrony.conf
+#   template:
+#     src: templates/time-chrony.conf.j2
+#     dest: chrony-generated.conf
+#   delegate_to: 127.0.0.1
+
+- name: Configure Chrony
   template:
-    src: templates/time-ntp.conf.j2
-    dest: /etc/ntp.conf
-  notify:
-    - Restart ntpd
+    src: templates/time-chrony.conf.j2
+    dest: /etc/chrony/chrony.conf
+  notify: 'Restart chrony'
 
-- name: Check for ntpd restart
-  command: /bin/true
-  when: ansible_date_time.tz != clock_timezone
-  notify:
-    - Restart ntpd
-
-- name: Ensure that ntpd is started and will restart on reboot
-  service:
-    name: '{{ clock_ntpd_service }}'
-    enabled: true
+- name: Ensure that chrony.service is started and will restart on reboot
+  systemd:
+    name: chrony.service
+    enabled: yes
     state: started
+  notify: 'Chrony one-shot sync'
 
-## Remove timedatectl status warning
-# Warning:  The system is configured to read the RTC time in the local time zone.
-#           This mode can not be fully supported. It will create various problems
-#           with time zone changes and daylight saving time adjustments. The RTC
-#           time is never updated, it relies on external facilities to maintain it.
-#           If at all possible, use RTC in UTC by calling
-#           'timedatectl set-local-rtc 0'.
-#
-# Note: It only desactivate RTC in local TZ in timedatectl status
-- name: Remove timedatectl status warning when using localtime
-  command: command: timedatectl set-local-rtc 0
-  when: clock_hwclock_sync == 'localtime'
+## Configure vanilla ntp
+- name: Create a /etc/systemd/timesyncd.conf.d/ directory if it does not exist
+  file:
+    path: /etc/systemd/timesyncd.conf.d/
+    state: directory
+    mode: '0755'
+
+# # Local verification
+# - name: Local verification timesyncd.conf
+#   template:
+#     src: templates/time-timesyncd.conf.j2
+#     dest: timesyncd-generated.conf
+#   delegate_to: 127.0.0.1
+
+- name: Configure vanilla ntp
+  template:
+    src: time-timesyncd.conf.j2
+    dest: /etc/systemd/timesyncd.conf.d/timesyncd.conf
+  notify: 'Restart timesyncd service'
+
+# Shut's down chrony !?
+# - name: Ensure that timesyncd.service is started and will restart on reboot
+#   systemd:
+#     name: systemd-timesyncd.service
+#     enabled: yes
+#     state: started
+
+## Enable ntp if needed
+- name: Run timedatectl status
+  command: /usr/bin/timedatectl status
+  changed_when: False
+  check_mode: no
+  register: timedatectl_result
+
+- name: Enable ntp
+  command: /usr/bin/timedatectl set-ntp true
+  when: "'Network time on: no' in timedatectl_result.stdout"
 ...
