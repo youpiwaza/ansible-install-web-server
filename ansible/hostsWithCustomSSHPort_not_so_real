@@ -1,3 +1,7 @@
 ## Can't redifine same IP and changing only the port
 [likorneWithCustomSSHPort]
-188.165.253.170:6942
+169.169.169.169:6969
+
+# Force python3
+[all:vars]
+ansible_python_interpreter=/usr/bin/python3
