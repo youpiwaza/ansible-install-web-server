@@ -9,7 +9,7 @@
 - name: Ansible host / Install pip, to allow Python packages installation
   apt:
     cache_valid_time: '3600'
-    name: '{{ localPackagesToInstall }}'
+    name: '{{ localHostPackagesToInstall }}'
     state: latest
     update_cache: yes
   delegate_to: 127.0.0.1
@@ -17,7 +17,7 @@
 # https://docs.ansible.com/ansible/latest/scenario_guides/guide_docker.html#requirements
 - name: Ansible host / pip / Install docker module for Python, to allow ansible manipulations
   pip:
-    name: docker
+    name: '{{ bothHostsPipPackagesToInstall }}'
   delegate_to: 127.0.0.1
 
 ## Remote host Installation
@@ -55,7 +55,7 @@
     state: latest
     update_cache: yes
 
-- name: Start Docker and it is started and enabled at boot
+- name: Start Docker and assure it is started and enabled at boot
   service:
     name: docker
     enabled: true
@@ -64,7 +64,7 @@
 # https://docs.ansible.com/ansible/latest/scenario_guides/guide_docker.html#requirements
 - name: pip / Install docker module for Python, to allow ansible manipulations
   pip:
-    name: docker
+    name: '{{ bothHostsPipPackagesToInstall }}'
 
 - name: Test docker through nginx container
   include: test-nginx.yml
