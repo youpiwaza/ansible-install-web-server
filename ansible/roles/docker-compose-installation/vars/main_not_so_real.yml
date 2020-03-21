@@ -1,0 +1,11 @@
+---
+# https://docs.ansible.com/ansible/latest/modules/docker_compose_module.html
+bothHostsPipPackagesToInstall: [
+  'docker-compose',
+  'PyYAML'
+]
+
+publicRepo: 
+  name: docker-compose-example
+  uri: https://github.com/youpiwaza/docker-compose-example.git
+...

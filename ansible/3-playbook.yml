@@ -16,5 +16,6 @@
     # See /README.md and follow steps 1 & 2 before use
     # - security
     # Install docker as root, as we will need overlay network for swarm
-    - docker-installation
+    # - docker-installation
+    - docker-compose-installation
 ...
