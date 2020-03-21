@@ -1,0 +1,63 @@
+---
+### Install docker
+#
+# Docker documentation      / https://docs.docker.com/install/linux/docker-ce/ubuntu/#install-using-the-repository
+# Ansible oriented article  / https://www.digitalocean.com/community/tutorials/how-to-use-ansible-to-install-and-set-up-docker-on-ubuntu-18-04
+#   Example cookbook        / https://github.com/do-community/ansible-playbooks/blob/master/docker_ubuntu1804/playbook.yml
+
+- name: Install pip on self (ansible host), to allow proper use on remote host
+  apt:
+    cache_valid_time: '3600'
+    name: '{{ localPackagesToInstall }}'
+    state: latest
+    update_cache: yes
+  delegate_to: 127.0.0.1
+
+- name: Uninstall old versions
+  apt:
+    name: '{{ oldPackagesToUninstall }}'
+    state: absent
+
+- name: Run the equivalent of "apt-get update"
+  apt:
+    cache_valid_time: '3600'
+    force_apt_get: yes
+    update_cache: yes
+
+- name: Install Docker required packages, and pip (python packages)
+# Required pip packages : 'python3-pip', 'python3-setuptools', 'virtualenv'
+#   https://docs.ansible.com/ansible/latest/modules/pip_module.html
+  apt:
+    name: '{{ packagesToInstall }}'
+    state: latest
+
+- name: Add Docker GPG apt Key
+  apt_key:
+    state: present
+    url: 'https://download.docker.com/linux/ubuntu/gpg'
+
+- name: Add Docker Repository
+  apt_repository:
+    repo: 'deb https://download.docker.com/linux/ubuntu bionic stable'
+    state: present
+
+- name: Update apt and install docker-ce
+  apt:
+    name: '{{ dockerPackagesToInstall }}'
+    state: latest
+    update_cache: yes
+
+- name: Start Docker and it is started and enabled at boot
+  service:
+    name: docker
+    enabled: true
+    state: started
+
+# https://docs.ansible.com/ansible/latest/scenario_guides/guide_docker.html#requirements
+- name: Install Docker Module for Python, through pip, to allow ansible
+  pip:
+    name: docker
+
+- name: Test docker through nginx container
+  include: test-nginx.yml
+...

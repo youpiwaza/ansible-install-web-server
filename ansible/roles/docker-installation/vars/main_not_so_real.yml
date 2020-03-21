@@ -1,0 +1,37 @@
+---
+# https://docs.docker.com/install/linux/docker-ce/ubuntu/#install-docker-engine---community-1
+dockerPackagesToInstall: [
+  'docker-ce',
+  'docker-ce-cli',
+  'containerd.io'
+]
+
+# https://docs.ansible.com/ansible/latest/modules/pip_module.html > Requirements
+localPackagesToInstall: [
+  'python3-pip',
+  'python3-setuptools',
+  'virtualenv'
+]
+
+# https://docs.docker.com/install/linux/docker-ce/ubuntu/#uninstall-old-versions
+oldPackagesToUninstall: [
+  'docker',
+  'docker-engine',
+  docker.'io',
+  'containerd',
+  'runc'
+]
+
+# https://docs.docker.com/install/linux/docker-ce/ubuntu/#install-using-the-repository
+# https://docs.ansible.com/ansible/latest/modules/pip_module.html > Requirements
+packagesToInstall: [
+  'apt-transport-https',
+  'ca-certificates',
+  'curl',
+  'gnupg-agent',
+  'python3-pip',
+  'python3-setuptools',
+  'software-properties-common',
+  'virtualenv'
+]
+...
