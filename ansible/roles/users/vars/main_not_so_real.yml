@@ -1,3 +1,4 @@
+---
 # Create a user, postfixed with a random string
 # https://passwordsgenerator.net/
 # No uppercase, max 32 chars
@@ -20,3 +21,4 @@ users:
     mail: your_email
     ssh_passphrase: 'your_pass_phrase'
     sudoer: no
+...

@@ -1,3 +1,4 @@
+---
 # Used for iptables firewall rules
 
 # Must be set in /hosts file too
@@ -7,3 +8,4 @@ my_remote_user: YOUR_REMOTE_USER
 my_ssh_remote_host: 169.169.169.169
 # https://passwordsgenerator.net/ / lower and UPPERCASE, numbers and special chars
 my_ssh_passphrase: whatever
+...
