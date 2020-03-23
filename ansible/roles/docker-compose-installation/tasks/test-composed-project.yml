@@ -5,7 +5,7 @@
 
 ## Clone project on remote host, then start composition
 # Re-create folder
-- name: Remove test directory
+- name: Test docker-compose through nginx + phpfpm / Remove test directory
   file:
     path: '/home/{{ ansible_user }}/tests/docker-compose-test-repo/'
     state: absent
@@ -51,12 +51,12 @@
   uri:
     url: 'http://{{ ansible_host }}/'
 
-- name: "Check that a page returns a status 200 and fail if the words 'Une page PHP classique' is not in the page contents"
+- name: "Check that a page returns a status 200 and fail if the words 'Fuck yeah' is not in the page contents"
   uri:
     url: 'http://{{ ansible_host }}/'
     return_content: yes
   register: da_webpage
-  failed_when: "'Une page PHP classique' not in da_webpage.content"
+  failed_when: "'Fuck yeah' not in da_webpage.content"
 
 - name: Display page content in ansible logs
   debug:

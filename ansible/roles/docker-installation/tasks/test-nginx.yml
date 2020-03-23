@@ -3,7 +3,7 @@
 ## Pulls nginx alpine image, creates and start the container, curl host ip on port 80, then stop and removes the container
 
 # https://hub.docker.com/_/nginx
-- name: Pull default nginx image
+- name: Test docker through a nginx container / Pull default nginx image
   docker_image:
     name: '{{ nginxTestImage }}'
     source: pull
