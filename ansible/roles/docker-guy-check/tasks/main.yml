@@ -1,0 +1,5 @@
+---
+### Ensure that the docker guy can run docker without sudo
+- name: Ensure that the docker guy can run docker without sudo
+  include: ../../docker-installation/tasks/test-nginx.yml
+...

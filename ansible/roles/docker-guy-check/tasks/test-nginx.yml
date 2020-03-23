@@ -1,0 +1,45 @@
+---
+### Test docker through a nginx container
+## Pulls nginx alpine image, creates and start the container, curl host ip on port 80, then stop and removes the container
+
+# https://hub.docker.com/_/nginx
+- name: Test docker through a nginx container / Pull default nginx image
+  docker_image:
+    name: '{{ nginxTestImage }}'
+    source: pull
+
+- name: Warning about running container
+  debug:
+    msg: 'Be careful, if this playbook fails, it will not end and the container will still be running !'
+
+- name: Create a nginx test container, on port 80 (other are closed by firewall)
+  docker_container:
+    name: nginx-test
+    image: '{{ nginxTestImage }}'
+    ports:
+      - '80:80'
+    # Present create the container but doesn't start it
+    # state: present
+    state: started
+
+- name: Check that you can connect (GET) to a page and it returns a status 200
+  uri:
+    url: 'http://{{ ansible_host }}/'
+
+- name: "Check that a page returns a status 200 and fail if the words 'Welcome to nginx!' is not in the page contents"
+  uri:
+    url: 'http://{{ ansible_host }}/'
+    return_content: yes
+  register: da_webpage
+  failed_when: "'Welcome to nginx!' not in da_webpage.content"
+
+- name: Display page content in ansible logs
+  debug:
+    msg: 'Affichage du contenu de la page :\n\n{{ da_webpage.content }}'
+
+# You can comment this task and go check the nginx default page on your server's IP (cf. hosts) :)
+- name: Remove test container
+  docker_container:
+    name: nginx-test
+    state: absent
+...
