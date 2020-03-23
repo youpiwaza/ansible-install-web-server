@@ -17,5 +17,6 @@
     # - security
     # Install docker as root, as we will need overlay network for swarm
     # - docker-installation
-    - docker-compose-installation
+    # - docker-compose-installation
+    - docker-swarm-installation
 ...

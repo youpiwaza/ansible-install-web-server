@@ -1,0 +1,13 @@
+---
+### Install docker swarm
+#
+# Docker swarm                      / https://docs.docker.com/get-started/orchestration/#enable-docker-swarm
+# Docker swarm deploy               / https://docs.docker.com/get-started/swarm-deploy/
+# Ansible docker swarm              / https://docs.ansible.com/ansible/latest/modules/docker_swarm_module.html
+# Ansible docker swarm services     / https://docs.ansible.com/ansible/latest/modules/docker_swarm_service_module.html
+
+## Docker swarm doesn't need installation, it's already installed with docker
+# Only testing is needed
+- name: Test docker swarm through a nginx service
+  include: test-swarm-service.yml
+...
