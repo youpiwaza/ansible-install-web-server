@@ -1,5 +1,5 @@
 ---
-- name: Install my web server / Generate users and set cutom SSH port
+- name: Install my web server / Generate users and set custom SSH port
   hosts: likorne
   remote_user: '{{ my_remote_user }}'
   become: yes
