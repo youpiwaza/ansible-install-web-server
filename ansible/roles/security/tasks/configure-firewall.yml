@@ -60,6 +60,13 @@
     enabled: yes
   when: iptables_register_config.changed
 
+  # TODO: test
+- name: Restart dependent services
+  shell: 'test -f {{ item.path }}/{{ item.name }}.service \
+          && systemctl restart {{ item.name }}.service || true'
+  with_items: '{{ iptables_restart_dependent_services }}'
+  when: iptables_restart_dependent_services and iptables_register_config.changed
+
 ## Custom log file
 #   https://askubuntu.com/a/348448
 - name: Add a /etc/rsyslog.d/ rule file for iptables
