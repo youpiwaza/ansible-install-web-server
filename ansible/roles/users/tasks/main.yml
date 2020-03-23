@@ -20,6 +20,20 @@
   include: allow-cron.yml
   loop: '{{ users }}'
 
+# https://docs.docker.com/install/linux/linux-postinstall/#manage-docker-as-a-non-root-user
+- name: Create docker group
+  group:
+      name: docker
+      state: present
+  when: docker.createDockerGroup|bool == true
+
+# Usually you need to reconnect for the changes to take place, or use newgrp docker
+# But in this playbook the docker guy won't work until the third playbook, which forces reconnexion
+- name: Add docker rights
+  include: allow-docker.yml
+  loop: '{{ users }}'
+  when: docker.createDockerGroup|bool == true
+
 - name: Generate a file with manual commands for convenience
   include: generate-users-manual-commands.yml
   loop: '{{ users }}'
