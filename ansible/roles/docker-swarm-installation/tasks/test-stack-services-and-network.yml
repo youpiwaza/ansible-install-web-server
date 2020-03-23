@@ -1,23 +1,12 @@
 ---
-### Test docker swarm through a nginx service
-
-## Test service directly on remote host
-# Create nginx service
-# > sudo docker service create --name demo-nginx --publish 80:80 nginx:1.16.1-alpine
-# List active services
-# > sudo docker service ls
-# >> ID                  NAME                MODE                REPLICAS            IMAGE                 PORTS
-# >> o9nkdsla20t2        demo-nginx          replicated          1/1                 nginx:1.16.1-alpine   *:80->80/tcp
-# Test website on http://{{ ansible_host }}/ (use remote host IP)
-# Remove service
-# > sudo docker service rm demo-nginx
+### Test docker stack through nginx service + phpfpm service + network
 
 ## Don't stop swarm if it is already started
 # Test must not kill production
 # If it isn't, start a swarm for the test and remove it afterward
 
 # Get swarm info / docker system info / https://docs.docker.com/get-started/swarm-deploy/
-- name: Test docker swarm through a nginx service / Get info on docker host
+- name: Test docker stack through nginx service + phpfpm service + network / Get info on docker host
   docker_host_info:
   register: result
 
@@ -40,6 +29,7 @@
   when: result.host_info.Swarm.ControlAvailable|bool == false
 
 ## Start services
+# https://docs.ansible.com/ansible/latest/modules/docker_stack_module.html#examples
 - name: Init a new swarm with default parameters
   docker_swarm:
     state: present
@@ -49,47 +39,56 @@
 ## Test services
 - name: Warning about running service
   debug:
-    msg: 'Be careful, if this playbook fails, it will not end and 1 service will still be running !'
+    msg: 'Be careful, if this playbook fails, it will not end and 2 services and a network will still be running !'
 
-# https://hub.docker.com/_/nginx
-- name: Start nginx service, on port 80 (other are closed by firewall)
-  docker_swarm_service:
-    image: '{{ nginxTestImage }}'
-    name: test-nginx-service
-    publish:
-    - published_port: 80
-      target_port: 80
+## Install project
+# Re-create folder
+- name: Remove test directory
+  file:
+    path: '/home/{{ ansible_user }}/tests/docker-compose-test-repo/'
+    state: absent
+
+- name: Create test directory
+  file:
+    path: '/home/{{ ansible_user }}/tests/docker-compose-test-repo/'
+    state: directory
+    mode: '0755'
+
+# Clone public repo
+#   https://docs.ansible.com/ansible/latest/modules/git_module.html
+- name: 'Clone project {{ publicRepo.name }} from {{ publicRepo.uri }} in test folder'
+  git:
+    clone: yes
+    dest: '/home/{{ ansible_user }}/tests/docker-compose-test-repo/'
+    repo: '{{ publicRepo.uri }}'
+
+## Start services from docker-compose.yml file
+- name: Deploy stack from a compose file
+  docker_stack:
+    name: test-nginx-phpfpm-stack
+    compose:
+      - '/home/{{ ansible_user }}/tests/docker-compose-test-repo/docker-compose.yml'
     # default state is present
     # state: present
 
 # Wait for the service to start before testing
-# https://docs.ansible.com/ansible/latest/modules/docker_swarm_service_info_module.html#examples
-- name: Get info from test service
-  docker_swarm_service_info:
-    name: test-nginx-service
-  register: my_service_status
-
-# - name: Display service status
-#   debug:
-#     msg: '{{ my_service_status }}'
-
-## Check service
 # https://medium.com/planetarynetworks/ansible-wait-for-with-docker-container-31d3944da953
 # https://docs.ansible.com/ansible/latest/modules/wait_for_module.html
 - name: Wait for service to publish on port 80
   wait_for:
-    port: '{{ my_service_status.service.Endpoint.Ports.0.PublishedPort }}'
+    port: 80
 
+## Check service
 - name: Check that you can connect (GET) to a page and it returns a status 200
   uri:
     url: 'http://{{ ansible_host }}/'
 
-- name: "Check that a page returns a status 200 and fail if the words 'Welcome to nginx!' is not in the page contents"
+- name: "Check that a page returns a status 200 and fail if the words 'Fuck yeah' is not in the page contents"
   uri:
     url: 'http://{{ ansible_host }}/'
     return_content: yes
   register: da_webpage
-  failed_when: "'Welcome to nginx!' not in da_webpage.content"
+  failed_when: "'Fuck yeah' not in da_webpage.content"
 
 - name: Display page content in ansible logs
   debug:
@@ -97,10 +96,9 @@
 
 ## Remove test services, and shut down swarm if needed
 # Remove test
-- name: Stop nginx service
-  docker_swarm_service:
-    image: '{{ nginxTestImage }}'
-    name: test-nginx-service
+- name: Remove stack
+  docker_stack:
+    name: test-nginx-phpfpm-stack
     state: absent
 
 # Remove swarm if needed

@@ -1,3 +1,7 @@
 ---
 nginxTestImage: 'nginx:1.16.1-alpine'
+
+publicRepo: 
+  name: docker-compose-example
+  uri: https://github.com/youpiwaza/docker-compose-example.git
 ...
