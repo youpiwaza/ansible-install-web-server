@@ -8,6 +8,10 @@
     name: '{{ nginxTestImage }}'
     source: pull
 
+- name: Warning about running container
+  debug:
+    msg: 'Be careful, if this playbook fails, it will not end and the container will still be running !'
+
 - name: Create a nginx test container, on port 80 (other are closed by firewall)
   docker_container:
     name: nginx-test
@@ -17,10 +21,6 @@
     # Present create the container but doesn't start it
     # state: present
     state: started
-
-- name: Warning about running container
-  debug:
-    msg: 'Be careful, if this playbook fails, it will not end and the container will still be running !'
 
 - name: Check that you can connect (GET) to a page and it returns a status 200
   uri:

@@ -3,8 +3,7 @@
 
 # https://github.com/youpiwaza/server-related-tutorials/tree/master/01-docker/04-my-tests/02-compose-nginx-php
 
-## Clone project on remote host
-# Puis lancer son execution
+## Clone project on remote host, then start composition
 # Re-create folder
 - name: Remove test directory
   file:
@@ -25,6 +24,10 @@
     dest: '/home/{{ ansible_user }}/tests/docker-compose-test-repo/'
     repo: '{{ publicRepo.uri }}'
 
+- name: Warning about running container
+  debug:
+    msg: 'Be careful, if this playbook fails, it will not end and 2 containers will still be running !'
+
 ## Lunch composition
 - name: Create and start composition
   docker_compose:
@@ -42,10 +45,6 @@
 # - name: Debug
 #   debug:
 #     var: output
-
-- name: Warning about running container
-  debug:
-    msg: 'Be careful, if this playbook fails, it will not end and 2 containers will still be running !'
 
 ## Check composition
 - name: Check that you can connect (GET) to a page and it returns a status 200
