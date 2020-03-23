@@ -18,7 +18,7 @@
 
 # Clone public repo
 #   https://docs.ansible.com/ansible/latest/modules/git_module.html
-- name: 'Clonage project {{ publicRepo.name }} from {{ publicRepo.uri }} in test folder'
+- name: 'Clone project {{ publicRepo.name }} from {{ publicRepo.uri }} in test folder'
   git:
     clone: yes
     dest: '/home/{{ ansible_user }}/tests/docker-compose-test-repo/'
