@@ -46,6 +46,13 @@
 # TODO: Check compatibility with Swarmprom monitoring
 # TODO: Find an UI to display logs, cf. ~datadog, if it doesn't already exist in grafana/plugins
 
+## Configure where the Docker daemon listens for connections
+#   https://docs.docker.com/install/linux/linux-postinstall/#configure-where-the-docker-daemon-listens-for-connections
+# aka. remote access to docker daemon
+#   Won't be needed as mot things will run through ssh ansible
+
+# Other steps concern troubleshooting and won't be handled here
+
 # Add docker daemon config
 - name: Configure /etc/docker/daemon.json
   register: daemon_result
