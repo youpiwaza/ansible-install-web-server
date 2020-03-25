@@ -1,0 +1,6 @@
+---
+packagesToInstall: [
+  # Firewall              / https://doc.ubuntu-fr.org/iptables    / Required for Oh my ZSH
+  'iptables'
+]
+...

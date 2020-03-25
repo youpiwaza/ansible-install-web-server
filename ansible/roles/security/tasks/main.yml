@@ -15,10 +15,6 @@
 ### - name: Prevent PAM
 ###   include: prevent-PAM.yml
 
-# Configure iptables firewall
-- name: Configure iptables firewall
-  include: configure-firewall.yml
-
 # Configure fail2ban, bruteforce and spam prevention
 # vars available in /ansible/roles/security/vars/main.yml
 - name: Configure fail2ban, bruteforce and spam prevention
