@@ -4,12 +4,8 @@
 packagesToInstall: [
   # CLI for data transfer / https://curl.haxx.se/                 / Required for Oh my ZSH
   'curl',
-  # Terminal fonts        / https://github.com/powerline/fonts    / Required for Oh my ZSH
-  'fonts-powerline',
   # Versionning           / https://git-scm.com/                  / Required for Oh my ZSH
   'git',
-  # Firewall              / https://doc.ubuntu-fr.org/iptables    / Required for Oh my ZSH
-  'iptables',
   # Process viewer        / https://hisham.hm/htop/
   'htop'
 ]
