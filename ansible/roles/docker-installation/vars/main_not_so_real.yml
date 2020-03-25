@@ -1,4 +1,9 @@
 ---
+# https://docs.ansible.com/ansible/latest/scenario_guides/guide_docker.html
+bothHostsPipPackagesToInstall: [
+  'docker'
+]
+
 # https://docs.ansible.com/ansible/latest/modules/pip_module.html > Requirements
 localHostPackagesToInstall: [
   'python3-pip',
@@ -7,11 +12,6 @@ localHostPackagesToInstall: [
 ]
 
 nginxTestImage: 'nginx:1.16.1-alpine'
-
-# https://docs.ansible.com/ansible/latest/scenario_guides/guide_docker.html
-bothHostsPipPackagesToInstall: [
-  'docker'
-]
 
 # https://docs.docker.com/install/linux/docker-ce/ubuntu/#install-docker-engine---community-1
 remoteHostDockerPackagesToInstall: [
