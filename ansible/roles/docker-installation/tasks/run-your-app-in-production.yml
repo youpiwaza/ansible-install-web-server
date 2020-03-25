@@ -69,10 +69,10 @@
   debug:
     msg: "By default, in this cookbook, swap limit support (managing Memory, CPUs, GPUs) isn't enabled, as it's not mandatory if you exclusively uses services."
 
+# Mandatory, else subsequent when: tests fails
 - name: Get info on docker host
   docker_host_info:
   register: result
-  when: enableDockerSwapLimitSupport|default(false)|bool == true
 
 - name: Do we need to enable swap limit support ?
   debug:
