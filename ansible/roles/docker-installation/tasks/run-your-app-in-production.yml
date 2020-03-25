@@ -40,4 +40,110 @@
 ##  > Keep containers alive during daemon downtime
 #   https://docs.docker.com/config/containers/live-restore/
 # Enable live restore via docker's daemon.json
+
+##  > Run multiple services in a container
+#   https://docs.docker.com/config/containers/multi-service_container/
+# No
+
+##  > Runtime metrics
+#   https://docs.docker.com/config/containers/runmetrics/
+# No > Grafana
+
+##  > Runtime options with Memory, CPUs, and GPUs
+#   https://docs.docker.com/config/containers/resource_constraints/
+
+## Enable swap limit support if needed
+# Cookbook default : not enabled > No need to enable if using only services
+#   https://docs.docker.com/config/containers/resource_constraints/#understand-the-risks-of-running-out-of-memory
+#   > Consider converting your container to a service, and using service-level constraints
+#   > and node labels to ensure that the application runs only on hosts with enough memory
+
+# /!\ Attention /!\
+#   Memory and swap accounting incur an overhead of about 1% of the total available memory
+#   and a 10% overall performance degradation, even if Docker is not running.
+
+# Ansible can manage it
+#   https://docs.ansible.com/ansible/latest/modules/docker_swarm_service_module.html#parameter-reservations
+
+- name: 'Enable swap limit support ? {{ enableDockerSwapLimitSupport }}'
+  debug:
+    msg: "By default, in this cookbook, swap limit support (managing Memory, CPUs, GPUs) isn't enabled, as it's not mandatory if you exclusively uses services."
+
+- name: Get info on docker host
+  docker_host_info:
+  register: result
+  when: enableDockerSwapLimitSupport|default(false)|bool == true
+
+- name: Do we need to enable swap limit support ?
+  debug:
+    msg: '\nDocker host warnings:\n\n{{ result.host_info.Warnings }}\n\n'
+  # If there is no warning, the property Warnings doesn't exist, and cookbook fails
+  # when: "'WARNING: No swap limit support' in result.host_info.Warnings"
+  when:
+  - "'WARNING: No swap limit support' in result.host_info"
+  - enableDockerSwapLimitSupport|default(false)|bool == true
+
+# https://docs.docker.com/install/linux/linux-postinstall/#your-kernel-does-not-support-cgroup-swap-limit-capabilities
+- name: Add swap limit support in GRUB config
+  lineinfile:
+    line: 'GRUB_CMDLINE_LINUX="cgroup_enable=memory swapaccount=1"'
+    path: /etc/default/grub
+    regexp: '^GRUB_CMDLINE_LINUX='
+  when:
+  - "'WARNING: No swap limit support' in result.host_info"
+  - enableDockerSwapLimitSupport|default(false)|bool == true
+
+- name: Update GRUB
+  command: 'update-grub'
+  when:
+  - "'WARNING: No swap limit support' in result.host_info"
+  - enableDockerSwapLimitSupport|default(false)|bool == true
+
+# The changes take effect when the system is rebooted
+- name: Reboot the Ubuntu server, for GRUB changes to take effect
+  reboot:
+    msg: 'Reboot initiated by Ansible due to kernel updates'
+    connect_timeout: 5
+    reboot_timeout: 300
+    pre_reboot_delay: 0
+    post_reboot_delay: 5
+    test_command: uptime
+  when:
+  - "'WARNING: No swap limit support' in result.host_info"
+  - enableDockerSwapLimitSupport|default(false)|bool == true
+
+# Validation
+- name: Get info on docker host
+  docker_host_info:
+  register: new_result
+  when:
+  - "'WARNING: No swap limit support' in result.host_info"
+  - enableDockerSwapLimitSupport|default(false)|bool == true
+
+- name: Validation
+  debug:
+    msg: 'Docker SwapLimit : {{ new_result.host_info.SwapLimit }}'
+  when:
+  - "'WARNING: No swap limit support' in result.host_info"
+  - enableDockerSwapLimitSupport|default(false)|bool == true
+
+# # # Remove swap limit support, if you enabled it by mistake
+# # - name: Remove limit support in GRUB config
+# #   lineinfile:
+# #     line: 'GRUB_CMDLINE_LINUX=""'
+# #     path: /etc/default/grub
+# #     regexp: '^GRUB_CMDLINE_LINUX='
+
+# # - name: Update GRUB
+# #   command: 'update-grub'
+
+# # # The changes take effect when the system is rebooted
+# # - name: Reboot the Ubuntu server, for GRUB changes to take effect
+# #   reboot:
+# #     msg: 'Reboot initiated by Ansible due to kernel updates'
+# #     connect_timeout: 5
+# #     reboot_timeout: 300
+# #     pre_reboot_delay: 0
+# #     post_reboot_delay: 5
+# #     test_command: uptime
 ...

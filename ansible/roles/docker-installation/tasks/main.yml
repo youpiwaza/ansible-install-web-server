@@ -71,20 +71,19 @@
 # # - name: Apply recommanded post installation steps
 # #   include: post-installation-steps.yml
 
-# # Apply recommanded run your app in production steps
-# #   https://docs.docker.com/get-started/orchestration/ , and all subsequent doc
-# # No task beside docker's daemon.json edit
-# # - name: Apply recommanded run your app in production steps
-# #   include: run-your-app-in-production.yml
+# Apply recommanded run your app in production steps
+#   https://docs.docker.com/get-started/orchestration/ , and all subsequent doc
+- name: Apply recommanded run your app in production steps
+  include: run-your-app-in-production.yml
 
-- name: Configure the docker daemon
-  include: configure-docker-daemon.yml
+# - name: Configure the docker daemon
+#   include: configure-docker-daemon.yml
 
 # # https://docs.ansible.com/ansible/latest/scenario_guides/guide_docker.html#requirements
 # - name: pip / Install docker module for Python, to allow ansible manipulations
 #   pip:
 #     name: '{{ bothHostsPipPackagesToInstall }}'
 
-- name: Test docker through nginx container
-  include: test-nginx.yml
+# - name: Test docker through nginx container
+#   include: test-nginx.yml
 ...
