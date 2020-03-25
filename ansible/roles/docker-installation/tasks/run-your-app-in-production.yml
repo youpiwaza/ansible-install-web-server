@@ -72,6 +72,7 @@
 # Mandatory, else subsequent when: tests fails
 - name: Get info on docker host
   docker_host_info:
+    api_version: auto
   register: result
 
 - name: Do we need to enable swap limit support ?
@@ -80,8 +81,8 @@
   # If there is no warning, the property Warnings doesn't exist, and cookbook fails
   # when: "'WARNING: No swap limit support' in result.host_info.Warnings"
   when:
-  - "'WARNING: No swap limit support' in result.host_info"
   - enableDockerSwapLimitSupport|default(false)|bool == true
+  - "'WARNING: No swap limit support' in result.host_info"
 
 # https://docs.docker.com/install/linux/linux-postinstall/#your-kernel-does-not-support-cgroup-swap-limit-capabilities
 - name: Add swap limit support in GRUB config
@@ -90,8 +91,8 @@
     path: /etc/default/grub
     regexp: '^GRUB_CMDLINE_LINUX='
   when:
-  - "'WARNING: No swap limit support' in result.host_info"
   - enableDockerSwapLimitSupport|default(false)|bool == true
+  - "'WARNING: No swap limit support' in result.host_info"
 
 - name: Update GRUB
   command: 'update-grub'
@@ -109,23 +110,24 @@
     post_reboot_delay: 5
     test_command: uptime
   when:
-  - "'WARNING: No swap limit support' in result.host_info"
   - enableDockerSwapLimitSupport|default(false)|bool == true
+  - "'WARNING: No swap limit support' in result.host_info"
 
 # Validation
 - name: Get info on docker host
   docker_host_info:
+    api_version: auto
   register: new_result
   when:
-  - "'WARNING: No swap limit support' in result.host_info"
   - enableDockerSwapLimitSupport|default(false)|bool == true
+  - "'WARNING: No swap limit support' in result.host_info"
 
 - name: Validation
   debug:
     msg: 'Docker SwapLimit : {{ new_result.host_info.SwapLimit }}'
   when:
-  - "'WARNING: No swap limit support' in result.host_info"
   - enableDockerSwapLimitSupport|default(false)|bool == true
+  - "'WARNING: No swap limit support' in result.host_info"
 
 # # # Remove swap limit support, if you enabled it by mistake
 # # - name: Remove limit support in GRUB config
