@@ -1,6 +1,5 @@
 ---
-## Emails
-- name: Restart postfix
+- name: Restart postfix service
   service:
     name: postfix
     state: restarted

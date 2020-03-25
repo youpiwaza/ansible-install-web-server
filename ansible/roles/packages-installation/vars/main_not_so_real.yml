@@ -1,4 +1,6 @@
 ---
+# Feel free to add your desired packages here
+# Each tasks installs it's own needed plugins, for better readability, modularity & maintenance
 packagesToInstall: [
   # CLI for data transfer / https://curl.haxx.se/                 / Required for Oh my ZSH
   'curl',
@@ -11,19 +13,6 @@ packagesToInstall: [
   # Firewall              / https://doc.ubuntu-fr.org/iptables    / Required for Oh my ZSH
   'iptables',
   # Process viewer        / https://hisham.hm/htop/
-  'htop',
-  # Mail testing          / https://mailutils.org/
-  'mailutils',
-  # Send emails (MTA)     / http://www.postfix.org/
-  'postfix'
+  'htop'
 ]
-
-### Config vars
-## Emails
-# https://hostadvice.com/how-to/how-to-setup-postfix-as-send-only-mail-server-on-an-ubuntu-18-04-dedicated-server-or-vps/
-
-email_hostname: likorne
-email_domain_name: masamune.fr
-
-# which will result in mail sent from email_hostname@email_domain_name, here likorne@masamune.fr
 ...
