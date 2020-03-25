@@ -3,6 +3,10 @@
 #   https://docs.docker.com/get-started/orchestration/ , and all subsequent doc
 # This documentation is massive, and some points are to be treated later, on services start
 
+# To keep the cookbook concise, please refer to
+# - /ansible/roles/docker-installation/templates/etc-docker-daemon-json.md    for detailed explanations
+# - /ansible/roles/docker-installation/templates/etc-docker-daemon-json.j2    for the generated daemon.json file
+
 
 ## Orchestration > Deploy to Swarm
 #   https://docs.docker.com/get-started/swarm-deploy/
@@ -32,4 +36,8 @@
 ##  Configure containers
 ##  > Start containers automatically
 # Restart policy managed via ansible
+
+##  > Keep containers alive during daemon downtime
+#   https://docs.docker.com/config/containers/live-restore/
+# Enable live restore via docker's daemon.json
 ...

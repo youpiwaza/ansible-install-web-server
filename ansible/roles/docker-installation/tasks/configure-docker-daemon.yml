@@ -1,0 +1,39 @@
+---
+### Configure the docker daemon, only once
+#   https://docs.docker.com/engine/reference/commandline/dockerd/#daemon-configuration-file
+# Will apply both 'post installation steps' and 'Run your app in production' recommanded docker daemon config
+
+# Override docker config only if it doesn't exist
+#   /etc/docker/daemon.json doesn't exist in default docker-ce installation
+- name: Check if /etc/docker/daemon.json exists
+  stat:
+    path: /etc/docker/daemon.json
+  register: stat_result
+
+# - debug:
+#     msg: '{{stat_result }}'
+
+# Add docker daemon config
+- name: Configure /etc/docker/daemon.json
+  register: daemon_result
+  template:
+    dest: /etc/docker/daemon.json
+    src: etc-docker-daemon-json.j2
+    # TODO: validate: json
+  # when: stat_result.stat.exists == false
+
+# Json format doesn't allow comments, so add the documentation on the host as well
+- name: Copy documentation for /etc/docker/daemon.json
+  template:
+    dest: /etc/docker/README_daemon.json.md
+    src: etc-docker-daemon-json.md
+  # when: stat_result.stat.exists == false
+
+# Restart docker service before tests, if the configuration has changed
+- name: Restart docker service if the configuration has changed
+  service:
+    name: docker
+    state: restarted
+  when:
+    - daemon_result.changed
+...

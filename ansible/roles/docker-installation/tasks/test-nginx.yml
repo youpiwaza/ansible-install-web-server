@@ -4,7 +4,9 @@
 
 # User hints if there is any problem :/
 - debug:
-    msg: "\n\nIf this example does not work, please refer to the 'Troubleshooting' section in docker documentation.\nhttps://docs.docker.com/install/linux/linux-postinstall/#troubleshooting\n\n"
+    msg: "\n\nIf this example does not work, please refer to the 'Troubleshooting' section in docker documentation.\n
+          https://docs.docker.com/install/linux/linux-postinstall/#troubleshooting\n\n
+          Also pay attention to the docker daemon configuration in this project, in /ansible/roles/docker-installation/templates/etc-docker-daemon-json.j2\n\n"
 
 # https://hub.docker.com/_/nginx
 - name: Test docker through a nginx container / Pull default nginx image

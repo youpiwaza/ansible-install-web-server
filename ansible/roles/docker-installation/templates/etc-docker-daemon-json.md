@@ -1,16 +1,17 @@
 # Comments about /etc/docker/daemon.json creation
 
-- Cf. [Docker recommanded post installation steps](https://docs.docker.com/install/linux/linux-postinstall/).
-- Cf. [Project documentation](https://github.com/youpiwaza/ansible-install-web-server/tree/master/ansible/roles/docker-installation/tasks).
-- Cf. [Docker daemon.json documentation](https://docs.docker.com/engine/reference/commandline/dockerd/#daemon-configuration-file).
+- Cf. [Docker recommanded post installation steps](https://docs.docker.com/install/linux/linux-postinstall/)
+- Cf. [Docker recommanded Run your app in production](https://docs.docker.com/get-started/orchestration/)
+- Cf. [Project documentation](https://github.com/youpiwaza/ansible-install-web-server/tree/master/ansible/roles/docker-installation/tasks)
+- Cf. [Docker daemon.json documentation](https://docs.docker.com/engine/reference/commandline/dockerd/#daemon-configuration-file)
 
 As json typed files don't allow comments, here are explainations.
 
 ## Configure default logging driver
 
-[Docker documentation](https://docs.docker.com/install/linux/linux-postinstall/#configure-default-logging-driver)
+[Docker documentation / Logs](https://docs.docker.com/install/linux/linux-postinstall/#configure-default-logging-driver)
 
-Explicitly specify the logging driver & configure it to prevent massive logs files
+Explicitly specify the logging driver & configure it to prevent massive logs files.
 
 ```json
 {
@@ -21,5 +22,19 @@ Explicitly specify the logging driver & configure it to prevent massive logs fil
     "labels": "production_status",
     "env": "os,customer"
   }
+}
+```
+
+## Keep containers alive during daemon downtime
+
+[Docker documentation / Live restore](https://docs.docker.com/config/containers/live-restore/)
+
+Enable live restore.
+
+Don't place true between quotes : ~~"true"~~ despite ansible jinja recommandations, or **docker daemon won't reboot**.
+
+```json
+{
+  "live-restore": true
 }
 ```
