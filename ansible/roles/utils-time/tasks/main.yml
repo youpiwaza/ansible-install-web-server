@@ -34,6 +34,9 @@
 # Better view with chrony CLI
 # > chronyc tracking
 
+- name: Install required packages
+  include: install-packages.yml
+
 ## Change time zone
 - name: Register timezone infos
   stat:
@@ -47,7 +50,7 @@
 
 - name: Set timezone in system configuration
   template:
-    src: templates/time-timezone.j2
+    src: templates/timezone.j2
     dest: /etc/timezone
   # ansible_date_time > variable globale ansible
   when: (ansible_date_time.tz != clock_timezone)
@@ -69,7 +72,7 @@
 # # Automatic sync with ntp
 # - name: Write ntpd configuration to /etc/ntp.conf
 #   template:
-#     src: templates/old-time-ntp.conf.j2
+#     src: templates/old-ntp.conf.j2
 #     dest: /etc/ntp.conf
 #   notify:
 #     - Restart ntpd
@@ -104,22 +107,22 @@
 # # Local verification
 # - name: Local verification chrony.conf
 #   template:
-#     src: templates/time-chrony.conf.j2
+#     src: templates/chrony.conf.j2
 #     dest: chrony-generated.conf
 #   delegate_to: 127.0.0.1
 
 - name: Configure Chrony
   template:
-    src: templates/time-chrony.conf.j2
+    src: templates/chrony.conf.j2
     dest: /etc/chrony/chrony.conf
-  notify: 'Restart chrony'
+  notify: Restart chrony
 
 - name: Ensure that chrony.service is started and will restart on reboot
   systemd:
     name: chrony.service
     enabled: yes
     state: started
-  notify: 'Chrony one-shot sync'
+  notify: Chrony one-shot sync
 
 ## Configure vanilla ntp
 - name: Create a /etc/systemd/timesyncd.conf.d/ directory if it does not exist
@@ -131,15 +134,15 @@
 # # Local verification
 # - name: Local verification timesyncd.conf
 #   template:
-#     src: templates/time-timesyncd.conf.j2
+#     src: templates/timesyncd.conf.j2
 #     dest: timesyncd-generated.conf
 #   delegate_to: 127.0.0.1
 
 - name: Configure vanilla ntp
   template:
-    src: time-timesyncd.conf.j2
+    src: timesyncd.conf.j2
     dest: /etc/systemd/timesyncd.conf.d/timesyncd.conf
-  notify: 'Restart timesyncd service'
+  notify: Restart timesyncd service
 
 # Shut's down chrony
 # - name: Ensure that timesyncd.service is started and will restart on reboot

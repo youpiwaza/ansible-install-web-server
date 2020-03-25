@@ -4,32 +4,4 @@
   service:
     name: postfix
     state: restarted
-
-## Time
-# One shot synchronization
-- name: 'Chrony one-shot sync'
-  command: 'chronyd -q'
-
-# Prevent hardware desync by using localtime
-- name: Sync hardware clock
-  command: 'hwclock --systohc --{{ clock_hwclock_sync }}'
-  when: clock_hwclock_sync == 'utc' or clock_hwclock_sync == 'localtime'
-
-- name: 'Restart chrony'
-  systemd:
-    name: chrony.service
-    state: restarted
-
-# Shut's down chrony
-# - name: 'Restart timesyncd service'
-#   systemd:
-#     enabled: yes
-#     name: systemd-timesyncd.service
-#     state: restarted
-
-# Old / Ntp configuration
-# - name: Restart ntpd
-#   service:
-#     name: '{{ clock_ntpd_service }}'
-#     state: restarted
 ...
