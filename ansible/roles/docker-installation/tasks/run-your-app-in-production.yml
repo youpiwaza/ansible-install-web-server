@@ -203,4 +203,5 @@
 
 ##  > Verify repository client with certificates
 # Add HTTPS between our docker daemon (host) and the official Docker registry (https://hub.docker.com/ ?)
+#   Add the stuff with the_builder_guy and remove the_docker_guy rights to do the same
 ...
