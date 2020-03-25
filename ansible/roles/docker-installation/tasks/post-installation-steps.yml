@@ -1,0 +1,71 @@
+---
+### Apply recommanded post installation steps
+#   https://docs.docker.com/install/linux/linux-postinstall/
+
+# Some steps needs to configure docker daemon, so we'll edit /etc/docker/daemon.json
+#   https://docs.docker.com/engine/reference/commandline/dockerd/#daemon-configuration-file
+# Note: As managing json in ansible isn't as neat as the lineInFile module, I'll template daemon.json once and then create it f it isn't present
+
+# To keep the cookbook concise, please refer to
+# - /ansible/roles/docker-installation/templates/etc-docker-daemon-json.md    for detailed explanation
+# - /ansible/roles/docker-installation/templates/etc-docker-daemon-json.j2    for the generated daemon.json file
+
+# Override docker config only if it doesn't exist
+#   /etc/docker/daemon.json doesn't exist in default docker-ce installation
+- name: Check if /etc/docker/daemon.json exists
+  stat:
+    path: /etc/docker/daemon.json
+  register: stat_result
+
+# - debug:
+#     msg: '{{stat_result }}'
+
+### Post installation steps
+## Manage Docker as a non-root user
+#   https://docs.docker.com/install/linux/linux-postinstall/#manage-docker-as-a-non-root-user
+# Already done during user creation, cf. /ansible/roles/users/tasks/main.yml
+# - Creating 'docker' group
+# - Add the_docker_guy to the 'docker' group
+# This user is used after docker installation and configuration
+
+## Configure Docker to start on boot
+#   https://docs.docker.com/install/linux/linux-postinstall/#configure-docker-to-start-on-boot
+# Already done during docker installation through 'enabled: true'
+
+## Use a different storage engine
+#   https://docs.docker.com/install/linux/linux-postinstall/#use-a-different-storage-engine
+# Default (overlay2) for ubuntu:18.04 is recommanded / https://docs.docker.com/storage/storagedriver/select-storage-driver/#docker-engine---community
+# TODO: check this stuff in details
+
+## Configure default logging driver
+#   https://docs.docker.com/install/linux/linux-postinstall/#configure-default-logging-driver
+#   After some researchs, default 'json-file' seems recommanded for ubuntu:18.04
+# Explicitly specify the logging driver & configure it to prevent massive logs files
+#   cf. daemon.json
+
+# TODO: Check compatibility with Swarmprom monitoring
+# TODO: Find an UI to display logs, cf. ~datadog, if it doesn't already exist in grafana/plugins
+
+# Add docker daemon config
+- name: Configure /etc/docker/daemon.json
+  register: daemon_result
+  template:
+    dest: /etc/docker/daemon.json
+    src: etc-docker-daemon-json.j2
+  # when: stat_result.stat.exists == false
+
+# Json format doesn't allow comments, so add the documentation on the host as well
+- name: Copy documentation for /etc/docker/daemon.json
+  template:
+    dest: /etc/docker/README_daemon.json.md
+    src: etc-docker-daemon-json.md
+  # when: stat_result.stat.exists == false
+
+# Restart docker service before tests, if the configuration has changed
+- name: Restart docker service if the configuration has changed
+  service:
+    name: docker
+    state: restarted
+  when:
+    - daemon_result.changed
+...

@@ -5,66 +5,71 @@
 # Ansible oriented article  / https://www.digitalocean.com/community/tutorials/how-to-use-ansible-to-install-and-set-up-docker-on-ubuntu-18-04
 #   Example cookbook        / https://github.com/do-community/ansible-playbooks/blob/master/docker_ubuntu1804/playbook.yml
 
-## Local host needs some packages, both apt & pip
-- name: Ansible host / Install pip, to allow Python packages installation
-  apt:
-    cache_valid_time: '3600'
-    name: '{{ localHostPackagesToInstall }}'
-    state: latest
-    update_cache: yes
-  delegate_to: 127.0.0.1
+# ## Local host needs some packages, both apt & pip
+# - name: Ansible host / Install pip, to allow Python packages installation
+#   apt:
+#     cache_valid_time: '3600'
+#     name: '{{ localHostPackagesToInstall }}'
+#     state: latest
+#     update_cache: yes
+#   delegate_to: 127.0.0.1
 
-# https://docs.ansible.com/ansible/latest/scenario_guides/guide_docker.html#requirements
-- name: Ansible host / pip / Install docker module for Python, to allow ansible manipulations
-  pip:
-    name: '{{ bothHostsPipPackagesToInstall }}'
-  delegate_to: 127.0.0.1
+# # https://docs.ansible.com/ansible/latest/scenario_guides/guide_docker.html#requirements
+# - name: Ansible host / pip / Install docker module for Python, to allow ansible manipulations
+#   pip:
+#     name: '{{ bothHostsPipPackagesToInstall }}'
+#   delegate_to: 127.0.0.1
 
-## Remote host Installation
-- name: Uninstall old versions
-  apt:
-    name: '{{ remoteHostOldPackagesToUninstall }}'
-    state: absent
+# ## Remote host Installation
+# - name: Uninstall old versions
+#   apt:
+#     name: '{{ remoteHostOldPackagesToUninstall }}'
+#     state: absent
 
-- name: Run the equivalent of "apt-get update"
-  apt:
-    cache_valid_time: '3600'
-    force_apt_get: yes
-    update_cache: yes
+# - name: Run the equivalent of "apt-get update"
+#   apt:
+#     cache_valid_time: '3600'
+#     force_apt_get: yes
+#     update_cache: yes
 
-- name: Install Docker required packages, and pip (python package manager)
-# Required pip packages : 'python3-pip', 'python3-setuptools', 'virtualenv'
-#   https://docs.ansible.com/ansible/latest/modules/pip_module.html
-  apt:
-    name: '{{ remoteHostPackagesToInstall }}'
-    state: latest
+# - name: Install Docker required packages, and pip (python package manager)
+# # Required pip packages : 'python3-pip', 'python3-setuptools', 'virtualenv'
+# #   https://docs.ansible.com/ansible/latest/modules/pip_module.html
+#   apt:
+#     name: '{{ remoteHostPackagesToInstall }}'
+#     state: latest
 
-- name: Add Docker GPG apt Key
-  apt_key:
-    state: present
-    url: 'https://download.docker.com/linux/ubuntu/gpg'
+# - name: Add Docker GPG apt Key
+#   apt_key:
+#     state: present
+#     url: 'https://download.docker.com/linux/ubuntu/gpg'
 
-- name: Add Docker Repository
-  apt_repository:
-    repo: 'deb https://download.docker.com/linux/ubuntu bionic stable'
-    state: present
+# - name: Add Docker Repository
+#   apt_repository:
+#     repo: 'deb https://download.docker.com/linux/ubuntu bionic stable'
+#     state: present
 
-- name: Update apt and install docker-ce
-  apt:
-    name: '{{ remoteHostDockerPackagesToInstall }}'
-    state: latest
-    update_cache: yes
+# - name: Update apt and install docker-ce
+#   apt:
+#     name: '{{ remoteHostDockerPackagesToInstall }}'
+#     state: latest
+#     update_cache: yes
 
-- name: Start Docker and assure it is started and enabled at boot
-  service:
-    name: docker
-    enabled: true
-    state: started
+# - name: Start Docker and assure it is started and enabled at boot
+#   service:
+#     name: docker
+#     enabled: true
+#     state: started
 
-# https://docs.ansible.com/ansible/latest/scenario_guides/guide_docker.html#requirements
-- name: pip / Install docker module for Python, to allow ansible manipulations
-  pip:
-    name: '{{ bothHostsPipPackagesToInstall }}'
+# Apply recommanded post installation steps
+#   https://docs.docker.com/install/linux/linux-postinstall/
+- name: Apply recommanded post installation steps
+  include: post-installation-steps.yml
+
+# # https://docs.ansible.com/ansible/latest/scenario_guides/guide_docker.html#requirements
+# - name: pip / Install docker module for Python, to allow ansible manipulations
+#   pip:
+#     name: '{{ bothHostsPipPackagesToInstall }}'
 
 - name: Test docker through nginx container
   include: test-nginx.yml
