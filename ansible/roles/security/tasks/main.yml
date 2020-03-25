@@ -14,9 +14,4 @@
 ### https://docs.microsoft.com/en-us/microsoft-identity-manager/pam/privileged-identity-management-for-active-directory-domain-services
 ### - name: Prevent PAM
 ###   include: prevent-PAM.yml
-
-# Configure fail2ban, bruteforce and spam prevention
-# vars available in /ansible/roles/security/vars/main.yml
-- name: Configure fail2ban, bruteforce and spam prevention
-  include: configure-fail2ban.yml
 ...

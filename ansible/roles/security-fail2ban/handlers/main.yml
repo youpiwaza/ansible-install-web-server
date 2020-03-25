@@ -1,0 +1,12 @@
+---
+### Event based tasks ###
+# Restart fail2ban
+- name: Restart fail2ban service
+  service:
+    name: fail2ban
+    state: restarted
+
+# Reload systemd daemon
+- name: Reload systemd daemon
+  command: "systemctl daemon-reload"
+...

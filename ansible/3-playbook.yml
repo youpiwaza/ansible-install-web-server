@@ -20,6 +20,7 @@
     # # See /README.md and follow steps 1 & 2 before use
     - security
     - security-firewall
+    - security-fail2ban
     # # Install docker as root, as we will need overlay network for swarm
     # #   Note: docker-compose & docker swarm will need docker installation first
     # - docker-installation

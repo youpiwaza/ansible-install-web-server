@@ -22,6 +22,9 @@
 # Example : test sshd filter on current logs
 # > sudo fail2ban-regex /var/log/auth.log /etc/fail2ban/filter.d/sshd.conf
 
+- name: Install required packages
+  include: install-packages.yml
+
 # Ensure fail2ban is running
 - name: Ensure fail2ban is running
   service:
@@ -31,16 +34,16 @@
 - name: 'Create fail2ban configuration file /etc/fail2ban/fail2ban.local'
   template:
     dest: /etc/fail2ban/fail2ban.local
-    src: fail2ban-fail2ban.local.j2
+    src: fail2ban.local.j2
   notify:
-    - restart fail2ban
+    - Restart fail2ban service
 
 - name: 'Create fail2ban configuration file /etc/fail2ban/jail.local'
   template:
     dest: /etc/fail2ban/jail.local
-    src: fail2ban-jail.local.j2
+    src: jail.local.j2
   notify:
-    - restart fail2ban
+    - Restart fail2ban service
 
 - name: Ensure fail2ban starts on a fresh reboot
   service:
@@ -69,6 +72,6 @@
     dest: /etc/systemd/system/fail2ban.service.d/override.conf
     src: fail2ban-service-d-override.j2
   notify:
-    - reload systemd daemon
-    - restart fail2ban
+    - Reload systemd daemon
+    - Restart fail2ban service
 ...

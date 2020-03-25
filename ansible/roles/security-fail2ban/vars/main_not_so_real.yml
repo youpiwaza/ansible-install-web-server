@@ -1,5 +1,9 @@
 ---
-### fail2ban related vars
+packagesToInstall: [
+  # Spam prevention       / http://www.fail2ban.org/
+  'fail2ban'
+]
+
 # Based on nickjj's defaults
 #   https://github.com/nickjj/ansible-fail2ban/blob/master/defaults/main.yml
 
@@ -47,7 +51,8 @@ fail2ban_destemail: '{{ my_mail }}'
 fail2ban_sendername: Fail2Ban
 
 # Email address of the sender
-fail2ban_sender: localhost@ubuntu
+# fail2ban_sender: localhost@ubuntu
+fail2ban_sender: shaco_the_builder_guy_73nss523qy@ns371715.ip-188-165-253.eu
 
 
 
@@ -67,8 +72,8 @@ fail2ban_chain: INPUT
 
 # What should the default ban action be?
 # action_, action_mw, action_mwl
-# fail2ban_action: action_
-fail2ban_action: action_mwl
+fail2ban_action: action_
+# fail2ban_action: action_mwl
 
 
 
@@ -113,7 +118,7 @@ fail2ban_services:
   #   # OPTIONAL: Defaults to the banaction listed above.
   #   banaction: iptables-multiport
 
-# Prevent SSH bruteforce
+  # Prevent SSH bruteforce
   - name: ssh
     # port: ssh
     # custom ssh port

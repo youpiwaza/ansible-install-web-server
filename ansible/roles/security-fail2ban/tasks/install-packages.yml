@@ -1,0 +1,22 @@
+---
+### Install desired packages and configuration
+# # https://docs.ansible.com/ansible/latest/modules/apt_module.html#apt-module
+- name: Ubuntu multiple package installations
+  apt:
+    cache_valid_time: '3600'
+    force_apt_get: yes
+    name: '{{ packagesToInstall }}'
+    update_cache: yes
+    state: latest
+
+- name: Remove useless packages from the cache
+  apt:
+    autoclean: yes
+
+- name: Remove dependencies that are no longer required
+  apt:
+    autoremove: yes
+
+- name: Reboot system if required
+  include: reboot-if-needed.yml
+...

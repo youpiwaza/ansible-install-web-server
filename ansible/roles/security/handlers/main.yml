@@ -1,18 +1,8 @@
 ---
 ### Event based tasks ###
-# Restart fail2ban
-- name: restart fail2ban
-  service:
-    name: fail2ban
-    state: restarted
-
 # Load new SSH configuration
-- name: restart ssh
+- name: Restart ssh service
   service:
     name: ssh
     state: restarted
-
-# Reload systemd daemon
-- name: reload systemd daemon
-  command: "systemctl daemon-reload"
 ...
