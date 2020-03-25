@@ -19,8 +19,4 @@
 
 - name: Reboot system if required
   include: reboot-if-needed.yml
-
-## Configure installed softwares
-- name: Configure the server to send emails
-  include: config-emails.yml
 ...

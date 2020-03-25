@@ -4,16 +4,14 @@
 #   Oh My ZSH           / https://ohmyz.sh/
 #   Powerlevel10k theme / https://github.com/romkatv/powerlevel10k#oh-my-zsh
 
-# Requires following packages : curl, fonts-powerline, git
+# Requires following packages : curl, fonts-powerline, git, zsh
 # Note: Zsh should be set as the default shell / https://github.com/ohmyzsh/ohmyzsh/wiki/Installing-ZSH
 # This is defined during user creation
 
-# Oh my zsh global installation / https://stackoverflow.com/questions/31624649/how-can-i-get-a-secure-system-wide-oh-my-zsh-configuration
+- name: Install required packages
+  include: install-packages.yml
 
-# Only if zsh is installed
-#   https://docs.ansible.com/ansible/latest/modules/package_facts_module.html
-# TODO: KO / Requirements > For Debian-based systems python-apt package must be installed on targeted hosts
-# when: "'zsh' in ansible_facts.packages"
+# Oh my zsh global installation / https://stackoverflow.com/questions/31624649/how-can-i-get-a-secure-system-wide-oh-my-zsh-configuration
 
 # Include main.yaml ( {{ users }} ) into the 'loaded_users' variable (2.2).
 #   https://docs.ansible.com/ansible/latest/modules/include_vars_module.html
@@ -43,7 +41,7 @@
 
 ## Loop for every user, including remote_user
 - name: Install and setup zsh for all users
-  include: utils-zshrc.yml
+  include: install-zshrc.yml
   loop: '{{ loaded_users.users }}'
   # loop: '{{ lists_merged }}'
 
@@ -51,7 +49,7 @@
 # Others have /home/$USERNAME
 # root has /root
 - name: Install and setup zsh for root
-  include: utils-zshrc-for-root.yml
+  include: install-zshrc-for-root.yml
 
 # Default config / https://github.com/ohmyzsh/ohmyzsh/blob/master/templates/zshrc.zsh-template
 - name: Creating zshrc default configuration for all users
