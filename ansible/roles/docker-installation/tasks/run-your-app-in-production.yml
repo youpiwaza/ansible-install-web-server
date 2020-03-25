@@ -148,4 +148,59 @@
 # #     pre_reboot_delay: 0
 # #     post_reboot_delay: 5
 # #     test_command: uptime
+
+# Anyway, it will be managed during services definition & fine tuned via Grafana
+
+
+## Logging
+# Already done
+
+###  Security
+##  > Kernel namespaces
+# ok..
+
+##  > Control groups
+# ok...
+
+##  > Docker daemon attack surface
+# Dedicated user > the_docker_guy
+#   OK / Can only connect through SSH, can't sudo
+#   Should not be able to access host's parents folder, especially '/'
+#     TODO: Currently it can `> cd /`
+#   ? Restrict docker use to the_docker_guy
+#   ? Restrict possibility to create a container from inside a container
+#   Use traditional UNIX permission checks to limit access to the control socket
+#   Limit docker functions
+#   - docker load
+#   - docker pull
+#   Try to run exclusivly Docker on the server, except for SSH & monitoring. Other stuff as docker service
+
+##  > Linux kernel capabilities
+#       Capability list / https://docs.docker.com/engine/reference/run/#runtime-privilege-and-linux-capabilities
+#   Processes (like web servers) that just need to bind on a port below 1024 do not need to run as root:
+#     they can just be granted the net_bind_service capability instead
+#   > Drop all and restore 1 / https://opensource.com/business/15/3/docker-security-tuning
+#   De manière générale, à l'intérieur du conteneur, pas droits pour ssh, cron, logs, hardware, network
+#   ! The best practice for users would be to remove all capabilities except those explicitly required for their processes.
+#     Création de profiles dédiés pour chaque image
+
+##  > Docker Content Trust Signature Verification
+# Force use of explicitly authorized images only, through a dockerhub account
+# can be configured in daemon.json
+
+##  > Other kernel security features
+# Kernel securoty with GRSEC and PAX
+# security model templates for Docker > Apparmor or SELinux
+# User Namespaces are supported directly by the docker daemon. This feature allows for the root user in a container
+#   to be mapped to a non uid-0 user outside the container, which can help to mitigate the risks of container breakout.
+#   This facility is available but not enabled by default.
+
+##  > Docker security non-events
+# ok..
+
+##  > Protect the Docker daemon socket
+# Won't access fron the outside
+
+##  > Verify repository client with certificates
+# Add HTTPS between our docker daemon (host) and the official Docker registry (https://hub.docker.com/ ?)
 ...
