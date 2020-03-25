@@ -1,0 +1,6 @@
+---
+packagesToInstall: [
+  # Text editor           / https://www.vim.org/
+  'vim'
+]
+...

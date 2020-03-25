@@ -16,8 +16,6 @@ packagesToInstall: [
   'mailutils',
   # Send emails (MTA)     / http://www.postfix.org/
   'postfix',
-  # Text editor           / https://www.vim.org/
-  'vim',
   # Shell++               / https://www.zsh.org/
   'zsh'
 ]

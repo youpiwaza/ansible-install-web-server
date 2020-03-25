@@ -1,10 +1,14 @@
 ---
 ### Configure the text editor vim
+
+- name: Install required packages
+  include: install-packages.yml
+
 - name: Configure vim text editor for all users
   template:
     dest: /etc/vim/vimrc.local
     src: templates/vimrc.j2
-  # Only if vim is installed
+  # TODO: Only if vim is installed
   #   https://docs.ansible.com/ansible/latest/modules/package_facts_module.html
   # TODO: KO / Requirements > For Debian-based systems python-apt package must be installed on targeted hosts
   # when: "'vim' in ansible_facts.packages"
