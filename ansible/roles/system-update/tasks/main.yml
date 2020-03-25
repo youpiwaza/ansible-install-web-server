@@ -1,4 +1,5 @@
 ---
+### Update system and packages, then lint
 - name: Update system
   include: update-os.yml
 
