@@ -13,5 +13,5 @@
     # Attention à l'échappement
     regexp: '^Port'
   # Restart ssh service
-  notify: restart ssh
+  notify: Restart ssh service
 ...

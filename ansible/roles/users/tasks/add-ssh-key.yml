@@ -7,7 +7,7 @@
     key: "{{ lookup('file', '~/.ssh/{{ item.name }}-ssh-key-ed25519.pub') }}"
     state: present
     user: '{{ item.name }}'
-  notify: restart ssh
+  notify: Restart ssh service
   when:
     - users is defined
 
