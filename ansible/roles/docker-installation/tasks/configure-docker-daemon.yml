@@ -11,7 +11,7 @@
   register: stat_result
 
 # - debug:
-#     msg: '{{stat_result }}'
+#     msg: '{{ stat_result }}'
 
 # Add docker daemon config
 - name: Configure /etc/docker/daemon.json
