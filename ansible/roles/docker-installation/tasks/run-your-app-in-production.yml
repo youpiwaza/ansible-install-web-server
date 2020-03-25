@@ -1,0 +1,35 @@
+---
+### Apply recommanded run your app in production steps
+#   https://docs.docker.com/get-started/orchestration/ , and all subsequent doc
+# This documentation is massive, and some points are to be treated later, on services start
+
+
+## Orchestration > Deploy to Swarm
+#   https://docs.docker.com/get-started/swarm-deploy/
+# TODO: the_docker_guy will init the swarm
+
+## Configure all objects
+##  > Apply custom metadata to objects / Docker object labels
+#   https://docs.docker.com/config/labels-custom-metadata/
+# During containers/compose/service deployments
+
+##  > Prune unused Docker objects
+#   https://docs.docker.com/config/pruning/
+# TODO: the_cron_guy will manage that
+
+##  > Format command and log output
+#   https://docs.docker.com/config/formatting/
+# Will be managed by dedicated managers (Prometheus/Grafana)
+
+##  Configure the Docker daemon
+#   https://docs.docker.com/config/daemon/
+# SSH used, no TLS
+
+##  Collect Docker metrics with Prometheus
+#   https://docs.docker.com/config/daemon/prometheus/
+# Set up in monitoring, based on docker swarm rocks / https://dockerswarm.rocks/swarmprom/
+
+##  Configure containers
+##  > Start containers automatically
+# Restart policy managed via ansible
+...

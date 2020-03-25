@@ -66,6 +66,11 @@
 - name: Apply recommanded post installation steps
   include: post-installation-steps.yml
 
+# Apply recommanded run your app in production steps
+#   https://docs.docker.com/get-started/orchestration/ , and all subsequent doc
+- name: Apply recommanded run your app in production steps
+  include: run-your-app-in-production.yml
+
 # # https://docs.ansible.com/ansible/latest/scenario_guides/guide_docker.html#requirements
 # - name: pip / Install docker module for Python, to allow ansible manipulations
 #   pip:
