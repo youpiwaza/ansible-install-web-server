@@ -13,6 +13,15 @@
 # - debug:
 #     msg: '{{ stat_result }}'
 
+# # User validation : local generation of docker daemon config file
+# - name: Configure /etc/docker/daemon.json
+#   delegate_to: 127.0.0.1
+#   register: daemon_result
+#   template:
+#     dest: docker-daemon-generated.json
+#     src: etc-docker-daemon-json.j2
+#     # TODO: validate: json
+
 # Add docker daemon config
 - name: Configure /etc/docker/daemon.json
   register: daemon_result
