@@ -28,7 +28,7 @@
     # - docker-swarm-installation
 
 # ### Docker manipulations
-# # You'll need the docker guy, with proper docker management settings to execute this playbook
+# # You'll need the_docker_guy, with proper docker management settings to execute this playbook
 # # And also it's ssh key added to the local agent
 # - name: 'Docker stuff / Change user for {{ users.2.name }} and then proceed'
 #   become: no
