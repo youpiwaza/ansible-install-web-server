@@ -76,8 +76,8 @@
 - name: Apply recommanded run your app in production steps
   include: run-your-app-in-production.yml
 
-# - name: Configure the docker daemon
-#   include: configure-docker-daemon.yml
+- name: Configure the docker daemon
+  include: configure-docker-daemon.yml
 
 # # https://docs.ansible.com/ansible/latest/scenario_guides/guide_docker.html#requirements
 # - name: pip / Install docker module for Python, to allow ansible manipulations

@@ -38,3 +38,17 @@ Don't place true between quotes : ~~"true"~~ despite ansible jinja recommandatio
   "live-restore": true
 }
 ```
+
+## Isolate containers with a user namespace
+
+[Docker documentation / userns-remap](https://docs.docker.com/engine/security/userns-remap/)
+
+Create a dedicated unprivileged user *the_docker_peon* to execute docker containers in his own namespace.
+
+Different user from *the_docker_guy* to prevent *docker* group privileges.
+
+```json
+{
+  "userns-remap": "the_docker_peon:the_docker_peon"
+}
+```
