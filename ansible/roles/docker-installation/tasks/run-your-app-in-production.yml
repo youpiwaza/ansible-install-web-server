@@ -12,45 +12,56 @@
 #   https://docs.docker.com/get-started/swarm-deploy/
 # TODO: the_docker_guy will init the swarm
 
+
 ## Configure all objects
 ##  > Apply custom metadata to objects / Docker object labels
 #   https://docs.docker.com/config/labels-custom-metadata/
 # During containers/compose/service deployments
 
+
 ##  > Prune unused Docker objects
 #   https://docs.docker.com/config/pruning/
 # TODO: the_cron_guy will manage that
+
 
 ##  > Format command and log output
 #   https://docs.docker.com/config/formatting/
 # Will be managed by dedicated managers (Prometheus/Grafana)
 
+
 ##  Configure the Docker daemon
 #   https://docs.docker.com/config/daemon/
 # SSH used, no TLS
+
 
 ##  Collect Docker metrics with Prometheus
 #   https://docs.docker.com/config/daemon/prometheus/
 # Set up in monitoring, based on docker swarm rocks / https://dockerswarm.rocks/swarmprom/
 
+
 ##  Configure containers
 ##  > Start containers automatically
 # Restart policy managed via ansible
+
 
 ##  > Keep containers alive during daemon downtime
 #   https://docs.docker.com/config/containers/live-restore/
 # Enable live restore via docker's daemon.json
 
+
 ##  > Run multiple services in a container
 #   https://docs.docker.com/config/containers/multi-service_container/
 # No
+
 
 ##  > Runtime metrics
 #   https://docs.docker.com/config/containers/runmetrics/
 # No > Grafana
 
+
 ##  > Runtime options with Memory, CPUs, and GPUs
 #   https://docs.docker.com/config/containers/resource_constraints/
+
 
 ## Enable swap limit support if needed
 # Cookbook default : not enabled > No need to enable if using only services
@@ -155,12 +166,15 @@
 ## Logging
 # Already done
 
+
 ###  Security
 ##  > Kernel namespaces
-# ok..
+# Built-in docker
+
 
 ##  > Control groups
-# ok...
+# Built-in docker
+
 
 ##  > Docker daemon attack surface
 # Dedicated user > the_docker_guy
@@ -175,6 +189,7 @@
 #   - docker pull
 #   Try to run exclusivly Docker on the server, except for SSH & monitoring. Other stuff as docker service
 
+
 ##  > Linux kernel capabilities
 #       Capability list / https://docs.docker.com/engine/reference/run/#runtime-privilege-and-linux-capabilities
 #   Processes (like web servers) that just need to bind on a port below 1024 do not need to run as root:
@@ -184,9 +199,11 @@
 #   ! The best practice for users would be to remove all capabilities except those explicitly required for their processes.
 #     Création de profiles dédiés pour chaque image
 
+
 ##  > Docker Content Trust Signature Verification
 # Force use of explicitly authorized images only, through a dockerhub account
 # can be configured in daemon.json
+
 
 ##  > Other kernel security features
 # Kernel securoty with GRSEC and PAX
@@ -195,13 +212,117 @@
 #   to be mapped to a non uid-0 user outside the container, which can help to mitigate the risks of container breakout.
 #   This facility is available but not enabled by default.
 
+
 ##  > Docker security non-events
 # ok..
 
+
 ##  > Protect the Docker daemon socket
-# Won't access fron the outside
+# Traefik needs access to te docker daemon socket, and thus needs security << Véritable besoin de reverse proxy ? ou conf directe dans nginx
+#   L'accès à socket n'est nécéssaire que pour espionner les conteneurs montés & démontés..
+
+# Traefik doc / https://docs.traefik.io/providers/docker/#docker-api-access
+# TODO: Multiple solutions described on traefik's doc
+#   - Read articles ? See "More resources and examples"
+#     - socket proxy / https://medium.com/@containeroo/traefik-2-0-paranoid-about-mounting-var-run-docker-sock-22da9cb3e78c
+#                      https://chriswiegman.com/2019/11/protecting-your-docker-socket-with-traefik-2/
+#   - Implement SSH public key authentication (SSH is supported with Docker > 18.09)
+
+# Docker doc / https://docs.docker.com/engine/security/https/
+#   - Alternative: Expose docker socket through HTTP, and secure it via TLS or SSH
+
+# Ou [Nginx](https://hub.docker.com/r/jwilder/nginx-proxy/) ? / [proxy_pass](https://medium.com/@mannycodes/create-an-nginx-reverse-proxy-with-docker-a1c0aa9078f1)
+
 
 ##  > Verify repository client with certificates
-# Add HTTPS between our docker daemon (host) and the official Docker registry (https://hub.docker.com/ ?)
+#     https://docs.docker.com/engine/security/certificates/
+#     https://docs.docker.com/registry/
+# Add HTTPS between our docker daemon (host) and
+#   - either the official Docker registry (https://hub.docker.com/)
+#   - or a custom registry
 #   Add the stuff with the_builder_guy and remove the_docker_guy rights to do the same
+# LATER: Automatic certficate generation & install for dockerhub
+# LATER: Automate trusted images stuff, to prevent images manipulations
+# Note: C'est vraiment bien fait mais juste trop fastidieux pour le moment >.>
+
+
+##  > Antivirus
+# meh
+
+
+##  > AppArmor security profiles for Docker
+# TODO: install/update AppArmor
+# TODO: Apply to containers     / https://docs.docker.com/engine/security/apparmor/
+# TODO: Apply to docker daemon  / https://github.com/moby/moby/tree/master/contrib/apparmor
+# TODO: Récupérer des profils AppArmor pour les différentes images les plus utilisées, sinon profil par défaut
+
+# Notes:
+#   - default security templates folder : /etc/apparmor.d/, for docker, can create /etc/apparmor.d/containers/
+#   - Commands:
+#     - dmesg     / Display debug messages (logs)
+#     - aa-status / Check loaded profiles
+
+# App armor doc / https://www.nccgroup.trust/uk/our-research/abusing-privileged-and-unprivileged-linux-containers/
+
+##  > Seccomp security profiles for Docker
+# Needs specific installation/config, to allow/disallow capabilities.
+# IMO redondant, i'll pass for now
+
+
+##  > Isolate containers with a user namespace
+# Run containers app as unprivileged user (no root inside the container) BY DEFAULT
+#   If root os needed inside the container, create a less privileged user on the host and map it to the container's root
+# Use docker's userns-remap feature, cf. dedicated articles
+#   - Create dedicated users    / https://blog.ippon.tech/docker-and-permission-management/
+#   - user remap implementation / https://innablr.com.au/blog/docker-security-basics/
+# Création d'un utilisateur dédié par site ? Ou utilisation de dockremap (utilisateur auto par docker)
+
+# /!\ Attention /!\ It enable limitations :
+# - sharing PID or NET namespaces with the host (--pid=host or --network=host).
+# - external (volume or storage) drivers which are unaware or incapable of using daemon user mappings.
+# - Using the --privileged mode flag on docker run without also specifying --userns=host.
+# - Inability to use the mknod command inside a container (device creation)
+
+# Volumes mounted from the host requires some rights/capabilities configurations
+
+# /!\ Est-ce qu'il faut que cela soit le même user que celui qui execute docker ? a priori non
+# +1 docker group ?
+
+## Création d'un utilisateur
+
+# > Fait lors de la création de l'ensemble des utilisateurs
+# > the_docker_peon
+# Commande de test > id the_docker_peon
+# Création d'un groupe avec le même nom, si necessaire ?
+# > Fait (automatiquement par ubuntu) lors de la création de l'utilisateur
+
+
+## Manipulation du namespace
+
+# Modification du fichier utilisateur /etc/subuid # Attention de ne pas overlap les namespaces
+#   Ajout de the_docker_peon:231072:65536
+#   > Fait (automatiquement par ubuntu) lors de la création de l'utilisateur
+
+# Modification du fichier groupe      /etc/subgid
+#   Ajout de the_docker_peon:231072:65536
+#   > Fait (automatiquement par ubuntu) lors de la création de l'utilisateur
+
+## Ajout de l'utilisateur dans la config remap de docker
+
+# # Modification de /etc/docker/daemon.json, dans la tâche dédiée
+# #   /ansible/roles/docker-installation/tasks/configure-dicker-daemon.yml
+# # {
+# #   "userns-remap": "the_docker_peon:the_docker_peon"
+# # }
+# # Restart docker
+
+# Tests:
+# 1. > docker run hello-world
+#      Vérifier que le dossier existe > sudo ls -ld /var/lib/docker/231072.231072/, ou 231072 est le namespace de l'utilisateur
+
+# 2. Monter une image avec un volume > docker run -it -v /home/test/:/apps/files alpine
+#     Entrer dans le conteneur, créer un fichier dedans > touch /apps/files/test
+#     Sortir du conteneur
+#     Vérifier les droits du fichier créé > cd /home/test/ > ll
+# Il devrait contenir le namespace ~> -rw-r--r--  1 231072 231072    0 mars  26 17:16 test
 ...
