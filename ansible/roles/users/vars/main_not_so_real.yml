@@ -1,16 +1,31 @@
 ---
+### Docker related vars
+docker:
+  # Set to yes if you have at least one docker manager
+  # It prevents running docker as root
+  #   https://docs.docker.com/install/linux/linux-postinstall/#manage-docker-as-a-non-root-user
+  # Note that it might be created by docker itself
+  createDockerGroup: yes
+
+### Users related vars
 # Create a user, postfixed with a random string
 # https://passwordsgenerator.net/
 # No uppercase, max 32 chars
+# Passwords, random 64 chars
 users:
-  # No more chars than this for name      |
+  # No more chars than this for name     >|
+
+  # Will proceed to the installation after root (packages, utils, host security, docker)
   - name: the_builder_guy_5kk2dnjtbcxttd7g
     allowCron: no
     dockerManagement: no
     mail: your_email
     ssh_passphrase: 'your_pass_phrase'
+    # Example:
+    # ssh_passphrase: 'dR$&!GZE]s[1]c!UfAG3ykp*3qrSr3f$4HLs+u+76Q9faEdNX2jvg4raYVPmX_4AND'
     sudoer: yes
 
+  # Will be the dedicated user to manage host's planned tasks
   - name: the_cron_guy_nvhrg559y8hb5qka2d2
     allowCron: yes
     dockerManagement: no
@@ -18,6 +33,7 @@ users:
     ssh_passphrase: 'your_pass_phrase'
     sudoer: no
 
+  # Will be the dedicated user to manage docker containers, compose & services
   - name: the_docker_guy_avwr8m2kq22nx22n5
     allowCron: no
     dockerManagement: yes
