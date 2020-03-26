@@ -320,8 +320,10 @@
 # 1. > docker run hello-world
 #      Vérifier que le dossier existe > sudo ls -ld /var/lib/docker/231072.231072/, ou 231072 est le namespace de l'utilisateur
 
-# 2. Monter une image avec un volume > docker run -it -v /home/test/:/apps/files alpine
-#     Entrer dans le conteneur, créer un fichier dedans > touch /apps/files/test
+# 2.  Monter une image avec un volume et entrer dans le conteneur
+#     > docker run -it -v /home/test/:/apps/files alpine
+#     Créer un fichier dedans
+#     > touch /apps/files/test
 #     Sortir du conteneur
 #     Vérifier les droits du fichier créé > cd /home/test/ > ll
 # Il devrait contenir le namespace ~> -rw-r--r--  1 231072 231072    0 mars  26 17:16 test
