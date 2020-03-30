@@ -1,0 +1,27 @@
+---
+### Apply recommanded Docker Security Cheat Sheet stuff
+#   https://github.com/OWASP/CheatSheetSeries/blob/master/cheatsheets/Docker_Security_Cheat_Sheet.md
+
+## RULE #0 - Keep Host and Docker up to date
+# ok
+
+## RULE #1 - Do not expose the Docker daemon socket (even to the containers)
+# I'll have to for traefik, but i'll use a proxy container
+
+## RULE #2 - Set a user
+# Remote user created (the_docker_peon),
+# TODO: Need to force it inside containers during creation...
+
+## RULE #3 - Limit capabilities (Grant only specific capabilities, needed by a container)
+# Can't set default drop all capabilites to docker containers.
+# TODO: Need to create profiles
+
+## RULE #4 - Add –no-new-privileges flag
+# TODO: Need to create profiles
+
+## RULE #5 - Disable inter-container communication (--icc=false)
+# Edited in docker daemon config file
+
+## RULE #6 - Use Linux Security Module (seccomp, AppArmor, or SELinux)
+# Need to create AppArmor profiles, load them and force them
+...

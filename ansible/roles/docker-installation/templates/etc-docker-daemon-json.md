@@ -52,3 +52,18 @@ Different user from *the_docker_guy* to prevent *docker* group privileges.
   "userns-remap": "the_docker_peon:the_docker_peon"
 }
 ```
+
+## Disable inter-container communication
+
+[Docker security Cheat sheet](https://github.com/OWASP/CheatSheetSeries/blob/master/cheatsheets/Docker_Security_Cheat_Sheet.md#rule-5---disable-inter-container-communication---iccfalse)
+
+By default inter-container communication (icc) is enabled - it means that all containers can talk with each other 
+(using docker0 bridged network).
+
+If icc is disabled (icc=false) it is required to tell which containers can communicate using --link=CONTAINER_NAME_or_ID:ALIAS option.
+
+```json
+{
+  "icc": false,
+}
+```

@@ -71,10 +71,15 @@
 # # - name: Apply recommanded post installation steps
 # #   include: post-installation-steps.yml
 
-# Apply recommanded run your app in production steps
-#   https://docs.docker.com/get-started/orchestration/ , and all subsequent doc
-- name: Apply recommanded run your app in production steps
-  include: run-your-app-in-production.yml
+# # Apply recommanded run your app in production steps
+# #   https://docs.docker.com/get-started/orchestration/ , and all subsequent doc
+# # - name: Apply recommanded run your app in production steps
+# #   include: run-your-app-in-production.yml
+
+# # Apply recommanded Docker Security Cheat Sheet stuff
+# #   https://github.com/OWASP/CheatSheetSeries/blob/master/cheatsheets/Docker_Security_Cheat_Sheet.md
+# # - name: Apply recommanded Docker Security Cheat Sheet stuff
+# #   include: docker-security-cheat-sheet.yml
 
 - name: Configure the docker daemon
   include: configure-docker-daemon.yml
@@ -84,6 +89,6 @@
 #   pip:
 #     name: '{{ bothHostsPipPackagesToInstall }}'
 
-# - name: Test docker through nginx container
-#   include: test-nginx.yml
+- name: Test docker through nginx container
+  include: test-nginx.yml
 ...
