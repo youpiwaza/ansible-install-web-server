@@ -181,42 +181,36 @@
 ###########################################################
 ##  > Docker daemon attack surface
 # Dedicated users > the_docker_guy and the_docker_peon
-#   OK / Can only connect through SSH, can't sudo
-#   Should not be able to access host's parents folder, especially '/'
-#     TODO: Currently it can `> cd /`
-#       Utilisation de rbash / restricted bash
-#       Limiter la sortir de son propre répertoire /home/the_docker_peon/
-#   TODO: ? Restrict docker use to the_docker_guy
-#   TODO: ? Restrict possibility to create a container from inside a container
-#   Use traditional UNIX permission checks to limit access to the control socket
+#   Can only connect through SSH, can't sudo
+#   TODO: Should not be able to access /home/da_user parent's folder
+#         Use rbash / restricted bash ?
+#   TODO: Restrict possibility to create a container from inside a container
+
+#   TODO: Use traditional UNIX permission checks to limit access to the control socket
+
 #   TODO: Limit docker functions
 #   - docker load
 #   - docker pull
+
 #   Note: Try to run exclusivly Docker on the server, except for SSH & monitoring. Other stuff as docker service
 
 
-###########################################################
-########################################################### TO BE DONE
-###########################################################
 ##  > Linux kernel capabilities
 #       Capability list / https://docs.docker.com/engine/reference/run/#runtime-privilege-and-linux-capabilities
 #   Processes (like web servers) that just need to bind on a port below 1024 do not need to run as root:
 #     they can just be granted the net_bind_service capability instead
-#   > Drop all and restore 1 / https://opensource.com/business/15/3/docker-security-tuning
-#   De manière générale, à l'intérieur du conteneur, pas droits pour ssh, cron, logs, hardware, network
-#   ! The best practice for users would be to remove all capabilities except those explicitly required for their processes.
-#     > Création de profiles dédiés pour chaque image
+#   The best practice for users would be to remove all capabilities except those explicitly required for their processes.
+# Will be managed during services definition
 
 
 ##  > Docker Content Trust Signature Verification
-# Force use of explicitly authorized images only, through a dockerhub account
-# can be configured in daemon.json
+#     Force use of explicitly authorized images only, through a dockerhub account
+#     Can be configured in daemon.json
 # TODO: Later
 
 
 ##  > Other kernel security features
 # Kernel security with GRSEC and PAX
-# security model templates for Docker > Apparmor or SELinux
 # TODO: Later
 
 
@@ -224,13 +218,12 @@
 # ok..
 
 ###########################################################
-########################################################### TO BE DONE / Choix reverse proxy Traefik ou Nginx + Proxy vers socket docker
+########################################################### TO BE DONE / Choice between Traefik v2 or Nginx v3+ AND set up with a proxy container
 ###########################################################
 ##  > Protect the Docker daemon socket
-# Traefik needs access to te docker daemon socket, and thus needs security << Véritable besoin de reverse proxy ? ou conf directe dans nginx
-#   L'accès à socket n'est nécéssaire que pour espionner les conteneurs montés & démontés..
 
 # Traefik doc / https://docs.traefik.io/providers/docker/#docker-api-access
+#   Need access to the socket to spy on mounted/unmounted containers
 # TODO: Multiple solutions described on traefik's doc
 #   - Read articles ? See "More resources and examples"
 #     - socket proxy / https://medium.com/@containeroo/traefik-2-0-paranoid-about-mounting-var-run-docker-sock-22da9cb3e78c
@@ -240,7 +233,7 @@
 # Docker doc / https://docs.docker.com/engine/security/https/
 #   - Alternative: Expose docker socket through HTTP, and secure it via TLS or SSH
 
-# Ou [Nginx](https://hub.docker.com/r/jwilder/nginx-proxy/) ? / [proxy_pass](https://medium.com/@mannycodes/create-an-nginx-reverse-proxy-with-docker-a1c0aa9078f1)
+# Or [Nginx](https://hub.docker.com/r/jwilder/nginx-proxy/) ? / [proxy_pass](https://medium.com/@mannycodes/create-an-nginx-reverse-proxy-with-docker-a1c0aa9078f1)
 
 
 ##  > Verify repository client with certificates
@@ -252,7 +245,7 @@
 #   Add the stuff with the_builder_guy and remove the_docker_guy rights to do the same
 # LATER: Automatic certificate generation & install for dockerhub
 # LATER: Automate trusted images stuff, to prevent images manipulations
-# Note: C'est vraiment bien fait mais juste trop fastidieux pour le moment >.>
+# Note: It's really fancy, but too tedious ATM >.>
 
 
 ##  > Antivirus
@@ -266,7 +259,7 @@
 # TODO: install/update AppArmor
 # TODO: Apply to containers     / https://docs.docker.com/engine/security/apparmor/
 # TODO: Apply to docker daemon  / https://github.com/moby/moby/tree/master/contrib/apparmor
-# TODO: Récupérer des profils AppArmor pour les différentes images les plus utilisées, sinon profil par défaut
+# TODO: Gather/create AppArmor profiles for every container type, then load & use them in docker
 
 # Notes:
 #   - default security templates folder : /etc/apparmor.d/, for docker, can create /etc/apparmor.d/containers/
@@ -281,9 +274,6 @@
 # IMO redondant, i'll pass for now
 
 
-###########################################################
-########################################################### TO BE DONE / AppArmor
-###########################################################
 ##  > Isolate containers with a user namespace
 # Run containers app as unprivileged user (no root inside the container) BY DEFAULT
 #   If root os needed inside the container, create a less privileged user on the host and map it to the container's root
@@ -300,51 +290,44 @@
 
 # Volumes mounted from the host requires some rights/capabilities configurations
 
-# /!\ Est-ce qu'il faut que cela soit le même user que celui qui execute docker ? Non
-# +1 docker group ? Non
-
-## Création d'un utilisateur
-
-# > Fait lors de la création de l'ensemble des utilisateurs
-# > the_docker_peon
-# Commande de test > id the_docker_peon
-# Création d'un groupe avec le même nom, si necessaire ?
-# > Fait (automatiquement par ubuntu) lors de la création de l'utilisateur
+# /?\ Does it needs to be the same user as the one managing docker ? No
+# /?\ Does it need to be in the "docker" group ? No
 
 
-## Manipulation du namespace
+## Create user
 
-# Modification du fichier utilisateur /etc/subuid # Attention de ne pas overlap les namespaces
-#   Ajout de the_docker_peon:231072:65536
-#   > Fait (automatiquement par ubuntu) lors de la création de l'utilisateur
+# > Task added to ansible, during user creation
+#     "the_docker_peon"
+# > id the_docker_peon
+# Create a group with the same name
+# > Done automatically by ubuntu, during user creation
 
-# Modification du fichier groupe      /etc/subgid
-#   Ajout de the_docker_peon:231072:65536
-#   > Fait (automatiquement par ubuntu) lors de la création de l'utilisateur
 
-## Ajout de l'utilisateur dans la config remap de docker
+## Namespace manipulation
+# Edit /etc/subuid & /etc/subgid
+#   Add the_docker_peon:231072:65536 to both
+#   > Done automatically by ubuntu, during user creation
 
-# # Modification de /etc/docker/daemon.json, dans la tâche dédiée
-# #   /ansible/roles/docker-installation/tasks/configure-dicker-daemon.yml
-# # {
-# #   "userns-remap": "the_docker_peon:the_docker_peon"
-# # }
-# # Restart docker
+## Add this user to docker daemon config > namesspace remap
+# Done in /ansible/roles/docker-installation/tasks/configure-dicker-daemon.yml
+# {
+#   "userns-remap": "the_docker_peon:the_docker_peon"
+# }
 
-# Tests:
+# Manual tests:
 # 1. > docker run hello-world
-#      Vérifier que le dossier existe > sudo ls -ld /var/lib/docker/231072.231072/, ou 231072 est le namespace de l'utilisateur
+#      Check that folder exist > sudo ls -ld /var/lib/docker/231072.231072/, where 231072 the user namespace
 
-# 2.  Monter une image avec un volume et entrer dans le conteneur
+# 2.  Load an image with a volume, go in & shell
 #     > docker run -it -v /home/test/:/apps/files alpine:3.11.5
-#     Créer un fichier dedans
+#     Create a file
 #     > touch /apps/files/test
-#     Sortir du conteneur
-#     Vérifier les droits du fichier créé > cd /home/test/ > ll
-# Il devrait contenir le namespace ~> -rw-r--r--  1 231072 231072    0 mars  26 17:16 test
-
-
-###########################################################
-########################################################### TO BE DONE / Remettre en anglais
-###########################################################
+#     Exit the container
+#     > exit
+#     Check it's rights
+#     > cd /home/test/ > ll
+#     It should has the namespace as user and group
+#     ~> -rw-r--r--  1 231072 231072    0 mars  26 17:16 test
+#     Remove the test folder & file
+#     > sudo rm -r test/
 ...
