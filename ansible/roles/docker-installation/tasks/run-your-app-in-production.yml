@@ -176,12 +176,16 @@
 ##  > Control groups
 # Built-in docker
 
+###########################################################
 ########################################################### TO BE DONE
+###########################################################
 ##  > Docker daemon attack surface
-# Dedicated user > the_docker_guy
+# Dedicated users > the_docker_guy and the_docker_peon
 #   OK / Can only connect through SSH, can't sudo
 #   Should not be able to access host's parents folder, especially '/'
 #     TODO: Currently it can `> cd /`
+#       Utilisation de rbash / restricted bash
+#       Limiter la sortir de son propre répertoire /home/the_docker_peon/
 #   TODO: ? Restrict docker use to the_docker_guy
 #   TODO: ? Restrict possibility to create a container from inside a container
 #   Use traditional UNIX permission checks to limit access to the control socket
@@ -201,7 +205,7 @@
 #   > Drop all and restore 1 / https://opensource.com/business/15/3/docker-security-tuning
 #   De manière générale, à l'intérieur du conteneur, pas droits pour ssh, cron, logs, hardware, network
 #   ! The best practice for users would be to remove all capabilities except those explicitly required for their processes.
-#     Création de profiles dédiés pour chaque image
+#     > Création de profiles dédiés pour chaque image
 
 
 ##  > Docker Content Trust Signature Verification
@@ -210,17 +214,10 @@
 # TODO: Later
 
 
-###########################################################
-########################################################### TO BE DONE / AppArmor
-###########################################################
 ##  > Other kernel security features
 # Kernel security with GRSEC and PAX
 # security model templates for Docker > Apparmor or SELinux
-
-# User Namespaces are supported directly by the docker daemon. This feature allows for the root user in a container
-#   to be mapped to a non uid-0 user outside the container, which can help to mitigate the risks of container breakout.
-#   This facility is available but not enabled by default.
-# Done below, cf. "Isolate containers with a user namespace"
+# TODO: Later
 
 
 ##  > Docker security non-events
@@ -303,8 +300,8 @@
 
 # Volumes mounted from the host requires some rights/capabilities configurations
 
-# /!\ Est-ce qu'il faut que cela soit le même user que celui qui execute docker ? a priori non
-# +1 docker group ?
+# /!\ Est-ce qu'il faut que cela soit le même user que celui qui execute docker ? Non
+# +1 docker group ? Non
 
 ## Création d'un utilisateur
 
@@ -339,12 +336,13 @@
 #      Vérifier que le dossier existe > sudo ls -ld /var/lib/docker/231072.231072/, ou 231072 est le namespace de l'utilisateur
 
 # 2.  Monter une image avec un volume et entrer dans le conteneur
-#     > docker run -it -v /home/test/:/apps/files alpine
+#     > docker run -it -v /home/test/:/apps/files alpine:3.11.5
 #     Créer un fichier dedans
 #     > touch /apps/files/test
 #     Sortir du conteneur
 #     Vérifier les droits du fichier créé > cd /home/test/ > ll
 # Il devrait contenir le namespace ~> -rw-r--r--  1 231072 231072    0 mars  26 17:16 test
+
 
 ###########################################################
 ########################################################### TO BE DONE / Remettre en anglais
