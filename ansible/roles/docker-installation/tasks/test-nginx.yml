@@ -20,7 +20,7 @@
 
 - name: Create a nginx test container, on port 80 (other are closed by firewall)
   docker_container:
-    name: nginx-test
+    name: test-nginx
     image: '{{ nginxTestImage }}'
     ports:
       - '80:80'
@@ -46,6 +46,6 @@
 # You can comment this task and go check the nginx default page on your server's IP (cf. hosts) :)
 - name: Remove test container
   docker_container:
-    name: nginx-test
+    name: test-nginx
     state: absent
 ...
