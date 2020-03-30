@@ -63,6 +63,7 @@
 
 
 # ## Apply recommandations
+# # All dual comments are just doc files..
 # # Note: As managing json in ansible isn't as neat as the lineInFile module, I'll template daemon.json once and then create it if it isn't present
 
 # # Apply recommanded post installation steps

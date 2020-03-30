@@ -63,7 +63,7 @@ If icc is disabled (icc=false) it is required to tell which containers can commu
 
 ```json
 {
-  "icc": false,
+  "icc": false
 }
 ```
 
@@ -91,3 +91,15 @@ Docker defaults 64000.
   },
 }
 ```
+
+## Set the logging level to at least INFO
+
+- [Docker security Cheat sheet #10](https://github.com/OWASP/CheatSheetSeries/blob/master/cheatsheets/Docker_Security_Cheat_Sheet.md#rule-10---set-the-logging-level-to-at-least-info)
+- [Docker docs / daemon](https://docs.docker.com/engine/reference/commandline/dockerd/#daemon-configuration-file)
+
+Docker default is "", set it to info.
+
+```json
+{
+  "log-level": "info"
+}

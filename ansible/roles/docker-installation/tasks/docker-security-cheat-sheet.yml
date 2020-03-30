@@ -34,4 +34,13 @@
 # Edited in docker daemon config file
 #   > Docker default 64000, drastically reduced.
 #   > This example sets a soft limit of 128 open files and 32 child processes and a hard limit of 256 open files and 64 child processes on the container.
+
+## RULE #8 - Set filesystem and volumes to read-only
+# TODO: Need to create profiles
+
+## RULE #9 - Use static analysis tools
+# TODO: Later
+
+## RULE #10 - Set the logging level to at least INFO
+# Edited in docker daemon config file
 ...
