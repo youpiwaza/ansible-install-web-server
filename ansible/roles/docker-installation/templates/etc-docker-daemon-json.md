@@ -55,15 +55,39 @@ Different user from *the_docker_guy* to prevent *docker* group privileges.
 
 ## Disable inter-container communication
 
-[Docker security Cheat sheet](https://github.com/OWASP/CheatSheetSeries/blob/master/cheatsheets/Docker_Security_Cheat_Sheet.md#rule-5---disable-inter-container-communication---iccfalse)
+[Docker security Cheat sheet #5](https://github.com/OWASP/CheatSheetSeries/blob/master/cheatsheets/Docker_Security_Cheat_Sheet.md#rule-5---disable-inter-container-communication---iccfalse)
 
-By default inter-container communication (icc) is enabled - it means that all containers can talk with each other 
-(using docker0 bridged network).
+By default inter-container communication (icc) is enabled - it means that all containers can talk with each other (using docker0 bridged network).
 
 If icc is disabled (icc=false) it is required to tell which containers can communicate using --link=CONTAINER_NAME_or_ID:ALIAS option.
 
 ```json
 {
   "icc": false,
+}
+```
+
+## Set default ulimits to containers
+
+- [Docker security Cheat sheet #7](https://github.com/OWASP/CheatSheetSeries/blob/master/cheatsheets/Docker_Security_Cheat_Sheet.md#rule-7---limit-resources-memory-cpu-file-descriptors-processes-restarts)
+- [Docker docs / ulimits](https://docs.docker.com/engine/reference/commandline/run/#set-ulimits-in-container---ulimit)
+- [Oracle docs / ulimits](https://docs.oracle.com/en/operating-systems/oracle-linux/docker/ch04s16.html)
+
+Docker defaults 64000.
+
+```json
+{
+  "default-ulimits": {
+    "nofile": {
+        "Name": "nofile",
+        "Hard": 128,
+        "Soft": 256
+      },
+      "nproc" : {
+        "Name": "nproc",
+        "Hard": 32,
+        "Soft": 64
+      }
+  },
 }
 ```

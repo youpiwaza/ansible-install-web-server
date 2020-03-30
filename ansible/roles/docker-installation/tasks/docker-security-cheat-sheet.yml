@@ -24,4 +24,14 @@
 
 ## RULE #6 - Use Linux Security Module (seccomp, AppArmor, or SELinux)
 # Need to create AppArmor profiles, load them and force them
+
+## RULE #7 - Limit resources (memory, CPU, file descriptors, processes, restarts)
+# I plan to use only services, and fine tune the resources allocation after installing the metrics
+# Can also set default limits through docker daemon config
+#   https://docs.docker.com/engine/reference/commandline/run/#set-ulimits-in-container---ulimit
+#     https://docs.docker.com/engine/reference/commandline/dockerd/#daemon-configuration-file
+#     https://docs.oracle.com/en/operating-systems/oracle-linux/docker/ch04s16.html
+# Edited in docker daemon config file
+#   > Docker default 64000, drastically reduced.
+#   > This example sets a soft limit of 128 open files and 32 child processes and a hard limit of 256 open files and 64 child processes on the container.
 ...
