@@ -27,6 +27,7 @@
 ##  > Format command and log output
 #   https://docs.docker.com/config/formatting/
 # Will be managed by dedicated managers (Prometheus/Grafana)
+# Use of default log engine (json-file) and max-file/size in daemon configuration
 
 
 ##  Configure the Docker daemon
@@ -46,7 +47,7 @@
 
 ##  > Keep containers alive during daemon downtime
 #   https://docs.docker.com/config/containers/live-restore/
-# Enable live restore via docker's daemon.json
+# Enabled live restore via docker's daemon.json
 
 
 ##  > Run multiple services in a container
@@ -61,8 +62,6 @@
 
 ##  > Runtime options with Memory, CPUs, and GPUs
 #   https://docs.docker.com/config/containers/resource_constraints/
-
-
 ## Enable swap limit support if needed
 # Cookbook default : not enabled > No need to enable if using only services
 #   https://docs.docker.com/config/containers/resource_constraints/#understand-the-risks-of-running-out-of-memory
@@ -73,8 +72,9 @@
 #   Memory and swap accounting incur an overhead of about 1% of the total available memory
 #   and a 10% overall performance degradation, even if Docker is not running.
 
-# Ansible can manage it
+# Ansible can manage services resources allocations
 #   https://docs.ansible.com/ansible/latest/modules/docker_swarm_service_module.html#parameter-reservations
+# TODO: Will be fine tuned after the set up of Grafana
 
 - name: 'Enable swap limit support ? {{ enableDockerSwapLimitSupport }}'
   debug:
@@ -165,6 +165,7 @@
 
 ## Logging
 # Already done
+# Use of default log engine (json-file) and max-file/size in daemon configuration
 
 
 ###  Security
@@ -175,21 +176,24 @@
 ##  > Control groups
 # Built-in docker
 
-
+########################################################### TO BE DONE
 ##  > Docker daemon attack surface
 # Dedicated user > the_docker_guy
 #   OK / Can only connect through SSH, can't sudo
 #   Should not be able to access host's parents folder, especially '/'
 #     TODO: Currently it can `> cd /`
-#   ? Restrict docker use to the_docker_guy
-#   ? Restrict possibility to create a container from inside a container
+#   TODO: ? Restrict docker use to the_docker_guy
+#   TODO: ? Restrict possibility to create a container from inside a container
 #   Use traditional UNIX permission checks to limit access to the control socket
-#   Limit docker functions
+#   TODO: Limit docker functions
 #   - docker load
 #   - docker pull
-#   Try to run exclusivly Docker on the server, except for SSH & monitoring. Other stuff as docker service
+#   Note: Try to run exclusivly Docker on the server, except for SSH & monitoring. Other stuff as docker service
 
 
+###########################################################
+########################################################### TO BE DONE
+###########################################################
 ##  > Linux kernel capabilities
 #       Capability list / https://docs.docker.com/engine/reference/run/#runtime-privilege-and-linux-capabilities
 #   Processes (like web servers) that just need to bind on a port below 1024 do not need to run as root:
@@ -203,20 +207,28 @@
 ##  > Docker Content Trust Signature Verification
 # Force use of explicitly authorized images only, through a dockerhub account
 # can be configured in daemon.json
+# TODO: Later
 
 
+###########################################################
+########################################################### TO BE DONE / AppArmor
+###########################################################
 ##  > Other kernel security features
-# Kernel securoty with GRSEC and PAX
+# Kernel security with GRSEC and PAX
 # security model templates for Docker > Apparmor or SELinux
+
 # User Namespaces are supported directly by the docker daemon. This feature allows for the root user in a container
 #   to be mapped to a non uid-0 user outside the container, which can help to mitigate the risks of container breakout.
 #   This facility is available but not enabled by default.
+# Done below, cf. "Isolate containers with a user namespace"
 
 
 ##  > Docker security non-events
 # ok..
 
-
+###########################################################
+########################################################### TO BE DONE / Choix reverse proxy Traefik ou Nginx + Proxy vers socket docker
+###########################################################
 ##  > Protect the Docker daemon socket
 # Traefik needs access to te docker daemon socket, and thus needs security << Véritable besoin de reverse proxy ? ou conf directe dans nginx
 #   L'accès à socket n'est nécéssaire que pour espionner les conteneurs montés & démontés..
@@ -241,7 +253,7 @@
 #   - either the official Docker registry (https://hub.docker.com/)
 #   - or a custom registry
 #   Add the stuff with the_builder_guy and remove the_docker_guy rights to do the same
-# LATER: Automatic certficate generation & install for dockerhub
+# LATER: Automatic certificate generation & install for dockerhub
 # LATER: Automate trusted images stuff, to prevent images manipulations
 # Note: C'est vraiment bien fait mais juste trop fastidieux pour le moment >.>
 
@@ -250,6 +262,9 @@
 # meh
 
 
+###########################################################
+########################################################### TO BE DONE / AppArmor
+###########################################################
 ##  > AppArmor security profiles for Docker
 # TODO: install/update AppArmor
 # TODO: Apply to containers     / https://docs.docker.com/engine/security/apparmor/
@@ -269,6 +284,9 @@
 # IMO redondant, i'll pass for now
 
 
+###########################################################
+########################################################### TO BE DONE / AppArmor
+###########################################################
 ##  > Isolate containers with a user namespace
 # Run containers app as unprivileged user (no root inside the container) BY DEFAULT
 #   If root os needed inside the container, create a less privileged user on the host and map it to the container's root
@@ -327,4 +345,8 @@
 #     Sortir du conteneur
 #     Vérifier les droits du fichier créé > cd /home/test/ > ll
 # Il devrait contenir le namespace ~> -rw-r--r--  1 231072 231072    0 mars  26 17:16 test
+
+###########################################################
+########################################################### TO BE DONE / Remettre en anglais
+###########################################################
 ...
