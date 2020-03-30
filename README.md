@@ -153,5 +153,25 @@ Mettre en place le nouveau serveur
       3. [Alternative : Run nested docker through global daemon (share socket)](https://itnext.io/docker-in-docker-521958d34efd)
       4. [--privileged / Not in prod](https://blog.trendmicro.com/trendlabs-security-intelligence/why-running-a-privileged-container-in-docker-is-a-bad-idea/)
       5. [Official docker image](https://hub.docker.com/_/docker)
-6. ✅ Mettre en place un conteneur nginx hello world sur l'ip du serveur
-   1. cf. `/ansible/roles/docker-installation/tasks/main.yml` > uncomment `include test-nginx.yml`
+   4. ✅ Mettre en place un conteneur nginx hello world sur l'ip du serveur
+      1. cf. `/ansible/roles/docker-installation/tasks/main.yml` > uncomment `include test-nginx.yml`
+   5. ✅ Mettre en place un docker-compose & un swarm
+      1. 🔍✅ Docs
+         1. [Reco ansible](https://www.ansible.com/blog/six-ways-ansible-makes-docker-compose-better)
+         2. [Ansible docker guide](https://docs.ansible.com/ansible/latest/scenario_guides/guide_docker.html)
+         3. [Ansible docker_image module](https://docs.ansible.com/ansible/latest/modules/docker_image_module.html)
+         4. [Ansible docker_container module](https://docs.ansible.com/ansible/latest/modules/docker_container_module.html)
+         5. [Ansible docker_compose module](https://docs.ansible.com/ansible/latest/modules/docker_compose_module.html), également utilisé pour swarm
+      2. ✅ Installation des [plugins recommandés](https://docs.ansible.com/ansible/latest/modules/docker_compose_module.html#requirements)
+      3. ✅ Faire tourner un projet compose
+         1. ✅🐛 **Attention**, si un nom de projet est spécifié au lancement, il doit également être spécifié lors de l'arrêt
+      4. Faire tourner des services via swarm
+         1. 🔍✅ Docs ansible
+            - [Créer un swarm](https://docs.ansible.com/ansible/latest/modules/docker_swarm_module.html)
+            - [Gérer les services](https://docs.ansible.com/ansible/latest/modules/docker_swarm_service_module.html)
+            - [Docker stack](https://docs.ansible.com/ansible/latest/modules/docker_stack_module.html#examples)
+         2. ✅ Initialiser swarm
+            1. ✅ Conditionnel (pas péter prod avec tests)
+         3. ✅ Lancer et tester un service
+         4. ✅ Supprimer le swarm
+         5. ✅ Idem `docker stack`
