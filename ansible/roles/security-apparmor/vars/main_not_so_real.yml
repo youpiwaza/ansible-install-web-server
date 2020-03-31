@@ -1,0 +1,13 @@
+---
+# See files on host in /etc/apparmor.d/
+appArmorProfilesToEnforce:
+  - 'usr.sbin.chronyd'
+
+# https://help.ubuntu.com/lts/serverguide/serverguide.pdf#page=200
+packagesToInstall: [
+  'apparmor',
+  'apparmor-profiles',
+  'apparmor-utils',
+  'auditd'
+]
+...

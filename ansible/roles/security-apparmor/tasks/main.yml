@@ -1,0 +1,47 @@
+---
+### AppArmor installation and configuration
+#
+# Ubuntu documentation  / https://help.ubuntu.com/lts/serverguide/serverguide.pdf#page=200
+# AppArmor              / https://apparmor.net/
+
+# Notes:
+#   Profiles default directory :  /etc/apparmor.d/
+
+## Main commands
+# sudo apparmor_status            / Display current status of all AppArmor profiles
+#                                   /!\ Also display (at the end) unconfined processes (~= no apparmor)
+# sudo nano /var/log/kern.log     / Display default logs 
+# sudo aa-logprof                 / Display AppArmor audit messages
+
+- name: Run the equivalent of "apt-get update"
+  apt:
+    cache_valid_time: '3600'
+    force_apt_get: yes
+    update_cache: yes
+
+- name: Install and update AppArmor required packages
+# Required packages : 'apparmor', 'apparmor-profiles', 'apparmor-utils', 'auditd'
+  apt:
+    name: '{{ packagesToInstall }}'
+    state: latest
+
+# Add wanted profiles
+
+- name: Enforce all profiles
+  #   ERRORs and stop at lxc custom files to load lxc-containers
+  # command: 'aa-enforce /etc/apparmor.d/*'
+  #   Can exclude it to run all profiles but it seems useless..
+  # command: 'find /etc/apparmor.d/ -name "*" -and -not -name "*_*" -exec aa-enforce "{}" \;'
+
+  # .. better load specific profiles manually
+  command: 'aa-enforce /etc/apparmor.d/{{ item }}'
+  register: enforce_result
+  with_items: '{{ appArmorProfilesToEnforce }}'
+
+- name: Reload all profiles
+  service:
+    name: apparmor.service
+    state: restarted
+  when:
+      - enforce_result.changed
+...

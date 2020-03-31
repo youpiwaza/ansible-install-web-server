@@ -183,7 +183,7 @@
 # Dedicated users > the_docker_guy and the_docker_peon
 #   Can only connect through SSH, can't sudo
 #   TODO: Should not be able to access /home/da_user parent's folder
-#     https://help.ubuntu.com/lts/serverguide/serverguide.pdf#page=188&zoom=100,72,96
+#     https://help.ubuntu.com/lts/serverguide/serverguide.pdf#page=188
 #         Use rbash / restricted bash ?
 #   TODO: Restrict possibility to create a container from inside a container
 
