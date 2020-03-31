@@ -20,6 +20,7 @@ users:
     allowCron: no
     dockerManagement: no
     mail: your_email
+    restrictedHomeAccess: yes
     ssh_passphrase: 'your_pass_phrase'
     # Example:
     # ssh_passphrase: 'dR$&!GZE]s[1]c!UfAG3ykp*3qrSr3f$4HLs+u+76Q9faEdNX2jvg4raYVPmX_4AND'
@@ -30,6 +31,7 @@ users:
     allowCron: yes
     dockerManagement: no
     mail: your_email
+    restrictedHomeAccess: yes
     ssh_passphrase: 'your_pass_phrase'
     sudoer: no
 
@@ -38,6 +40,7 @@ users:
     allowCron: no
     dockerManagement: yes
     mail: your_email
+    restrictedHomeAccess: yes
     ssh_passphrase: 'your_pass_phrase'
     sudoer: no
 
@@ -48,6 +51,7 @@ users:
     allowCron: no
     dockerManagement: no
     mail: your_email
+    restrictedHomeAccess: no
     ssh_passphrase: 'your_pass_phrase'
     sudoer: no
 ...
