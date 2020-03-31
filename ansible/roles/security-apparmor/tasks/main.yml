@@ -12,6 +12,7 @@
 #                                   /!\ Also display (at the end) unconfined processes (~= no apparmor)
 # sudo nano /var/log/kern.log     / Display default logs 
 # sudo aa-logprof                 / Display AppArmor audit messages
+# dmesg                           / Other logs
 
 - name: Run the equivalent of "apt-get update"
   apt:
@@ -44,4 +45,18 @@
     state: restarted
   when:
       - enforce_result.changed
+
+## Manual verification, as sudo user
+# Reload service
+# > sudo systemctl reload apparmor.service
+# > sudo systemctl --failed  
+# Debug
+# > systemctl status apparmor.service
+
+# If problem related to 'snapd':
+#   > sudo apt purge snapd
+#   > sudo apt autoremove
+#   > sudo apt autoclean
+# Then check there is nothing wtf in /etc/apparmor.d/, then start service
+#   > sudo systemctl start apparmor.service 
 ...
