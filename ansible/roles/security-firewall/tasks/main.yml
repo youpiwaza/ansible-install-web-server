@@ -93,4 +93,37 @@
     state: 'restarted'
     enabled: yes
   when: iptables_register_log_config.changed
+
+# Docker manipulates iptables rules, adds it's own, and they shouldn't be removed
+#   https://docs.docker.com/network/iptables/
+# But they get regenerated when docker service is restarted
+#   https://stackoverflow.com/a/29980145/12026487
+# In case "Restart dependant services" didn't do the job > restart docker service
+# (Especially if the playbook was lunched multiples times > iptables config override, after docker installation)
+- name: Check if docker service exists
+  stat:
+    path: /etc/init.d/docker
+  register: docker_service_status
+
+# - debug:
+#     msg: '{{ docker_service_status.stat.exists }}'
+
+- name: "Restart docker service to add back docker's iptables automatic rules"
+  service:
+    name: docker
+    state: restarted
+  when: docker_service_status.stat.exists == true
+
+# # Error example, for Ctrl + Shift + F guys
+# # docker: Error response from daemon:
+# # driver failed programming external connectivity on endpoint
+
+# # test-apparmor-nginx (6411d07f8fcb61cb92cfc7b24ea867137fcc79a27331cc0661f02f8bd2a174ed):  
+
+# # (
+# #     iptables failed: iptables --wait -t filter -A DOCKER !
+# #     -i docker0 -o docker0 -p tcp -d 172.17.0.2 --dport 80 -j ACCEPT:
+# #     iptables: No chain/target/match by that name.
+# #     (exit status 1)
+# #  ).
 ...
