@@ -14,6 +14,11 @@
 #   iptables original logs    > sudo vim /var/log/syslog
 #   iptables new logs path    > sudo vim /var/log/iptables.log
 
+## Manual config test
+# > sudo systemctl --failed
+# > sudo systemctl status iptables-restore.service
+# > sudo systemctl start iptables-restore.service
+
 - name: Install required packages
   include: install-packages.yml
 

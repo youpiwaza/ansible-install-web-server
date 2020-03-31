@@ -103,7 +103,7 @@
 -A OUTPUT -p udp --dport 6100:6200 -j ACCEPT
 
 # Activation des logs
--A INPUT -j LOG --log-prefix='[netfilter] '
--A FORWARD -j LOG --log-prefix='[netfilter] '
+-A INPUT -j LOG --log-prefix "[netfilter] "
+-A FORWARD -j LOG --log-prefix "[netfilter] "
 
 COMMIT
