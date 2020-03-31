@@ -34,6 +34,10 @@
     state: directory
     mode: '0755'
 
+# Create AppArmor profiles, needs to be done manually
+# Generated new profile with apparmor tools
+#   https://github.com/docker/labs/tree/master/security/apparmor#step-5-extra-for-experts
+
 # Load profiles
 - name: Add custom AppArmor profiles
   include: add-profile.yml
