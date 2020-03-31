@@ -1,0 +1,12 @@
+---
+### AppArmor add and load a profile
+# Ubuntu documentation  / https://help.ubuntu.com/lts/serverguide/serverguide.pdf#page=200
+
+- name: Copy profile from template
+  template:
+    dest: '/etc/apparmor.d/containers/{{ item }}'
+    src: 'templates/{{ item }}.j2'
+
+- name: Load the profile into AppArmor
+  command: 'apparmor_parser -r -W /etc/apparmor.d/containers/{{ item }}'
+...

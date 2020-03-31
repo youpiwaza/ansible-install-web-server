@@ -1,6 +1,11 @@
 ---
+# From /templates, will be used during containers start. Do not enforce
+appArmorProfilesToAdd:
+  - 'docker-nginx'
+
 # See files on host in /etc/apparmor.d/
 appArmorProfilesToEnforce:
+  # Example
   - 'usr.sbin.chronyd'
 
 # https://help.ubuntu.com/lts/serverguide/serverguide.pdf#page=200

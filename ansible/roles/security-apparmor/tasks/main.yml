@@ -26,8 +26,25 @@
     name: '{{ packagesToInstall }}'
     state: latest
 
-# Add wanted profiles
+## Add wanted profiles
+# Create docker folder
+- name: Create a directory for apparmor docker templates
+  file:
+    path: /etc/apparmor.d/containers
+    state: directory
+    mode: '0755'
 
+# Load profiles
+- name: Add custom AppArmor profiles
+  include: add-profile.yml
+  loop: '{{ appArmorProfilesToAdd }}'
+
+## If need test..
+#   https://docs.docker.com/engine/security/apparmor/#nginx-example-profile
+#  ..and unload profile
+# > sudo apparmor_parser -R /path/to/profile
+
+## Config
 - name: Enforce all profiles
   #   ERRORs and stop at lxc custom files to load lxc-containers
   # command: 'aa-enforce /etc/apparmor.d/*'
@@ -44,19 +61,19 @@
     name: apparmor.service
     state: restarted
   when:
-      - enforce_result.changed
+    - enforce_result.changed
 
-## Manual verification, as sudo user
-# Reload service
-# > sudo systemctl reload apparmor.service
-# > sudo systemctl --failed
-# Debug
-# > sudo systemctl status apparmor.service
+# ## Manual verification, as sudo user
+# # Reload service
+# # > sudo systemctl reload apparmor.service
+# # > sudo systemctl --failed
+# # Debug
+# # > sudo systemctl status apparmor.service
 
-# If problem related to 'snapd':
-#   > sudo apt purge snapd
-#   > sudo apt autoremove
-#   > sudo apt autoclean
-# Then check there is nothing wtf in /etc/apparmor.d/, then start service
-#   > sudo systemctl start apparmor.service 
+# # If problem related to 'snapd':
+# #   > sudo apt purge snapd
+# #   > sudo apt autoremove
+# #   > sudo apt autoclean
+# # Then check there is nothing wtf in /etc/apparmor.d/, then start service
+# #   > sudo systemctl start apparmor.service 
 ...
