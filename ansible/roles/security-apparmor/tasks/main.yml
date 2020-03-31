@@ -49,9 +49,9 @@
 ## Manual verification, as sudo user
 # Reload service
 # > sudo systemctl reload apparmor.service
-# > sudo systemctl --failed  
+# > sudo systemctl --failed
 # Debug
-# > systemctl status apparmor.service
+# > sudo systemctl status apparmor.service
 
 # If problem related to 'snapd':
 #   > sudo apt purge snapd
