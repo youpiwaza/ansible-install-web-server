@@ -10,6 +10,9 @@
 # Logs kernel
 > sudo nano /var/log/kern.log
 
+# Logs autorisations
+> sudo nano /var/log/auth.log
+
 # Autres logs
 > dmesg
 ```
