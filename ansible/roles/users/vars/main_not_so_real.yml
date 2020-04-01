@@ -21,6 +21,7 @@ users:
     dockerManagement: no
     mail: your_email
     preventHomeAccess: yes
+    restrictUser: no
     ssh_passphrase: 'your_pass_phrase'
     # Example:
     # ssh_passphrase: 'dR$&!GZE]s[1]c!UfAG3ykp*3qrSr3f$4HLs+u+76Q9faEdNX2jvg4raYVPmX_4AND'
@@ -32,6 +33,7 @@ users:
     dockerManagement: no
     mail: your_email
     preventHomeAccess: yes
+    restrictUser: no
     ssh_passphrase: 'your_pass_phrase'
     sudoer: no
 
@@ -41,6 +43,7 @@ users:
     dockerManagement: yes
     mail: your_email
     preventHomeAccess: yes
+    restrictUser: no
     ssh_passphrase: 'your_pass_phrase'
     sudoer: no
 
@@ -52,6 +55,7 @@ users:
     dockerManagement: no
     mail: your_email
     preventHomeAccess: no
+    restrictUser: yes
     ssh_passphrase: 'your_pass_phrase'
     sudoer: no
 ...

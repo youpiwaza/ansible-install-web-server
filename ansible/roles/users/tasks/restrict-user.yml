@@ -1,0 +1,46 @@
+---
+### Restrict one specific user, only when specified
+#     Restricted shell    / https://www.gnu.org/software/bash/manual/html_node/The-Restricted-Shell.html
+#     SSH Chrooted Jail   / https://www.tecmint.com/restrict-ssh-user-to-directory-using-chrooted-jail/
+#       SSHD config         / http://man.openbsd.org/cgi-bin/man.cgi/OpenBSD-current/man5/sshd_config.5?query=sshd_config#ChrootDirectory
+#                           / https://wiki.archlinux.org/index.php/SFTP_chroot
+
+## Set restricted bash, prevent most commands but has many vulnerabilities
+- name: 'Restrict {{ item.name }} shell (rbash) : {{ item.restrictUser }}'
+  user:
+    name: '{{ item.name }}'
+    shell: /bin/rbash
+    # shell: /usr/bin/nologin
+  when:
+    - users is defined
+    - item.restrictUser|default(false)|bool == true
+
+# Change rights & owner of user's home
+- name: Change rights & owner of user's home
+  file:
+    group: root
+    mode: '0755'
+    owner: root
+    path: '/home/{{ item.name }}'
+    recurse: yes
+    state: directory
+  when:
+    - users is defined
+    - item.restrictUser|default(false)|bool == true
+
+# >> Can't cd nor touch some .sh files nor remove stuff
+
+# Manual test docker volumes still ok / test volumes (After docker installation..)
+# Create an alpine container with a volume inside the dedicated folder, go in with shell and create a file
+#   > docker run --name test-alpine --rm -i -t -v /home/THE_DOCKER_PEON/test-volume:/home -w /home alpine /bin/ash
+#   >> touch test
+#   >> exit
+#   > cd /home/THE_DOCKER_PEON/test-volume
+#   > ll
+# File should be created with dedicated namespace, cf. docker installation
+#   -rw-r--r-- 1 362144 362144   10 avril  1 13:13 test
+
+## SSH Chrooted Jail
+# Seems a better alternative, but too much steps :3
+# TODO: ^
+...

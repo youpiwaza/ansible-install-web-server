@@ -31,6 +31,10 @@
     path: '/etc/adduser.conf'
     regexp: '^DIR_MODE='
 
+- name: Restrict user
+  include: restrict-user.yml
+  loop: '{{ users }}'
+
 # https://docs.docker.com/install/linux/linux-postinstall/#manage-docker-as-a-non-root-user
 - name: Create docker group
   group:
