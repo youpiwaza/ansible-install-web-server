@@ -82,6 +82,12 @@
 # # - name: Apply recommanded Docker Security Cheat Sheet stuff
 # #   include: docker-security-cheat-sheet.yml
 
+# # Apply recommanded Docker bench security stuff
+# #   https://github.com/docker/docker-bench-security
+# #     https://www.digitalocean.com/community/tutorials/how-to-audit-docker-host-security-with-docker-bench-for-security-on-ubuntu-16-04
+- name: Apply recommanded Docker bench security stuff
+  include: docker-bench-security.yml
+
 - name: Configure the docker daemon
   include: configure-docker-daemon.yml
 
