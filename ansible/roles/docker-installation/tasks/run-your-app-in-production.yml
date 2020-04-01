@@ -176,21 +176,20 @@
 ##  > Control groups
 # Built-in docker
 
-###########################################################
-########################################################### TO BE DONE
-###########################################################
 ##  > Docker daemon attack surface
 # Dedicated users > the_docker_guy and the_docker_peon
 #   Can only connect through SSH, can't sudo
-#   TODO: Should not be able to access /home/da_user parent's folder
+#   DONE: Should not be able to access /home/da_user parent's folder
 #     DONE: Other users' home not accessible / https://help.ubuntu.com/lts/serverguide/serverguide.pdf#page=188
 #     DONE: rbash + root & docker namespace ownership, cf. ansible/roles/users/tasks/restrict-user.yml
 #     LATER: SSH Chroot jail
-#   TODO: Restrict possibility to create a container from inside a container
+#   DONE: Restrict possibility to create a container from inside a container > Seccomp/AppArmor/capabilities on container creation
 
-#   TODO: Use traditional UNIX permission checks to limit access to the control socket
+#   DONE: Use traditional UNIX permission checks to limit access to the control socket
+#     Default srw-rw----  1 root    docker     0 mars  31 18:32 docker.sock=
+#     Only the_builder_guy (w. sudo) & the_docker_guy ('docker' group) have access
 
-#   TODO: Limit docker functions
+#   DONE: Limit docker functions > Seccomp/AppArmor/capabilities on container creation, and no privileged flag
 #   - docker load
 #   - docker pull
 
@@ -219,14 +218,11 @@
 ##  > Docker security non-events
 # ok..
 
-###########################################################
-########################################################### TO BE DONE / Choice between Traefik v2 or Nginx v3+ AND set up with a proxy container
-###########################################################
 ##  > Protect the Docker daemon socket
 
 # Traefik doc / https://docs.traefik.io/providers/docker/#docker-api-access
 #   Need access to the socket to spy on mounted/unmounted containers
-# TODO: Multiple solutions described on traefik's doc
+# LATER: Multiple solutions described on traefik's doc
 #   - Read articles ? See "More resources and examples"
 #     - socket proxy / https://medium.com/@containeroo/traefik-2-0-paranoid-about-mounting-var-run-docker-sock-22da9cb3e78c
 #                      https://chriswiegman.com/2019/11/protecting-your-docker-socket-with-traefik-2/
@@ -254,14 +250,11 @@
 # meh
 
 
-###########################################################
-########################################################### TO BE DONE / AppArmor
-###########################################################
 ##  > AppArmor security profiles for Docker
-# TODO: install/update AppArmor
-# TODO: Apply to containers     / https://docs.docker.com/engine/security/apparmor/
-# TODO: Apply to docker daemon  / https://github.com/moby/moby/tree/master/contrib/apparmor
-# TODO: Gather/create AppArmor profiles for every container type, then load & use them in docker
+# DONE:   install/update AppArmor
+# DONE:   Apply to containers     / https://docs.docker.com/engine/security/apparmor/  > On container creation, security-opt flags
+# DONE:   Apply to docker daemon  / https://github.com/moby/moby/tree/master/contrib/apparmor > Default by docker
+# LATER:  Gather/create AppArmor profiles for every container type, then load & use them in docker
 
 # Notes:
 #   - default security templates folder : /etc/apparmor.d/, for docker, can create /etc/apparmor.d/containers/
