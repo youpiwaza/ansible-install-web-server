@@ -31,3 +31,7 @@
 # File should be created with dedicated namespace, cf. docker installation
 #   -rw-r--r-- 1 362144 362144   10 avril  1 13:13 test
 ```
+
+## Security
+
+Automatic security benchmark [Docker bench security](https://github.com/docker/docker-bench-security)
