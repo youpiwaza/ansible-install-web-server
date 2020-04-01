@@ -1,0 +1,41 @@
+---
+### Seccomp installation
+# https://docs.docker.com/engine/security/seccomp/
+#
+# Default profile from recommanded Moby project
+#   https://github.com/moby/moby/blob/master/profiles/seccomp/default.json
+
+# Check if Seccomp is available
+- name: Check if Seccomp is available
+  shell: 'grep CONFIG_SECCOMP= /boot/config-$(uname -r)'
+  register: seccomp_available
+
+# - debug:
+#     # msg: '{{ seccomp_available }}'
+#     msg: '{{ seccomp_available.stdout_lines }}'
+
+- debug:
+    msg: "\n\nSeccomp isn't available on your docker installation. Please refer to the docker documentation:\n
+          https://docs.docker.com/engine/security/seccomp/\n\n"
+  when: "'CONFIG_SECCOMP=y' not in seccomp_available.stdout_lines"
+
+## Add docker default profile
+# Create docker seccomp folder
+- name: Create a directory for seccomp docker templates /etc/docker/seccomp-profiles/
+  file:
+    path: /etc/docker/seccomp-profiles/
+    state: directory
+    mode: '0755'
+  when: "'CONFIG_SECCOMP=y' in seccomp_available.stdout_lines"
+
+# Copy profile
+- name: Copy profile from template
+  template:
+    dest: /etc/docker/seccomp-profiles/default-docker-profile.json
+    src: default-docker-profile.j2
+  when: "'CONFIG_SECCOMP=y' in seccomp_available.stdout_lines"
+
+# # Manual verification
+# # docker run --rm -it --security-opt seccomp=/etc/docker/seccomp-profiles/default-docker-profile.json hello-world
+# LATER: Ansible verification
+...

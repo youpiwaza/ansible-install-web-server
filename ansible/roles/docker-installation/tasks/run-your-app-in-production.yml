@@ -265,8 +265,10 @@
 # App armor doc / https://www.nccgroup.trust/uk/our-research/abusing-privileged-and-unprivileged-linux-containers/
 
 ##  > Seccomp security profiles for Docker
-# Needs specific installation/config, to allow/disallow capabilities.
-# IMO redondant, i'll pass for now
+# Already installed with Docker
+# Get the default profile / https://github.com/moby/moby/blob/master/profiles/seccomp/default.json
+#   Store it on the server and use it during container execution
+#     /etc/docker/seccomp-profiles/default-docker-profile.json
 
 
 ##  > Isolate containers with a user namespace
