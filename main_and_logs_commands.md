@@ -1,4 +1,4 @@
-# Post install manual verification
+# Main commands
 
 ## Logs
 
