@@ -13,14 +13,14 @@
 # TODO: Need to force it inside containers during creation...
 
 ## RULE #3 - Limit capabilities (Grant only specific capabilities, needed by a container)
-# Can't set default drop all capabilites to docker containers.
-# TODO: Need to create profiles
+# Can't set default drop all capabilites to docker containers. > Actually yes
+# DONE: args during container start
 
 ## RULE #4 - Add –no-new-privileges flag
-# TODO: Need to create profiles
+# Ok > daemon.json
 
 ## RULE #5 - Disable inter-container communication (--icc=false)
-# Edited in docker daemon config file
+# Ok > daemon.json
 
 ## RULE #6 - Use Linux Security Module (seccomp, AppArmor, or SELinux)
 # Need to create AppArmor profiles, load them and force them
@@ -31,16 +31,16 @@
 #   https://docs.docker.com/engine/reference/commandline/run/#set-ulimits-in-container---ulimit
 #     https://docs.docker.com/engine/reference/commandline/dockerd/#daemon-configuration-file
 #     https://docs.oracle.com/en/operating-systems/oracle-linux/docker/ch04s16.html
-# Edited in docker daemon config file
+# Ok > daemon.json
 #   > Docker default 64000, drastically reduced.
 #   > This example sets a soft limit of 128 open files and 32 child processes and a hard limit of 256 open files and 64 child processes on the container.
 
 ## RULE #8 - Set filesystem and volumes to read-only
-# TODO: Need to create profiles
+# DONE: args during container start
 
 ## RULE #9 - Use static analysis tools
 # TODO: Later
 
 ## RULE #10 - Set the logging level to at least INFO
-# Edited in docker daemon config file
+# Ok > daemon.json
 ...

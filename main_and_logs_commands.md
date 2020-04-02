@@ -47,4 +47,12 @@
 > ll
 # File should be created with dedicated namespace, cf. docker installation
 #   -rw-r--r-- 1 362144 362144   10 avril  1 13:13 test
+
+# Restart docker daemon
+> sudo systemctl restart docker
+# debug
+> sudo systemctl status docker.service
+
+# Inspect container health (healthchecks)
+> sudo docker inspect --format='{{.State.Health.Status}}' CONTAINER_NAME
 ```

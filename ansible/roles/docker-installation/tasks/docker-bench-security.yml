@@ -308,4 +308,118 @@
 
 #### 3 - Docker daemon configuration files
 # All ok or non pertinent (no TLS / not ubuntu related stuff)
+
+
+#### 4 - Container Images and Build File
+# Original docker run command: alpine container, interactive, with a volume
+# > docker run \
+#   -i \
+#   --name test-alpine \
+#   --rm \
+#   -t \
+#   -v /home/the_docker_peon/test-volume:/home \
+#   -w /home \
+#   alpine \
+#   /bin/ash
+
+# 4.1  - Ensure a user for the container has been created
+# get the_docker_peon user uid gid > sudo nano /etc/passwd > 1003:1003
+# Add to docker run command:
+#       --user 1003:1003
+# Works but can't edit stuff, as all is root chmoded.
+# adding read only to volume management
+#       -v /home/THE_DOCKER_PEON/test-volume:/home:ro \
+
+# 4.2  - Ensure that containers use only trusted base images
+# 4.3  - Ensure that unnecessary packages are not installed in the container
+# 4.4  - Ensure images are scanned and rebuilt to include security patches
+# LATER: yawn
+
+# 4.5  - Ensure Content trust for Docker is Enabled
+# Nope > daemon.json # Only in Docker EE $
+# Need and environnement variable > export DOCKER_CONTENT_TRUST=1
+
+# Define in the OS Specific way (Ubuntu here) for all users
+#   https://help.ubuntu.com/community/EnvironmentVariables#System-wide_environment_variables
+- name: Enable Docker Content Trust for all users through Ubuntu environment variable
+  lineinfile:
+    line: 'DOCKER_CONTENT_TRUST=1'
+    path: '/etc/environment'
+
+# 4.6  - Ensure that HEALTHCHECK instructions have been added to container images
+#        Only checks in images, not args...
+# docker run args         / https://docs.docker.com/engine/reference/run/#healthcheck
+#   docker health check   / https://docs.docker.com/engine/reference/builder/#healthcheck
+# ansible                 / https://docs.ansible.com/ansible/latest/modules/docker_container_module.html#parameter-healthcheck
+
+# Prevent false positives > prune all (included all non used images)
+# > docker system prune
+# > docker image prune -a
+
+# --health-cmd            Command to run to check health
+# --health-interval       Time between running the check, also include the first check !
+# --health-retries        Consecutive failures needed to report unhealthy
+# --health-timeout        Maximum time to allow one check to run
+# --health-start-period   Start period for the container to initialize before starting health-retries countdown
+
+# Check command
+# > docker inspect --format='{{.State.Health.Status}}' test-alpine
+# > docker inspect --format='{{.State.Health.Status}}' test-nginx
+
+# 4.8  - Ensure setuid and setgid permissions are removed
+#   Capabilities in general
+#     https://docs.docker.com/engine/reference/run/#runtime-privilege-and-linux-capabilities
+# Drop all, allow only needed
+
+# 4.9  - Ensure that COPY is used instead of ADD in Dockerfiles
+# 4.10  - Ensure secrets are not stored in Dockerfiles
+# 4.11  - Ensure only verified packages are installed
+# LATER: Fine tuning on container start & images use/creation
+
+### docker run with all arguments
+
+# ## Alpine
+# > docker run \
+#   --cap-drop=all \
+#   --health-cmd='stat /etc/passwd || exit 1' \
+#   --health-interval=10s \
+#   --health-retries=3 \
+#   --health-timeout=10s \
+#   --health-start-period=0s \
+#   -i \
+#   --name test-alpine \
+#   --rm \
+#   -t \
+#   --user 1003:1003 \
+#   -v /home/the_docker_peon/tests-volume:/home:ro \
+#   -w /home \
+#   alpine \
+#   /bin/ash
+
+## Nginx
+#   can use a special user with some configuration > edit /etc/nginx/nginx.conf for '/tmp/' folders, and auth user for port publish
+# Can curl for healthceck :o
+#   --health-cmd='curl http://da_website.com/ || exit 1' \
+# Needs no capabilities if run as non root, also no need for net_bind_service if outputs on ports > 1024 (usually HTTP 80 & HTTPS 443) but we'll reverse proxy
+#   https://stackoverflow.com/a/45570342/12026487
+
+# > docker run \
+#   --cap-drop=all \
+#   --health-cmd='stat /etc/nginx/nginx.conf || exit 1' \
+#   --health-interval=10s \
+#   --health-retries=3 \
+#   --health-timeout=10s \
+#   --health-start-period=0s \
+#   -i \
+#   --name test-nginx \
+#   -p 80:80 \
+#   --rm \
+#   --sysctl net.ipv4.ip_unprivileged_port_start=0 \
+#   -t \
+#   --user 1003:1003 \
+#   -v /home/the_docker_peon/tests-volume/nginx/nginx.conf:/etc/nginx/nginx.conf:ro \
+#   -v /home/the_docker_peon/tests-volume/nginx/content:/usr/share/nginx/html:ro \
+#   -w /usr/share/nginx/html \
+#   nginx:alpine
+
 ...

@@ -137,3 +137,17 @@ Docker default is "", set it to info.
   "no-new-privileges": true
 }
 ```
+
+## Enforce Docker Content Trust
+
+Docker security bench reco > [Docker doc](https://docs.docker.com/engine/security/trust/content_trust/#enabling-dct-within-the-docker-enterprise-engine)
+
+Only in docker EE $
+
+```json
+{
+  "content-trust": {
+    "mode": "enforced"
+  }
+}
+```

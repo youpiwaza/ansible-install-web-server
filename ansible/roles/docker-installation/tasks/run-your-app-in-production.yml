@@ -208,7 +208,7 @@
 ##  > Docker Content Trust Signature Verification
 #     Force use of explicitly authorized images only, through a dockerhub account
 #     Can be configured in daemon.json
-# TODO: Later
+# Ok > Ubuntu /etc/environment > DOCKER_CONTENT_TRUST=1
 
 
 ##  > Other kernel security features
