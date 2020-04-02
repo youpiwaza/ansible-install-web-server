@@ -13,13 +13,9 @@
 	},
   "icc": false,
   "live-restore": true,
-  "log-driver": "json-file",
+  "log-driver": "syslog",
   "log-level": "info",
-  "log-opts": {
-    "max-size": "10m",
-    "max-file": "5",
-    "labels": "production_status",
-    "env": "os,customer"
-  },
+  "no-new-privileges": true,
+  "userland-proxy": false,
   "userns-remap": "{{ users.3.name }}:{{ users.3.name }}"
 }

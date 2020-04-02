@@ -27,7 +27,8 @@
 ##  > Format command and log output
 #   https://docs.docker.com/config/formatting/
 # Will be managed by dedicated managers (Prometheus/Grafana)
-# Use of default log engine (json-file) and max-file/size in daemon configuration
+# DEPRECATED: Use of default log engine (json-file) and max-file/size in daemon configuration
+# Docker bench security recommands syslog.
 
 
 ##  Configure the Docker daemon
@@ -165,7 +166,7 @@
 
 ## Logging
 # Already done
-# Use of default log engine (json-file) and max-file/size in daemon configuration
+# Docker bench security recommands syslog.
 
 
 ###  Security

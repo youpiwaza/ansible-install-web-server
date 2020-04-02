@@ -25,7 +25,8 @@
 
 ## Configure default logging driver
 #   https://docs.docker.com/install/linux/linux-postinstall/#configure-default-logging-driver
-#   After some researchs, default 'json-file' seems recommanded for ubuntu:18.04
+#   DEPRECATED: After some researchs, default 'json-file' seems recommanded for ubuntu:18.04
+#   Docker bench security recommands syslog.
 # Explicitly specify the logging driver & configure it to prevent massive logs files
 #   cf. daemon.json
 

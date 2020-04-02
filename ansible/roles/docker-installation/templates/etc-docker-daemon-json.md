@@ -4,6 +4,7 @@
 - Cf. [Docker recommanded Run your app in production](https://docs.docker.com/get-started/orchestration/)
 - Cf. [Project documentation](https://github.com/youpiwaza/ansible-install-web-server/tree/master/ansible/roles/docker-installation/tasks)
 - Cf. [Docker daemon.json documentation](https://docs.docker.com/engine/reference/commandline/dockerd/#daemon-configuration-file)
+- Cf. [Docker bench security](https://github.com/docker/docker-bench-security)
 
 As json typed files don't allow comments, here are explainations.
 
@@ -14,6 +15,7 @@ As json typed files don't allow comments, here are explainations.
 Explicitly specify the logging driver & configure it to prevent massive logs files.
 
 ```json
+# No, deprecated
 {
   "log-driver": "json-file",
   "log-opts": {
@@ -22,6 +24,17 @@ Explicitly specify the logging driver & configure it to prevent massive logs fil
     "labels": "production_status",
     "env": "os,customer"
   }
+}
+```
+
+*Update*: [Docker security bench](https://www.digitalocean.com/community/tutorials/how-to-audit-docker-host-security-with-docker-bench-for-security-on-ubuntu-16-04#step-3-%E2%80%94-correcting-docker-daemon-configuration-warnings)
+ recommands centralized and remote logging (2.12), so no json-file.
+
+It has no file size nor the other related options.
+
+```json
+{
+  "log-driver": "syslog",
 }
 ```
 
@@ -103,3 +116,24 @@ Docker default is "", set it to info.
 {
   "log-level": "info"
 }
+```
+
+## Disable userland proxy
+
+[Docker security bench tutorial recos](https://www.digitalocean.com/community/tutorials/how-to-audit-docker-host-security-with-docker-bench-for-security-on-ubuntu-16-04#step-3-%E2%80%94-correcting-docker-daemon-configuration-warnings)
+
+```json
+{
+  "userland-proxy": false
+}
+```
+
+## Prevent containers from gaining new privileges
+
+[Docker security bench tutorial recos](https://www.digitalocean.com/community/tutorials/how-to-audit-docker-host-security-with-docker-bench-for-security-on-ubuntu-16-04#step-3-%E2%80%94-correcting-docker-daemon-configuration-warnings)
+
+```json
+{
+  "no-new-privileges": true
+}
+```
