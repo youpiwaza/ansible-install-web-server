@@ -35,3 +35,5 @@
 ## Security
 
 Automatic security benchmark [Docker bench security](https://github.com/docker/docker-bench-security)
+
+Run once **before** starting services, **AND once after**.

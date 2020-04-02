@@ -17,6 +17,23 @@
 
 # Autres logs
 > sudo dmesg
+
+# Logs auditd / https://www.digitalocean.com/community/tutorials/how-to-use-the-linux-auditing-system-on-centos-7
+> sudo nano /var/log/audit/audit.log
+   # Display user logins
+   > sudo ausearch -m LOGIN --start today -i
+   # Event related to a file
+   > sudo ausearch -f /etc/DA_FILE -i
+   # Generate summary report / Nombre de fois + tâches
+   > sudo aureport -x --summary
+   # Report Failed events > More interesting
+   > sudo aureport --failed
+   # Report files accessed with system calls and usernames
+   > sudo aureport -f -i
+   ## Analyzing a Process Using autrace
+   > sudo autrace /bin/date
+      # ^ gives a command, reformat it
+      > sudo ausearch -p 27020 --raw | aureport -f -i
 ```
 
 ## Docker tests

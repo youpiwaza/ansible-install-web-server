@@ -4,6 +4,10 @@ bothHostsPipPackagesToInstall: [
   'docker'
 ]
 
+dockerBenchSecurityPackagesToInstall: [
+  'auditd'
+]
+
 # Some values for /etc/docker/daemon.json
 dockerConfig:
   # This example sets a soft limit of 128 open files and 32 child processes and a hard limit of 256 open files and 64 child processes on the container.

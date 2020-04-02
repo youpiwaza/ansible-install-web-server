@@ -1,20 +1,31 @@
 ---
 ### Docker bench security audit
 #   https://github.com/docker/docker-bench-security
+
+# /!\ Executing straight away the docker run command execute v.1.3.4
+# Run the basic script to get the latest 1.3.5 (Needs sudo rights)
+#   > cd
+#   > git clone https://github.com/docker/docker-bench-security.git
+#   > cd docker-bench-security
+#   > sudo sh docker-bench-security.sh
+
+#---
+
 # Total Score > Warn Scored -1, Pass Scored +1, Not Score -0
 
-# Original bench / Checks: 74 / Score 18
+# Original bench with a random container started, wo. flags
+# > Checks: 105 / Score 26 / ~34 WARN
 
-# # ------------------------------------------------------------------------------
-# # Docker Bench for Security v1.3.4
-# #
-# # Docker, Inc. (c) 2015-
-# #
-# # Checks for dozens of common best-practices around deploying Docker containers in production.
-# # Inspired by the CIS Docker Community Edition Benchmark v1.1.0.
-# # ------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
+# Docker Bench for Security v1.3.4
+#
+# Docker, Inc. (c) 2015-
+#
+# Checks for dozens of common best-practices around deploying Docker containers in production.
+# Inspired by the CIS Docker Community Edition Benchmark v1.1.0.
+# ------------------------------------------------------------------------------
 
-# Initializing Wed Apr  1 15:24:07 UTC 2020
+# Initializing Wed Apr  1 15:43:35 UTC 2020
 
 
 # [INFO] 1 - Host Configuration
@@ -24,7 +35,7 @@
 # [INFO]      * Using 19.03.8, verify is it up to date as deemed necessary
 # [INFO]      * Your operating system vendor may provide support and security maintenance for Docker
 # [INFO] 1.4  - Ensure only trusted users are allowed to control Docker daemon
-# [INFO]      * docker:x:999:hecarim_the_docker_guy_57sqjjee6
+# [INFO]      * docker:x:999:the_docker_guy
 # [WARN] 1.5  - Ensure auditing is configured for the Docker daemon
 # [WARN] 1.6  - Ensure auditing is configured for Docker files and directories - /var/lib/docker
 # [WARN] 1.7  - Ensure auditing is configured for Docker files and directories - /etc/docker
@@ -49,7 +60,7 @@
 # [INFO] 2.6  - Ensure TLS authentication for Docker daemon is configured
 # [INFO]      * Docker daemon not listening on TCP
 # [PASS] 2.7  - Ensure the default ulimit is configured appropriately
-# singed_the_docker_peon_9f6enk4s0:singed_the_docker_peon_9f6enk4s0
+# the_docker_guy:the_docker_guy
 # [PASS] 2.8  - Enable user namespace support
 # [PASS] 2.9  - Ensure the default cgroup usage has been confirmed
 # [PASS] 2.10  - Ensure base device size is not changed until needed
@@ -99,8 +110,8 @@
 
 
 # [INFO] 4 - Container Images and Build File
-# [INFO] 4.1  - Ensure a user for the container has been created
-# [INFO]      * No containers running
+# [WARN] 4.1  - Ensure a user for the container has been created
+# [WARN]      * Running as root: test-alpine
 # [NOTE] 4.2  - Ensure that containers use trusted base images
 # [NOTE] 4.3  - Ensure unnecessary packages are not installed in the container
 # [NOTE] 4.4  - Ensure images are scanned and rebuilt to include security patches
@@ -124,14 +135,53 @@
 
 
 # [INFO] 5 - Container Runtime
-# [INFO]      * No containers running, skipping Section 5
+# [PASS] 5.1  - Ensure AppArmor Profile is Enabled
+# [WARN] 5.2  - Ensure SELinux security options are set, if applicable
+# [WARN]      * No SecurityOptions Found: test-alpine
+# [PASS] 5.3  - Ensure Linux Kernel Capabilities are restricted within containers
+# [PASS] 5.4  - Ensure privileged containers are not used
+# [PASS] 5.5  - Ensure sensitive host system directories are not mounted on containers
+# [PASS] 5.6  - Ensure ssh is not run within containers
+# [PASS] 5.7  - Ensure privileged ports are not mapped within containers
+# [NOTE] 5.8  - Ensure only needed ports are open on the container
+# [PASS] 5.9  - Ensure the host's network namespace is not shared
+# [WARN] 5.10  - Ensure memory usage for container is limited
+# [WARN]      * Container running without memory restrictions: test-alpine
+# [WARN] 5.11  - Ensure CPU priority is set appropriately on the container
+# [WARN]      * Container running without CPU restrictions: test-alpine
+# [WARN] 5.12  - Ensure the container's root filesystem is mounted as read only
+# [WARN]      * Container running with root FS mounted R/W: test-alpine
+# [PASS] 5.13  - Ensure incoming container traffic is binded to a specific host interface
+# [WARN] 5.14  - Ensure 'on-failure' container restart policy is set to '5'
+# [WARN]      * MaximumRetryCount is not set to 5: test-alpine
+# [PASS] 5.15  - Ensure the host's process namespace is not shared
+# [PASS] 5.16  - Ensure the host's IPC namespace is not shared
+# [PASS] 5.17  - Ensure host devices are not directly exposed to containers
+# [PASS] 5.18  - Ensure the default ulimit is overwritten at runtime, only if needed
+# [PASS] 5.19  - Ensure mount propagation mode is not set to shared
+# [PASS] 5.20  - Ensure the host's UTS namespace is not shared
+# [PASS] 5.21  - Ensure the default seccomp profile is not Disabled
+# [NOTE] 5.22  - Ensure docker exec commands are not used with privileged option
+# [NOTE] 5.23  - Ensure docker exec commands are not used with user option
+# [PASS] 5.24  - Ensure cgroup usage is confirmed
+# [WARN] 5.25  - Ensure the container is restricted from acquiring additional privileges
+# [WARN]      * Privileges not restricted: test-alpine
+# [WARN] 5.26  - Ensure container health is checked at runtime
+# [WARN]      * Health check not set: test-alpine
+# [INFO] 5.27  - Ensure docker commands always get the latest version of the image
+# [WARN] 5.28  - Ensure PIDs cgroup limit is used
+# [WARN]      * PIDs limit not set: test-alpine
+# [INFO] 5.29  - Ensure Docker's default bridge docker0 is not used
+# [INFO]      * Container in docker0 network: test-alpine
+# [PASS] 5.30  - Ensure the host's user namespaces is not shared
+# [PASS] 5.31  - Ensure the Docker socket is not mounted inside any containers
 
 
 # [INFO] 6 - Docker Security Operations
 # [INFO] 6.1  - Avoid image sprawl
 # [INFO]      * There are currently: 5 images
 # [INFO] 6.2  - Avoid container sprawl
-# [INFO]      * There are currently a total of 4 containers, with 1 of them currently running
+# [INFO]      * There are currently a total of 6 containers, with 2 of them currently running
 
 
 # [INFO] 7 - Docker Swarm Configuration
@@ -146,6 +196,87 @@
 # [PASS] 7.9  - Ensure CA certificates are rotated as appropriate (Swarm mode not enabled)
 # [PASS] 7.10  - Ensure management plane traffic has been separated from data plane traffic (Swarm mode not enabled)
 
-# [INFO] Checks: 74
-# [INFO] Score: 18
+# [INFO] Checks: 105
+# [INFO] Score: 26
+
+#### It need some host configuration...
+#       https://www.digitalocean.com/community/tutorials/how-to-audit-docker-host-security-with-docker-bench-for-security-on-ubuntu-16-04
+
+
+### 1.1 Ensure a separate partition for containers has been created
+# Hosted on OVH, and docker already installed, so maybe LATER:
+
+
+### 1.2 Ensure the container host has been Hardened / Improve host security
+#     https://www.digitalocean.com/community/tutorials/7-security-measures-to-protect-your-servers
+
+## SSH Keys > OK
+## Firewalls > OK
+## VPNs and Private Networking > Only one server ATM
+## Public Key Infrastructure and SSL/TLS Encryption > Will be set through Traefik/Nginx
+
+## Service Auditing
+#   https://www.digitalocean.com/community/tutorials/7-security-measures-to-protect-your-servers#service-auditing
+# > sudo netstat -plunt
+# Nothing on 0.0.0.0 ...
+
+## File Auditing and Intrusion Detection Systems
+# Aide > https://kifarunix.com/install-and-configure-aide-on-ubuntu-18-04/
+#   Wayyyyyyy too much time involved for a single person
+
+## Isolated Execution Environments > 1 server
+
+
+### 1.3 Ensure Docker is up to date
+# [INFO]      * Using 19.03.8, verify is it up to date as deemed necessary
+# https://docs.docker.com/engine/release-notes/ > All good ATM
+
+
+### 1.4 Ensure only trusted users are allowed to control Docker daemon
+# [INFO]      * docker:x:999:the_docker_guy
+# All good
+
+
+### 1.5–1.13 Ensure auditing is configured for various Docker files
+# Install auditd
+- name: Run the equivalent of "apt-get update"
+  apt:
+    cache_valid_time: '3600'
+    force_apt_get: yes
+    update_cache: yes
+
+- name: Install and update Docker bench security required packages (auditd)
+# Required packages : 'auditd'
+  apt:
+    name: '{{ dockerBenchSecurityPackagesToInstall }}'
+    state: latest
+
+# Start and restart on boot ?
+
+# Configure auditd
+#   Best practices.. / https://github.com/Neo23x0/auditd
+# ..and add docker required stuff at the bottom
+#   .. adapted for 1.3.5
+
+# Config file is reset on service restart > https://access.redhat.com/solutions/1505033
+# - Audit rules files should be placed in /etc/audit/rules.d
+# - File names should end with ".rules"
+
+- name: Configure auditd / Add rules to /etc/audit/rules.d/audit.rules
+  register: auditd_config_result
+  template:
+    dest: /etc/audit/rules.d/audit.rules
+    src: auditd-audit-rules.j2
+
+- name: Restart auditd service if the configuration has changed
+  service:
+    name: auditd
+    state: restarted
+  when:
+    - auditd_config_result.changed
+
+# Check audit current config    > sudo auditctl -l
+# Check services fail (= 0)     > sudo systemctl --failed
+# Display logs                  > sudo nano /var/log/audit/audit.log
+# Human readable Logs           / https://www.digitalocean.com/community/tutorials/how-to-use-the-linux-auditing-system-on-centos-7
 ...
