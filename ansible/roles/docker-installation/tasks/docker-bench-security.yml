@@ -304,4 +304,8 @@
 
 # 2.17  - Ensure containers are restricted from acquiring new privileges
 # Ok > daemon.json
+
+
+#### 3 - Docker daemon configuration files
+# All ok or non pertinent (no TLS / not ubuntu related stuff)
 ...
