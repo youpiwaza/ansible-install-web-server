@@ -12,7 +12,7 @@
 #                                   /!\ Also display (at the end) unconfined processes (~= no apparmor)
 # sudo nano /var/log/kern.log     / Display default logs 
 # sudo aa-logprof                 / Display AppArmor audit messages
-# dmesg                           / Other logs
+# sudo dmesg                      / Other logs
 
 - name: Run the equivalent of "apt-get update"
   apt:
@@ -37,6 +37,7 @@
 # Create AppArmor profiles, needs to be done manually
 # Generated new profile with apparmor tools
 #   https://github.com/docker/labs/tree/master/security/apparmor#step-5-extra-for-experts
+#   https://www.digitalocean.com/community/tutorials/how-to-create-an-apparmor-profile-for-nginx-on-ubuntu-14-04
 
 # Load profiles
 - name: Add custom AppArmor profiles

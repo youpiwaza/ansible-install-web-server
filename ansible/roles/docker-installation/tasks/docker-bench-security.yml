@@ -376,50 +376,187 @@
 # 4.11  - Ensure only verified packages are installed
 # LATER: Fine tuning on container start & images use/creation
 
-### docker run with all arguments
 
-# ## Alpine
+#### 5 - Container Runtime
+
+# 5.1  - Ensure that, if applicable, an AppArmor Profile is enabled
+# Ok, applied by default, can still apply manually (loaded profile name, not path to file)
+#   OK / --security-opt apparmor=docker-default
+#   KO / --security-opt apparmor=docker-nginx
+
+# 5.2  - Ensure that, if applicable, SELinux security options are set
+# 5.3  - Ensure Linux Kernel Capabilities are restricted within containers
+# 5.4  - Ensure that privileged containers are not used
+# 5.5  - Ensure sensitive host system directories are not mounted on containers
+# 5.6  - Ensure sshd is not run within containers
+# Ok
+
+# 5.7  - Ensure privileged ports are not mapped within containers
+# Ok, but LATER: Need some tuning for Traefik
+
+# 5.8  - Ensure that only needed ports are open on the container
+# Ok
+
+# 5.10  - Ensure that the memory usage for containers is limited
+#   https://docs.docker.com/engine/reference/run/#user-memory-constraints
+#   https://medium.com/faun/understanding-docker-container-memory-limit-behavior-41add155236c
+#   https://www.serverlab.ca/tutorials/containers/docker/how-to-limit-memory-and-cpu-for-docker-containers/
+# Soft limit
+#   --memory-reservation="128m"
+# Hard limit
+#   --memory="256m"
+# Disable swap (slower)
+#   --memory-swap -1
+
+# 5.11  - Ensure CPU priority is set appropriately on the container
+#   https://docs.docker.com/engine/reference/run/#cpu-share-constraint
+# Enforce default behavior, adjust if needed
+#   --cpu-shares=1024
+# 512   > Container get half less
+# 2048  > Container get 2x
+
+# 5.12  - Ensure that the container's root filesystem is mounted as read only
+#   https://docs.docker.com/engine/reference/commandline/run/#mount-volume--v---read-only
+# Add the read-only flag, else when using volumes there's a vulnerability on containers /root
+#   --read-only
+# /!\ Need to specify all writing paths as volumes.. Nginx > /tmp
+#   KO / -v /home/the_docker_peon/tests-volume/nginx/tmp:/tmp \
+
+# 5.13  - Ensure that incoming container traffic is bound to a specific host interface
+#   https://docs.docker.com/config/containers/container-networking/
+# Ok..
+# KO on nginx, LATER: Might be resolved with traefik..
+
+# 5.14  - Ensure that the 'on-failure' container restart policy is set to '5'
+#   https://docs.docker.com/engine/reference/commandline/run/#restart-policies---restart
+# --restart=on-failure:5
+# Note: Conflict with the --rm option (remove container after execution)
+
+# 5.15  - Ensure the host's process namespace is not shared
+# 5.16  - Ensure the host's IPC namespace is not shared
+# Ok > daemon.json > userns-remap to custom unprivileged user 'the_docker_peon'
+
+# 5.17  - Ensure that host devices are not directly exposed to containers
+#   No devices shared
+
+# 5.18  - Ensure that the default ulimit is overwritten at runtime if needed
+# Ok > daemon.json
+
+# 5.19  - Ensure mount propagation mode is not set to shared
+# 5.20  - Ensure the host's UTS namespace is not shared
+# Ok
+
+# 5.21  - Ensure the default seccomp profile is not Disabled
+# Ok by default, enforced with
+#   --security-opt seccomp=/etc/docker/seccomp-profiles/default-docker-profile.json \
+
+# 5.22  - Ensure docker exec commands are not used with privileged option
+#   No container will run with --privileged
+
+# 5.23  - Ensure that docker exec commands are not used with the user=root option
+#   Custom user 'the_docker_peon' for each container
+
+# 5.24  - Ensure that cgroup usage is confirmed
+# Ok
+
+# 5.25  - Ensure that the container is restricted from acquiring additional privileges
+# daemon.json > "no-new-privileges": true, / But test still ko
+# Enforce with
+#   --security-opt="no-new-privileges:true"
+
+# 5.26  - Ensure that container health is checked at runtime
+# Ok..
+
+# 5.27  - Ensure that Docker commands always make use of the latest version of their image
+# IDK how
+
+# 5.28  - Ensure that the PIDs cgroup limit is used
+#   ~nothing in docker docs
+#   http://dockerlabs.collabnix.com/advanced/security/cgroups/#step-6-preventing-a-fork-bomb
+# --pids-limit 200
+
+# 5.29  - Ensure that Docker's default bridge 'docker0' is not used
+#   https://docs.docker.com/network/network-tutorial-standalone/
+# Need to create a default bridge network for standalone containers..
+#   > docker network create --driver bridge custom-bridge
+# .. and then attach standalone containers to it
+#   --network custom-bridge
+
+# 5.30  - Ensure that the host's user namespaces are not shared
+# Ok > daemon.json > userns-remap to custom unprivileged user 'the_docker_peon'
+
+# 5.31  - Ensure that the Docker socket is not mounted inside any containers
+# Ok, LATER: Use a proxy container for traefik access to socket
+
+# ### docker run with all arguments
+# # Create custom bridge network
+# > docker network create --driver bridge custom-bridge
+
+# # ## Alpine
 # > docker run \
-#   --cap-drop=all \
+#   --cap-drop=ALL \
+#   --cpu-shares=1024 \
 #   --health-cmd='stat /etc/passwd || exit 1' \
 #   --health-interval=10s \
 #   --health-retries=3 \
 #   --health-timeout=10s \
 #   --health-start-period=0s \
 #   -i \
+#   --memory-reservation="128m" \
+#   --memory="256m" \
+#   --memory-swap -1 \
 #   --name test-alpine \
-#   --rm \
+#   --network custom-bridge \
+#   --pids-limit 200 \
+#   --read-only \
+#   --restart=on-failure:5 \
+#   --security-opt="no-new-privileges:true" \
+#   --security-opt apparmor=docker-default \
+#   --security-opt seccomp=/etc/docker/seccomp-profiles/default-docker-profile.json \
 #   -t \
 #   --user 1003:1003 \
-#   -v /home/the_docker_peon/tests-volume:/home:ro \
+#   -v /home/singed_the_docker_peon_9f6enk4s0/tests-volume:/home:ro \
 #   -w /home \
 #   alpine \
 #   /bin/ash
 
-## Nginx
-#   can use a special user with some configuration > edit /etc/nginx/nginx.conf for '/tmp/' folders, and auth user for port publish
-# Can curl for healthceck :o
-#   --health-cmd='curl http://da_website.com/ || exit 1' \
-# Needs no capabilities if run as non root, also no need for net_bind_service if outputs on ports > 1024 (usually HTTP 80 & HTTPS 443) but we'll reverse proxy
-#   https://stackoverflow.com/a/45570342/12026487
+# ## Nginx
+# #   can use a special user with some configuration > edit /etc/nginx/nginx.conf for '/tmp/' folders, and auth user for port publish
+# # Can curl for healthceck :o
+# #   --health-cmd='curl http://da_website.com/ || exit 1' \
+# # Needs no capabilities if run as non root, also no need for net_bind_service if outputs on ports > 1024 (usually HTTP 80 & HTTPS 443) but we'll reverse proxy
+# #   https://stackoverflow.com/a/45570342/12026487
+# # Default apparmor nginx profile > when added, need mkdir rights / nginx: [alert] could not open error log file: open() "/var/log/nginx/error.log" failed (13: Permission denied)
 
 # > docker run \
-#   --cap-drop=all \
+#   --cap-drop=ALL \
+#   --cpu-shares=1024 \
 #   --health-cmd='stat /etc/nginx/nginx.conf || exit 1' \
 #   --health-interval=10s \
 #   --health-retries=3 \
 #   --health-timeout=10s \
 #   --health-start-period=0s \
 #   -i \
+#   --memory-reservation="128m" \
+#   --memory="256m" \
+#   --memory-swap -1 \
 #   --name test-nginx \
+#   --network custom-bridge \
 #   -p 80:80 \
-#   --rm \
+#   --pids-limit 200 \
+#   --restart=on-failure:5 \
+#   --security-opt="no-new-privileges:true" \
+#   --security-opt apparmor=docker-default \
+#   --security-opt seccomp=/etc/docker/seccomp-profiles/default-docker-profile.json \
 #   --sysctl net.ipv4.ip_unprivileged_port_start=0 \
 #   -t \
 #   --user 1003:1003 \
-#   -v /home/the_docker_peon/tests-volume/nginx/nginx.conf:/etc/nginx/nginx.conf:ro \
-#   -v /home/the_docker_peon/tests-volume/nginx/content:/usr/share/nginx/html:ro \
+#   -v /home/singed_the_docker_peon_9f6enk4s0/tests-volume/nginx/nginx.conf:/etc/nginx/nginx.conf:ro \
+#   -v /home/singed_the_docker_peon_9f6enk4s0/tests-volume/nginx/content:/usr/share/nginx/html:ro \
 #   -w /usr/share/nginx/html \
 #   nginx:alpine
+
+# Step 4: Score 26 > 51 :)
+# Step 5: Score 51 > 73 :)
 
 ...

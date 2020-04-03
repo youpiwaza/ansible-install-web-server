@@ -21,7 +21,7 @@
 #     - security
     # - security-firewall
 #     - security-fail2ban
-    # - security-apparmor
+    - security-apparmor
     # - security-seccomp
     # Install docker as root, as we will need overlay network for swarm
     #   Note: docker-compose & docker swarm will need docker installation first

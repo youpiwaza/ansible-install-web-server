@@ -1,9 +1,11 @@
 # https://docs.docker.com/engine/security/apparmor/#nginx-example-profile
+# https://www.digitalocean.com/community/tutorials/how-to-create-an-apparmor-profile-for-nginx-on-ubuntu-14-04
 
 #include <tunables/global>
 
 
 profile docker-nginx flags=(attach_disconnected,mediate_deleted) {
+  #include <abstractions/apache2-common>
   #include <abstractions/base>
 
   network inet tcp,
@@ -38,6 +40,8 @@ profile docker-nginx flags=(attach_disconnected,mediate_deleted) {
   audit /** w,
 
   /var/run/nginx.pid w,
+  /var/log/nginx/access.log rw,
+  /var/log/nginx/error.log rw,
 
   /usr/sbin/nginx ix,
 
