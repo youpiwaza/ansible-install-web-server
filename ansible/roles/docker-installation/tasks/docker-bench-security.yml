@@ -488,6 +488,13 @@
 # 5.31  - Ensure that the Docker socket is not mounted inside any containers
 # Ok, LATER: Use a proxy container for traefik access to socket
 
+
+#### 6 - Docker Security Operations
+# 6.1  - Ensure that image sprawl is avoided
+# 6.2  - Ensure that container sprawl is avoided
+# LATER: ansible or CRON > docker system prune -f
+
+
 # ### docker run with all arguments
 # # Create custom bridge network
 # > docker network create --driver bridge custom-bridge
