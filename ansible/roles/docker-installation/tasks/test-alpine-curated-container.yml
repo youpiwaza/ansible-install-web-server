@@ -3,6 +3,44 @@
 # Used to validate docker security bench
 #   See ansible/roles/docker-installation/tasks/docker-bench-security.yml and security related stuff
 
+
+# Docker security bench results
+
+# [INFO] 5 - Container Runtime
+# [PASS] 5.1  - Ensure that, if applicable, an AppArmor Profile is enabled
+# [PASS] 5.2  - Ensure that, if applicable, SELinux security options are set
+# [PASS] 5.3  - Ensure Linux Kernel Capabilities are restricted within containers
+# [PASS] 5.4  - Ensure that privileged containers are not used
+# [PASS] 5.5  - Ensure sensitive host system directories are not mounted on containers
+# [PASS] 5.6  - Ensure sshd is not run within containers
+# [PASS] 5.7  - Ensure privileged ports are not mapped within containers
+# [NOTE] 5.8  - Ensure that only needed ports are open on the container
+# [PASS] 5.9  - Ensure the host's network namespace is not shared
+# [PASS] 5.10  - Ensure that the memory usage for containers is limited
+# [PASS] 5.11  - Ensure CPU priority is set appropriately on the container
+# [PASS] 5.12  - Ensure that the container's root filesystem is mounted as read only
+# [PASS] 5.13  - Ensure that incoming container traffic is bound to a specific host interface
+# [PASS] 5.14  - Ensure that the 'on-failure' container restart policy is set to '5'
+# [PASS] 5.15  - Ensure the host's process namespace is not shared
+# [PASS] 5.16  - Ensure the host's IPC namespace is not shared
+# [PASS] 5.17  - Ensure that host devices are not directly exposed to containers
+# [PASS] 5.18  - Ensure that the default ulimit is overwritten at runtime if needed
+# [PASS] 5.19  - Ensure mount propagation mode is not set to shared
+# [PASS] 5.20  - Ensure the host's UTS namespace is not shared
+# [PASS] 5.21  - Ensure the default seccomp profile is not Disabled
+# [NOTE] 5.22  - Ensure docker exec commands are not used with privileged option
+# [NOTE] 5.23  - Ensure that docker exec commands are not used with the user=root option
+# [PASS] 5.24  - Ensure that cgroup usage is confirmed
+# [PASS] 5.25  - Ensure that the container is restricted from acquiring additional privileges
+# [PASS] 5.26  - Ensure that container health is checked at runtime
+# [INFO] 5.27  - Ensure that Docker commands always make use of the latest version of their image
+# [PASS] 5.28  - Ensure that the PIDs cgroup limit is used
+# [PASS] 5.29  - Ensure that Docker's default bridge 'docker0' is not used
+# [PASS] 5.30  - Ensure that the host's user namespaces are not shared
+# [PASS] 5.31  - Ensure that the Docker socket is not mounted inside any containers
+
+
+
 # User hints if there is any problem :/
 - debug:
     msg: "\n\nIf this example does not work, please refer to the 'Troubleshooting' section in docker documentation.\n
