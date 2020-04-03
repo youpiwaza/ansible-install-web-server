@@ -9,9 +9,16 @@
 #   > cd docker-bench-security
 #   > sudo sh docker-bench-security.sh
 
+# Prevent false positives > prune all (included all non used images)
+# > docker system prune
+# > docker image prune -a
+
 #---
 
-# Total Score > Warn Scored -1, Pass Scored +1, Not Score -0
+# Total Score > Warn Scored -1, Pass Scored +1, Not Score (INFO) -0
+
+# Bench after having corrected steps 1 to 5
+# > Checks: 107 / Score: 71 / 3 WARN (host partition, auth for docker clients commands, images healthcheck false positive)
 
 # Original bench with a random container started, wo. flags
 # > Checks: 105 / Score 26 / ~34 WARN
@@ -564,6 +571,6 @@
 #   nginx:alpine
 
 # Step 4: Score 26 > 51 :)
-# Step 5: Score 51 > 73 :)
+# Step 5: Score 51 > 71 :)
 
 ...
