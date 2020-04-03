@@ -18,7 +18,7 @@
   debug:
     msg: 'Be careful, if this playbook fails, it will not end and the container will still be running !'
 
-- name: Create a nginx test container, on port 80 (other are closed by firewall)
+- name: Start a nginx test container, on port 80 (other are closed by firewall)
   docker_container:
     name: test-nginx
     image: '{{ nginxTestImage }}'
