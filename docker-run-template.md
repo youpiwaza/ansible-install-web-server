@@ -2,6 +2,8 @@
 
 With all flags related to security measures. See docker bench security > /ansible/roles/docker-installation/tasks/docker-bench-security.yml
 
+See ansible/roles/docker-installation/tasks/test-alpine-curated-container.yml for the ansible syntax.
+
 ## Commands
 
 ```bash
@@ -15,8 +17,8 @@ With all flags related to security measures. See docker bench security > /ansibl
   --health-cmd='stat /etc/passwd || exit 1' \
   --health-interval=10s \
   --health-retries=3 \
-  --health-timeout=10s \
   --health-start-period=0s \
+  --health-timeout=10s \
   -i \
   --memory-reservation="128m" \
   --memory="256m" \
@@ -31,7 +33,7 @@ With all flags related to security measures. See docker bench security > /ansibl
   --security-opt seccomp=/etc/docker/seccomp-profiles/default-docker-profile.json \
   -t \
   --user 1003:1003 \
-  -v /home/singed_the_docker_peon_9f6enk4s0/tests-volume:/home:ro \
+  -v /home/the_docker_peon/tests-volume:/home:ro \
   -w /home \
   alpine \
   /bin/ash
@@ -45,8 +47,8 @@ With all flags related to security measures. See docker bench security > /ansibl
   --health-cmd='stat /etc/nginx/nginx.conf || exit 1' \
   --health-interval=10s \
   --health-retries=3 \
-  --health-timeout=10s \
   --health-start-period=0s \
+  --health-timeout=10s \
   -i \
   --memory-reservation="128m" \
   --memory="256m" \
@@ -62,8 +64,8 @@ With all flags related to security measures. See docker bench security > /ansibl
   --sysctl net.ipv4.ip_unprivileged_port_start=0 \
   -t \
   --user 1003:1003 \
-  -v /home/singed_the_docker_peon_9f6enk4s0/tests-volume/nginx/nginx.conf:/etc/nginx/nginx.conf:ro \
-  -v /home/singed_the_docker_peon_9f6enk4s0/tests-volume/nginx/content:/usr/share/nginx/html:ro \
+  -v /home/the_docker_peon/tests-volume/nginx/nginx.conf:/etc/nginx/nginx.conf:ro \
+  -v /home/the_docker_peon/tests-volume/nginx/content:/usr/share/nginx/html:ro \
   -w /usr/share/nginx/html \
   nginx:alpine
 ```

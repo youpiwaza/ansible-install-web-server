@@ -1,0 +1,98 @@
+---
+### Example of a curated container start to apply all security recommandations
+# Used to validate docker security bench
+#   See ansible/roles/docker-installation/tasks/docker-bench-security.yml and security related stuff
+
+# User hints if there is any problem :/
+- debug:
+    msg: "\n\nIf this example does not work, please refer to the 'Troubleshooting' section in docker documentation.\n
+          https://docs.docker.com/install/linux/linux-postinstall/#troubleshooting\n\n
+          Also pay attention to the docker daemon configuration in this project, in /ansible/roles/docker-installation/templates/etc-docker-daemon-json.j2\n\n"
+
+# https://hub.docker.com/_/alpine
+- name: Test docker through an alpine container / Pull default alpine image
+  docker_image:
+    name: '{{ alpineTestImage }}'
+    source: pull
+
+- name: Warning about running container
+  debug:
+    msg: 'Be careful, if this playbook fails, it will not end and the container will still be running !'
+
+
+# https://docs.ansible.com/ansible/latest/modules/docker_network_module.html
+- name: Don't run on docker default bridge network, create a custom one
+  docker_network:
+    driver: bridge
+    name: test-custom-bridge
+    state: present
+
+# https://docs.ansible.com/ansible/latest/modules/docker_container_module.html
+- name: Start a curated alpine test container
+  docker_container:
+    # Remove all capabilities
+    cap_drop:
+      - all
+    # alpine sleep infinity so the container don't stop
+    command: "sh -c 'while sleep 3600; do :; done'"
+    # Fair share of cpu capabilities # 512 = half # 2048 = double
+    cpu_shares: 1024
+    # run in background, to let the time to test docker security bench
+    detach: yes
+    healthcheck:
+      test: 'stat /etc/passwd || exit 1'
+      interval: 10s
+      timeout: 10s
+      retries: 3
+      start_period: 0s
+    # Configure RAM limits, /!\ all strings except memory_swappiness (integer)
+    memory: '256m'
+    memory_reservation: '128m'
+    # By default, swap seems desactivated..
+    # memory_swap: '-1' # Only positive integers in ansible
+    # memory_swappiness: 0 # Need swap activated
+    name: test-curated-alpine
+    # Don't run on docker default bridge network, also needs networks_cli_compatible, network_mode and purge_networks
+    networks:
+      - name: test-custom-bridge
+    networks_cli_compatible: yes
+    network_mode: bridge
+    image: '{{ alpineTestImage }}'
+    # Limit processes run by the container
+    pids_limit: 200
+    # Detach from docker default bridge network
+    purge_networks: yes
+    # Mount the container's root file system as read-only.
+    read_only: yes
+    # Ensure that the 'on-failure' container restart policy is set to '5'
+    restart_policy: 'on-failure'
+    restart_retries: 5
+    # Security options / Type: list / elements=string
+    security_opts:
+      - 'no-new-privileges:true'
+      - 'apparmor=docker-default'
+      # KO / seccomp value and path to profile.json
+      # - 'seccomp=/etc/docker/seccomp-profiles/default-docker-profile.json'
+      # - 'seccomp=default-docker-profile'
+      # Use default profile
+    state: started
+    # Assign the_docker_peon unprivileged user
+    #   To get the_docker_peon user uid gid > sudo nano /etc/passwd > 1003:1003
+    user: '1003:1003'
+    # Type: list / elements=string
+    # /!\ Pay attention to :ro > Try to always mount as read-only
+    volumes:
+      - '/home/the_docker_peon/tests-volume:/home:ro'
+    working_dir: '/home'
+
+
+- name: Remove the test container // Comment to run the container and then docker security bench
+  docker_container:
+    name: test-curated-alpine
+    state: absent
+
+- name: Remove docker default bridge network
+  docker_network:
+    name: test-custom-bridge
+    state: absent
+...
