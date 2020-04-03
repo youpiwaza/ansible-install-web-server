@@ -100,7 +100,9 @@
 # - name: Test docker through nginx container
 #   include: test-nginx.yml
 
-- name: Test ansible alpine curated container
-  include: test-alpine-curated-container.yml
+# - name: Test ansible alpine curated container
+#   include: test-alpine-curated-container.yml
 
+- name: Test ansible nginx curated container
+  include: test-nginx-curated-container.yml
 ...
