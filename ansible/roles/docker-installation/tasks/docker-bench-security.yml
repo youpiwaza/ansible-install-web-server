@@ -335,7 +335,7 @@
 #       --user 1003:1003
 # Works but can't edit stuff, as all is root chmoded.
 # adding read only to volume management
-#       -v /home/THE_DOCKER_PEON/test-volume:/home:ro \
+#       -v /home/the_docker_peon/test-volume:/home:ro \
 
 # 4.2  - Ensure that containers use only trusted base images
 # 4.3  - Ensure that unnecessary packages are not installed in the container
@@ -502,11 +502,30 @@
 # LATER: ansible or CRON > docker system prune -f
 
 
+#### Best practices / Apply labels
+#     https://docs.docker.com/config/labels-custom-metadata/
+# 1. Prefix each label key with the reverse DNS notation, ex: com.example.some-label
+# 2. Label keys should begin and end with a lower-case letter and should only contain
+#       lower-case alphanumeric characters, the period character (.), and the hyphen character (-).
+#       Consecutive periods or hyphens are not allowed.
+# 3. The period character (.) separates namespace "fields".
+#       Label keys without namespaces are reserved for CLI use, allowing users of the CLI to
+#       interactively label Docker objects using shorter typing-friendly strings
+# Label networks / https://docs.docker.com/engine/reference/commandline/network_create/#options
+# Label volumes  / https://docs.docker.com/engine/reference/commandline/volume_create/#options
+#   Can't assign volume labels if created on the fly
+
 # ### docker run with all arguments
 # # Create custom bridge network
-# > docker network create --driver bridge custom-bridge
+# > docker network create \
+#   --driver bridge \
+#   --label fr.masamune.client="masamune" \
+#   --label fr.masamune.maintainer="masamune.code@gmail.com" \
+#   --label fr.masamune.project="custom bridge network" \
+#   --label fr.masamune.type="test" \
+#   custom-bridge
 
-# # ## Alpine
+# ## Alpine
 # > docker run \
 #   --cap-drop=ALL \
 #   --cpu-shares=1024 \
@@ -516,6 +535,10 @@
 #   --health-timeout=10s \
 #   --health-start-period=0s \
 #   -i \
+#   --label fr.masamune.client="masamune" \
+#   --label fr.masamune.maintainer="masamune.code@gmail.com" \
+#   --label fr.masamune.project="curated alpine" \
+#   --label fr.masamune.type="test" \
 #   --memory-reservation="128m" \
 #   --memory="256m" \
 #   --memory-swap -1 \
@@ -551,6 +574,10 @@
 #   --health-timeout=10s \
 #   --health-start-period=0s \
 #   -i \
+#   --label fr.masamune.client="masamune" \
+#   --label fr.masamune.maintainer="masamune.code@gmail.com" \
+#   --label fr.masamune.project="curated nginx" \
+#   --label fr.masamune.type="test" \
 #   --memory-reservation="128m" \
 #   --memory="256m" \
 #   --memory-swap -1 \
