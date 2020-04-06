@@ -69,6 +69,11 @@
 - name: Don't run on docker default bridge network, create a custom one
   docker_network:
     driver: bridge
+    labels:
+      fr.masamune.client: 'masamune'
+      fr.masamune.maintainer: 'masamune.code@gmail.com'
+      fr.masamune.project: 'custom bridge network'
+      fr.masamune.type: 'test'
     name: test-custom-bridge
     state: present
 
@@ -90,6 +95,12 @@
       timeout: 10s
       retries: 3
       start_period: 0s
+    # https://docs.docker.com/config/labels-custom-metadata/
+    labels:
+      fr.masamune.client: 'masamune'
+      fr.masamune.maintainer: 'masamune.code@gmail.com'
+      fr.masamune.project: 'curated nginx'
+      fr.masamune.type: 'test'
     # Configure RAM limits, /!\ all strings except memory_swappiness (integer)
     memory: '256m'
     memory_reservation: '128m'
