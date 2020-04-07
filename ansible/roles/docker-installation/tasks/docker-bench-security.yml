@@ -427,7 +427,7 @@
 # Add the read-only flag, else when using volumes there's a vulnerability on containers /root
 #   --read-only
 # /!\ Need to specify all writing paths as volumes.. Nginx > /tmp
-#   KO / -v /home/the_docker_peon/tests-volume/nginx/tmp:/tmp \
+#   Example nginx custom user config file : /ansible/roles/docker-installatoin/templates/nginx-custom-user.j2
 
 # 5.13  - Ensure that incoming container traffic is bound to a specific host interface
 #   https://docs.docker.com/config/containers/container-networking/
@@ -558,12 +558,15 @@
 #   /bin/ash
 
 # ## Nginx
-# #   can use a special user with some configuration > edit /etc/nginx/nginx.conf for '/tmp/' folders, and auth user for port publish
+# #   Can use a special user with some configuration > edit /etc/nginx/nginx.conf for '/tmp/' folders, and auth user for port publish
+# #       Example nginx custom user config file : /ansible/roles/docker-installatoin/templates/nginx-custom-user.j2
 # # Can curl for healthceck :o
 # #   --health-cmd='curl http://da_website.com/ || exit 1' \
 # # Needs no capabilities if run as non root, also no need for net_bind_service if outputs on ports > 1024 (usually HTTP 80 & HTTPS 443) but we'll reverse proxy
 # #   https://stackoverflow.com/a/45570342/12026487
 # # Default apparmor nginx profile > when added, need mkdir rights / nginx: [alert] could not open error log file: open() "/var/log/nginx/error.log" failed (13: Permission denied)
+
+### /!\ Needs specific conf to run with custom user > /ansible/roles/docker-installatoin/templates/nginx-custom-user.j2
 
 # > docker run \
 #   --cap-drop=ALL \
@@ -599,5 +602,4 @@
 
 # Step 4: Score 26 > 51 :)
 # Step 5: Score 51 > 71 :)
-
 ...

@@ -39,6 +39,10 @@ localHostPackagesToInstall: [
 
 nginxTestImage: 'nginx:1.16.1-alpine'
 
+publicRepo: 
+  name: test-min-static-site
+  uri: https://github.com/youpiwaza/test-min-static-site.git
+
 # https://docs.docker.com/install/linux/docker-ce/ubuntu/#install-docker-engine---community-1
 remoteHostDockerPackagesToInstall: [
   'docker-ce',

@@ -54,8 +54,34 @@
           https://docs.docker.com/install/linux/linux-postinstall/#troubleshooting\n\n
           Also pay attention to the docker daemon configuration in this project, in /ansible/roles/docker-installation/templates/etc-docker-daemon-json.j2\n\n"
 
+## Clone project on remote host, then start composition
+# Re-create folder
+- name: Test docker through an nginx container / Remove test directory
+  file:
+    path: '/home/{{ users.3.name }}/tests-volume/nginx/content/{{ publicRepo.name }}/'
+    state: absent
+
+- name: Create test directory
+  file:
+    path: '/home/{{ users.3.name }}/tests-volume/nginx/content/{{ publicRepo.name }}/'
+    state: directory
+    mode: '0755'
+
+# Clone public repo
+#   https://docs.ansible.com/ansible/latest/modules/git_module.html
+- name: 'Clone project {{ publicRepo.name }} from {{ publicRepo.uri }} in test folder'
+  git:
+    clone: yes
+    dest: '/home/{{ users.3.name }}/tests-volume/nginx/content/{{ publicRepo.name }}/'
+    repo: '{{ publicRepo.uri }}'
+
+- name: Copy nginx custom user specific config
+  template:
+    dest: /home/{{ users.3.name }}/tests-volume/nginx/nginx.conf
+    src: nginx-custom-user.j2
+
 # https://hub.docker.com/_/nginx
-- name: Test docker through an nginx container / Pull default nginx image
+- name: Pull default nginx image
   docker_image:
     name: '{{ nginxTestImage }}'
     source: pull
@@ -148,7 +174,7 @@
     # /!\ Pay attention to :ro > Try to always mount as read-only
     volumes:
       - '/home/{{ users.3.name }}/tests-volume/nginx/nginx.conf:/etc/nginx/nginx.conf:ro'
-      - '/home/{{ users.3.name }}/tests-volume/nginx/content:/usr/share/nginx/html:ro'
+      - '/home/{{ users.3.name }}/tests-volume/nginx/content/{{ publicRepo.name }}/site:/usr/share/nginx/html:ro'
     working_dir: '/usr/share/nginx/html'
 
 
@@ -160,5 +186,10 @@
 - name: Remove docker default bridge network
   docker_network:
     name: test-custom-bridge
+    state: absent
+
+- name: Remove test directory
+  file:
+    path: '/home/{{ users.3.name }}/tests-volume/nginx/'
     state: absent
 ...
