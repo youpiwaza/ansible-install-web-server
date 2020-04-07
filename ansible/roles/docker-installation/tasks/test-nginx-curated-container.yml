@@ -95,6 +95,7 @@
       timeout: 10s
       retries: 3
       start_period: 0s
+    image: '{{ nginxTestImage }}'
     # https://docs.docker.com/config/labels-custom-metadata/
     labels:
       fr.masamune.client: 'masamune'
@@ -113,7 +114,6 @@
       - name: test-custom-bridge
     networks_cli_compatible: yes
     network_mode: bridge
-    image: '{{ nginxTestImage }}'
     # Limit processes run by the container
     pids_limit: 200
     # Needs no capabilities if run as non root, also no need for net_bind_service if outputs on ports > 1024 (usually HTTP 80 & HTTPS 443) but we'll reverse proxy
@@ -147,8 +147,8 @@
     # Type: list / elements=string
     # /!\ Pay attention to :ro > Try to always mount as read-only
     volumes:
-      - '/home/singed_the_docker_peon_9f6enk4s0/tests-volume/nginx/nginx.conf:/etc/nginx/nginx.conf:ro'
-      - '/home/singed_the_docker_peon_9f6enk4s0/tests-volume/nginx/content:/usr/share/nginx/html:ro'
+      - '/home/the_docker_peon/tests-volume/nginx/nginx.conf:/etc/nginx/nginx.conf:ro'
+      - '/home/the_docker_peon/tests-volume/nginx/content:/usr/share/nginx/html:ro'
     working_dir: '/usr/share/nginx/html'
 
 

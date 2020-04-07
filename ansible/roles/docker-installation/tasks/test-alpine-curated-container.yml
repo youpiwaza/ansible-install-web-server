@@ -88,6 +88,7 @@
       timeout: 10s
       retries: 3
       start_period: 0s
+    image: '{{ alpineTestImage }}'
     # https://docs.docker.com/config/labels-custom-metadata/
     labels:
       fr.masamune.client: 'masamune'
@@ -106,7 +107,6 @@
       - name: test-custom-bridge
     networks_cli_compatible: yes
     network_mode: bridge
-    image: '{{ alpineTestImage }}'
     # Limit processes run by the container
     pids_limit: 200
     # Detach from docker default bridge network
