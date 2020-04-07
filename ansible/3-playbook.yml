@@ -1,15 +1,15 @@
 ---
 ### Proceed to full installation with newly generated sudoer user
-- name: 'Install my web server / Change user for {{ users.0.name }} and custom SSH port then proceed'
-  become: yes
-  hosts: likorneWithCustomSSHPort
-  # the_builder_guy / cf. /ansible/roles/users/vars/main.yml
-  remote_user: '{{ users.0.name }}'
-  vars_files:
-  - vars/main.yml
-  - roles/users/vars/main.yml
+# - name: 'Install my web server / Change user for {{ users.0.name }} and custom SSH port then proceed'
+#   become: yes
+#   hosts: likorneWithCustomSSHPort
+#   # the_builder_guy / cf. /ansible/roles/users/vars/main.yml
+#   remote_user: '{{ users.0.name }}'
+#   vars_files:
+#   - vars/main.yml
+#   - roles/users/vars/main.yml
 
-  roles:
+#   roles:
 #     - system-update
 #     - packages-installation
 #     - utils-time
@@ -19,27 +19,85 @@
 #     # /!\ Needs a set up SSH connexion to prevent lockdown
 #     # See /README.md and follow steps 1 & 2 before use
 #     - security
-    # - security-firewall
+#     - security-firewall
 #     - security-fail2ban
-    # - security-apparmor
-    # - security-seccomp
-    # Install docker as root, as we will need overlay network for swarm
-    #   Note: docker-compose & docker swarm will need docker installation first
-    - docker-installation
-    # - docker-compose-installation
-    # - docker-swarm-installation
+#     - security-apparmor
+#     - security-seccomp
+#     # Install docker as root, as we will need overlay network for swarm
+#     #  Note: docker-compose & docker swarm will need docker installation first
+#     - docker-installation
+#     - docker-compose-installation
+#     - docker-swarm-installation
 
-# ### Docker manipulations
-# # You'll need the_docker_guy, with proper docker management settings to execute this playbook
-# # And also it's ssh key added to the local agent
-# - name: 'Docker stuff / Change user for {{ users.2.name }} and then proceed'
-#   become: no
-#   hosts: likorneWithCustomSSHPort
-#   # the_docker_guy / cf. /ansible/roles/users/vars/main.yml
-#   remote_user: '{{ users.2.name }}'
-#   vars_files:
-#   - roles/users/vars/main.yml
+### Docker manipulations
+# You'll need the_docker_guy, with proper docker management settings to execute this playbook
+# And also it's ssh key added to the local agent
+- name: 'Docker stuff / Change user for {{ users.2.name }} and then proceed'
+  become: no
+  hosts: likorneWithCustomSSHPort
+  # Enforce container default security & good practices
+  #   Cf. ansible/roles/docker-installation/tasks/test-alpine-curated-container.yml
+  module_defaults:
+    docker_container:
+      cap_drop:
+        - all
+      cpu_shares: 1024
+      detach: yes
+      healthcheck:
+        # test: REQUIRED
+        test: 'stat /etc/passwd || exit 1'            # Alpine
+        # test: 'stat /etc/nginx/nginx.conf || exit 1'  # Nginx
+        interval: 30s
+        timeout: 30s
+        retries: 3
+        start_period: 10s
+      # image: REQUIRED
+      # labels: REQUIRED
+      labels:
+        fr.masamune.client: 'masamune'
+        fr.masamune.maintainer: 'masamune.code@gmail.com'
+        # fr.masamune.project: 'REQUIRED'
+        fr.masamune.type: 'test'
+      memory: '256m'
+      memory_reservation: '128m'
+      # name: REQUIRED
+      # networks:
+      #   - name: IF_NEEDED
+      networks_cli_compatible: yes
+      # network_mode: bridge
+      pids_limit: 200
+      # Always > 1024
+      # published_ports:
+      #   - "80:80"
+      # Don't run on docker default bridge network
+      purge_networks: yes
+      restart_policy: 'on-failure'
+      restart_retries: 5
+      security_opts:
+        - 'no-new-privileges:true'
+        - 'apparmor=docker-default'
+      state: started
+      # the_docker_peon
+      user: '1003:1003'
+      # volumes:
+      #   - '/home/the_docker_peon/tests-volume/da_website:/home/da_website:ro'
+      # working_dir: '/home/da_website'
 
-#   roles:
-#     - docker-guy-check
+    docker_network:
+      # driver: REQUIRED
+      # labels: REQUIRED
+      labels:
+        fr.masamune.client: 'masamune'
+        fr.masamune.maintainer: 'masamune.code@gmail.com'
+        # fr.masamune.project: 'custom bridge network'
+        fr.masamune.type: 'test'
+      # name: REQUIRED
+      state: present
+  # the_docker_guy / cf. /ansible/roles/users/vars/main.yml
+  remote_user: '{{ users.2.name }}'
+  vars_files:
+  - roles/users/vars/main.yml
+
+  roles:
+    - docker-guy-check
 ...
