@@ -4,19 +4,22 @@
 # Docker compose/swarm, just needs Docker CE  / https://docs.docker.com/get-started/orchestration/#enable-docker-swarm
 # Ansible docker-compose documentation        / https://docs.ansible.com/ansible/latest/modules/docker_compose_module.html
 
-## Local host needs some packages through pip
-# https://docs.ansible.com/ansible/latest/modules/docker_compose_module.html#requirements
-- name: Ansible host / pip / Install docker-compose modules for Python, to allow ansible manipulations
-  pip:
-    name: '{{ bothHostsPipPackagesToInstall }}'
-  delegate_to: 127.0.0.1
+# ## Local host needs some packages through pip
+# # https://docs.ansible.com/ansible/latest/modules/docker_compose_module.html#requirements
+# - name: Ansible host / pip / Install docker-compose modules for Python, to allow ansible manipulations
+#   pip:
+#     name: '{{ bothHostsPipPackagesToInstall }}'
+#   delegate_to: 127.0.0.1
 
-## Remote host Installation
-# https://docs.ansible.com/ansible/latest/scenario_guides/guide_docker.html#requirements
-- name: pip / Install docker-compose modules for Python, to allow ansible manipulations
-  pip:
-    name: '{{ bothHostsPipPackagesToInstall }}'
+# ## Remote host Installation
+# # https://docs.ansible.com/ansible/latest/scenario_guides/guide_docker.html#requirements
+# - name: pip / Install docker-compose modules for Python, to allow ansible manipulations
+#   pip:
+#     name: '{{ bothHostsPipPackagesToInstall }}'
 
-- name: Test docker-compose through nginx + phpfpm
-  include: test-composed-project.yml
+# - name: Test docker-compose through nginx + phpfpm
+#   include: test-composed-project.yml
+
+- name: Test curated docker-compose through nginx + phpfpm
+  include: test-curated-composed-project.yml
 ...

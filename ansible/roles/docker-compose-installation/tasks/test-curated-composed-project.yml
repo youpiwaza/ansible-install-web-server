@@ -1,0 +1,70 @@
+---
+### Test curated docker-compose through nginx + phpfpm
+
+# https://github.com/youpiwaza/server-related-tutorials/tree/master/01-docker/04-my-tests/02-compose-nginx-php
+
+## Clone project on remote host, then start composition
+# Re-create folder
+- name: Test curated docker-compose through nginx + phpfpm / Remove test directory
+  file:
+    path: '/home/{{ users.3.name }}/tests/docker-compose-curated-test-repo/'
+    state: absent
+
+- name: Create test directory
+  file:
+    path: '/home/{{ users.3.name }}/tests/docker-compose-curated-test-repo/'
+    state: directory
+    mode: '0755'
+
+# Clone public repo
+#   https://docs.ansible.com/ansible/latest/modules/git_module.html
+- name: 'Clone project {{ publicRepoCurated.name }} from {{ publicRepoCurated.uri }} in test folder'
+  git:
+    clone: yes
+    dest: '/home/{{ users.3.name }}/tests/docker-compose-curated-test-repo/'
+    repo: '{{ publicRepoCurated.uri }}'
+
+- name: Warning about running container
+  debug:
+    msg: 'Be careful, if this playbook fails, it will not end and 2 containers will still be running !'
+
+## Start composition
+- name: Create and start composition
+  docker_compose:
+    project_name: docker-compose-curated-test
+    project_src: '/home/{{ users.3.name }}/tests/docker-compose-curated-test-repo/'
+    state: present
+  register: output
+
+# - name: Debug
+#   debug:
+#     var: output
+
+## Check composition
+- name: Check that you can connect (GET) to a page and it returns a status 200
+  uri:
+    url: 'http://{{ ansible_host }}/'
+
+- name: "Check that a page returns a status 200 and fail if the words 'Fuck yeah' is not in the page contents"
+  uri:
+    url: 'http://{{ ansible_host }}/'
+    return_content: yes
+  register: da_webpage
+  failed_when: "'Fuck yeah' not in da_webpage.content"
+
+- name: Display page content in ansible logs
+  debug:
+    msg: 'Affichage du contenu de la page :\n\n{{ da_webpage.content }}'
+
+# Stop and remove test
+- name: Stop and remove composition
+  docker_compose:
+    project_name: curated-
+    project_src: '/home/{{ users.3.name }}/tests/docker-compose-curated-test-repo/'
+    state: absent
+
+- name: Remove test directory
+  file:
+    path: '/home/{{ users.3.name }}/tests/docker-compose-curated-test-repo/'
+    state: absent
+...

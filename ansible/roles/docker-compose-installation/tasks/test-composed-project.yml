@@ -28,7 +28,7 @@
   debug:
     msg: 'Be careful, if this playbook fails, it will not end and 2 containers will still be running !'
 
-## Lunch composition
+## Start composition
 - name: Create and start composition
   docker_compose:
     # /!\ BE CAREFUL, if you specify a project name on start, you MUST specify it when stopping the project
