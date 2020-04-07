@@ -54,7 +54,7 @@
       # the_docker_peon
       user: '1003:1003'
       # volumes:
-      #   - '/home/the_docker_peon/tests-volume/da_website:/home/da_website:ro'
+      #   - '/home/{{ users.3.name }}/tests-volume/da_website:/home/da_website:ro'
       # working_dir: '/home/da_website'
 
     docker_network:
@@ -73,5 +73,8 @@
   - roles/users/vars/main.yml
 
   roles:
+
+    # TODO: Ensure docker swarm is up
+
     - docker-guy-check
 ...
