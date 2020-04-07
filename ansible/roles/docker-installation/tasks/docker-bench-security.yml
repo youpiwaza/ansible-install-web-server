@@ -564,6 +564,7 @@
 # #   --health-cmd='curl http://da_website.com/ || exit 1' \
 # # Needs no capabilities if run as non root, also no need for net_bind_service if outputs on ports > 1024 (usually HTTP 80 & HTTPS 443) but we'll reverse proxy
 # #   https://stackoverflow.com/a/45570342/12026487
+# #   --sysctl net.ipv4.ip_unprivileged_port_start=0 # if port < 1024
 # # Default apparmor nginx profile > when added, need mkdir rights / nginx: [alert] could not open error log file: open() "/var/log/nginx/error.log" failed (13: Permission denied)
 
 ### /!\ Needs specific conf to run with custom user > /ansible/roles/docker-installatoin/templates/nginx-custom-user.j2

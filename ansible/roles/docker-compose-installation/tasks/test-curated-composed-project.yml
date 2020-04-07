@@ -59,7 +59,7 @@
 # Stop and remove test
 - name: Stop and remove composition
   docker_compose:
-    project_name: curated-
+    project_name: docker-compose-curated-test
     project_src: '/home/{{ users.3.name }}/tests/docker-compose-curated-test-repo/'
     state: absent
 
