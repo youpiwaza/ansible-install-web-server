@@ -147,8 +147,8 @@
     # Type: list / elements=string
     # /!\ Pay attention to :ro > Try to always mount as read-only
     volumes:
-      - '/home/the_docker_peon/tests-volume/nginx/nginx.conf:/etc/nginx/nginx.conf:ro'
-      - '/home/the_docker_peon/tests-volume/nginx/content:/usr/share/nginx/html:ro'
+      - '/home/{{ users.3.name }}/tests-volume/nginx/nginx.conf:/etc/nginx/nginx.conf:ro'
+      - '/home/{{ users.3.name }}/tests-volume/nginx/content:/usr/share/nginx/html:ro'
     working_dir: '/usr/share/nginx/html'
 
 

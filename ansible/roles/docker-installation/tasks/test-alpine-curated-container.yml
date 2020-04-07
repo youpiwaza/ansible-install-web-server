@@ -131,7 +131,7 @@
     # Type: list / elements=string
     # /!\ Pay attention to :ro > Try to always mount as read-only
     volumes:
-      - '/home/the_docker_peon/tests-volume:/home:ro'
+      - '/home/{{ users.3.name }}/tests-volume:/home:ro'
     working_dir: '/home'
 
 

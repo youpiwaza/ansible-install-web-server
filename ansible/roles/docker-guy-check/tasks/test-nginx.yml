@@ -36,8 +36,8 @@
     sysctls:
       net.ipv4.ip_unprivileged_port_start: 0
     volumes:
-      - '/home/the_docker_peon/tests-volume/nginx/nginx.conf:/etc/nginx/nginx.conf:ro'
-      # - '/home/the_docker_peon/tests-volume/nginx/content:/usr/share/nginx/html:ro'
+      - '/home/{{ users.3.name }}/tests-volume/nginx/nginx.conf:/etc/nginx/nginx.conf:ro'
+      # - '/home/{{ users.3.name }}/tests-volume/nginx/content:/usr/share/nginx/html:ro'
     working_dir: '/usr/share/nginx/html'
 
 - name: Check that you can connect (GET) to a page and it returns a status 200

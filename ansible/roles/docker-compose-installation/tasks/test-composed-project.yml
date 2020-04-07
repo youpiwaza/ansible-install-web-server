@@ -7,12 +7,12 @@
 # Re-create folder
 - name: Test docker-compose through nginx + phpfpm / Remove test directory
   file:
-    path: '/home/{{ ansible_user }}/tests/docker-compose-test-repo/'
+    path: '/home/{{ users.3.name }}/tests/docker-compose-test-repo/'
     state: absent
 
 - name: Create test directory
   file:
-    path: '/home/{{ ansible_user }}/tests/docker-compose-test-repo/'
+    path: '/home/{{ users.3.name }}/tests/docker-compose-test-repo/'
     state: directory
     mode: '0755'
 
@@ -21,7 +21,7 @@
 - name: 'Clone project {{ publicRepo.name }} from {{ publicRepo.uri }} in test folder'
   git:
     clone: yes
-    dest: '/home/{{ ansible_user }}/tests/docker-compose-test-repo/'
+    dest: '/home/{{ users.3.name }}/tests/docker-compose-test-repo/'
     repo: '{{ publicRepo.uri }}'
 
 - name: Warning about running container
@@ -37,7 +37,7 @@
     # puis project_src correspond à l'endroit du projet sur la machine distante..
     #   https://github.com/ansible/ansible/issues/64773#issuecomment-553398448
     # project_src: '../tests/02-compose-nginx-php/'
-    project_src: '/home/{{ ansible_user }}/tests/docker-compose-test-repo/'
+    project_src: '/home/{{ users.3.name }}/tests/docker-compose-test-repo/'
     # default state is present
     # state: present
   register: output
@@ -63,15 +63,15 @@
     msg: 'Affichage du contenu de la page :\n\n{{ da_webpage.content }}'
 
 # Stop and remove test
-- name: Stop and remove composition
-  docker_compose:
-    # /!\ BE CAREFUL, if you specify a project name on start, you MUST specify it when stopping the project
-    project_name: docker-compose-test
-    project_src: '/home/{{ ansible_user }}/tests/docker-compose-test-repo/'
-    state: absent
+# - name: Stop and remove composition
+#   docker_compose:
+#     # /!\ BE CAREFUL, if you specify a project name on start, you MUST specify it when stopping the project
+#     project_name: docker-compose-test
+#     project_src: '/home/{{ users.3.name }}/tests/docker-compose-test-repo/'
+#     state: absent
 
-- name: Remove test directory
-  file:
-    path: '/home/{{ ansible_user }}/tests/docker-compose-test-repo/'
-    state: absent
+# - name: Remove test directory
+#   file:
+#     path: '/home/{{ users.3.name }}/tests/docker-compose-test-repo/'
+#     state: absent
 ...
