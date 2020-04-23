@@ -1,10 +1,10 @@
-# Docker run template
+# Docker commands templates
 
 With all flags related to security measures. See docker bench security > /ansible/roles/docker-installation/tasks/docker-bench-security.yml
 
 See ansible/roles/docker-installation/tasks/test-alpine-curated-container.yml for the ansible syntax.
 
-## Commands
+## Docker run commands
 
 ```bash
 # Don't run on docker default bridge network, create a custom one
@@ -74,3 +74,11 @@ See ansible/roles/docker-installation/tasks/test-alpine-curated-container.yml fo
   -w /usr/share/nginx/html \
   nginx:alpine
 ```
+
+## Docker compose commands
+
+See [dedicated repo](https://github.com/youpiwaza/docker-compose-curated-example).
+
+## Docker swarm commands
+
+See ansible/roles/docker-swarm-installation/tasks/test-curated-swarm-service.yml
