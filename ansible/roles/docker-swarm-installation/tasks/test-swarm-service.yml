@@ -40,7 +40,7 @@
   when: result.host_info.Swarm.ControlAvailable|bool == false
 
 ## Start services
-- name: Init a new swarm with default parameters
+- name: Init a new swarm with default parameters, if needed
   docker_swarm:
     state: present
   # Only init swarm for test if none is present
