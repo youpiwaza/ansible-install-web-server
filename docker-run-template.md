@@ -69,8 +69,8 @@ See ansible/roles/docker-installation/tasks/test-alpine-curated-container.yml fo
   --sysctl net.ipv4.ip_unprivileged_port_start=0 \
   -t \
   --user 1003:1003 \
-  -v /home/singed_the_docker_peon_9f6enk4s0/tests-volume/nginx/nginx.conf:/etc/nginx/nginx.conf:ro \
-  -v /home/singed_the_docker_peon_9f6enk4s0/tests-volume/nginx/content/test-min-static-site/site:/usr/share/nginx/html:ro \
+  -v /home/the_docker_peon/tests-volume/nginx/nginx.conf:/etc/nginx/nginx.conf:ro \
+  -v /home/the_docker_peon/tests-volume/nginx/content/test-min-static-site/site:/usr/share/nginx/html:ro \
   -w /usr/share/nginx/html \
   nginx:alpine
 ```
