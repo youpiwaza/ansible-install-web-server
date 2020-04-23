@@ -49,6 +49,7 @@
 ##  > Keep containers alive during daemon downtime
 #   https://docs.docker.com/config/containers/live-restore/
 # Enabled live restore via docker's daemon.json
+# Edit: Disabled as (currently) it is not compatible with swarm.
 
 
 ##  > Run multiple services in a container

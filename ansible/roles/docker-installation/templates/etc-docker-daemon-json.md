@@ -52,6 +52,8 @@ Don't place true between quotes : ~~"true"~~ despite ansible jinja recommandatio
 }
 ```
 
+Edit: live-restore switched to false as (currently) **it is not compatible with swarm**.
+
 ## Isolate containers with a user namespace
 
 [Docker documentation / userns-remap](https://docs.docker.com/engine/security/userns-remap/)
