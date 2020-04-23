@@ -25,4 +25,13 @@
 # # Test docker stack
 # - name: Test docker stack through a nginx service and a phpfpm linked via network
 #   include: test-stack-services-and-network.yml
+
+### Apply security recomandations (docker security bench)
+# # # 7.4  - Ensure that all Docker swarm overlay networks are encrypted
+# # Restart default overlay network "ingress" with encryption
+# #   https://docs.docker.com/network/overlay/#customize-the-default-ingress-network
+# # ingress option not available in ansible docker_network
+
+- name: Test docker swarm through a nginx service
+  include: test-curated-swarm-service.yml
 ...

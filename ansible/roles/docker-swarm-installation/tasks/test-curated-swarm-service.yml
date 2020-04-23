@@ -1,0 +1,261 @@
+---
+#### Test docker swarm through a nginx service
+
+### Test service directly on remote host
+## Create nginx service
+# > docker service create  \
+#   --name test-nginx-service \
+#   --publish 80:80 \
+#   nginx:1.16.1-alpine
+
+## List active services
+# > sudo docker service ls
+
+# >> ID                  NAME                MODE                REPLICAS            IMAGE                 PORTS
+# >> o9nkdsla20t2        demo-nginx          replicated          1/1                 nginx:1.16.1-alpine   *:80->80/tcp
+
+## Test website on http://{{ ansible_host }}/ (use remote host IP)
+
+## Remove service
+# > docker service remove test-nginx-service
+
+# ---
+
+### Docker security bench audit
+# # First test : Score: 39
+# # After cure : Score: 45 // docker service create has much less options than docker run
+
+# > docker service create  \
+#   --name test-nginx-service \
+#   --publish 80:80 \
+#   nginx:1.16.1-alpine
+
+# > docker service remove test-nginx-service
+
+### Cured command line
+## Notes
+
+# # Note: In order to be able to see vanilla docker service logs, you must have log-driver specified either as json-file or jornald
+# #   https://docs.docker.com/engine/reference/commandline/service_logs/#extended-description
+# # Debug > specify log driver
+# #   --log-driver=json-file
+# # Then use on another instance (or in detached mode)
+# # > sudo docker service logs -f SERVICE_NAME_OR_ID
+# # (get service name > docker service ps test-nginx-service )
+
+# If using syslog as logging driver, use either
+# > sudo tail -f /var/log/syslog |grep dockerd
+# > sudo cat /var/log/syslog |grep dockerd
+
+## Set capabilities / --cap-drop=ALL
+# This feature is not (yet) available for swarm
+# Must be set on images or compose files (lunched with docker stack)
+
+# 4.1  - Ensure a user for the container has been created
+#   --user 1003:1003
+# Nginx needs a specific configuration file, else the service won't start
+#   --mount type=bind,source=/home/singed_the_docker_peon_9f6enk4s0/tests-volume/nginx/nginx.conf,destination=/etc/nginx/nginx.conf,readonly
+# And also specific port privileges if port < 1024
+#   --sysctl=net.ipv4.ip_unprivileged_port_start=0
+
+# 4.6  - Ensure that HEALTHCHECK instructions have been added to container images
+#   --health-cmd='stat /etc/nginx/nginx.conf || exit 1' \
+#   --health-interval=10s \
+#   --health-retries=3 \
+#   --health-start-period=0s \
+#   --health-timeout=10s \
+
+# 5.2  - Ensure that, if applicable, SELinux security options are set
+# Not available for Ubuntu > use apparmor instead
+# Security-opts aren't available for swarm (yet)
+#   https://github.com/moby/moby/issues/25209
+
+# 5.10  - Ensure that the memory usage for containers is limited
+#   --limit-memory="256m" \
+#   --reserve-memory="128m" \
+
+# 5.11  - Ensure CPU priority is set appropriately on the container
+# Searching equivalent of docker run cpu-shares
+# KO / --limit-cpu=1024 > 1/1: Range of CPUs is from 0.01 to 8.00, as there are only 8 CPUs available
+
+# Minimal amount of CPUs available to authorize service lunch ?
+# KO / --reserve-cpu=1024 > 1/1: no suitable node (insufficient resources on 1 node) 
+
+# Doesn't pass the linter, will be set within docker images/compose(stacks)
+# Using 
+# --limit-cpu=0.5 \
+# --reserve-cpu=0.5 \
+
+# 5.12  - Ensure that the container's root filesystem is mounted as read only
+# --read-only
+# Works usually, but must not be set for nginx to work properly
+
+# 5.14  - Ensure that the 'on-failure' container restart policy is set to '5'
+# --restart-max-attempts=5
+# DBS linter KO
+
+# 5.25  - Ensure that the container is restricted from acquiring additional privileges
+# No security opts available for services
+
+# 5.28  - Ensure that the PIDs cgroup limit is used
+# Not available for service IDK
+# This is fucked up that there is so much diff between docker run & docker service
+
+# 7.1  - Ensure swarm mode is not Enabled, if not needed
+# Kinda need it to run services...
+
+# 7.3  - Ensure that swarm services are bound to a specific host interface
+# Nope / --hostname=test-nginx-service \
+# Nope / https://docs.docker.com/engine/reference/commandline/service_create/#attach-a-service-to-an-existing-network---network
+# LATER: I don't understand
+
+# 7.4  - Ensure that all Docker swarm overlay networks are encrypted
+#           https://docs.docker.com/network/overlay/#encrypt-traffic-on-an-overlay-network
+# Create a custom network with --opt encrypted
+# /!\ This encryption imposes a non-negligible performance penalty
+# docker swarm has a default overlay network called "ingress"
+# ingress option not available in ansible docker_network
+
+# 7.6  - Ensure that swarm manager is run in auto-lock mode
+#   https://docs.docker.com/engine/swarm/swarm_manager_locking/
+# LATER: Only 1 host, manager (and worker)
+
+# 7.8  - Ensure that node certificates are rotated as appropriate
+# 7.9  - Ensure that CA certificates are rotated as appropriate
+# LATER: Only 1 host, manager (and worker)
+
+# 7.10  - Ensure that management plane traffic is separated from data plane traffic
+#   https://docs.docker.com/network/overlay/#separate-control-and-data-traffic
+#   https://docs.docker.com/engine/reference/commandline/swarm_init/#--advertise-addr
+# LATER: this ^
+
+## Actual cured commands
+# # Create a custom network to attach to
+# > docker network create --opt encrypted --driver overlay custom-overlay
+
+# > docker service create \
+#   --health-cmd='stat /etc/nginx/nginx.conf || exit 1' \
+#   --health-interval=10s \
+#   --health-retries=3 \
+#   --health-start-period=0s \
+#   --health-timeout=10s \
+#   --limit-cpu=0.5 \
+#   --limit-memory="256m" \
+#   --log-driver=json-file \
+#   --mount type=bind,source=/home/singed_the_docker_peon_9f6enk4s0/tests-volume/nginx/nginx.conf,destination=/etc/nginx/nginx.conf,readonly \
+#   --name test-nginx-service \
+#   --network=custom-overlay \
+#   --publish 80:80 \
+#   --reserve-cpu=0.5 \
+#   --reserve-memory="128m" \
+#   --restart-max-attempts=5 \
+#   --sysctl=net.ipv4.ip_unprivileged_port_start=0 \
+#   --user 1003:1003 \
+#   --workdir=/usr/share/nginx/html \
+#   nginx:1.16.1-alpine
+
+# # --read-only \ // Use it when no access to volumes is required
+
+# # Remove tests
+# > docker service remove test-nginx-service && docker network remove custom-overlay
+
+# ---
+
+## Don't stop swarm if it is already started
+# Test must not kill production
+# If it isn't, start a swarm for the test and remove it afterward
+
+# Get swarm info / docker system info / https://docs.docker.com/get-started/swarm-deploy/
+- name: Test docker swarm through a nginx service / Get info on docker host
+  docker_host_info:
+  register: result
+
+# - name: Display full info
+#   debug:
+#     msg: '{{ result.host_info }}'
+
+# - name: Display swarm started info
+#   debug:
+#     msg: '{{ result.host_info.Swarm.ControlAvailable }}'
+
+- name: 'Swarm started ? {{ result.host_info.Swarm.ControlAvailable }}'
+  debug:
+    msg: "Swarm detected, using it for this test"
+  when: result.host_info.Swarm.ControlAvailable|bool == true
+
+- name: 'Swarm started ? {{ result.host_info.Swarm.ControlAvailable }}'
+  debug:
+    msg: "No swarm detected, creating one for this test, and remove it afterwards"
+  when: result.host_info.Swarm.ControlAvailable|bool == false
+
+## Start services
+- name: Init a new swarm with default parameters, if needed
+  docker_swarm:
+    state: present
+  # Only init swarm for test if none is present
+  when: result.host_info.Swarm.ControlAvailable|bool == false
+
+## Test services
+- name: Warning about running service
+  debug:
+    msg: 'Be careful, if this playbook fails, it will not end and 1 service will still be running !'
+
+# https://hub.docker.com/_/nginx
+- name: Start nginx service, on port 80 (other are closed by firewall)
+  docker_swarm_service:
+    image: '{{ nginxTestImage }}'
+    name: test-nginx-service
+    publish:
+    - published_port: 80
+      target_port: 80
+    state: present
+
+# Wait for the service to start before testing
+# https://docs.ansible.com/ansible/latest/modules/docker_swarm_service_info_module.html#examples
+- name: Get info from test service
+  docker_swarm_service_info:
+    name: test-nginx-service
+  register: my_service_status
+
+# - name: Display service status
+#   debug:
+#     msg: '{{ my_service_status }}'
+
+## Check service
+# https://medium.com/planetarynetworks/ansible-wait-for-with-docker-container-31d3944da953
+# https://docs.ansible.com/ansible/latest/modules/wait_for_module.html
+- name: Wait for service to publish on port 80
+  wait_for:
+    port: '{{ my_service_status.service.Endpoint.Ports.0.PublishedPort }}'
+
+- name: Check that you can connect (GET) to a page and it returns a status 200
+  uri:
+    url: 'http://{{ ansible_host }}/'
+
+- name: "Check that a page returns a status 200 and fail if the words 'Welcome to nginx!' is not in the page contents"
+  uri:
+    url: 'http://{{ ansible_host }}/'
+    return_content: yes
+  register: da_webpage
+  failed_when: "'Welcome to nginx!' not in da_webpage.content"
+
+- name: Display page content in ansible logs
+  debug:
+    msg: 'Affichage du contenu de la page :\n\n{{ da_webpage.content }}'
+
+## Remove test services, and shut down swarm if needed
+# Remove test
+- name: Stop nginx service
+  docker_swarm_service:
+    image: '{{ nginxTestImage }}'
+    name: test-nginx-service
+    state: absent
+
+# Remove swarm if needed
+- name: Remove a swarm manager
+  docker_swarm:
+    state: absent
+    force: true
+  # Only stop swarm for test if none was present
+  when: result.host_info.Swarm.ControlAvailable|bool == false
+...
