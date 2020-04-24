@@ -42,6 +42,13 @@
     msg: 'Be careful, if this playbook fails, it will not end and 2 services and a network will still be running !'
 
 ## Install project
+# Eventually remove previous network, as it must be created via swarm
+- name: Remove (eventual) previous custom network (must be created via swarm)
+  docker_network:
+    force: yes
+    name: test-nginx-phpfpm-stack_network-php
+    state: absent
+
 # Re-create folder
 - name: Remove test directory
   file:
@@ -56,11 +63,11 @@
 
 # Clone public repo
 #   https://docs.ansible.com/ansible/latest/modules/git_module.html
-- name: 'Clone project {{ publicRepoCurated.name }} from {{ publicRepoCurated.uri }} in test folder'
+- name: 'Clone project {{ publicRepo.name }} from {{ publicRepo.uri }} in test folder'
   git:
     clone: yes
     dest: '/home/{{ users.3.name }}/tests/docker-compose-test-repo/'
-    repo: '{{ publicRepoCurated.uri }}'
+    repo: '{{ publicRepo.uri }}'
 
 ## Start services from docker-compose.yml file
 - name: Deploy stack from a compose file

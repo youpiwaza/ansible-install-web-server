@@ -32,6 +32,6 @@
 # #   https://docs.docker.com/network/overlay/#customize-the-default-ingress-network
 # # ingress option not available in ansible docker_network
 
-- name: Test docker swarm through a nginx service
-  include: test-curated-swarm-service.yml
+# - name: Test docker swarm through a nginx service
+#   include: test-curated-swarm-service.yml
 ...
