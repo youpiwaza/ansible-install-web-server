@@ -71,6 +71,7 @@
 #   https://github.com/moby/moby/issues/25209
 
 # 5.10  - Ensure that the memory usage for containers is limited
+# Explanations [Dcompose doc](https://docs.docker.com/compose/compose-file/#resources) only
 #   --limit-memory="256m" \
 #   --reserve-memory="128m" \
 
@@ -164,7 +165,7 @@
 # --label key=value \
 # Note: Pay attention to the syntax
 # Note: Use the tag mutiple times to add multiple labels
-# Note: Don't use --container-labels, not documented
+# Note: Don't use --container-labels, not documented ; might prevent replicas ? https://docs.docker.com/compose/compose-file/#container_name
 
 # Replicas limit
 #   https://docs.docker.com/engine/reference/commandline/service_create/#specify-maximum-replicas-per-node---replicas-max-per-node
