@@ -34,4 +34,7 @@
 
 # - name: Test docker swarm through a nginx service
 #   include: test-curated-swarm-service.yml
+
+- name: Test curated docker stack through a nginx service and a phpfpm linked via network
+  include: test-curated-stack-services-and-network.yml
 ...
