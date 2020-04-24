@@ -129,35 +129,95 @@
 #   https://docs.docker.com/engine/reference/commandline/swarm_init/#--advertise-addr
 # LATER: this ^
 
+
+## Apply documentation recommandations
+# Replicas
+#   https://docs.docker.com/engine/swarm/swarm-tutorial/deploy-service/
+# --replicas=3
+
+# Service update behavior
+#   https://docs.docker.com/engine/swarm/services/#configure-a-services-update-behavior
+# --update-delay=5s \
+# --update-failure-action=rollback \
+# --update-parallelism=2 \
+
+#   Keep defaults update behavior for
+# --update-max-failure-ratio=0 \
+# --update-monitor=5s \
+# --update-order=stop-first \
+
+# Rollback behavior, keep defaults
+#   https://docs.docker.com/engine/swarm/services/#roll-back-to-the-previous-version-of-a-service
+# --rollback-delay=0s \
+# --rollback-failure-action=pause \
+# --rollback-max-failure-ratio=0 \
+# --rollback-monitor=5s \
+# --rollback-order=stop-first \
+# --rollback-parallelism=1 \
+
+
+## Check all other options
+#   https://docs.docker.com/engine/reference/commandline/service_create/#options
+
+# Label services
+#   https://docs.docker.com/engine/reference/commandline/service_create/#set-metadata-on-a-service--l---label
+# --label key=value \
+# Note: Pay attention to the syntax
+# Note: Use the tag mutiple times to add multiple labels
+# Note: Don't use --container-labels, not documented
+
+# Replicas limit
+#   https://docs.docker.com/engine/reference/commandline/service_create/#specify-maximum-replicas-per-node---replicas-max-per-node
+# --replicas-max-per-node=6 \
+
+# Restart stuff, all defaults except max-attempts=5
+
+# Time allocated to stop gracefully
+#   Default to 10s but might need to augment
+# --stop-grace-period
+
+# Set work directory
+# --workdir=/home \
+
+
 ## Actual cured commands
-# # Create a custom network to attach to
-# > docker network create --opt encrypted --driver overlay custom-overlay
+# Create a custom network to attach to
+> docker network create --opt encrypted --driver overlay custom-overlay
 
-# > docker service create \
-#   --health-cmd='stat /etc/nginx/nginx.conf || exit 1' \
-#   --health-interval=10s \
-#   --health-retries=3 \
-#   --health-start-period=0s \
-#   --health-timeout=10s \
-#   --limit-cpu=0.5 \
-#   --limit-memory="256m" \
-#   --log-driver=json-file \
-#   --mount type=bind,source=/home/singed_the_docker_peon_9f6enk4s0/tests-volume/nginx/nginx.conf,destination=/etc/nginx/nginx.conf,readonly \
-#   --name test-nginx-service \
-#   --network=custom-overlay \
-#   --publish 80:80 \
-#   --reserve-cpu=0.5 \
-#   --reserve-memory="128m" \
-#   --restart-max-attempts=5 \
-#   --sysctl=net.ipv4.ip_unprivileged_port_start=0 \
-#   --user 1003:1003 \
-#   --workdir=/usr/share/nginx/html \
-#   nginx:1.16.1-alpine
+> docker service create \
+  --health-cmd='stat /etc/nginx/nginx.conf || exit 1' \
+  --health-interval=10s \
+  --health-retries=3 \
+  --health-start-period=0s \
+  --health-timeout=10s \
+  --label fr.masamune.client='masamune' \
+  --label fr.masamune.maintainer='masamune.code@gmail.com' \
+  --label fr.masamune.project='curated nginx' \
+  --label fr.masamune.type='test' \
+  --limit-cpu=0.5 \
+  --limit-memory="256m" \
+  --log-driver=json-file \
+  --mount type=bind,source=/home/singed_the_docker_peon_9f6enk4s0/tests-volume/nginx/nginx.conf,destination=/etc/nginx/nginx.conf,readonly \
+  --name test-nginx-service \
+  --network=custom-overlay \
+  --publish 80:80 \
+  --replicas=3 \
+  --replicas-max-per-node=6 \
+  --reserve-cpu=0.5 \
+  --reserve-memory="128m" \
+  --restart-max-attempts=5 \
+  --sysctl=net.ipv4.ip_unprivileged_port_start=0 \
+  --update-delay=5s \
+  --update-parallelism=2 \
+  --update-failure-action=rollback \
+  --user 1003:1003 \
+  --workdir=/usr/share/nginx/html \
+  nginx:1.16.1-alpine
 
-# # --read-only \ // Use it when no access to volumes is required
+# --read-only \ // Use it when no access to volumes is required
 
-# # Remove tests
-# > docker service remove test-nginx-service && docker network remove custom-overlay
+# Remove tests
+> docker service remove test-nginx-service && docker network remove custom-overlay
 
 # ---
 
