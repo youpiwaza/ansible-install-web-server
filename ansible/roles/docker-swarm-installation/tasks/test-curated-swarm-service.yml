@@ -54,7 +54,7 @@
 # 4.1  - Ensure a user for the container has been created
 #   --user 1003:1003
 # Nginx needs a specific configuration file, else the service won't start
-#   --mount type=bind,source=/home/singed_the_docker_peon_9f6enk4s0/tests-volume/nginx/nginx.conf,destination=/etc/nginx/nginx.conf,readonly
+#   --mount type=bind,source=/home/the_docker_peon/tests-volume/nginx/nginx.conf,destination=/etc/nginx/nginx.conf,readonly
 # And also specific port privileges if port < 1024
 #   --sysctl=net.ipv4.ip_unprivileged_port_start=0
 
@@ -180,44 +180,44 @@
 # --workdir=/home \
 
 
-## Actual cured commands
-# Create a custom network to attach to
-> docker network create --opt encrypted --driver overlay custom-overlay
+# ## Actual cured commands
+# # Create a custom network to attach to
+# > docker network create --opt encrypted --driver overlay custom-overlay
 
-> docker service create \
-  --health-cmd='stat /etc/nginx/nginx.conf || exit 1' \
-  --health-interval=10s \
-  --health-retries=3 \
-  --health-start-period=0s \
-  --health-timeout=10s \
-  --label fr.masamune.client='masamune' \
-  --label fr.masamune.maintainer='masamune.code@gmail.com' \
-  --label fr.masamune.project='curated nginx' \
-  --label fr.masamune.type='test' \
-  --limit-cpu=0.5 \
-  --limit-memory="256m" \
-  --log-driver=json-file \
-  --mount type=bind,source=/home/singed_the_docker_peon_9f6enk4s0/tests-volume/nginx/nginx.conf,destination=/etc/nginx/nginx.conf,readonly \
-  --name test-nginx-service \
-  --network=custom-overlay \
-  --publish 80:80 \
-  --replicas=3 \
-  --replicas-max-per-node=6 \
-  --reserve-cpu=0.5 \
-  --reserve-memory="128m" \
-  --restart-max-attempts=5 \
-  --sysctl=net.ipv4.ip_unprivileged_port_start=0 \
-  --update-delay=5s \
-  --update-parallelism=2 \
-  --update-failure-action=rollback \
-  --user 1003:1003 \
-  --workdir=/usr/share/nginx/html \
-  nginx:1.16.1-alpine
+# > docker service create \
+#   --health-cmd='stat /etc/nginx/nginx.conf || exit 1' \
+#   --health-interval=10s \
+#   --health-retries=3 \
+#   --health-start-period=0s \
+#   --health-timeout=10s \
+#   --label fr.masamune.client='masamune' \
+#   --label fr.masamune.maintainer='masamune.code@gmail.com' \
+#   --label fr.masamune.project='curated nginx' \
+#   --label fr.masamune.type='test' \
+#   --limit-cpu=0.5 \
+#   --limit-memory="256m" \
+#   --log-driver=json-file \
+#   --mount type=bind,source=/home/the_docker_peon/tests-volume/nginx/nginx.conf,destination=/etc/nginx/nginx.conf,readonly \
+#   --name test-nginx-service \
+#   --network=custom-overlay \
+#   --publish 80:80 \
+#   --replicas=3 \
+#   --replicas-max-per-node=6 \
+#   --reserve-cpu=0.5 \
+#   --reserve-memory="128m" \
+#   --restart-max-attempts=5 \
+#   --sysctl=net.ipv4.ip_unprivileged_port_start=0 \
+#   --update-delay=5s \
+#   --update-parallelism=2 \
+#   --update-failure-action=rollback \
+#   --user 1003:1003 \
+#   --workdir=/usr/share/nginx/html \
+#   nginx:1.16.1-alpine
 
-# --read-only \ // Use it when no access to volumes is required
+# # --read-only \ // Use it when no access to volumes is required
 
-# Remove tests
-> docker service remove test-nginx-service && docker network remove custom-overlay
+# # Remove tests
+# > docker service remove test-nginx-service && docker network remove custom-overlay
 
 # ---
 
