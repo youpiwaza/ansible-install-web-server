@@ -172,6 +172,8 @@
 
 # Restart stuff, all defaults except max-attempts=5
 
+# # Rollback stuff, all defaults
+
 # Time allocated to stop gracefully
 #   Default to 10s but might need to augment
 # --stop-grace-period
@@ -192,7 +194,7 @@
 #   --health-timeout=10s \
 #   --label fr.masamune.client='masamune' \
 #   --label fr.masamune.maintainer='masamune.code@gmail.com' \
-#   --label fr.masamune.project='curated nginx' \
+#   --label fr.masamune.project='curated nginx service' \
 #   --label fr.masamune.type='test' \
 #   --limit-cpu=0.5 \
 #   --limit-memory="256m" \
@@ -260,15 +262,75 @@
   debug:
     msg: 'Be careful, if this playbook fails, it will not end and 1 service will still be running !'
 
+
+- name: Don't run on docker default overlay network, create a custom one
+  docker_network:
+    driver: overlay
+    force: yes
+    labels:
+      fr.masamune.client: 'masamune'
+      fr.masamune.maintainer: 'masamune.code@gmail.com'
+      fr.masamune.project: 'custom overlay network'
+      fr.masamune.type: 'test'
+    name: test-custom-overlay
+    state: present
+
 # https://hub.docker.com/_/nginx
 - name: Start nginx service, on port 80 (other are closed by firewall)
   docker_swarm_service:
+    healthcheck:
+      # Check if nginx server is healthy by curl'ing the server.
+      # If this fails or timeouts, the healthcheck fails.
+      test: 'stat /etc/nginx/nginx.conf || exit 1'
+      interval: 10s
+      timeout: 10s
+      retries: 3
+      start_period: 0s
     image: '{{ nginxTestImage }}'
+    labels:
+      fr.masamune.client: 'masamune'
+      fr.masamune.maintainer: 'masamune.code@gmail.com'
+      fr.masamune.project: 'curated nginx service'
+      fr.masamune.type: 'test'
+    limits:
+      cpus: 0.5
+      memory: 256m
+    mounts:
+      - readonly: yes
+        source: /home/singed_the_docker_peon_9f6enk4s0/tests-volume/nginx/nginx.conf
+        target: /etc/nginx/nginx.conf
+        type: bind
     name: test-nginx-service
+    networks:
+      - test-custom-overlay
     publish:
     - published_port: 80
       target_port: 80
+    replicas: 3
+    # Not available in ansible docker_swarm_service
+    # replicas-max-per-node=6
+    reservations:
+      cpus: 0.5
+      memory: 128m
+    restart_config:
+      # condition: any
+      # delay: 5s
+      max_attempts: 5
+      # window: 120s
+    # # Default rollback config
+    # rollback_config:
+    #   parallelism: 2
     state: present
+    # Can't use a specific user for nginx on port 80 as it requires unprivileged ports
+    # sysctl param does not exist in ansible docker_swarm_service
+    # sysctl: net.ipv4.ip_unprivileged_port_start=0
+    # user: 1003:1003
+    update_config:
+      delay: 5s
+      failure_action: rollback
+      # order: stop-first
+      parallelism: 2
+    working_dir: /usr/share/nginx/html
 
 # Wait for the service to start before testing
 # https://docs.ansible.com/ansible/latest/modules/docker_swarm_service_info_module.html#examples
@@ -284,7 +346,7 @@
 ## Check service
 # https://medium.com/planetarynetworks/ansible-wait-for-with-docker-container-31d3944da953
 # https://docs.ansible.com/ansible/latest/modules/wait_for_module.html
-- name: Wait for service to publish on port 80
+- name: 'Wait for service to publish on port {{ my_service_status.service.Endpoint.Ports.0.PublishedPort }}'
   wait_for:
     port: '{{ my_service_status.service.Endpoint.Ports.0.PublishedPort }}'
 
@@ -305,11 +367,18 @@
 
 ## Remove test services, and shut down swarm if needed
 # Remove test
-- name: Stop nginx service
+- name: Stop test nginx service
   docker_swarm_service:
     image: '{{ nginxTestImage }}'
     name: test-nginx-service
     state: absent
+
+# KO / No such container ?
+# - name: Remove custom overlay network
+#   docker_network:
+#     force: yes
+#     name: test-custom-overlay
+#     state: absent
 
 # Remove swarm if needed
 - name: Remove a swarm manager
