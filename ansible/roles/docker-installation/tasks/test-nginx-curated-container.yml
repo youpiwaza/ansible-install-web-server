@@ -183,7 +183,7 @@
     name: test-curated-nginx
     state: absent
 
-- name: Remove docker default bridge network
+- name: Remove custom bridge network
   docker_network:
     name: test-custom-bridge
     state: absent

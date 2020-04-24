@@ -35,10 +35,10 @@ Working on Windows WSL, personnal notes for my setup
 # Add ~the_builder_guy ssh key to local ssh agent, cf. _the_builder_guy-manual-commands.md
 > ssh-add ~/.ssh/_the_builder_guy-ssh-key-ed25519
 
-# Lancer le playbook d'installation de l'hôte
+# Lancer le playbook d'installation de l'hôte (sécurité, docker, docker swarm)
 > ansible-playbook -i hostsWithCustomSSHPort 3-utils-security-docker-setup.yml | sed 's/\\n/\n/g'
 
-# Lancer le playbook de mise en place des services docker
+# Lancer le playbook de mise en place des services docker de base (traefik, container metrics & alerts)
 > ansible-playbook -i hostsWithCustomSSHPort 4-docker-required-services.yml | sed 's/\\n/\n/g'
 ```
 
