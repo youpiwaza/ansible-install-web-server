@@ -1,5 +1,41 @@
 ---
-### Test docker stack through nginx service + phpfpm service + network
+# ### Test docker stack through nginx service + phpfpm service + network
+# Volumes must be adjusted for stack
+#   https://docs.docker.com/compose/compose-file/#volumes-for-services-swarms-and-stack-files
+
+# ### Test stack directly on remote host
+# ## Swarm must be initiated, cf. below
+# ## Project must be present on server, cf. git clone publicRepoCurated below
+# ## Create stack
+# #   https://docs.docker.com/engine/reference/commandline/stack_deploy/
+# > docker stack deploy  \
+#   --compose-file /home/the_docker_peon/tests/docker-compose-curated-test-repo/docker-compose.yml \
+#   test-nginx-phpfpm-stack
+
+# ## Verify stack / Display all services in a stack
+# > docker stack services test-nginx-phpfpm-stack
+# > sudo docker stack ps --no-trunc test-nginx-phpfpm-stack
+# 💩 Several error during initiation (network allocation, exit code non 0), especially with replicas but no documentation whatsoever
+#   It just slow the initiation, after some retries it works
+
+# ## Remove stack
+# > docker stack rm test-nginx-phpfpm-stack
+
+
+# ---
+
+### Docker security bench audit
+# # First test : Score: 43
+
+# docker stack deploy has even less options...
+# Need to specify the deploy options in the docker-compose file
+#   https://docs.docker.com/compose/compose-file/#deploy
+
+# Most options set aren't counted/recognized on either docker service init or DBSecurity
+# # After cure : Score: 45
+
+# ---
+
 
 ## Don't stop swarm if it is already started
 # Test must not kill production
@@ -52,12 +88,12 @@
 # Re-create folder
 - name: Remove test directory
   file:
-    path: '/home/{{ users.3.name }}/tests/docker-compose-test-repo/'
+    path: '/home/{{ users.3.name }}/tests/docker-compose-curated-test-repo/'
     state: absent
 
 - name: Create test directory
   file:
-    path: '/home/{{ users.3.name }}/tests/docker-compose-test-repo/'
+    path: '/home/{{ users.3.name }}/tests/docker-compose-curated-test-repo/'
     state: directory
     mode: '0755'
 
@@ -66,17 +102,17 @@
 - name: 'Clone project {{ publicRepoCurated.name }} from {{ publicRepoCurated.uri }} in test folder'
   git:
     clone: yes
-    dest: '/home/{{ users.3.name }}/tests/docker-compose-test-repo/'
+    dest: '/home/{{ users.3.name }}/tests/docker-compose-curated-test-repo/'
     repo: '{{ publicRepoCurated.uri }}'
+
 
 ## Start services from docker-compose.yml file
 - name: Deploy stack from a compose file
   docker_stack:
-    name: test-nginx-phpfpm-stack
+    name: test-nginx-phpfpm-curated-stack
     compose:
-      - '/home/{{ users.3.name }}/tests/docker-compose-test-repo/docker-compose.yml'
-    # default state is present
-    # state: present
+      - '/home/{{ users.3.name }}/tests/docker-compose-curated-test-repo/docker-compose.yml'
+    state: present
 
 # Wait for the service to start before testing
 # https://medium.com/planetarynetworks/ansible-wait-for-with-docker-container-31d3944da953
@@ -105,12 +141,12 @@
 # Remove test
 - name: Remove stack
   docker_stack:
-    name: test-nginx-phpfpm-stack
+    name: test-nginx-phpfpm-curated-stack
     state: absent
 
 - name: Remove test directory
   file:
-    path: '/home/{{ users.3.name }}/tests/docker-compose-test-repo/'
+    path: '/home/{{ users.3.name }}/tests/docker-compose-curated-test-repo/'
     state: absent
 
 # Remove swarm if needed

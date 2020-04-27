@@ -298,7 +298,7 @@
       memory: 256m
     mounts:
       - readonly: yes
-        source: /home/singed_the_docker_peon_9f6enk4s0/tests-volume/nginx/nginx.conf
+        source: /home/the_docker_peon/tests-volume/nginx/nginx.conf
         target: /etc/nginx/nginx.conf
         type: bind
     name: test-nginx-service
