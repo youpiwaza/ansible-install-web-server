@@ -36,6 +36,13 @@
       # ^ gives a command, reformat it
       > sudo ausearch -p 27020 --raw | aureport -f -i
 
+## OS upgrade / do-realease-upgrade package
+#     https://wiki.ubuntu.com/DebuggingUpdateManager?
+# If you already got a SSH connexion & want to see progress, as Ansible doesn't show
+# .. in a different terminal
+> sudo tail -f main.log
+# > sudo tail -f apt.log
+# > sudo tail -f term.log
 ```
 
 ## Docker logs
