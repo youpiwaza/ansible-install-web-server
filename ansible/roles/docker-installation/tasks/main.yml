@@ -5,103 +5,112 @@
 # Ansible oriented article  / https://www.digitalocean.com/community/tutorials/how-to-use-ansible-to-install-and-set-up-docker-on-ubuntu-18-04
 #   Example cookbook        / https://github.com/do-community/ansible-playbooks/blob/master/docker_ubuntu1804/playbook.yml
 
-# ## Local host needs some packages, both apt & pip
-# - name: Ansible host / Install pip, to allow Python packages installation
-#   apt:
-#     cache_valid_time: '3600'
-#     name: '{{ localHostPackagesToInstall }}'
-#     state: latest
-#     update_cache: yes
-#   delegate_to: 127.0.0.1
+## Install latest python on both local & host
+- name: Install docker / Install latest python on both local & host
+  include: install-latest-python.yml
 
-# # https://docs.ansible.com/ansible/latest/scenario_guides/guide_docker.html#requirements
-# - name: Ansible host / pip / Install docker module for Python, to allow ansible manipulations
-#   pip:
-#     name: '{{ bothHostsPipPackagesToInstall }}'
-#   delegate_to: 127.0.0.1
+## Local host needs some packages, both apt & pip
+- name: Ansible host / Install pip, to allow Python packages installation
+  apt:
+    cache_valid_time: '3600'
+    name: '{{ localHostPackagesToInstall }}'
+    state: latest
+    update_cache: yes
+  delegate_to: 127.0.0.1
 
-# ## Remote host Installation
-# - name: Uninstall old versions
-#   apt:
-#     name: '{{ remoteHostOldPackagesToUninstall }}'
-#     state: absent
+# https://docs.ansible.com/ansible/latest/scenario_guides/guide_docker.html#requirements
+- name: Ansible host / pip / Install docker module for Python, to allow ansible manipulations
+  pip:
+    name: '{{ bothHostsPipPackagesToInstall }}'
+  delegate_to: 127.0.0.1
 
-# - name: Run the equivalent of "apt-get update"
-#   apt:
-#     cache_valid_time: '3600'
-#     force_apt_get: yes
-#     update_cache: yes
+## Remote host Installation
+- name: Uninstall old versions
+  apt:
+    name: '{{ remoteHostOldPackagesToUninstall }}'
+    state: absent
 
-# - name: Install Docker required packages, and pip (python package manager)
-# # Required pip packages : 'python3-pip', 'python3-setuptools', 'virtualenv'
-# #   https://docs.ansible.com/ansible/latest/modules/pip_module.html
-#   apt:
-#     name: '{{ remoteHostPackagesToInstall }}'
-#     state: latest
+- name: Run the equivalent of "apt-get update"
+  apt:
+    cache_valid_time: '3600'
+    force_apt_get: yes
+    update_cache: yes
 
-# - name: Add Docker GPG apt Key
-#   apt_key:
-#     state: present
-#     url: 'https://download.docker.com/linux/ubuntu/gpg'
+- name: Install Docker required packages, and pip (python package manager)
+# Required pip packages : 'python3-pip', 'python3-setuptools', 'virtualenv'
+#   https://docs.ansible.com/ansible/latest/modules/pip_module.html
+  apt:
+    name: '{{ remoteHostPackagesToInstall }}'
+    state: latest
 
-# - name: Add Docker Repository
-#   apt_repository:
-#     repo: 'deb https://download.docker.com/linux/ubuntu bionic stable'
-#     state: present
+- name: Add Docker GPG apt Key
+  apt_key:
+    state: present
+    url: 'https://download.docker.com/linux/ubuntu/gpg'
 
-# - name: Update apt and install docker-ce
-#   apt:
-#     name: '{{ remoteHostDockerPackagesToInstall }}'
-#     state: latest
-#     update_cache: yes
+- name: Add Docker Repository
+  apt_repository:
+  # Ubuntu 18.04
+  # repo: 'deb https://download.docker.com/linux/ubuntu bionic stable'
+  # Ubuntu 19.04
+    repo: 'deb https://download.docker.com/linux/ubuntu eoan stable'
+  # Ubuntu 20.04
+  # Not available yet
+    state: present
 
-# - name: Start Docker and assure it is started and enabled at boot
-#   service:
-#     name: docker
-#     enabled: true
-#     state: started
+- name: Update apt and install docker-ce
+  apt:
+    name: '{{ remoteHostDockerPackagesToInstall }}'
+    state: latest
+    update_cache: yes
 
-
-# ## Apply recommandations
-# # All dual comments are just doc files..
-# # Note: As managing json in ansible isn't as neat as the lineInFile module, I'll template daemon.json once and then create it if it isn't present
-
-# # Apply recommanded post installation steps
-# #   https://docs.docker.com/install/linux/linux-postinstall/
-# # No task beside docker's daemon.json edit
-# # - name: Apply recommanded post installation steps
-# #   include: post-installation-steps.yml
-
-# # Apply recommanded run your app in production steps
-# #   https://docs.docker.com/get-started/orchestration/ , and all subsequent doc
-# # - name: Apply recommanded run your app in production steps
-# #   include: run-your-app-in-production.yml
-
-# # Apply recommanded Docker Security Cheat Sheet stuff
-# #   https://github.com/OWASP/CheatSheetSeries/blob/master/cheatsheets/Docker_Security_Cheat_Sheet.md
-# # - name: Apply recommanded Docker Security Cheat Sheet stuff
-# #   include: docker-security-cheat-sheet.yml
-
-# # Apply recommanded Docker bench security stuff
-# #   https://github.com/docker/docker-bench-security
-# #     https://www.digitalocean.com/community/tutorials/how-to-audit-docker-host-security-with-docker-bench-for-security-on-ubuntu-16-04
-# - name: Apply recommanded Docker bench security stuff
-#   include: docker-bench-security.yml
+- name: Start Docker and assure it is started and enabled at boot
+  service:
+    name: docker
+    enabled: true
+    state: started
 
 
-# - name: Configure the docker daemon
-#   include: configure-docker-daemon.yml
+## Apply recommandations
+# All dual comments are just doc files..
+# Note: As managing json in ansible isn't as neat as the lineInFile module, I'll template daemon.json once and then create it if it isn't present
 
-# # https://docs.ansible.com/ansible/latest/scenario_guides/guide_docker.html#requirements
-# - name: pip / Install docker module for Python, to allow ansible manipulations
-#   pip:
-#     name: '{{ bothHostsPipPackagesToInstall }}'
+# Apply recommanded post installation steps
+#   https://docs.docker.com/install/linux/linux-postinstall/
+# No task beside docker's daemon.json edit
+# - name: Apply recommanded post installation steps
+#   include: post-installation-steps.yml
 
-# - name: Test docker through nginx container
-#   include: test-nginx.yml
+# Apply recommanded run your app in production steps
+#   https://docs.docker.com/get-started/orchestration/ , and all subsequent doc
+# - name: Apply recommanded run your app in production steps
+#   include: run-your-app-in-production.yml
 
-# - name: Test ansible alpine curated container
-#   include: test-alpine-curated-container.yml
+# Apply recommanded Docker Security Cheat Sheet stuff
+#   https://github.com/OWASP/CheatSheetSeries/blob/master/cheatsheets/Docker_Security_Cheat_Sheet.md
+# - name: Apply recommanded Docker Security Cheat Sheet stuff
+#   include: docker-security-cheat-sheet.yml
+
+# Apply recommanded Docker bench security stuff
+#   https://github.com/docker/docker-bench-security
+#     https://www.digitalocean.com/community/tutorials/how-to-audit-docker-host-security-with-docker-bench-for-security-on-ubuntu-16-04
+- name: Apply recommanded Docker bench security stuff
+  include: docker-bench-security.yml
+
+
+- name: Configure the docker daemon
+  include: configure-docker-daemon.yml
+
+# https://docs.ansible.com/ansible/latest/scenario_guides/guide_docker.html#requirements
+- name: pip / Install docker module for Python, to allow ansible manipulations
+  pip:
+    name: '{{ bothHostsPipPackagesToInstall }}'
+
+- name: Test docker through nginx container
+  include: test-nginx.yml
+
+- name: Test ansible alpine curated container
+  include: test-alpine-curated-container.yml
 
 - name: Test ansible nginx curated container
   include: test-nginx-curated-container.yml

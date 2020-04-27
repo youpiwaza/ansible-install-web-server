@@ -13,7 +13,7 @@
   roles:
 #     - system-update
 #     - packages-installation
-    - utils-time
+#     - utils-time
 #     - utils-terminal
 #     - utils-text-editor
 #     - utils-emails
@@ -26,7 +26,7 @@
 #     - security-seccomp
 #     # Install docker as root, as we will need overlay network for swarm
 #     #  Note: docker-compose & docker swarm will need docker installation first
-#     - docker-installation
+    - docker-installation
 #     - docker-compose-installation
 #     - docker-swarm-installation
 ...
