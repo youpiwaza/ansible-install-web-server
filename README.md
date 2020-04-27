@@ -310,6 +310,9 @@ Mettre en place le nouveau serveur
                - total  type
                - ======================
                - 34844  SYSCALL
+   8. ✅ Update to [Ubuntu 20](https://ubuntu.com/blog/ubuntu-20-04-lts-arrives)
+      1. ✅ Check n' fix if needed
+   9. ✅🎉🎉🎉 Close this fucking topic
 
 ### Docker security benchmark checklist
 
