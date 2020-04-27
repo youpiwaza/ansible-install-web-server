@@ -13,7 +13,7 @@
   roles:
 #     - system-update
 #     - packages-installation
-#     - utils-time
+    - utils-time
 #     - utils-terminal
 #     - utils-text-editor
 #     - utils-emails
@@ -28,5 +28,5 @@
 #     #  Note: docker-compose & docker swarm will need docker installation first
 #     - docker-installation
 #     - docker-compose-installation
-      - docker-swarm-installation
+#     - docker-swarm-installation
 ...
