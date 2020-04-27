@@ -293,6 +293,23 @@ Mettre en place le nouveau serveur
                     4. [Ansible stack](https://docs.ansible.com/ansible/latest/modules/docker_stack_module.html)
                  2. ✅ ~ Ligne de commande > Modification du fichier [docker-compose du projet dédié](https://github.com/youpiwaza/docker-compose-curated-example/blob/master/docker-compose.yml)
                  3. ✅ Ansible
+   7. 🌱 Clean syslogs > sudo nano /var/log/syslog
+      1. Network related
+         1. 💩 systemd-udevd[1004]: link_config: autonegotiation is unset or enabled
+            1. [How to troubleshoot an ethernet interface on a Ubuntu Server with ethtool](https://www.techrepublic.com/article/how-to-troubleshoot-an-ethernet-interface-ubuntu-server-with-ethtool/)
+         2. 💩 docker link_config: could not get ethtool features for
+            1. Seems unresolved, don't wanna mess networks with ~patches
+            2. [systemd github issue comment 1](https://github.com/systemd/systemd/issues/3374)
+            3. [systemd github issue comment 2](https://github.com/systemd/systemd/issues/3374#issuecomment-288882355)
+         3. 💩 Could not set offload features of vx-001018-y49o8: No such device
+         4. 💩 systemd-udevd[1526]: Could not generate persistent MAC address for vetha2cadaf: No such file or directory
+      2. ~✅ audit: backlog limit exceeded
+         1. [Augment audit limit](https://serverfault.com/questions/352281/server-locking-up-var-log-messages-reports-backlog-limit-exceeded)
+         2. Investigate what is generating so much logs (systemd > network BS)
+            1. `sudo aureport --start today --event --summary -i`
+               - total  type
+               - ======================
+               - 34844  SYSCALL
 
 ### Docker security benchmark checklist
 
