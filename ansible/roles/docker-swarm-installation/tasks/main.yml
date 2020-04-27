@@ -6,34 +6,34 @@
 # Ansible docker swarm              / https://docs.ansible.com/ansible/latest/modules/docker_swarm_module.html
 # Ansible docker swarm services     / https://docs.ansible.com/ansible/latest/modules/docker_swarm_service_module.html
 
-# ## Docker swarm doesn't need installation, it's already installed with docker
-# # Only testing is needed
-# - name: Test docker swarm through a nginx service
-#   include: test-swarm-service.yml
+## Docker swarm doesn't need installation, it's already installed with docker
+# Only testing is needed
+- name: Test docker swarm through a nginx service
+  include: test-swarm-service.yml
 
-# ## Docker stack needs installations
-# # https://docs.ansible.com/ansible/latest/modules/docker_stack_module.html#requirements
-# - name: Ansible host / pip / Install docker module for Python, to allow ansible manipulations
-#   pip:
-#     name: '{{ bothHostsPipPackagesToInstall }}'
-#   delegate_to: 127.0.0.1
+## Docker stack needs installations
+# https://docs.ansible.com/ansible/latest/modules/docker_stack_module.html#requirements
+- name: Ansible host / pip / Install docker module for Python, to allow ansible manipulations
+  pip:
+    name: '{{ bothHostsPipPackagesToInstall }}'
+  delegate_to: 127.0.0.1
 
-# - name: pip / Install docker module for Python, to allow ansible manipulations
-#   pip:
-#     name: '{{ bothHostsPipPackagesToInstall }}'
+- name: pip / Install docker module for Python, to allow ansible manipulations
+  pip:
+    name: '{{ bothHostsPipPackagesToInstall }}'
 
-# # Test docker stack
-# - name: Test docker stack through a nginx service and a phpfpm linked via network
-#   include: test-stack-services-and-network.yml
+# Test docker stack
+- name: Test docker stack through a nginx service and a phpfpm linked via network
+  include: test-stack-services-and-network.yml
 
-### Apply security recomandations (docker security bench)
-# # # 7.4  - Ensure that all Docker swarm overlay networks are encrypted
-# # Restart default overlay network "ingress" with encryption
-# #   https://docs.docker.com/network/overlay/#customize-the-default-ingress-network
-# # ingress option not available in ansible docker_network
+## Apply security recomandations (docker security bench)
+# # 7.4  - Ensure that all Docker swarm overlay networks are encrypted
+# Restart default overlay network "ingress" with encryption
+#   https://docs.docker.com/network/overlay/#customize-the-default-ingress-network
+# ingress option not available in ansible docker_network
 
-# - name: Test docker swarm through a nginx service
-#   include: test-curated-swarm-service.yml
+- name: Test docker swarm through a nginx service
+  include: test-curated-swarm-service.yml
 
 - name: Test curated docker stack through a nginx service and a phpfpm linked via network
   include: test-curated-stack-services-and-network.yml

@@ -264,6 +264,24 @@
     msg: 'Be careful, if this playbook fails, it will not end and 1 service will still be running !'
 
 
+## Clone project on remote host, then start composition
+# Re-create folder
+- name: Remove test directory
+  file:
+    path: '/home/{{ users.3.name }}/tests-volume/nginx/'
+    state: absent
+
+- name: Create test directory
+  file:
+    path: '/home/{{ users.3.name }}/tests-volume/nginx/'
+    state: directory
+    mode: '0755'
+
+- name: Copy nginx custom user specific config
+  template:
+    dest: /home/{{ users.3.name }}/tests-volume/nginx/nginx.conf
+    src: nginx-custom-user.j2
+
 - name: Don't run on docker default overlay network, create a custom one
   docker_network:
     driver: overlay
@@ -298,7 +316,7 @@
       memory: 256m
     mounts:
       - readonly: yes
-        source: /home/the_docker_peon/tests-volume/nginx/nginx.conf
+        source: '/home/{{ users.3.name }}/tests-volume/nginx/nginx.conf'
         target: /etc/nginx/nginx.conf
         type: bind
     name: test-nginx-service
@@ -388,4 +406,9 @@
     force: true
   # Only stop swarm for test if none was present
   when: result.host_info.Swarm.ControlAvailable|bool == false
+
+- name: Remove test directory
+  file:
+    path: '/home/{{ users.3.name }}/tests-volume/nginx/'
+    state: absent
 ...
