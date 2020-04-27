@@ -5,6 +5,7 @@
 # Install for each user
 - name: 'Cloning oh-my-zsh for root'
   git:
+    force: yes
     repo: https://github.com/ohmyzsh/ohmyzsh.git
     dest: '/root/.oh-my-zsh'
 

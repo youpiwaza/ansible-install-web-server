@@ -5,6 +5,7 @@
 # Install for each user
 - name: 'Cloning oh-my-zsh for {{ item.name }}'
   git:
+    force: yes
     repo: https://github.com/ohmyzsh/ohmyzsh.git
     dest: '/home/{{ item.name }}/.oh-my-zsh'
 
