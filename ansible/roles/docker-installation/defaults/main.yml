@@ -37,7 +37,7 @@ docker_installation__localHostPackagesToInstall: [
   'virtualenv'
 ]
 
-publicRepo: 
+docker_installation__publicRepo: 
   name: test-min-static-site
   uri: https://github.com/youpiwaza/test-min-static-site.git
 
