@@ -9,7 +9,7 @@ security_apparmor__appArmorProfilesToEnforce:
   - 'usr.sbin.chronyd'
 
 # https://help.ubuntu.com/lts/serverguide/serverguide.pdf#page=200
-packagesToInstall: [
+security_apparmor__packagesToInstall: [
   'apparmor',
   'apparmor-profiles',
   'apparmor-utils',

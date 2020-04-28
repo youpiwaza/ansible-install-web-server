@@ -23,7 +23,7 @@
 - name: Install and update AppArmor required packages
 # Required packages : 'apparmor', 'apparmor-profiles', 'apparmor-utils', 'auditd'
   apt:
-    name: '{{ packagesToInstall }}'
+    name: '{{ security_apparmor__packagesToInstall }}'
     state: latest
 
 ## Add wanted profiles
