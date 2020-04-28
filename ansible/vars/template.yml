@@ -168,4 +168,30 @@
 #   # Spam prevention       / http://www.fail2ban.org/
 #   'fail2ban'
 # ]
+
+# # cf. ansible/roles/security-fail2ban/defaults/main.yml
+# fail2ban_loglevel: 3
+# fail2ban_logtarget: /var/log/fail2ban/fail2ban.log
+# fail2ban_socket: /var/run/fail2ban/fail2ban.sock
+# fail2ban_ignoreip: 127.0.0.1/8
+# fail2ban_bantime: 600
+# fail2ban_findtime: 600
+# fail2ban_maxretry: 6
+# fail2ban_backend: polling
+# fail2ban_destemail: '{{ global__admin_email }}'
+# fail2ban_sendername: Fail2Ban
+# fail2ban_sender: '{{ users.0.name }}@ubuntu'
+# fail2ban_banaction: iptables-multiport
+# fail2ban_mta: sendmail
+# fail2ban_protocol: tcp
+# fail2ban_chain: INPUT
+# fail2ban_action: action_
+# fail2ban_services:
+#   # Prevent SSH bruteforce
+#   - name: ssh
+#     # port: ssh
+#     # custom ssh port
+#     port: '{{ global__custom_ssh_port }}'
+#     filter: sshd
+#     logpath: /var/log/auth.log
 ...
