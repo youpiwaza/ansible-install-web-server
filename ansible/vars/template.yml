@@ -205,4 +205,12 @@
 # security_firewall__iptables_restart_dependent_services:
 #   - name: 'docker'
 #     path: '/etc/systemd/system/'
+
+# ## Users
+# users__docker:
+#   # Set to yes if you have at least one docker manager
+#   # It prevents running docker as root
+#   #   https://docs.docker.com/install/linux/linux-postinstall/#manage-docker-as-a-non-root-user
+#   # Note that it might be created by docker itself
+#   createDockerGroup: yes
 ...
