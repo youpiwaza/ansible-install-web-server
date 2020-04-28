@@ -40,12 +40,12 @@
 ## Change time zone
 - name: Register timezone infos
   stat:
-    path: '{{ clock_tz_dir }}{{ clock_timezone }}'
+    path: '{{ clock_tz_dir }}{{ utils_time__clock_timezone }}'
   register: clock_tzfile_st
 
 - name: Check if specified timezone is available
   fail: 
-    msg: "The specified timezone '{{ clock_timezone }}' is not available"
+    msg: "The specified timezone '{{ utils_time__clock_timezone }}' is not available"
   when: not clock_tzfile_st.stat.exists
 
 - name: Set timezone in system configuration
@@ -53,18 +53,18 @@
     src: templates/timezone.j2
     dest: /etc/timezone
   # ansible_date_time > variable globale ansible
-  when: (ansible_date_time.tz != clock_timezone)
+  when: (ansible_date_time.tz != utils_time__clock_timezone)
 
 # Prevent hardware desync
 - name: Update /etc/localtime
   command: dpkg-reconfigure --frontend noninteractive tzdata
-  when: (ansible_date_time.tz != clock_timezone)
+  when: (ansible_date_time.tz != utils_time__clock_timezone)
   notify:
     - Sync hardware clock
 
 - name: Set timezone
-  command: 'timedatectl set-timezone {{ clock_timezone }}'
-  when: (ansible_date_time.tz != clock_timezone)
+  command: 'timedatectl set-timezone {{ utils_time__clock_timezone }}'
+  when: (ansible_date_time.tz != utils_time__clock_timezone)
   notify:
     - Sync hardware clock
 
@@ -79,7 +79,7 @@
 
 # - name: Check for ntpd restart
 #   command: /bin/true
-#   when: ansible_date_time.tz != clock_timezone
+#   when: ansible_date_time.tz != utils_time__clock_timezone
 #   notify:
 #     - Restart ntpd
 

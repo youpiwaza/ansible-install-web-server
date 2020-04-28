@@ -324,4 +324,8 @@
 #   - 0.pool.ntp.org
 #   - ntp.ubuntu.com
 #   - 0.arch.pool.ntp.org
+
+# # Timezone configuration
+# # > timedatectl list-timezones
+# utils_time__clock_timezone: 'Europe/Paris'
 ...

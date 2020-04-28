@@ -30,8 +30,7 @@ utils_time__clock_ntpd_fallback_servers:
 
 # Timezone configuration
 # > timedatectl list-timezones
-
-clock_timezone: 'Europe/Paris'
+utils_time__clock_timezone: 'Europe/Paris'
 clock_tz_dir: '/usr/share/zoneinfo/'
 
 # Old ntp vars
