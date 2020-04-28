@@ -9,7 +9,7 @@
   tasks:
     # Remove eventual previous local keys
     - name: Local / Remove eventual previous local keys
-      local_action: 'command ssh-keygen -f "/root/.ssh/known_hosts" -R "{{ my_ssh_remote_host }}"'
+      local_action: 'command ssh-keygen -f "/root/.ssh/known_hosts" -R "{{ global__remote_host }}"'
 
     # Generate SSH keys locally
     #   https://www.ssh.com/ssh/keygen

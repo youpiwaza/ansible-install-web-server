@@ -12,16 +12,16 @@
 > ssh-add -l
 
 # (Once per server installation) Add public key to server
-> ssh-copy-id -i ~/.ssh/{{ global__remote_user }}-ssh-key-ed25519 {{ global__remote_user }}@{{ my_ssh_remote_host }}
+> ssh-copy-id -i ~/.ssh/{{ global__remote_user }}-ssh-key-ed25519 {{ global__remote_user }}@{{ global__remote_host }}
 > (remote_user_password)
 
 # Try connecting with
 # Works at the end of the first playbook : 1-first-connexion-setup.yml
-> ssh {{ global__remote_user }}@{{ my_ssh_remote_host }}
+> ssh {{ global__remote_user }}@{{ global__remote_host }}
 
 ## If custom SSH port has already been set
 # Works at the end of the second playbook : 2-generate-users-and-change-ssh-port.yml
-> ssh {{ global__remote_user }}@{{ my_ssh_remote_host }} -p {{ global__custom_ssh_port }}
+> ssh {{ global__remote_user }}@{{ global__remote_host }} -p {{ global__custom_ssh_port }}
 
 # Note that for security reasons, the third playbook removes root login, and password authentication
 # So you shouldn't be able to connect with root afterwards

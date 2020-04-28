@@ -13,7 +13,9 @@ global__admin_email: YOUR_EMAIL
 # global__remote_user: root
 global__remote_user: YOUR_REMOTE_USER
 
-my_ssh_remote_host: 169.169.169.169
+# Ip adresse of your server
+global__remote_host: 169.169.169.169
+
 # https://passwordsgenerator.net/ / lower and UPPERCASE, numbers and special chars
 my_ssh_passphrase: whatever
 ...
