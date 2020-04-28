@@ -5,7 +5,7 @@ docker_compose_installation__bothHostsPipPackagesToInstall: [
   'PyYAML'
 ]
 
-publicRepo: 
+docker_compose_installation__publicRepo: 
   name: docker-compose-example
   uri: https://github.com/youpiwaza/docker-compose-example.git
 
