@@ -49,7 +49,7 @@ docker_installation__remoteHostDockerPackagesToInstall: [
 ]
 
 # https://docs.docker.com/install/linux/docker-ce/ubuntu/#uninstall-old-versions
-remoteHostOldPackagesToUninstall: [
+docker_installation__remoteHostOldPackagesToUninstall: [
   'docker',
   'docker-engine',
   'docker.io',

@@ -93,4 +93,13 @@
 #   'docker-ce-cli',
 #   'containerd.io'
 # ]
+
+# # https://docs.docker.com/install/linux/docker-ce/ubuntu/#uninstall-old-versions
+# docker_installation__remoteHostOldPackagesToUninstall: [
+#   'docker',
+#   'docker-engine',
+#   'docker.io',
+#   'containerd',
+#   'runc'
+# ]
 ...

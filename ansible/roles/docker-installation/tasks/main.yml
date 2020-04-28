@@ -27,7 +27,7 @@
 ## Remote host Installation
 - name: Uninstall old versions
   apt:
-    name: '{{ remoteHostOldPackagesToUninstall }}'
+    name: '{{ docker_installation__remoteHostOldPackagesToUninstall }}'
     state: absent
 
 - name: Run the equivalent of "apt-get update"
