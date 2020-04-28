@@ -50,7 +50,7 @@
 # https://hub.docker.com/_/alpine
 - name: Test docker through an alpine container / Pull default alpine image
   docker_image:
-    name: '{{ alpineTestImage }}'
+    name: '{{ global__alpineTestImage }}'
     source: pull
 
 - name: Warning about running container
@@ -88,7 +88,7 @@
       timeout: 10s
       retries: 3
       start_period: 0s
-    image: '{{ alpineTestImage }}'
+    image: '{{ global__alpineTestImage }}'
     # https://docs.docker.com/config/labels-custom-metadata/
     labels:
       fr.masamune.client: 'masamune'

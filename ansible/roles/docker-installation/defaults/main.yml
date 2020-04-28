@@ -1,6 +1,4 @@
 ---
-alpineTestImage: 'alpine:3.11.5'
-
 # https://docs.ansible.com/ansible/latest/scenario_guides/guide_docker.html
 bothHostsPipPackagesToInstall: [
   'docker'
