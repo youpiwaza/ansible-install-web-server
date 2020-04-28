@@ -59,7 +59,7 @@ docker_installation__remoteHostOldPackagesToUninstall: [
 
 # https://docs.docker.com/install/linux/docker-ce/ubuntu/#install-using-the-repository
 # https://docs.ansible.com/ansible/latest/modules/pip_module.html > Requirements
-remoteHostPackagesToInstall: [
+docker_installation__remoteHostPackagesToInstall: [
   'apt-transport-https',
   'ca-certificates',
   'curl',

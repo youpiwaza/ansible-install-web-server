@@ -40,7 +40,7 @@
 # Required pip packages : 'python3-pip', 'python3-setuptools', 'virtualenv'
 #   https://docs.ansible.com/ansible/latest/modules/pip_module.html
   apt:
-    name: '{{ remoteHostPackagesToInstall }}'
+    name: '{{ docker_installation__remoteHostPackagesToInstall }}'
     state: latest
 
 - name: Add Docker GPG apt Key

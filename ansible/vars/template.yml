@@ -102,4 +102,17 @@
 #   'containerd',
 #   'runc'
 # ]
+
+# # https://docs.docker.com/install/linux/docker-ce/ubuntu/#install-using-the-repository
+# # https://docs.ansible.com/ansible/latest/modules/pip_module.html > Requirements
+# docker_installation__remoteHostPackagesToInstall: [
+#   'apt-transport-https',
+#   'ca-certificates',
+#   'curl',
+#   'gnupg-agent',
+#   'python3-pip',
+#   'python3-setuptools',
+#   'software-properties-common',
+#   'virtualenv'
+# ]
 ...
