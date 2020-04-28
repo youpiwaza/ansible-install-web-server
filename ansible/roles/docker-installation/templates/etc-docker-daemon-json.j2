@@ -2,13 +2,13 @@
   "default-ulimits": {
 		"nofile": {
       "Name": "nofile",
-      "Hard": {{ dockerConfig.default_ulimits.nofile.hard }},
-      "Soft": {{ dockerConfig.default_ulimits.nofile.soft }}
+      "Hard": {{ docker_installation__dockerConfig.default_ulimits.nofile.hard }},
+      "Soft": {{ docker_installation__dockerConfig.default_ulimits.nofile.soft }}
     },
     "nproc" : {
       "Name": "nproc",
-      "Hard": {{ dockerConfig.default_ulimits.nproc.hard }},
-      "Soft": {{ dockerConfig.default_ulimits.nproc.soft }}
+      "Hard": {{ docker_installation__dockerConfig.default_ulimits.nproc.hard }},
+      "Soft": {{ docker_installation__dockerConfig.default_ulimits.nproc.soft }}
     }
 	},
   "icc": false,

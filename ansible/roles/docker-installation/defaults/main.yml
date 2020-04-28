@@ -9,7 +9,7 @@ docker_installation__dockerBenchSecurityPackagesToInstall: [
 ]
 
 # Some values for /etc/docker/daemon.json
-dockerConfig:
+docker_installation__dockerConfig:
   # This example sets a soft limit of 128 open files and 32 child processes and a hard limit of 256 open files and 64 child processes on the container.
   #   https://docs.oracle.com/en/operating-systems/oracle-linux/docker/ch04s16.html
   default_ulimits:
