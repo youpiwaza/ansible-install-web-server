@@ -1,5 +1,5 @@
 ---
-packagesToInstall: [
+utils_emails__packagesToInstall: [
   # Mail testing          / https://mailutils.org/
   'mailutils',
   # Send emails (MTA)     / http://www.postfix.org/

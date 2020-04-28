@@ -263,4 +263,12 @@
 #     restrictUser: yes
 #     ssh_passphrase: 'your_pass_phrase'
 #     sudoer: no
+
+# ## Utils emails
+# utils_emails__packagesToInstall: [
+#   # Mail testing          / https://mailutils.org/
+#   'mailutils',
+#   # Send emails (MTA)     / http://www.postfix.org/
+#   'postfix'
+# ]
 ...
