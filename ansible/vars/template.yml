@@ -328,4 +328,5 @@
 # # Timezone configuration
 # # > timedatectl list-timezones
 # utils_time__clock_timezone: 'Europe/Paris'
+# utils_time__clock_tz_dir: '/usr/share/zoneinfo/'
 ...

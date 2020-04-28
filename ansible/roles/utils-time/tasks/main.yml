@@ -40,7 +40,7 @@
 ## Change time zone
 - name: Register timezone infos
   stat:
-    path: '{{ clock_tz_dir }}{{ utils_time__clock_timezone }}'
+    path: '{{ utils_time__clock_tz_dir }}{{ utils_time__clock_timezone }}'
   register: clock_tzfile_st
 
 - name: Check if specified timezone is available
