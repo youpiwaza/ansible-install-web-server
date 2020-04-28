@@ -290,4 +290,11 @@
 #   # Shell++               / https://www.zsh.org/
 #   'zsh'
 # ]
+
+
+# ## Utils text editor
+# utils_text_editor__packagesToInstall: [
+#   # Text editor           / https://www.vim.org/
+#   'vim'
+# ]
 ...

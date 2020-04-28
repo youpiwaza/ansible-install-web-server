@@ -1,5 +1,5 @@
 ---
-packagesToInstall: [
+utils_text_editor__packagesToInstall: [
   # Text editor           / https://www.vim.org/
   'vim'
 ]
