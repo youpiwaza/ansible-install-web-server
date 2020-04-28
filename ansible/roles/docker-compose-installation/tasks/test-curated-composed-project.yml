@@ -18,11 +18,11 @@
 
 # Clone public repo
 #   https://docs.ansible.com/ansible/latest/modules/git_module.html
-- name: 'Clone project {{ publicRepoCurated.name }} from {{ publicRepoCurated.uri }} in test folder'
+- name: 'Clone project {{ docker_compose_installation__publicRepoCurated.name }} from {{ docker_compose_installation__publicRepoCurated.uri }} in test folder'
   git:
     clone: yes
     dest: '/home/{{ users.3.name }}/tests/docker-compose-curated-test-repo/'
-    repo: '{{ publicRepoCurated.uri }}'
+    repo: '{{ docker_compose_installation__publicRepoCurated.uri }}'
 
 - name: Warning about running container
   debug:

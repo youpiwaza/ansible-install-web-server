@@ -9,7 +9,7 @@ docker_compose_installation__publicRepo:
   name: docker-compose-example
   uri: https://github.com/youpiwaza/docker-compose-example.git
 
-publicRepoCurated: 
+docker_compose_installation__publicRepoCurated: 
   name: docker-compose-curated-example
   uri: https://github.com/youpiwaza/docker-compose-curated-example.git
 ...
