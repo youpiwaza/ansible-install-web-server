@@ -17,8 +17,7 @@ utils_time__packagesToInstall: [
 utils_time__clock_hwclock_sync: 'localtime'
 
 # Find the most appropriate server / https://www.pool.ntp.org/zone/@
-
-clock_ntpd_servers:
+utils_time__clock_ntpd_servers:
   - 0.europe.pool.ntp.org
   - 1.europe.pool.ntp.org
   - 2.europe.pool.ntp.org

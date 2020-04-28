@@ -7,7 +7,7 @@ restrict -6 default kod nomodify notrap nopeer noquery
 restrict 127.0.0.1
 restrict ::1
 
-{% for server in clock_ntpd_servers %}
+{% for server in utils_time__clock_ntpd_servers %}
 server {{ server }}
 {% endfor %}
 

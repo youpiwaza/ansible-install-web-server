@@ -23,7 +23,7 @@
 # See http://www.pool.ntp.org/join.html for more information.
 
 # pool ntp.ubuntu.com        iburst maxsources 4
-{% for server in clock_ntpd_servers %}
+{% for server in utils_time__clock_ntpd_servers %}
 pool {{ server }} iburst
 {% endfor %}
 
