@@ -23,6 +23,6 @@
 # Old / Ntp configuration
 # - name: Restart ntpd
 #   service:
-#     name: {{ clock_ntpd_service }}
+#     name: {{ utils_time__clock_ntpd_service }}
 #     state: restarted
 ...

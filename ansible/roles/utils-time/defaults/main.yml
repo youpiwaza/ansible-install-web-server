@@ -34,6 +34,5 @@ utils_time__clock_timezone: 'Europe/Paris'
 utils_time__clock_tz_dir: '/usr/share/zoneinfo/'
 
 # Old ntp vars
-# clock_ntpd_enable: true
-# clock_ntpd_service: 'ntp'
+# utils_time__clock_ntpd_service: 'ntp'
 ...
