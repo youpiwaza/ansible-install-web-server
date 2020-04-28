@@ -83,7 +83,7 @@
 # https://hub.docker.com/_/nginx
 - name: Pull default nginx image
   docker_image:
-    name: '{{ nginxTestImage }}'
+    name: '{{ global__nginxTestImage }}'
     source: pull
 
 - name: Warning about running container
@@ -121,7 +121,7 @@
       timeout: 10s
       retries: 3
       start_period: 0s
-    image: '{{ nginxTestImage }}'
+    image: '{{ global__nginxTestImage }}'
     # https://docs.docker.com/config/labels-custom-metadata/
     labels:
       fr.masamune.client: 'masamune'

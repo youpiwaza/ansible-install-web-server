@@ -11,7 +11,7 @@
 # https://hub.docker.com/_/nginx
 - name: Test docker through a nginx container / Pull default nginx image
   docker_image:
-    name: '{{ nginxTestImage }}'
+    name: '{{ global__nginxTestImage }}'
     source: pull
 
 - name: Warning about running container
@@ -21,7 +21,7 @@
 - name: Start a nginx test container, on port 80 (other are closed by firewall)
   docker_container:
     name: test-nginx
-    image: '{{ nginxTestImage }}'
+    image: '{{ global__nginxTestImage }}'
     ports:
       - '80:80'
     # Present create the container but doesn't start it

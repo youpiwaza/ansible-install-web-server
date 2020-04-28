@@ -305,7 +305,7 @@
       timeout: 10s
       retries: 3
       start_period: 0s
-    image: '{{ nginxTestImage }}'
+    image: '{{ global__nginxTestImage }}'
     labels:
       fr.masamune.client: 'masamune'
       fr.masamune.maintainer: 'masamune.code@gmail.com'
@@ -388,7 +388,7 @@
 # Remove test
 - name: Stop test nginx service
   docker_swarm_service:
-    image: '{{ nginxTestImage }}'
+    image: '{{ global__nginxTestImage }}'
     name: test-nginx-service
     state: absent
 

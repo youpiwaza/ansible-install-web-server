@@ -39,8 +39,6 @@ localHostPackagesToInstall: [
   'virtualenv'
 ]
 
-nginxTestImage: 'nginx:1.16.1-alpine'
-
 publicRepo: 
   name: test-min-static-site
   uri: https://github.com/youpiwaza/test-min-static-site.git

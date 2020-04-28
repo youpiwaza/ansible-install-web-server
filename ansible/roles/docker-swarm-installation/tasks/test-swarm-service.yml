@@ -54,7 +54,7 @@
 # https://hub.docker.com/_/nginx
 - name: Start nginx service, on port 80 (other are closed by firewall)
   docker_swarm_service:
-    image: '{{ nginxTestImage }}'
+    image: '{{ global__nginxTestImage }}'
     name: test-nginx-service
     publish:
     - published_port: 80
@@ -99,7 +99,7 @@
 # Remove test
 - name: Stop nginx service
   docker_swarm_service:
-    image: '{{ nginxTestImage }}'
+    image: '{{ global__nginxTestImage }}'
     name: test-nginx-service
     state: absent
 
