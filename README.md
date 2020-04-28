@@ -22,8 +22,8 @@ Working on Windows WSL, personnal notes for my setup
 
 # Une seule fois, lancer le playbook pour configurer la première connexion
 > ansible-playbook -i hosts 1-first-connexion-setup.yml | sed 's/\\n/\n/g'
-# Executer les commandes dans le fichier généré 'manual-commands.md'
 
+# Executer les commandes dans le fichier généré 'manual-commands.md'
 # Add ~root ssh key to local ssh agent, cf. __root-manual-commands.md
 > eval `ssh-agent`
 > ssh-add ~/.ssh/YOUR_REMOTE_USER-ssh-key-ed25519

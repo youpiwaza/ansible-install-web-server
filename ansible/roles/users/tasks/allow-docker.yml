@@ -2,7 +2,6 @@
 ### Allow to use docker to user, only when specified
 #   https://docs.docker.com/install/linux/linux-postinstall/#manage-docker-as-a-non-root-user
 - name: 'Append {{ item.name }} to the docker group : {{ item.dockerManagement }}'
-  notify: Activate the changes to groups
   user:
     name: '{{ item.name }}'
     groups: docker
