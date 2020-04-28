@@ -7,12 +7,12 @@
 # Re-create folder
 - name: Test curated docker-compose through nginx + phpfpm / Remove test directory
   file:
-    path: '/home/{{ users.3.name }}/tests/docker-compose-curated-test-repo/'
+    path: '/home/{{ users.3.name }}/tests/{{ docker_compose_installation__publicRepoCurated.name }}/'
     state: absent
 
 - name: Create test directory
   file:
-    path: '/home/{{ users.3.name }}/tests/docker-compose-curated-test-repo/'
+    path: '/home/{{ users.3.name }}/tests/{{ docker_compose_installation__publicRepoCurated.name }}/'
     state: directory
     mode: '0755'
 
@@ -21,7 +21,7 @@
 - name: 'Clone project {{ docker_compose_installation__publicRepoCurated.name }} from {{ docker_compose_installation__publicRepoCurated.uri }} in test folder'
   git:
     clone: yes
-    dest: '/home/{{ users.3.name }}/tests/docker-compose-curated-test-repo/'
+    dest: '/home/{{ users.3.name }}/tests/{{ docker_compose_installation__publicRepoCurated.name }}/'
     repo: '{{ docker_compose_installation__publicRepoCurated.uri }}'
 
 - name: Warning about running container
@@ -32,7 +32,7 @@
 - name: Create and start composition
   docker_compose:
     project_name: docker-compose-curated-test
-    project_src: '/home/{{ users.3.name }}/tests/docker-compose-curated-test-repo/'
+    project_src: '/home/{{ users.3.name }}/tests/{{ docker_compose_installation__publicRepoCurated.name }}/'
     state: present
   register: output
 
@@ -60,11 +60,11 @@
 - name: Stop and remove composition
   docker_compose:
     project_name: docker-compose-curated-test
-    project_src: '/home/{{ users.3.name }}/tests/docker-compose-curated-test-repo/'
+    project_src: '/home/{{ users.3.name }}/tests/{{ docker_compose_installation__publicRepoCurated.name }}/'
     state: absent
 
 - name: Remove test directory
   file:
-    path: '/home/{{ users.3.name }}/tests/docker-compose-curated-test-repo/'
+    path: '/home/{{ users.3.name }}/tests/{{ docker_compose_installation__publicRepoCurated.name }}/'
     state: absent
 ...
