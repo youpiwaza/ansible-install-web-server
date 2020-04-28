@@ -6,11 +6,10 @@ packagesToInstall: [
   'postfix'
 ]
 
-## Config vars
+## Config email vars
 # https://hostadvice.com/how-to/how-to-setup-postfix-as-send-only-mail-server-on-an-ubuntu-18-04-dedicated-server-or-vps/
 
+# Which will result in mail sent from email_hostname@email_domain_name, here likorne@YOUR_DOMAIN.fr
 email_hostname: likorne
-email_domain_name: masamune.fr
-
-# which will result in mail sent from email_hostname@email_domain_name, here likorne@masamune.fr
+email_domain_name: YOUR_DOMAIN.fr
 ...
