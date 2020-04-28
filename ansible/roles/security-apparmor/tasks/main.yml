@@ -42,7 +42,7 @@
 # Load profiles
 - name: Add custom AppArmor profiles
   include: add-profile.yml
-  loop: '{{ appArmorProfilesToAdd }}'
+  loop: '{{ security_apparmor__appArmorProfilesToAdd }}'
 
 ## If need test..
 #   https://docs.docker.com/engine/security/apparmor/#nginx-example-profile

@@ -143,4 +143,10 @@
 #   # Process viewer        / https://hisham.hm/htop/
 #   'htop'
 # ]
+
+
+# ## Security AppArmor
+# # From /templates, will be used during containers start. Do not enforce
+# security_apparmor__appArmorProfilesToAdd:
+#   - 'docker-nginx'
 ...
