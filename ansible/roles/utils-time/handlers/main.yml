@@ -5,8 +5,8 @@
 
 # Prevent hardware desync by using localtime
 - name: Sync hardware clock
-  command: 'hwclock --systohc --{{ clock_hwclock_sync }}'
-  when: clock_hwclock_sync == 'utc' or clock_hwclock_sync == 'localtime'
+  command: 'hwclock --systohc --{{ utils_time__clock_hwclock_sync }}'
+  when: utils_time__clock_hwclock_sync == 'utc' or utils_time__clock_hwclock_sync == 'localtime'
 
 - name: Restart chrony
   systemd:

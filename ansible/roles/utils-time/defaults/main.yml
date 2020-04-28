@@ -14,7 +14,7 @@ utils_time__packagesToInstall: [
 # If set, the hardware clock will be set to the current system time if the timezone is changed; valid values are utc or localtime. Defaults to null.
 #   https://askubuntu.com/questions/175452/hwclock-not-in-sync-with-system-clock
 
-clock_hwclock_sync: 'localtime'
+utils_time__clock_hwclock_sync: 'localtime'
 
 # Find the most appropriate server / https://www.pool.ntp.org/zone/@
 

@@ -100,7 +100,7 @@
 # # Note: It only desactivate RTC in local TZ in timedatectl status
 # - name: Remove timedatectl status warning when using localtime
 #   command: command: timedatectl set-local-rtc 0
-#   when: clock_hwclock_sync == 'localtime'
+#   when: utils_time__clock_hwclock_sync == 'localtime'
 
 ## Chrony configuration
 
