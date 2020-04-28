@@ -23,7 +23,7 @@ utils_time__clock_ntpd_servers:
   - 2.europe.pool.ntp.org
   - 3.europe.pool.ntp.org
 
-clock_ntpd_fallback_servers:
+utils_time__clock_ntpd_fallback_servers:
   - 0.pool.ntp.org
   - ntp.ubuntu.com
   - 0.arch.pool.ntp.org

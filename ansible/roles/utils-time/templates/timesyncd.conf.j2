@@ -18,7 +18,7 @@
 NTP= {{ utils_time__clock_ntpd_servers.0 }} {{ utils_time__clock_ntpd_servers.1 }} {{ utils_time__clock_ntpd_servers.2 }} {{ utils_time__clock_ntpd_servers.3 }}
 
 #FallbackNTP=ntp.ubuntu.com
-FallbackNTP= {{ clock_ntpd_fallback_servers.0 }} {{ clock_ntpd_fallback_servers.1 }} {{ clock_ntpd_fallback_servers.2 }}
+FallbackNTP= {{ utils_time__clock_ntpd_fallback_servers.0 }} {{ utils_time__clock_ntpd_fallback_servers.1 }} {{ utils_time__clock_ntpd_fallback_servers.2 }}
 
 #RootDistanceMaxSec=5
 #PollIntervalMinSec=32
