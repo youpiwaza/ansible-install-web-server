@@ -1,0 +1,24 @@
+---
+# ### Template vars file if you want to override some variables
+# ## Global vars
+
+# # If you want to change the default SSH port
+# #   Also used for iptables firewall rules
+# global__custom_ssh_port: 6969
+
+# # Email used for notifications
+# global__admin_email: YOUR_EMAIL
+
+# # Default root user to connect to your server, usually root
+# # global__remote_user: YOUR_REMOTE_USER
+# global__remote_user: root
+
+# # Ip adresse of your server
+# # Must also be set in /ansible/hosts & hostsWithCustomSSHPort
+# global__remote_host: 169.169.169.169
+
+# # SSH pass phrase for ssh key authentication (no password)
+# # Root will be mostly used only to set up other users
+# # https://passwordsgenerator.net/ / lower and UPPERCASE, numbers and special chars
+# global__remote_host_ssh_passphrase: whatever
+...
