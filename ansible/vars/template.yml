@@ -201,4 +201,8 @@
 #   # Firewall              / https://doc.ubuntu-fr.org/iptables    / Required for Oh my ZSH
 #   'iptables'
 # ]
+
+# security_firewall__iptables_restart_dependent_services:
+#   - name: 'docker'
+#     path: '/etc/systemd/system/'
 ...

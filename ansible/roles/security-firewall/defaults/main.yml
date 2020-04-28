@@ -4,7 +4,7 @@ security_firewall__packagesToInstall: [
   'iptables'
 ]
 
-iptables_restart_dependent_services:
+security_firewall__iptables_restart_dependent_services:
   - name: 'docker'
     path: '/etc/systemd/system/'
 ...
