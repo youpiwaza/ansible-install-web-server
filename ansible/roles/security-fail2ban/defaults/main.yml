@@ -45,7 +45,7 @@ fail2ban_backend: polling
 
 # Where should e-mail reports be sent to?
 # fail2ban_destemail: root@localhost
-fail2ban_destemail: '{{ my_mail }}'
+fail2ban_destemail: '{{ global__admin_email }}'
 
 # Name of the sender for mta actions
 fail2ban_sendername: Fail2Ban

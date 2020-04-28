@@ -5,7 +5,7 @@
 # Also used for iptables firewall rules
 global__custom_ssh_port: 6969
 
-my_mail: YOUR_EMAIL
+global__admin_email: YOUR_EMAIL
 my_remote_user: YOUR_REMOTE_USER
 
 my_ssh_remote_host: 169.169.169.169

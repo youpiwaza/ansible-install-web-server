@@ -20,7 +20,7 @@
     # -N          / Passphrase
     # -t ed25519  / Algorithm type / ed25519 - this is a new algorithm added in OpenSSH
     - name: "Local / Generate SSH keys locally ONLY IF they don't exist yet"
-      local_action: 'command ssh-keygen -f ~/.ssh/{{ my_remote_user }}-ssh-key-ed25519 -a 100 -t ed25519 -N "{{ my_ssh_passphrase }}" -C "{{ my_mail }}"'
+      local_action: 'command ssh-keygen -f ~/.ssh/{{ my_remote_user }}-ssh-key-ed25519 -a 100 -t ed25519 -N "{{ my_ssh_passphrase }}" -C "{{ global__admin_email }}"'
       # Only create files if they don't exist
       args:
         creates: ~/.ssh/{{ my_remote_user }}-ssh-key-ed25519
