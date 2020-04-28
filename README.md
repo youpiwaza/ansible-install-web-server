@@ -313,6 +313,26 @@ Mettre en place le nouveau serveur
    8. ✅ Update to [Ubuntu 20](https://ubuntu.com/blog/ubuntu-20-04-lts-arrives)
       1. ✅ Check n' fix if needed
    9. ✅🎉🎉🎉 Close this fucking topic
+6. Clean ansible before pursuing
+   1. Refacto variables
+      1. ✅ Déplacers tours les vars/main_not_so_real.yml dans */defaults/main.yml
+         1. ✅ Si vars === not_so_real > supprimer vars (garder uniquement pour données persos)
+      2. ✅ Préfixer les variables (éviter les conflits + config depuis la racine)
+         1. ✅ Rendre global si besoin pour éviter les répétitions
+         2. ✅ Enlever les prefixes "my" et autres trucs inutiles
+      3. ✅ Fichier à la racine avec valeurs par défaut, toutes commentées
+      4. 🌱 Chargement de mes variables réelles depuis repo privé
+   2. 🌱 Lint users
+      1. Replace {{ users.0.name }} & {{ users.2.name }} par les vrais users
+         1. Rechercher {{ users.
+      2. Créer liste dynamique populée à partir des utilisateurs dédiés
+      3. ansible\roles\docker-installation\templates\etc-docker-daemon-json.j2
+   3. ✅ Décommenter tout
+   4. ✅ Réinstallation complète pour vérifier le déroulement complet + Fix si besoin
+   5. 🌱 Ubuntu reco : Canonical Livepatch is available for installation.
+       - Reduce system reboots and improve kernel security. [Activate at](https://ubuntu.com/livepatch)
+       - Not available (yet) for Ubuntu 20.04 ?
+       - Pay for business use > Physical server essential > 225$ >.>
 
 ### Docker security benchmark checklist
 
