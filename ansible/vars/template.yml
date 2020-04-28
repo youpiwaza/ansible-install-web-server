@@ -86,4 +86,11 @@
 # docker_installation__publicRepo: 
 #   name: test-min-static-site
 #   uri: https://github.com/youpiwaza/test-min-static-site.git
+
+# # https://docs.docker.com/install/linux/docker-ce/ubuntu/#install-docker-engine---community-1
+# docker_installation__remoteHostDockerPackagesToInstall: [
+#   'docker-ce',
+#   'docker-ce-cli',
+#   'containerd.io'
+# ]
 ...

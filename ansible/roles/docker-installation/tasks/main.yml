@@ -60,7 +60,7 @@
 
 - name: Update apt and install docker-ce
   apt:
-    name: '{{ remoteHostDockerPackagesToInstall }}'
+    name: '{{ docker_installation__remoteHostDockerPackagesToInstall }}'
     state: latest
     update_cache: yes
 
