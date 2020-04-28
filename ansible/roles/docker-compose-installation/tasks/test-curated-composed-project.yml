@@ -3,6 +3,45 @@
 
 # https://github.com/youpiwaza/server-related-tutorials/tree/master/01-docker/04-my-tests/02-compose-nginx-php
 
+
+
+## Requires a swarm manager as the curated project contains a deploy section, even if not used
+## Don't stop swarm if it is already started
+# Test must not kill production
+# If it isn't, start a swarm for the test and remove it afterward
+
+# Get swarm info / docker system info / https://docs.docker.com/get-started/swarm-deploy/
+- name: Test curated docker-compose through nginx + phpfpm / Get info on docker host
+  docker_host_info:
+  register: result
+
+# - name: Display full info
+#   debug:
+#     msg: '{{ result.host_info }}'
+
+# - name: Display swarm started info
+#   debug:
+#     msg: '{{ result.host_info.Swarm.ControlAvailable }}'
+
+- name: 'Swarm started ? {{ result.host_info.Swarm.ControlAvailable }}'
+  debug:
+    msg: "Swarm detected, using it for this test"
+  when: result.host_info.Swarm.ControlAvailable|bool == true
+
+- name: 'Swarm started ? {{ result.host_info.Swarm.ControlAvailable }}'
+  debug:
+    msg: "No swarm detected, creating one for this test, and remove it afterwards"
+  when: result.host_info.Swarm.ControlAvailable|bool == false
+
+## Start services
+- name: Init a new swarm with default parameters, if needed
+  docker_swarm:
+    state: present
+  # Only init swarm for test if none is present
+  when: result.host_info.Swarm.ControlAvailable|bool == false
+
+
+
 ## Clone project on remote host, then start composition
 # Re-create folder
 - name: Test curated docker-compose through nginx + phpfpm / Remove test directory
@@ -67,4 +106,12 @@
   file:
     path: '/home/{{ users.3.name }}/tests/{{ docker_compose_installation__publicRepoCurated.name }}/'
     state: absent
+
+# Remove swarm if needed
+- name: Remove a swarm manager
+  docker_swarm:
+    state: absent
+    force: true
+  # Only stop swarm for test if none was present
+  when: result.host_info.Swarm.ControlAvailable|bool == false
 ...

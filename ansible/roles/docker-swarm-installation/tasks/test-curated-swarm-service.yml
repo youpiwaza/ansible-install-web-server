@@ -282,17 +282,22 @@
     dest: /home/{{ users.3.name }}/tests-volume/nginx/nginx.conf
     src: nginx-custom-user.j2
 
-- name: Don't run on docker default overlay network, create a custom one
-  docker_network:
-    driver: overlay
-    force: yes
-    labels:
-      fr.masamune.client: 'masamune'
-      fr.masamune.maintainer: 'masamune.code@gmail.com'
-      fr.masamune.project: 'custom overlay network'
-      fr.masamune.type: 'test'
-    name: test-custom-overlay
-    state: present
+# LATER: Custom network creation OK, linked to stack KO via ansible
+# - name: Don't run on docker default overlay network, create a custom one
+#   docker_network:
+#     driver: overlay
+#     # force: yes
+#     labels:
+#       fr.masamune.client: 'masamune'
+#       fr.masamune.maintainer: 'masamune.code@gmail.com'
+#       fr.masamune.project: 'custom overlay network'
+#       fr.masamune.type: 'test'
+#     name: test-custom-overlay
+#     state: present
+
+# - name: Let docker start custom network / sleep for 5 seconds and continue with play
+#   wait_for:
+#     timeout: 5
 
 # https://hub.docker.com/_/nginx
 - name: Start nginx service, on port 80 (other are closed by firewall)
@@ -320,8 +325,8 @@
         target: /etc/nginx/nginx.conf
         type: bind
     name: test-nginx-service
-    networks:
-      - test-custom-overlay
+    # networks:
+    #   - test-custom-overlay
     publish:
     - published_port: 80
       target_port: 80

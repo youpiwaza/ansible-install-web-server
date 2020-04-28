@@ -9,7 +9,7 @@
 # ## Create stack
 # #   https://docs.docker.com/engine/reference/commandline/stack_deploy/
 # > docker stack deploy  \
-#   --compose-file /home/the_docker_peon/tests/docker-compose-curated-test-repo/docker-compose.yml \
+#   --compose-file /home/the_docker_peon/tests/{{ docker_swarm_installation__publicRepoCurated.name }}/docker-compose.yml \
 #   test-nginx-phpfpm-stack
 
 # ## Verify stack / Display all services in a stack
@@ -88,12 +88,12 @@
 # Re-create folder
 - name: Remove test directory
   file:
-    path: '/home/{{ users.3.name }}/tests/docker-compose-curated-test-repo/'
+    path: '/home/{{ users.3.name }}/tests/{{ docker_swarm_installation__publicRepoCurated.name }}/'
     state: absent
 
 - name: Create test directory
   file:
-    path: '/home/{{ users.3.name }}/tests/docker-compose-curated-test-repo/'
+    path: '/home/{{ users.3.name }}/tests/{{ docker_swarm_installation__publicRepoCurated.name }}/'
     state: directory
     mode: '0755'
 
@@ -102,7 +102,7 @@
 - name: 'Clone project {{ docker_swarm_installation__publicRepoCurated.name }} from {{ docker_swarm_installation__publicRepoCurated.uri }} in test folder'
   git:
     clone: yes
-    dest: '/home/{{ users.3.name }}/tests/docker-compose-curated-test-repo/'
+    dest: '/home/{{ users.3.name }}/tests/{{ docker_swarm_installation__publicRepoCurated.name }}/'
     repo: '{{ docker_swarm_installation__publicRepoCurated.uri }}'
 
 
@@ -111,7 +111,7 @@
   docker_stack:
     name: test-nginx-phpfpm-curated-stack
     compose:
-      - '/home/{{ users.3.name }}/tests/docker-compose-curated-test-repo/docker-compose.yml'
+      - '/home/{{ users.3.name }}/tests/{{ docker_swarm_installation__publicRepoCurated.name }}/docker-compose.yml'
     state: present
 
 # Wait for the service to start before testing
@@ -144,9 +144,13 @@
     name: test-nginx-phpfpm-curated-stack
     state: absent
 
+- name: Let docker remove stack / sleep for 5 seconds and continue with play
+  wait_for:
+    timeout: 5
+
 - name: Remove test directory
   file:
-    path: '/home/{{ users.3.name }}/tests/docker-compose-curated-test-repo/'
+    path: '/home/{{ users.3.name }}/tests/{{ docker_swarm_installation__publicRepoCurated.name }}/'
     state: absent
 
 # Remove swarm if needed

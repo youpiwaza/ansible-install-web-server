@@ -52,12 +52,12 @@
 # Re-create folder
 - name: Remove test directory
   file:
-    path: '/home/{{ users.3.name }}/tests/docker-compose-test-repo/'
+    path: '/home/{{ users.3.name }}/tests/{{ docker_swarm_installation__publicRepo.name }}/'
     state: absent
 
 - name: Create test directory
   file:
-    path: '/home/{{ users.3.name }}/tests/docker-compose-test-repo/'
+    path: '/home/{{ users.3.name }}/tests/{{ docker_swarm_installation__publicRepo.name }}/'
     state: directory
     mode: '0755'
 
@@ -66,15 +66,15 @@
 - name: 'Clone project {{ docker_swarm_installation__publicRepo.name }} from {{ docker_swarm_installation__publicRepo.uri }} in test folder'
   git:
     clone: yes
-    dest: '/home/{{ users.3.name }}/tests/docker-compose-test-repo/'
+    dest: '/home/{{ users.3.name }}/tests/{{ docker_swarm_installation__publicRepo.name }}/'
     repo: '{{ docker_swarm_installation__publicRepo.uri }}'
 
 ## Start services from docker-compose.yml file
-- name: Deploy stack from a compose file
+- name: Deploy stack from a compose file, might take a minute
   docker_stack:
     name: test-nginx-phpfpm-stack
     compose:
-      - '/home/{{ users.3.name }}/tests/docker-compose-test-repo/docker-compose.yml'
+      - '/home/{{ users.3.name }}/tests/{{ docker_swarm_installation__publicRepo.name }}/docker-compose.yml'
     # default state is present
     # state: present
 
@@ -108,9 +108,13 @@
     name: test-nginx-phpfpm-stack
     state: absent
 
+- name: Let docker remove stack / sleep for 5 seconds and continue with play
+  wait_for:
+    timeout: 5
+
 - name: Remove test directory
   file:
-    path: '/home/{{ users.3.name }}/tests/docker-compose-test-repo/'
+    path: '/home/{{ users.3.name }}/tests/{{ docker_swarm_installation__publicRepo.name }}/'
     state: absent
 
 # Remove swarm if needed
