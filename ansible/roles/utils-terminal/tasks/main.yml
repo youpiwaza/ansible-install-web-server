@@ -32,7 +32,7 @@
 # - name: Setup a list containing remote_user, to be merged into users
 #   set_fact:
 #     list_of_remote_user_only:
-#       - name: '{{ my_remote_user }}'
+#       - name: '{{ global__remote_user }}'
 
 # - name: Merge the two lists
 #   set_fact:

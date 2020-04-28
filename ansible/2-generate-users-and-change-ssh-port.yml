@@ -2,7 +2,7 @@
 - name: Install my web server / Generate users and set custom SSH port
   hosts: likorne
   # hosts: likorneWithCustomSSHPort
-  remote_user: '{{ my_remote_user }}'
+  remote_user: '{{ global__remote_user }}'
   # # the_builder_guy / cf. /ansible/roles/users/vars/main.yml
   # remote_user: '{{ users.0.name }}'
   become: yes

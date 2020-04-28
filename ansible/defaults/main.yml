@@ -1,12 +1,17 @@
 ---
 ## Generic variables, used in various roles
 
-# Must be set in /hosts file too
-# Also used for iptables firewall rules
+# If you want to change the default SSH port
+#   Must be set in /hosts file too
+#   Also used for iptables firewall rules
 global__custom_ssh_port: 6969
 
+# Email used for notifications
 global__admin_email: YOUR_EMAIL
-my_remote_user: YOUR_REMOTE_USER
+
+# Default root user to connect to your server, usually root
+# global__remote_user: root
+global__remote_user: YOUR_REMOTE_USER
 
 my_ssh_remote_host: 169.169.169.169
 # https://passwordsgenerator.net/ / lower and UPPERCASE, numbers and special chars

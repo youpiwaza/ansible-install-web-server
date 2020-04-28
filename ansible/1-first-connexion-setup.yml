@@ -20,18 +20,18 @@
     # -N          / Passphrase
     # -t ed25519  / Algorithm type / ed25519 - this is a new algorithm added in OpenSSH
     - name: "Local / Generate SSH keys locally ONLY IF they don't exist yet"
-      local_action: 'command ssh-keygen -f ~/.ssh/{{ my_remote_user }}-ssh-key-ed25519 -a 100 -t ed25519 -N "{{ my_ssh_passphrase }}" -C "{{ global__admin_email }}"'
+      local_action: 'command ssh-keygen -f ~/.ssh/{{ global__remote_user }}-ssh-key-ed25519 -a 100 -t ed25519 -N "{{ my_ssh_passphrase }}" -C "{{ global__admin_email }}"'
       # Only create files if they don't exist
       args:
-        creates: ~/.ssh/{{ my_remote_user }}-ssh-key-ed25519
+        creates: ~/.ssh/{{ global__remote_user }}-ssh-key-ed25519
     
     ### Pretty funky when automated, cf. /server-related-tutorials/02-ansible/08-ssh-key-generation-ful
     ### Better generate a file with manual commands to execute afterward..
     - name: Local / Generate a file with manual commands to execute afterward..
       template:
-        dest: '__{{ my_remote_user }}-manual-commands-generated.md'
+        dest: '__{{ global__remote_user }}-manual-commands-generated.md'
         src: templates/ssh-manual-commands.j2
 
     - debug:
-        msg: 'You must now add {{ my_remote_user }} to your local SSH agent before proceeding. See generated files __{{ my_remote_user }}-manual-commands-generated.md'
+        msg: 'You must now add {{ global__remote_user }} to your local SSH agent before proceeding. See generated files __{{ global__remote_user }}-manual-commands-generated.md'
 ...
