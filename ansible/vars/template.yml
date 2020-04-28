@@ -130,4 +130,17 @@
 # docker_swarm_installation__publicRepoCurated: 
 #   name: docker-compose-curated-example
 #   uri: https://github.com/youpiwaza/docker-compose-curated-example.git
+
+
+# ## Packages installation
+# Feel free to add your desired packages here
+# Each tasks installs it's own needed plugins, for better readability, modularity & maintenance
+# packages_installation__packagesToInstall: [
+#   # CLI for data transfer / https://curl.haxx.se/                 / Required for Oh my ZSH
+#   'curl',
+#   # Versionning           / https://git-scm.com/                  / Required for Oh my ZSH
+#   'git',
+#   # Process viewer        / https://hisham.hm/htop/
+#   'htop'
+# ]
 ...
