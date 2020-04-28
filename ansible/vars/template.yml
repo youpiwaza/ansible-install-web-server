@@ -21,4 +21,20 @@
 # # Root will be mostly used only to set up other users
 # # https://passwordsgenerator.net/ / lower and UPPERCASE, numbers and special chars
 # global__remote_host_ssh_passphrase: whatever
+
+
+# ## Docker compose installation
+# # pip packages to install both locally & on remote host
+# docker_compose_installation__bothHostsPipPackagesToInstall: [
+#   'docker-compose',
+#   'PyYAML'
+# ]
+
+# docker_compose_installation__publicRepo: 
+#   name: docker-compose-example
+#   uri: https://github.com/youpiwaza/docker-compose-example.git
+
+# docker_compose_installation__publicRepoCurated: 
+#   name: docker-compose-curated-example
+#   uri: https://github.com/youpiwaza/docker-compose-curated-example.git
 ...
