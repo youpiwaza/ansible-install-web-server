@@ -1,10 +1,13 @@
 ---
-# Used for iptables firewall rules
+## Generic variables, used in various roles
 
 # Must be set in /hosts file too
+# Also used for iptables firewall rules
 custom_ssh_port: 6969
+
 my_mail: YOUR_EMAIL
 my_remote_user: YOUR_REMOTE_USER
+
 my_ssh_remote_host: 169.169.169.169
 # https://passwordsgenerator.net/ / lower and UPPERCASE, numbers and special chars
 my_ssh_passphrase: whatever
