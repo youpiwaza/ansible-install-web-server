@@ -8,14 +8,14 @@
 # # https://docs.ansible.com/ansible/latest/modules/docker_compose_module.html#requirements
 # - name: Ansible host / pip / Install docker-compose modules for Python, to allow ansible manipulations
 #   pip:
-#     name: '{{ bothHostsPipPackagesToInstall }}'
+#     name: '{{ docker_compose_installation__bothHostsPipPackagesToInstall }}'
 #   delegate_to: 127.0.0.1
 
 # ## Remote host Installation
 # # https://docs.ansible.com/ansible/latest/scenario_guides/guide_docker.html#requirements
 # - name: pip / Install docker-compose modules for Python, to allow ansible manipulations
 #   pip:
-#     name: '{{ bothHostsPipPackagesToInstall }}'
+#     name: '{{ docker_compose_installation__bothHostsPipPackagesToInstall }}'
 
 # - name: Test docker-compose through nginx + phpfpm
 #   include: test-composed-project.yml

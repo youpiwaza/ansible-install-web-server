@@ -1,6 +1,6 @@
 ---
 # https://docs.ansible.com/ansible/latest/modules/docker_compose_module.html
-bothHostsPipPackagesToInstall: [
+docker_compose_installation__bothHostsPipPackagesToInstall: [
   'docker-compose',
   'PyYAML'
 ]
