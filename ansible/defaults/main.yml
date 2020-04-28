@@ -9,6 +9,9 @@ global__custom_ssh_port: 6969
 # Email used for notifications
 global__admin_email: YOUR_EMAIL
 
+# Nginx image to test all the docker stuff on
+global__nginxTestImage: 'nginx:1.16.1-alpine'
+
 # Default root user to connect to your server, usually root
 # global__remote_user: root
 global__remote_user: YOUR_REMOTE_USER

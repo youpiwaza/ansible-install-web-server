@@ -5,7 +5,7 @@
 # https://hub.docker.com/_/nginx
 - name: Test docker through a nginx container / Pull default nginx image
   docker_image:
-    name: '{{ nginxTestImage }}'
+    name: '{{ global__nginxTestImage }}'
     source: pull
 
 - name: Warning about running container
@@ -23,7 +23,7 @@
   docker_container:
     healthcheck:
       test: 'stat /etc/nginx/nginx.conf || exit 1'
-    image: '{{ nginxTestImage }}'
+    image: '{{ global__nginxTestImage }}'
     labels:
       fr.masamune.project: 'Test nginx run by the_docker_guy'
     name: nginx-test
