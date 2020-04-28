@@ -31,7 +31,7 @@ docker_installation__dockerConfig:
 docker_installation__enableDockerSwapLimitSupport: no
 
 # https://docs.ansible.com/ansible/latest/modules/pip_module.html > Requirements
-localHostPackagesToInstall: [
+docker_installation__localHostPackagesToInstall: [
   'python3-pip',
   'python3-setuptools',
   'virtualenv'
