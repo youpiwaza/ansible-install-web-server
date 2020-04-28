@@ -5,7 +5,7 @@
 
 # ### Test stack directly on remote host
 # ## Swarm must be initiated, cf. below
-# ## Project must be present on server, cf. git clone publicRepoCurated below
+# ## Project must be present on server, cf. git clone docker_swarm_installation__publicRepoCurated below
 # ## Create stack
 # #   https://docs.docker.com/engine/reference/commandline/stack_deploy/
 # > docker stack deploy  \
@@ -99,11 +99,11 @@
 
 # Clone public repo
 #   https://docs.ansible.com/ansible/latest/modules/git_module.html
-- name: 'Clone project {{ publicRepoCurated.name }} from {{ publicRepoCurated.uri }} in test folder'
+- name: 'Clone project {{ docker_swarm_installation__publicRepoCurated.name }} from {{ docker_swarm_installation__publicRepoCurated.uri }} in test folder'
   git:
     clone: yes
     dest: '/home/{{ users.3.name }}/tests/docker-compose-curated-test-repo/'
-    repo: '{{ publicRepoCurated.uri }}'
+    repo: '{{ docker_swarm_installation__publicRepoCurated.uri }}'
 
 
 ## Start services from docker-compose.yml file
