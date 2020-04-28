@@ -122,4 +122,8 @@
 #   'jsondiff',
 #   'pyyaml'
 # ]
+
+# docker_swarm_installation__publicRepo: 
+#   name: docker-compose-example
+#   uri: https://github.com/youpiwaza/docker-compose-example.git
 ...

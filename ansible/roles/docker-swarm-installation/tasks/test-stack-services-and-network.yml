@@ -63,11 +63,11 @@
 
 # Clone public repo
 #   https://docs.ansible.com/ansible/latest/modules/git_module.html
-- name: 'Clone project {{ publicRepo.name }} from {{ publicRepo.uri }} in test folder'
+- name: 'Clone project {{ docker_swarm_installation__publicRepo.name }} from {{ docker_swarm_installation__publicRepo.uri }} in test folder'
   git:
     clone: yes
     dest: '/home/{{ users.3.name }}/tests/docker-compose-test-repo/'
-    repo: '{{ publicRepo.uri }}'
+    repo: '{{ docker_swarm_installation__publicRepo.uri }}'
 
 ## Start services from docker-compose.yml file
 - name: Deploy stack from a compose file
