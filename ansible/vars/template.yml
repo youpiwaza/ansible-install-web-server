@@ -115,4 +115,11 @@
 #   'software-properties-common',
 #   'virtualenv'
 # ]
+
+
+# ## Docker swarm installation
+# docker_swarm_installation__bothHostsPipPackagesToInstall: [
+#   'jsondiff',
+#   'pyyaml'
+# ]
 ...

@@ -15,12 +15,12 @@
 # https://docs.ansible.com/ansible/latest/modules/docker_stack_module.html#requirements
 - name: Ansible host / pip / Install docker module for Python, to allow ansible manipulations
   pip:
-    name: '{{ bothHostsPipPackagesToInstall }}'
+    name: '{{ docker_swarm_installation__bothHostsPipPackagesToInstall }}'
   delegate_to: 127.0.0.1
 
 - name: pip / Install docker module for Python, to allow ansible manipulations
   pip:
-    name: '{{ bothHostsPipPackagesToInstall }}'
+    name: '{{ docker_swarm_installation__bothHostsPipPackagesToInstall }}'
 
 # Test docker stack
 - name: Test docker stack through a nginx service and a phpfpm linked via network

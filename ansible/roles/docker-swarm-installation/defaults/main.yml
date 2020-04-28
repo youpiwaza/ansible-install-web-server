@@ -1,5 +1,5 @@
 ---
-bothHostsPipPackagesToInstall: [
+docker_swarm_installation__bothHostsPipPackagesToInstall: [
   'jsondiff',
   'pyyaml'
 ]
