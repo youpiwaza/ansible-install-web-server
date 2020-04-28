@@ -22,6 +22,9 @@
 # # https://passwordsgenerator.net/ / lower and UPPERCASE, numbers and special chars
 # global__remote_host_ssh_passphrase: whatever
 
+# # Nginx image to test all the docker stuff on
+# global__nginxTestImage: 'nginx:1.16.1-alpine'
+
 
 # ## Docker compose installation
 # # pip packages to install both locally & on remote host
