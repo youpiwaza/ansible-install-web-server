@@ -297,4 +297,15 @@
 #   # Text editor           / https://www.vim.org/
 #   'vim'
 # ]
+
+
+# ## Utils time
+# utils_time__packagesToInstall: [
+#   # Chrony                / https://help.ubuntu.com/lts/serverguide/NTP.html
+#   'chrony',
+#   # Old time sync         / https://fr.wikipedia.org/wiki/Network_Time_Protocol
+#   # 'ntp',
+#   # Time zone data        / https://launchpad.net/ubuntu/+source/tzdata
+#   'tzdata',
+# ]
 ...
