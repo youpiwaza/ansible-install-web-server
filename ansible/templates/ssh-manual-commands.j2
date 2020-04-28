@@ -21,7 +21,7 @@
 
 ## If custom SSH port has already been set
 # Works at the end of the second playbook : 2-generate-users-and-change-ssh-port.yml
-> ssh {{ my_remote_user }}@{{ my_ssh_remote_host }} -p {{ custom_ssh_port }}
+> ssh {{ my_remote_user }}@{{ my_ssh_remote_host }} -p {{ global__custom_ssh_port }}
 
 # Note that for security reasons, the third playbook removes root login, and password authentication
 # So you shouldn't be able to connect with root afterwards

@@ -7,7 +7,7 @@
   lineinfile:
     insertafter: '^#Port '
     # Replace line with
-    line: 'Port {{ custom_ssh_port }}'
+    line: 'Port {{ global__custom_ssh_port }}'
     # File to modify
     path: '/etc/ssh/sshd_config'
     # Attention à l'échappement

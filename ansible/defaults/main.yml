@@ -3,7 +3,7 @@
 
 # Must be set in /hosts file too
 # Also used for iptables firewall rules
-custom_ssh_port: 6969
+global__custom_ssh_port: 6969
 
 my_mail: YOUR_EMAIL
 my_remote_user: YOUR_REMOTE_USER

@@ -44,10 +44,10 @@
 # -A INPUT -p tcp -m tcp --dport 22 -j ACCEPT
 # -A INPUT -p tcp --dport 22 -j ACCEPT
 
-# Allow SSH only on custom port ({{ custom_ssh_port }})
+# Allow SSH only on custom port ({{ global__custom_ssh_port }})
 # cf. /ansible/vars/main.yml
--A INPUT -p tcp --dport {{ custom_ssh_port }} -j ACCEPT
--A OUTPUT -p tcp --dport {{ custom_ssh_port }} -j ACCEPT
+-A INPUT -p tcp --dport {{ global__custom_ssh_port }} -j ACCEPT
+-A OUTPUT -p tcp --dport {{ global__custom_ssh_port }} -j ACCEPT
 
 # Si on a un serveur DNS
 # -A OUTPUT -p tcp --dport 53 -j ACCEPT

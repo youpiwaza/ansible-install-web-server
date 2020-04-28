@@ -123,7 +123,7 @@ fail2ban_services:
   - name: ssh
     # port: ssh
     # custom ssh port
-    port: '{{ custom_ssh_port }}'
+    port: '{{ global__custom_ssh_port }}'
     filter: sshd
     logpath: /var/log/auth.log
 
