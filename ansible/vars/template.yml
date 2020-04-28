@@ -271,4 +271,7 @@
 #   # Send emails (MTA)     / http://www.postfix.org/
 #   'postfix'
 # ]
+
+# Which will result in mail sent from utils_emails__hostname@email_domain_name, here likorne@YOUR_DOMAIN.fr
+# utils_emails__hostname: likorne
 ...
