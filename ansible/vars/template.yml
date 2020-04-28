@@ -49,4 +49,8 @@
 # docker_installation__bothHostsPipPackagesToInstall: [
 #   'docker'
 # ]
+
+# docker_installation__dockerBenchSecurityPackagesToInstall: [
+#   'auditd'
+# ]
 ...

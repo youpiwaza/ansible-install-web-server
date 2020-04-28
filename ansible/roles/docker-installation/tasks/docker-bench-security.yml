@@ -258,7 +258,7 @@
 - name: Install and update Docker bench security required packages (auditd)
 # Required packages : 'auditd'
   apt:
-    name: '{{ dockerBenchSecurityPackagesToInstall }}'
+    name: '{{ docker_installation__dockerBenchSecurityPackagesToInstall }}'
     state: latest
 
 # Configure auditd
