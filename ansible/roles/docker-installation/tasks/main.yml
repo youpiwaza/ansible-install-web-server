@@ -64,12 +64,20 @@
     state: latest
     update_cache: yes
 
+# https://docs.ansible.com/ansible/latest/scenario_guides/guide_docker.html#requirements
+- name: pip / Install docker module for Python, to allow ansible manipulations
+  pip:
+    name: '{{ docker_installation__bothHostsPipPackagesToInstall }}'
+
 - name: Start Docker and assure it is started and enabled at boot
   service:
     name: docker
     enabled: true
     state: started
 
+- name: Let docker start / sleep for 5 seconds and continue with play
+  wait_for:
+    timeout: 5
 
 # ## Apply recommandations
 # # All dual comments are just doc files..
@@ -98,14 +106,8 @@
 - name: Apply recommanded Docker bench security stuff
   include: docker-bench-security.yml
 
-
 - name: Configure the docker daemon
   include: configure-docker-daemon.yml
-
-# https://docs.ansible.com/ansible/latest/scenario_guides/guide_docker.html#requirements
-- name: pip / Install docker module for Python, to allow ansible manipulations
-  pip:
-    name: '{{ docker_installation__bothHostsPipPackagesToInstall }}'
 
 - name: Test docker through nginx container
   include: test-nginx.yml

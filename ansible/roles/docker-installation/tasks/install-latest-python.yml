@@ -46,7 +46,7 @@
     repo: ppa:deadsnakes/ppa
     state: present
 
-- name: Ansible host / Install latest ATM Python 3.8
+- name: Ansible host / Install latest ATM Python 3.9
   apt:
     cache_valid_time: '3600'
     name: 'python3.9'
