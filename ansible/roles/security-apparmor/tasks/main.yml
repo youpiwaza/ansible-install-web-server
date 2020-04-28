@@ -59,7 +59,7 @@
   # .. better load specific profiles manually
   command: 'aa-enforce /etc/apparmor.d/{{ item }}'
   register: enforce_result
-  with_items: '{{ appArmorProfilesToEnforce }}'
+  with_items: '{{ security_apparmor__appArmorProfilesToEnforce }}'
 
 - name: Reload all profiles
   service:

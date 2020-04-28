@@ -149,4 +149,9 @@
 # # From /templates, will be used during containers start. Do not enforce
 # security_apparmor__appArmorProfilesToAdd:
 #   - 'docker-nginx'
+
+# # See files on host in /etc/apparmor.d/
+# security_apparmor__appArmorProfilesToEnforce:
+#   # Example
+#   - 'usr.sbin.chronyd'
 ...
