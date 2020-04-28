@@ -9,7 +9,7 @@ utils_emails__packagesToInstall: [
 ## Config email vars
 # https://hostadvice.com/how-to/how-to-setup-postfix-as-send-only-mail-server-on-an-ubuntu-18-04-dedicated-server-or-vps/
 
-# Which will result in mail sent from utils_emails__hostname@email_domain_name, here likorne@YOUR_DOMAIN.fr
+# Which will result in mail sent from utils_emails__hostname@utils_emails__domain_name, here likorne@YOUR_DOMAIN.fr
 utils_emails__hostname: likorne
-email_domain_name: YOUR_DOMAIN.fr
+utils_emails__domain_name: YOUR_DOMAIN.fr
 ...

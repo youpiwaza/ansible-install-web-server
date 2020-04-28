@@ -44,8 +44,8 @@
 # - name: Email / Add email domain name to /etc/hosts
 #   lineinfile:
 #     # Replace line with something like
-#     #     '198.51.100.3          mail.example.com                                     mail'
-#     line: '{{ ansible_host }} {{ utils_emails__hostname }}.{{ email_domain_name }} {{ utils_emails__hostname }}'
+#     #     '   198.51.100.3       mail.example.com                                             mail'
+#     line: '{{ ansible_host }} {{ utils_emails__hostname }}.{{ utils_emails__domain_name }} {{ utils_emails__hostname }}'
 #     # File to modify
 #     path: '/etc/hosts'
 #     # It's also possible to create a file and add a line if it didn't exist before
@@ -62,7 +62,7 @@
   lineinfile:
     # Replace line with something like
     #     'mail.example.com'
-    line: '{{ utils_emails__hostname }}.{{ email_domain_name }}'
+    line: '{{ utils_emails__hostname }}.{{ utils_emails__domain_name }}'
     # File to modify
     path: '/etc/mailname'
     # It's also possible to create a file and add a line if it didn't exist before
