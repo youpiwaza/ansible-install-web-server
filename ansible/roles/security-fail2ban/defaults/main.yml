@@ -52,7 +52,8 @@ fail2ban_sendername: Fail2Ban
 
 # Email address of the sender
 # fail2ban_sender: localhost@ubuntu
-fail2ban_sender: shaco_the_builder_guy_73nss523qy@ns371715.ip-188-165-253.eu
+# Default to the_builder_guy@your_host_domain
+fail2ban_sender: '{{ users.0.name }}@ubuntu'
 
 
 
