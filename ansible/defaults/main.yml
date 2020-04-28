@@ -16,6 +16,8 @@ global__remote_user: YOUR_REMOTE_USER
 # Ip adresse of your server
 global__remote_host: 169.169.169.169
 
+# SSH pass phrase for ssh key authentication (no password)
+# Root will be mostly used only to set up other users
 # https://passwordsgenerator.net/ / lower and UPPERCASE, numbers and special chars
-my_ssh_passphrase: whatever
+global__remote_host_ssh_passphrase: whatever
 ...
