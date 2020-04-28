@@ -194,4 +194,11 @@
 #     port: '{{ global__custom_ssh_port }}'
 #     filter: sshd
 #     logpath: /var/log/auth.log
+
+
+# ## Security firewall
+# security_firewall__packagesToInstall: [
+#   # Firewall              / https://doc.ubuntu-fr.org/iptables    / Required for Oh my ZSH
+#   'iptables'
+# ]
 ...
