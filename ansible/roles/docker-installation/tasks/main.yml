@@ -71,25 +71,26 @@
     state: started
 
 
-## Apply recommandations
-# All dual comments are just doc files..
-# Note: As managing json in ansible isn't as neat as the lineInFile module, I'll template daemon.json once and then create it if it isn't present
+# ## Apply recommandations
+# # All dual comments are just doc files..
+# # Note: As managing json in ansible isn't as neat as the lineInFile module, I'll template daemon.json once and then create it if it isn't present
 
-# Apply recommanded post installation steps
-#   https://docs.docker.com/install/linux/linux-postinstall/
-# No task beside docker's daemon.json edit
-# - name: Apply recommanded post installation steps
-#   include: post-installation-steps.yml
+# # Apply recommanded post installation steps
+# #   https://docs.docker.com/install/linux/linux-postinstall/
+# # No task beside docker's daemon.json edit
+# # - name: Apply recommanded post installation steps
+# #   include: post-installation-steps.yml
 
 # Apply recommanded run your app in production steps
 #   https://docs.docker.com/get-started/orchestration/ , and all subsequent doc
-# - name: Apply recommanded run your app in production steps
-#   include: run-your-app-in-production.yml
+- name: Apply recommanded run your app in production steps
+  include: run-your-app-in-production.yml
 
-# Apply recommanded Docker Security Cheat Sheet stuff
-#   https://github.com/OWASP/CheatSheetSeries/blob/master/cheatsheets/Docker_Security_Cheat_Sheet.md
-# - name: Apply recommanded Docker Security Cheat Sheet stuff
-#   include: docker-security-cheat-sheet.yml
+# # Apply recommanded Docker Security Cheat Sheet stuff
+# #   https://github.com/OWASP/CheatSheetSeries/blob/master/cheatsheets/Docker_Security_Cheat_Sheet.md
+# # No task beside docker's daemon.json edit
+# # - name: Apply recommanded Docker Security Cheat Sheet stuff
+# #   include: docker-security-cheat-sheet.yml
 
 # Apply recommanded Docker bench security stuff
 #   https://github.com/docker/docker-bench-security

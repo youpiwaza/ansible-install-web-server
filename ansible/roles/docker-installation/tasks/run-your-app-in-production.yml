@@ -142,25 +142,25 @@
   - docker_installation__enableDockerSwapLimitSupport|default(false)|bool == true
   - "'WARNING: No swap limit support' in result.host_info"
 
-# # # Remove swap limit support, if you enabled it by mistake
-# # - name: Remove limit support in GRUB config
-# #   lineinfile:
-# #     line: 'GRUB_CMDLINE_LINUX=""'
-# #     path: /etc/default/grub
-# #     regexp: '^GRUB_CMDLINE_LINUX='
+# # Remove swap limit support, if you enabled it by mistake
+# - name: Remove limit support in GRUB config
+#   lineinfile:
+#     line: 'GRUB_CMDLINE_LINUX=""'
+#     path: /etc/default/grub
+#     regexp: '^GRUB_CMDLINE_LINUX='
 
-# # - name: Update GRUB
-# #   command: 'update-grub'
+# - name: Update GRUB
+#   command: 'update-grub'
 
-# # # The changes take effect when the system is rebooted
-# # - name: Reboot the Ubuntu server, for GRUB changes to take effect
-# #   reboot:
-# #     msg: 'Reboot initiated by Ansible due to kernel updates'
-# #     connect_timeout: 5
-# #     reboot_timeout: 300
-# #     pre_reboot_delay: 0
-# #     post_reboot_delay: 5
-# #     test_command: uptime
+# # The changes take effect when the system is rebooted
+# - name: Reboot the Ubuntu server, for GRUB changes to take effect
+#   reboot:
+#     msg: 'Reboot initiated by Ansible due to kernel updates'
+#     connect_timeout: 5
+#     reboot_timeout: 300
+#     pre_reboot_delay: 0
+#     post_reboot_delay: 5
+#     test_command: uptime
 
 # Anyway, it will be managed during services definition & fine tuned via Grafana
 
