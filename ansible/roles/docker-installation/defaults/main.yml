@@ -28,7 +28,7 @@ docker_installation__dockerConfig:
 #   > and node labels to ensure that the application runs only on hosts with enough memory
 # Ansible can manage it
 #   https://docs.ansible.com/ansible/latest/modules/docker_swarm_service_module.html#parameter-reservations
-enableDockerSwapLimitSupport: no
+docker_installation__enableDockerSwapLimitSupport: no
 
 # https://docs.ansible.com/ansible/latest/modules/pip_module.html > Requirements
 localHostPackagesToInstall: [

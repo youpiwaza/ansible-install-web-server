@@ -78,7 +78,7 @@
 #   https://docs.ansible.com/ansible/latest/modules/docker_swarm_service_module.html#parameter-reservations
 # TODO: Will be fine tuned after the set up of Grafana
 
-- name: 'Enable swap limit support ? {{ enableDockerSwapLimitSupport }}'
+- name: 'Enable swap limit support ? {{ docker_installation__enableDockerSwapLimitSupport }}'
   debug:
     msg: "By default, in this cookbook, swap limit support (managing Memory, CPUs, GPUs) isn't enabled, as it's not mandatory if you exclusively uses services."
 
@@ -94,7 +94,7 @@
   # If there is no warning, the property Warnings doesn't exist, and cookbook fails
   # when: "'WARNING: No swap limit support' in result.host_info.Warnings"
   when:
-  - enableDockerSwapLimitSupport|default(false)|bool == true
+  - docker_installation__enableDockerSwapLimitSupport|default(false)|bool == true
   - "'WARNING: No swap limit support' in result.host_info"
 
 # https://docs.docker.com/install/linux/linux-postinstall/#your-kernel-does-not-support-cgroup-swap-limit-capabilities
@@ -104,14 +104,14 @@
     path: /etc/default/grub
     regexp: '^GRUB_CMDLINE_LINUX='
   when:
-  - enableDockerSwapLimitSupport|default(false)|bool == true
+  - docker_installation__enableDockerSwapLimitSupport|default(false)|bool == true
   - "'WARNING: No swap limit support' in result.host_info"
 
 - name: Update GRUB
   command: 'update-grub'
   when:
   - "'WARNING: No swap limit support' in result.host_info"
-  - enableDockerSwapLimitSupport|default(false)|bool == true
+  - docker_installation__enableDockerSwapLimitSupport|default(false)|bool == true
 
 # The changes take effect when the system is rebooted
 - name: Reboot the Ubuntu server, for GRUB changes to take effect
@@ -123,7 +123,7 @@
     post_reboot_delay: 5
     test_command: uptime
   when:
-  - enableDockerSwapLimitSupport|default(false)|bool == true
+  - docker_installation__enableDockerSwapLimitSupport|default(false)|bool == true
   - "'WARNING: No swap limit support' in result.host_info"
 
 # Validation
@@ -132,14 +132,14 @@
     api_version: auto
   register: new_result
   when:
-  - enableDockerSwapLimitSupport|default(false)|bool == true
+  - docker_installation__enableDockerSwapLimitSupport|default(false)|bool == true
   - "'WARNING: No swap limit support' in result.host_info"
 
 - name: Validation
   debug:
     msg: 'Docker SwapLimit : {{ new_result.host_info.SwapLimit }}'
   when:
-  - enableDockerSwapLimitSupport|default(false)|bool == true
+  - docker_installation__enableDockerSwapLimitSupport|default(false)|bool == true
   - "'WARNING: No swap limit support' in result.host_info"
 
 # # # Remove swap limit support, if you enabled it by mistake

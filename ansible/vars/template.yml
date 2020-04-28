@@ -65,4 +65,14 @@
 #     nproc:
 #       hard: 64
 #       soft: 32
+
+# # It reduces server performances and isn't mandatory if you uses services
+# #   https://docs.docker.com/config/containers/resource_constraints/
+# #     https://docs.docker.com/install/linux/linux-postinstall/#your-kernel-does-not-support-cgroup-swap-limit-capabilities
+# #   https://docs.docker.com/config/containers/resource_constraints/#understand-the-risks-of-running-out-of-memory
+# #   > Consider converting your container to a service, and using service-level constraints
+# #   > and node labels to ensure that the application runs only on hosts with enough memory
+# # Ansible can manage it
+# #   https://docs.ansible.com/ansible/latest/modules/docker_swarm_service_module.html#parameter-reservations
+# docker_installation__enableDockerSwapLimitSupport: no
 ...
