@@ -7,6 +7,8 @@
   # the_builder_guy / cf. /ansible/roles/users/vars/main.yml
   remote_user: '{{ users.0.name }}'
   vars_files:
+  - defaults/main.yml
+  - roles/users/defaults/main.yml
   - vars/main.yml
   - roles/users/vars/main.yml
 

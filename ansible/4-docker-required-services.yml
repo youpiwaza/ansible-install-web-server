@@ -70,6 +70,7 @@
   # the_docker_guy / cf. /ansible/roles/users/vars/main.yml
   remote_user: '{{ users.2.name }}'
   vars_files:
+  - roles/users/defaults/main.yml
   - roles/users/vars/main.yml
 
   roles:
