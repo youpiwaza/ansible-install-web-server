@@ -1,5 +1,5 @@
 ---
-packagesToInstall: [
+security_fail2ban__packagesToInstall: [
   # Spam prevention       / http://www.fail2ban.org/
   'fail2ban'
 ]
