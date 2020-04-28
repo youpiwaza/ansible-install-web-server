@@ -61,10 +61,15 @@
   command: 'systemctl daemon-reload'
   when: iptables_register_unit.changed
 
+- name: Let some time before iptables restart / sleep for 5 seconds and continue with play
+  wait_for:
+    timeout: 5
+
+# LATER: Sometimes crash on first execution ?
 - name: Restart iptables service
   service:
-    name: 'iptables-restore'
-    state: 'restarted'
+    name: iptables-restore
+    state: restarted
     enabled: yes
   when: iptables_register_config.changed
 

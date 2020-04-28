@@ -142,7 +142,8 @@
   template:
     src: timesyncd.conf.j2
     dest: /etc/systemd/timesyncd.conf.d/timesyncd.conf
-  notify: Restart timesyncd service
+  # # Shut down chrony
+  # notify: Restart timesyncd service
 
 # Shut's down chrony
 # - name: Ensure that timesyncd.service is started and will restart on reboot
