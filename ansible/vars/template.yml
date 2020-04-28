@@ -213,4 +213,54 @@
 #   #   https://docs.docker.com/install/linux/linux-postinstall/#manage-docker-as-a-non-root-user
 #   # Note that it might be created by docker itself
 #   createDockerGroup: yes
+
+# # Create a user, postfixed with a random string
+# # https://passwordsgenerator.net/
+# # No uppercase, max 32 chars
+# users:
+#   # Will proceed to the installation after root (packages, utils, host security, docker)
+#   # No more chars than this for name     >|
+#   - name: the_builder_guy_5kk2dnjtbcxttd7g
+#     allowCron: no
+#     dockerManagement: no
+#     mail: your_email
+#     preventHomeAccess: yes
+#     restrictUser: no
+#     # Passphrase, random 64 chars
+#     #   Example:
+#     #   ssh_passphrase: 'dR$&!GZE]s[1]c!UfAG3ykp*3qrSr3f$4HLs+u+76Q9faEdNX2jvg4raYVPmX_4AND'
+#     ssh_passphrase: 'your_pass_phrase'
+#     sudoer: yes
+
+#   # Will be the dedicated user to manage host's planned tasks
+#   - name: the_cron_guy_nvhrg559y8hb5qka2d2
+#     allowCron: yes
+#     dockerManagement: no
+#     mail: your_email
+#     preventHomeAccess: yes
+#     restrictUser: no
+#     ssh_passphrase: 'your_pass_phrase'
+#     sudoer: no
+
+#   # Will be the dedicated user to manage docker containers, compose & services
+#   - name: the_docker_guy_avwr8m2kq22nx22n5
+#     allowCron: no
+#     dockerManagement: yes
+#     mail: your_email
+#     preventHomeAccess: yes
+#     restrictUser: no
+#     ssh_passphrase: 'your_pass_phrase'
+#     sudoer: no
+
+#   # Will be the dedicated unprivileged user used as the main user inside containers
+#   #     thanks to Linux/docker namespaces / https://docs.docker.com/engine/security/userns-remap/
+#   # Different from the_docker_guy, as he won't even be in the 'docker' group
+#   - name: the_docker_peon_9f6enk4s0654qs6d
+#     allowCron: no
+#     dockerManagement: no
+#     mail: your_email
+#     preventHomeAccess: no
+#     restrictUser: yes
+#     ssh_passphrase: 'your_pass_phrase'
+#     sudoer: no
 ...
