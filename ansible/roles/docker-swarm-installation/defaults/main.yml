@@ -10,7 +10,7 @@ publicRepo:
   name: docker-compose-curated-example
   uri: https://github.com/youpiwaza/docker-compose-example.git
 
-publicRepo: 
-  name: docker-compose-example
-  uri: https://github.com/youpiwaza/docker-compose-example.git
+publicRepoCurated: 
+  name: docker-compose-curated-example
+  uri: https://github.com/youpiwaza/docker-compose-curated-example.git
 ...
