@@ -47,6 +47,9 @@ Working on Windows WSL, personnal notes for my setup
 # Update/Upgrade web server
 #  /!\ Be careful ! Might include reboots !
 > ansible-playbook -i hostsWithCustomSSHPort 98-maintenance.yml | sed 's/\\n/\n/g'
+
+# WIP & tests
+> ansible-playbook -i hostsWithCustomSSHPort 99-craft-and-tests.yml | sed 's/\\n/\n/g'
 ```
 
 ## Plan de route

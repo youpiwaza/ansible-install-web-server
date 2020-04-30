@@ -1,0 +1,137 @@
+---
+### Crafts and tests
+## Prevents me from commenting/uncommenting/forgetting on final production files ^^'
+
+# ---
+# Currently working on: Playbook 4 / Init core services / Set up reverse proxy Traefik
+# ---
+
+# You'll need the_docker_guy to have it's ssh key added to the local agent, cf. the_docker_guy generated documentation
+- name: 'Docker required services setup / {{ users.2.name }} / Traefik, Swarmprom, Test website'
+  become: no
+  hosts: likorneWithCustomSSHPort
+
+  # Enforce container default security & good practices
+  #   Cf. ansible/roles/docker-installation/tasks/test-alpine-curated-container.yml
+  module_defaults:
+    docker_container:
+      cap_drop:
+        - all
+      cpu_shares: 1024
+      detach: yes
+      healthcheck:
+        # test: REQUIRED
+        test: 'stat /etc/passwd || exit 1'              # Alpine
+        # test: 'stat /etc/nginx/nginx.conf || exit 1'  # Nginx
+        interval: 30s
+        timeout: 30s
+        retries: 3
+        start_period: 10s
+      # image: REQUIRED
+      # labels: REQUIRED
+      labels:
+        fr.masamune.client: 'masamune'
+        fr.masamune.maintainer: 'masamune.code@gmail.com'
+        # fr.masamune.project: 'REQUIRED'
+        fr.masamune.type: 'test'
+      memory: '256m'
+      memory_reservation: '128m'
+      # name: REQUIRED
+      # networks:
+      #   - name: IF_NEEDED
+      networks_cli_compatible: yes
+      # network_mode: bridge
+      pids_limit: 200
+      # Always > 1024
+      # published_ports:
+      #   - "80:80"
+      # Don't run on docker default bridge network
+      purge_networks: yes
+      restart_policy: 'on-failure'
+      restart_retries: 5
+      security_opts:
+        - 'no-new-privileges:true'
+        - 'apparmor=docker-default'
+      state: started
+      # the_docker_peon
+      user: '1003:1003'
+      # volumes:
+      #   - '/home/{{ users.3.name }}/tests-volume/da_website:/home/da_website:ro'
+      # working_dir: '/home/da_website'
+
+    docker_network:
+      # driver: REQUIRED
+      # labels: REQUIRED
+      labels:
+        fr.masamune.client: 'masamune'
+        fr.masamune.maintainer: 'masamune.code@gmail.com'
+        # fr.masamune.project: 'custom bridge network'
+        fr.masamune.type: 'test'
+      # name: REQUIRED
+      state: present
+    
+    docker_swarm_service:
+      healthcheck:
+        # test: REQUIRED
+        test: 'stat /etc/passwd || exit 1'              # Alpine
+        # test: 'stat /etc/nginx/nginx.conf || exit 1'  # Nginx
+        interval: 10s
+        timeout: 10s
+        retries: 3
+        start_period: 0s
+      # image: REQUIRED
+      # labels: REQUIRED
+      labels:
+        fr.masamune.client: 'masamune'
+        fr.masamune.maintainer: 'masamune.code@gmail.com'
+        # fr.masamune.project: 'REQUIRED'
+        fr.masamune.type: 'test'
+      limits:
+        cpus: 0.5
+        memory: 256m
+      ## Prefer readonly for volumes if no edits
+      ## Prefer config/secrets for admin's need
+      # mounts:
+      #   - readonly: yes
+      # name: REQUIRED
+      # networks:
+      #   - test-custom-overlay
+      replicas: 2
+      # Not available in ansible docker_swarm_service
+      # replicas-max-per-node=6
+      reservations:
+        cpus: 0.5
+        memory: 128m
+      restart_config:
+        # condition: any
+        # delay: 5s
+        max_attempts: 5
+        # window: 120s
+      # # Default rollback config
+      # rollback_config:
+      #   parallelism: 2
+      state: present
+      # Can't use a specific user for nginx on port 80 as it requires unprivileged ports
+      # sysctl param does not exist in ansible docker_swarm_service
+      # sysctl: net.ipv4.ip_unprivileged_port_start=0
+      # the_docker_peon
+      user: '1003:1003'
+      update_config:
+        delay: 5s
+        failure_action: rollback
+        # order: stop-first
+        parallelism: 2
+      # working_dir: '/home/da_website'
+
+  # the_docker_guy / cf. /ansible/roles/users/vars/main.yml
+  remote_user: '{{ users.2.name }}'
+  vars_files:
+  - defaults/main.yml
+  - roles/users/defaults/main.yml
+  - vars/main.yml
+  - roles/users/vars/main.yml
+
+  roles:
+    # TODO: Ensure docker swarm is up
+    # - docker-guy-check
+...
