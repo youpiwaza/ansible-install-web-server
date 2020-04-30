@@ -1,0 +1,35 @@
+---
+### Init docker swarm
+## Don't stop swarm if it is already started
+
+# Get swarm info / docker system info / https://docs.docker.com/get-started/swarm-deploy/
+- name: Test docker stack through nginx service + phpfpm service + network / Get info on docker host
+  docker_host_info:
+  register: result
+
+# - name: Display full info
+#   debug:
+#     msg: '{{ result.host_info }}'
+
+# - name: Display swarm started info
+#   debug:
+#     msg: '{{ result.host_info.Swarm.ControlAvailable }}'
+
+- name: 'Swarm started ? {{ result.host_info.Swarm.ControlAvailable }}'
+  debug:
+    msg: "Swarm detected, using it"
+  when: result.host_info.Swarm.ControlAvailable|bool == true
+
+- name: 'Swarm started ? {{ result.host_info.Swarm.ControlAvailable }}'
+  debug:
+    msg: "No swarm detected, creating one"
+  when: result.host_info.Swarm.ControlAvailable|bool == false
+
+## Start swarm
+# https://docs.ansible.com/ansible/latest/modules/docker_stack_module.html#examples
+- name: Init a new swarm with default parameters, if needed
+  docker_swarm:
+    state: present
+  # Only init swarm for test if none is present
+  when: result.host_info.Swarm.ControlAvailable|bool == false
+...

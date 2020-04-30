@@ -132,6 +132,6 @@
   - roles/users/vars/main.yml
 
   roles:
-    # TODO: Ensure docker swarm is up
-    - docker-guy-check
+    - docker-swarm-init
+    # - docker-guy-check
 ...
