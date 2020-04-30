@@ -67,6 +67,60 @@
         fr.masamune.type: 'test'
       # name: REQUIRED
       state: present
+    
+    docker_swarm_service:
+      healthcheck:
+        # test: REQUIRED
+        test: 'stat /etc/passwd || exit 1'              # Alpine
+        # test: 'stat /etc/nginx/nginx.conf || exit 1'  # Nginx
+        interval: 10s
+        timeout: 10s
+        retries: 3
+        start_period: 0s
+      # image: REQUIRED
+      # labels: REQUIRED
+      labels:
+        fr.masamune.client: 'masamune'
+        fr.masamune.maintainer: 'masamune.code@gmail.com'
+        # fr.masamune.project: 'REQUIRED'
+        fr.masamune.type: 'test'
+      limits:
+        cpus: 0.5
+        memory: 256m
+      ## Prefer readonly for volumes if no edits
+      ## Prefer config/secrets for admin's need
+      # mounts:
+      #   - readonly: yes
+      # name: REQUIRED
+      # networks:
+      #   - test-custom-overlay
+      replicas: 2
+      # Not available in ansible docker_swarm_service
+      # replicas-max-per-node=6
+      reservations:
+        cpus: 0.5
+        memory: 128m
+      restart_config:
+        # condition: any
+        # delay: 5s
+        max_attempts: 5
+        # window: 120s
+      # # Default rollback config
+      # rollback_config:
+      #   parallelism: 2
+      state: present
+      # Can't use a specific user for nginx on port 80 as it requires unprivileged ports
+      # sysctl param does not exist in ansible docker_swarm_service
+      # sysctl: net.ipv4.ip_unprivileged_port_start=0
+      # the_docker_peon
+      user: '1003:1003'
+      update_config:
+        delay: 5s
+        failure_action: rollback
+        # order: stop-first
+        parallelism: 2
+      # working_dir: '/home/da_website'
+
   # the_docker_guy / cf. /ansible/roles/users/vars/main.yml
   remote_user: '{{ users.2.name }}'
   vars_files:
@@ -74,8 +128,6 @@
   - roles/users/vars/main.yml
 
   roles:
-
     # TODO: Ensure docker swarm is up
-
     - docker-guy-check
 ...
