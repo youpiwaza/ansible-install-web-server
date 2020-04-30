@@ -31,4 +31,21 @@
     # Note: docker-compose & docker swarm will need docker installation first
     - docker-compose-installation
     - docker-swarm-installation
+  
+  tasks:
+    - debug:
+        msg: "\n\nAfter the docker installation, we're gonna set up the core services :\n
+        - Reverse proxy (nginx)\n
+        - Metrics (prometheus)\n
+        - Visualizers (grafana)\n
+        - Alerts (alertmanager, unsee)\n\n
+        
+        I'd recommand you set the following subdomains to have admin's UI :\n
+        - test         .DOMAIN.COM   // Test reverse proxy through a basic website (nginx container)\n
+        - prometheus   .DOMAIN.COM   // Metrics database\n
+        - grafana      .DOMAIN.COM   // Visualize metrics\n
+        - alertmanager .DOMAIN.COM   // Alerts dispatcher\n
+        - unsee        .DOMAIN.COM   // Alert manager dashboard\n\n
+        
+        Then proceed to playbook 4 :)"
 ...
