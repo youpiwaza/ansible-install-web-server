@@ -44,6 +44,9 @@ Working on Windows WSL, personnal notes for my setup
 # ---
 
 ## Punctual tasks
+# Execute punctual role/s or task/s, for admin confort ;)
+> ansible-playbook -i hostsWithCustomSSHPort 97-punctal.yml | sed 's/\\n/\n/g'
+
 # Update/Upgrade web server
 #  /!\ Be careful ! Might include reboots !
 > ansible-playbook -i hostsWithCustomSSHPort 98-maintenance.yml | sed 's/\\n/\n/g'

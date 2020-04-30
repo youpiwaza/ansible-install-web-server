@@ -1,0 +1,20 @@
+---
+### Execute punctual role/s or task/s
+# You'll need it's ssh key added to the local agent, cf. the_builder_guy generated documentation
+
+# /!\ Be careful ! Might include reboots !
+
+- name: 'Execute admin stuff / {{ users.0.name }}'
+  become: yes
+  hosts: likorneWithCustomSSHPort
+  # the_builder_guy / cf. /ansible/roles/users/vars/main.yml
+  remote_user: '{{ users.0.name }}'
+  vars_files:
+  - defaults/main.yml
+  - roles/users/defaults/main.yml
+  - vars/main.yml
+  - roles/users/vars/main.yml
+
+  roles:
+    - packages-installation
+...
