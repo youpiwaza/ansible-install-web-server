@@ -133,5 +133,5 @@
 
   roles:
     # TODO: Ensure docker swarm is up
-    # - docker-guy-check
+    - docker-guy-check
 ...

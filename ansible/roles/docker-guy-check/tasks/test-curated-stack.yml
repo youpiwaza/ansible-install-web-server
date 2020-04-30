@@ -1,0 +1,149 @@
+---
+# ### Test docker stack through nginx service + phpfpm service + network
+# Volumes must be adjusted for stack
+#   https://docs.docker.com/compose/compose-file/#volumes-for-services-swarms-and-stack-files
+
+# ### Test stack directly on remote host
+# ## Swarm must be initiated, cf. below
+# ## Project must be present on server, cf. git clone docker_guy_check__publicRepoCurated below
+# ## Create stack
+# #   https://docs.docker.com/engine/reference/commandline/stack_deploy/
+# > docker stack deploy  \
+#   --compose-file /home/the_docker_peon/tests/{{ docker_guy_check__publicRepoCurated.name }}/docker-compose.yml \
+#   test-nginx-phpfpm-stack
+
+# ## Verify stack / Display all services in a stack
+# > docker stack services test-nginx-phpfpm-stack
+# > sudo docker stack ps --no-trunc test-nginx-phpfpm-stack
+# 💩 Several error during initiation (network allocation, exit code non 0), especially with replicas but no documentation whatsoever
+#   It just slow the initiation, after some retries it works
+
+# ## Remove stack
+# > docker stack rm test-nginx-phpfpm-stack
+
+# ---
+
+## Don't stop swarm if it is already started
+# Test must not kill production
+# If it isn't, start a swarm for the test and remove it afterward
+
+# Get swarm info / docker system info / https://docs.docker.com/get-started/swarm-deploy/
+- name: Test docker stack through nginx service + phpfpm service + network / Get info on docker host
+  docker_host_info:
+  register: result
+
+# - name: Display full info
+#   debug:
+#     msg: '{{ result.host_info }}'
+
+# - name: Display swarm started info
+#   debug:
+#     msg: '{{ result.host_info.Swarm.ControlAvailable }}'
+
+- name: 'Swarm started ? {{ result.host_info.Swarm.ControlAvailable }}'
+  debug:
+    msg: "Swarm detected, using it for this test"
+  when: result.host_info.Swarm.ControlAvailable|bool == true
+
+- name: 'Swarm started ? {{ result.host_info.Swarm.ControlAvailable }}'
+  debug:
+    msg: "No swarm detected, creating one for this test, and remove it afterwards"
+  when: result.host_info.Swarm.ControlAvailable|bool == false
+
+## Start services
+# https://docs.ansible.com/ansible/latest/modules/docker_stack_module.html#examples
+- name: Init a new swarm with default parameters, if needed
+  docker_swarm:
+    state: present
+  # Only init swarm for test if none is present
+  when: result.host_info.Swarm.ControlAvailable|bool == false
+
+## Test services
+- name: Warning about running service
+  debug:
+    msg: 'Be careful, if this playbook fails, it will not end and 2 services and a network will still be running !'
+
+## Install project
+# Eventually remove previous network, as it must be created via swarm
+- name: Remove (eventual) previous custom network (must be created via swarm)
+  docker_network:
+    force: yes
+    name: test-nginx-phpfpm-stack_network-php
+    state: absent
+
+# Re-create folder
+- name: Remove test directory
+  file:
+    path: '/home/{{ users.3.name }}/tests/{{ docker_guy_check__publicRepoCurated.name }}/'
+    state: absent
+
+- name: Create test directory
+  file:
+    path: '/home/{{ users.3.name }}/tests/{{ docker_guy_check__publicRepoCurated.name }}/'
+    state: directory
+    mode: '0755'
+
+# Clone public repo
+#   https://docs.ansible.com/ansible/latest/modules/git_module.html
+- name: 'Clone project {{ docker_guy_check__publicRepoCurated.name }} from {{ docker_guy_check__publicRepoCurated.uri }} in test folder'
+  git:
+    clone: yes
+    dest: '/home/{{ users.3.name }}/tests/{{ docker_guy_check__publicRepoCurated.name }}/'
+    repo: '{{ docker_guy_check__publicRepoCurated.uri }}'
+
+
+## Start services from docker-compose.yml file
+- name: Deploy stack from a compose file
+  docker_stack:
+    name: test-nginx-phpfpm-curated-stack
+    compose:
+      - '/home/{{ users.3.name }}/tests/{{ docker_guy_check__publicRepoCurated.name }}/docker-compose.yml'
+    state: present
+
+# Wait for the service to start before testing
+# https://medium.com/planetarynetworks/ansible-wait-for-with-docker-container-31d3944da953
+# https://docs.ansible.com/ansible/latest/modules/wait_for_module.html
+- name: Wait for service to publish on port 80
+  wait_for:
+    port: 80
+
+## Check service
+- name: Check that you can connect (GET) to a page and it returns a status 200
+  uri:
+    url: 'http://{{ ansible_host }}/'
+
+- name: "Check that a page returns a status 200 and fail if the words 'Fuck yeah' is not in the page contents"
+  uri:
+    url: 'http://{{ ansible_host }}/'
+    return_content: yes
+  register: da_webpage
+  failed_when: "'Fuck yeah' not in da_webpage.content"
+
+- name: Display page content in ansible logs
+  debug:
+    msg: 'Affichage du contenu de la page :\n\n{{ da_webpage.content }}'
+
+## Remove test services, and shut down swarm if needed
+# Remove test
+- name: Remove stack
+  docker_stack:
+    name: test-nginx-phpfpm-curated-stack
+    state: absent
+
+- name: Let docker remove stack / sleep for 5 seconds and continue with play
+  wait_for:
+    timeout: 5
+
+- name: Remove test directory
+  file:
+    path: '/home/{{ users.3.name }}/tests/{{ docker_guy_check__publicRepoCurated.name }}/'
+    state: absent
+
+# Remove swarm if needed
+- name: Remove a swarm manager
+  docker_swarm:
+    state: absent
+    force: true
+  # Only stop swarm for test if none was present
+  when: result.host_info.Swarm.ControlAvailable|bool == false
+...
