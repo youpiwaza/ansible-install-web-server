@@ -47,5 +47,10 @@
         - alertmanager .DOMAIN.COM   // Alerts dispatcher\n
         - unsee        .DOMAIN.COM   // Alert manager dashboard\n\n
         
+        Example:\n
+        To add the "test" subdomain to your host, you'll need the following line:\n\n
+
+        test IN A 169.169.169.169 \n\n
+
         Then proceed to playbook 4 :)"
 ...
