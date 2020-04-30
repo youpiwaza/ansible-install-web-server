@@ -1,0 +1,30 @@
+---
+### Proceed to server upgrade through the builder guy, using installation roles
+# You'll need it's ssh key added to the local agent, cf. the_builder_guy generated documentation
+
+# /!\ Be careful ! Might include reboots !
+
+- name: 'Update/Upgrade my web server / {{ users.0.name }}'
+  become: yes
+  hosts: likorneWithCustomSSHPort
+  # the_builder_guy / cf. /ansible/roles/users/vars/main.yml
+  remote_user: '{{ users.0.name }}'
+  vars_files:
+  - defaults/main.yml
+  - roles/users/defaults/main.yml
+  - vars/main.yml
+  - roles/users/vars/main.yml
+
+  roles:
+    - system-update # Also upgrade to latest Ubuntu LTS
+    - packages-installation
+
+## LATER: If using a real swarm (~1 manager 2 workers), prioritize updates (in case of reboots) to prevent downtime
+# ~Example:
+#   1. Update worker1
+#   2. Update worker2
+#   3. Set worker1 as manager
+#   4. Update manager1
+#   5. Set back manager1 as manager
+#   6. Set back worker1 as worker
+...

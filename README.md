@@ -40,6 +40,13 @@ Working on Windows WSL, personnal notes for my setup
 
 # Lancer le playbook de mise en place des services docker de base (traefik, container metrics & alerts)
 > ansible-playbook -i hostsWithCustomSSHPort 4-docker-required-services.yml | sed 's/\\n/\n/g'
+
+# ---
+
+## Punctual tasks
+# Update/Upgrade web server
+#  /!\ Be careful ! Might include reboots !
+> ansible-playbook -i hostsWithCustomSSHPort 98-maintenance.yml | sed 's/\\n/\n/g'
 ```
 
 ## Plan de route
