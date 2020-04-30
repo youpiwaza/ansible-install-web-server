@@ -130,6 +130,8 @@
   - roles/users/vars/main.yml
 
   roles:
+    # Remove tests artifacts
+    - docker-maintenance
     - docker-swarm-init
     # - docker-guy-check
 ...

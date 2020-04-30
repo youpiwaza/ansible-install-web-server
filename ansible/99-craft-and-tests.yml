@@ -132,6 +132,7 @@
   - roles/users/vars/main.yml
 
   roles:
-    - docker-swarm-init
+    - docker-maintenance
+    # - docker-swarm-init
     # - docker-guy-check
 ...

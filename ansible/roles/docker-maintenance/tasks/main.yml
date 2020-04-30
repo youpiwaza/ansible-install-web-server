@@ -1,0 +1,15 @@
+---
+### Docker maintenance
+## Remove dangling containers, networks, volumes, and downloaded images (Docker Bench Security > avoid image sprawl)
+
+# https://docs.ansible.com/ansible/latest/modules/docker_prune_module.html
+- name: Prune everything (including non-dangling images)
+  docker_prune:
+    containers: yes
+    images: yes
+    images_filters:
+      dangling: false
+    networks: yes
+    volumes: yes
+    builder_cache: yes
+...

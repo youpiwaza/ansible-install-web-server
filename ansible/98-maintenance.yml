@@ -18,6 +18,7 @@
   roles:
     - system-update # Also upgrade to latest Ubuntu LTS
     - packages-installation
+    - docker-maintenance
 
 ## LATER: If using a real swarm (~1 manager 2 workers), prioritize updates (in case of reboots) to prevent downtime
 # ~Example:
