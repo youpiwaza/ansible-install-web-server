@@ -6,7 +6,51 @@
 # Currently working on: Playbook 4 / Init core services / Set up reverse proxy Traefik
 # ---
 
-# You'll need the_docker_guy to have it's ssh key added to the local agent, cf. the_docker_guy generated documentation
+# You'll need the_builder_guy to have it's ssh key added to the local agent, cf. the_builder_guy generated documentation
+# You'll need the_docker_guy  to have it's ssh key added to the local agent, cf. the_docker_guy generated documentation
+
+### BUILDER GUY CREATE DIRECTORY AND GIT CLONE
+- name: 'BUILDER GUY {{ users.0.name }} CREATE DIRECTORY AND GIT CLONE'
+  become: yes
+  hosts: likorneWithCustomSSHPort
+  # the_builder_guy / cf. /ansible/roles/users/vars/main.yml
+  remote_user: '{{ users.0.name }}'
+  vars_files:
+  - defaults/main.yml
+  - vars/main.yml
+  - roles/users/defaults/main.yml
+  - roles/users/vars/main.yml
+  - roles/docker-guy-check/defaults/main.yml
+
+  tasks:
+    ## Install project
+    # Re-create folder
+    - name: Remove test directory
+      file:
+        path: '/home/{{ users.3.name }}/tests/{{ docker_guy_check__publicRepoCurated.name }}/'
+        state: absent
+
+    - name: Create test directory
+      file:
+        path: '/home/{{ users.3.name }}/tests/{{ docker_guy_check__publicRepoCurated.name }}/'
+        state: directory
+        mode: '0755'
+
+    # Clone public repo
+    #   https://docs.ansible.com/ansible/latest/modules/git_module.html
+    - name: 'Clone project {{ docker_guy_check__publicRepoCurated.name }} from {{ docker_guy_check__publicRepoCurated.uri }} in test folder'
+      git:
+        clone: yes
+        dest: '/home/{{ users.3.name }}/tests/{{ docker_guy_check__publicRepoCurated.name }}/'
+        repo: '{{ docker_guy_check__publicRepoCurated.uri }}'
+
+
+
+# ---
+
+
+
+### DOCKER GUY EXECUTE CLONED PROJECT
 - name: 'Docker required services setup / {{ users.2.name }} / Traefik, Swarmprom, Test website'
   become: no
   hosts: likorneWithCustomSSHPort
@@ -132,7 +176,34 @@
   - roles/users/vars/main.yml
 
   roles:
-    - docker-maintenance
-    # - docker-swarm-init
-    # - docker-guy-check
+    # docker guy permissions problems : no rights in docker peon folder (root restricted)
+    #   > Prevents creating/removing folders, git clone
+
+    # >> Do the restricted operations with the builder guy, then execute docker w. docker guy ?
+    - docker-guy-check
+
+
+
+# ---
+
+
+
+### BUILDER GUY REMOVE TEST DIRECTORY
+- name: 'BUILDER GUY {{ users.0.name }} REMOVE TEST DIRECTORY'
+  become: yes
+  hosts: likorneWithCustomSSHPort
+  # the_builder_guy / cf. /ansible/roles/users/vars/main.yml
+  remote_user: '{{ users.0.name }}'
+  vars_files:
+  - defaults/main.yml
+  - vars/main.yml
+  - roles/users/defaults/main.yml
+  - roles/users/vars/main.yml
+  - roles/docker-guy-check/defaults/main.yml
+
+  tasks:
+    - name: Remove test directory
+      file:
+        path: '/home/{{ users.3.name }}/tests/{{ docker_guy_check__publicRepoCurated.name }}/'
+        state: absent
 ...

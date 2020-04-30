@@ -64,33 +64,14 @@
     msg: 'Be careful, if this playbook fails, it will not end and 2 services and a network will still be running !'
 
 ## Install project
+# File management in the_docker_peon restricted folder done by the_builder_guy
+
 # Eventually remove previous network, as it must be created via swarm
 - name: Remove (eventual) previous custom network (must be created via swarm)
   docker_network:
     force: yes
     name: test-nginx-phpfpm-stack_network-php
     state: absent
-
-# Re-create folder
-- name: Remove test directory
-  file:
-    path: '/home/{{ users.3.name }}/tests/{{ docker_guy_check__publicRepoCurated.name }}/'
-    state: absent
-
-- name: Create test directory
-  file:
-    path: '/home/{{ users.3.name }}/tests/{{ docker_guy_check__publicRepoCurated.name }}/'
-    state: directory
-    mode: '0755'
-
-# Clone public repo
-#   https://docs.ansible.com/ansible/latest/modules/git_module.html
-- name: 'Clone project {{ docker_guy_check__publicRepoCurated.name }} from {{ docker_guy_check__publicRepoCurated.uri }} in test folder'
-  git:
-    clone: yes
-    dest: '/home/{{ users.3.name }}/tests/{{ docker_guy_check__publicRepoCurated.name }}/'
-    repo: '{{ docker_guy_check__publicRepoCurated.uri }}'
-
 
 ## Start services from docker-compose.yml file
 - name: Deploy stack from a compose file
@@ -133,11 +114,6 @@
 - name: Let docker remove stack / sleep for 5 seconds and continue with play
   wait_for:
     timeout: 5
-
-- name: Remove test directory
-  file:
-    path: '/home/{{ users.3.name }}/tests/{{ docker_guy_check__publicRepoCurated.name }}/'
-    state: absent
 
 # Remove swarm if needed
 - name: Remove a swarm manager
