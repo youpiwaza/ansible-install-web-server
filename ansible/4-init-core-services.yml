@@ -7,12 +7,6 @@
 # You'll need the_builder_guy to have it's ssh key added to the local agent, cf. the_builder_guy generated documentation
 # You'll need the_docker_guy  to have it's ssh key added to the local agent, cf. the_docker_guy  generated documentation
 
-# For security reasons, the_docker_peon home folder is chown to root.
-# Only the builder guy can manage folder & git clone
-
-# Set up a custom project requires both the_builder_guy (set project files) and the_docker_guy (init project stack)
-# Ansible become_user / unprivilege user is kinda funky, so we'll stack connexions
-
 - name: 'Docker / Remove tests artifacts and init swarm'
   become: no
   hosts: likorneWithCustomSSHPort
@@ -29,4 +23,196 @@
     # Remove tests artifacts
     - docker-maintenance
     - docker-swarm-init
+
+# ---
+
+# For security reasons, the_docker_peon home folder is chown to root.
+# the_docker_guy permissions problems : no rights in the_docker_peon folder
+# Only the builder guy can manage folder & git clone
+
+# Set up a custom project requires both the_builder_guy (set project files) and the_docker_guy (init project stack)
+# Ansible become_user / unprivilege user is kinda funky, so we'll stack connexions
+
+- name: 'Test basic stack / {{ users.0.name }} / Create directory and git clone'
+  become: yes
+  hosts: likorneWithCustomSSHPort
+  # the_builder_guy / cf. /ansible/roles/users/vars/main.yml
+  remote_user: '{{ users.0.name }}'
+  vars_files:
+  - defaults/main.yml
+  - vars/main.yml
+  - roles/users/defaults/main.yml
+  - roles/users/vars/main.yml
+  - roles/docker-guy-check/defaults/main.yml
+
+  tasks:
+    ## Install project
+    # Re-create folder
+    - name: Remove test directory
+      file:
+        path: '/home/{{ users.3.name }}/tests/{{ docker_guy_check__publicRepoCurated.name }}/'
+        state: absent
+
+    - name: Create test directory
+      file:
+        path: '/home/{{ users.3.name }}/tests/{{ docker_guy_check__publicRepoCurated.name }}/'
+        state: directory
+        mode: '0755'
+
+    # Clone public repo
+    #   https://docs.ansible.com/ansible/latest/modules/git_module.html
+    - name: 'Clone project {{ docker_guy_check__publicRepoCurated.name }} from {{ docker_guy_check__publicRepoCurated.uri }} in test folder'
+      git:
+        clone: yes
+        dest: '/home/{{ users.3.name }}/tests/{{ docker_guy_check__publicRepoCurated.name }}/'
+        repo: '{{ docker_guy_check__publicRepoCurated.uri }}'
+
+# ---
+
+- name: '{{ users.2.name }} / Start project stack, then test and stop'
+  become: no
+  hosts: likorneWithCustomSSHPort
+
+  # Enforce container default security & good practices
+  #   Cf. ansible/roles/docker-installation/tasks/test-alpine-curated-container.yml
+  module_defaults:
+    docker_container:
+      cap_drop:
+        - all
+      cpu_shares: 1024
+      detach: yes
+      healthcheck:
+        # test: REQUIRED
+        test: 'stat /etc/passwd || exit 1'              # Alpine
+        # test: 'stat /etc/nginx/nginx.conf || exit 1'  # Nginx
+        interval: 30s
+        timeout: 30s
+        retries: 3
+        start_period: 10s
+      # image: REQUIRED
+      # labels: REQUIRED
+      labels:
+        fr.masamune.client: 'masamune'
+        fr.masamune.maintainer: 'masamune.code@gmail.com'
+        # fr.masamune.project: 'REQUIRED'
+        fr.masamune.type: 'test'
+      memory: '256m'
+      memory_reservation: '128m'
+      # name: REQUIRED
+      # networks:
+      #   - name: IF_NEEDED
+      networks_cli_compatible: yes
+      # network_mode: bridge
+      pids_limit: 200
+      # Always > 1024
+      # published_ports:
+      #   - "80:80"
+      # Don't run on docker default bridge network
+      purge_networks: yes
+      restart_policy: 'on-failure'
+      restart_retries: 5
+      security_opts:
+        - 'no-new-privileges:true'
+        - 'apparmor=docker-default'
+      state: started
+      # the_docker_peon
+      user: '1003:1003'
+      # volumes:
+      #   - '/home/{{ users.3.name }}/tests-volume/da_website:/home/da_website:ro'
+      # working_dir: '/home/da_website'
+
+    docker_network:
+      # driver: REQUIRED
+      # labels: REQUIRED
+      labels:
+        fr.masamune.client: 'masamune'
+        fr.masamune.maintainer: 'masamune.code@gmail.com'
+        # fr.masamune.project: 'custom bridge network'
+        fr.masamune.type: 'test'
+      # name: REQUIRED
+      state: present
+    
+    docker_swarm_service:
+      healthcheck:
+        # test: REQUIRED
+        test: 'stat /etc/passwd || exit 1'              # Alpine
+        # test: 'stat /etc/nginx/nginx.conf || exit 1'  # Nginx
+        interval: 10s
+        timeout: 10s
+        retries: 3
+        start_period: 0s
+      # image: REQUIRED
+      # labels: REQUIRED
+      labels:
+        fr.masamune.client: 'masamune'
+        fr.masamune.maintainer: 'masamune.code@gmail.com'
+        # fr.masamune.project: 'REQUIRED'
+        fr.masamune.type: 'test'
+      limits:
+        cpus: 0.5
+        memory: 256m
+      ## Prefer readonly for volumes if no edits
+      ## Prefer config/secrets for admin's need
+      # mounts:
+      #   - readonly: yes
+      # name: REQUIRED
+      # networks:
+      #   - test-custom-overlay
+      replicas: 2
+      # Not available in ansible docker_swarm_service
+      # replicas-max-per-node=6
+      reservations:
+        cpus: 0.5
+        memory: 128m
+      restart_config:
+        # condition: any
+        # delay: 5s
+        max_attempts: 5
+        # window: 120s
+      # # Default rollback config
+      # rollback_config:
+      #   parallelism: 2
+      state: present
+      # Can't use a specific user for nginx on port 80 as it requires unprivileged ports
+      # sysctl param does not exist in ansible docker_swarm_service
+      # sysctl: net.ipv4.ip_unprivileged_port_start=0
+      # the_docker_peon
+      user: '1003:1003'
+      update_config:
+        delay: 5s
+        failure_action: rollback
+        # order: stop-first
+        parallelism: 2
+      # working_dir: '/home/da_website'
+
+  # the_docker_guy / cf. /ansible/roles/users/vars/main.yml
+  remote_user: '{{ users.2.name }}'
+  vars_files:
+  - defaults/main.yml
+  - roles/users/defaults/main.yml
+  - vars/main.yml
+  - roles/users/vars/main.yml
+
+  roles:
+    - docker-guy-check
+
+# ---
+
+- name: '{{ users.0.name }} / Remove test directory'
+  become: yes
+  hosts: likorneWithCustomSSHPort
+  # the_builder_guy / cf. /ansible/roles/users/vars/main.yml
+  remote_user: '{{ users.0.name }}'
+  vars_files:
+  - defaults/main.yml
+  - vars/main.yml
+  - roles/users/defaults/main.yml
+  - roles/users/vars/main.yml
+  - roles/docker-guy-check/defaults/main.yml
+
+  tasks:
+    - name: Remove test directory
+      file:
+        path: '/home/{{ users.3.name }}/tests/{{ docker_guy_check__publicRepoCurated.name }}/'
+        state: absent
 ...
