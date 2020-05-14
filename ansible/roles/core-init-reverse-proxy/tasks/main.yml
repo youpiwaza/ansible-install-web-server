@@ -9,14 +9,14 @@
 ## ✅ Create public network
 
 
-## 🚀 Create named volumes
-# core-traefik-logs
+## Create named volumes
+# ✅ core-traefik-logs
 #   /home/logs/traefik-debug.log
 #     chown 1003:1003
 #   /home/logs/traefik-access.log
 #     chown 1003:1003
 
-# core-traefik-https
+# 🚀 core-traefik-https
 #   /home/https/
 #     chown 1003:1003
 
@@ -36,30 +36,66 @@
 # Execution
 
 # # docker network create --driver=overlay --attachable core-traefik-public
-- name: Create traefik overlay network (swarmn, external, attachable)
-  docker_network:
-    attachable: yes
-    driver: overlay
-    internal: no
-    labels:
-      fr.masamune.client: 'masamune'
-      fr.masamune.maintainer: 'masamune.code@gmail.com'
-      fr.masamune.project: 'traefik public swarm overlay attachable network'
-      fr.masamune.type: 'core'
-    name: core-traefik-public
-    scope: swarm
-    state: present
+# - name: Create traefik overlay network (swarmn, external, attachable)
+#   docker_network:
+#     attachable: yes
+#     driver: overlay
+#     internal: no
+#     labels:
+#       fr.masamune.client: 'masamune'
+#       fr.masamune.maintainer: 'masamune.code@gmail.com'
+#       fr.masamune.project: 'reverse proxy / traefik / public swarm overlay attachable network to grant internet access'
+#       fr.masamune.type: 'core'
+#     name: core-traefik-public
+#     scope: swarm
+#     state: present
 
 
-# docker volume create core-traefik-logs \
-#    --label fr.masamune.client='masamune' \
-#    --label fr.masamune.maintainer='masamune.code@gmail.com' \
-#    --label fr.masamune.project='traefik reverse proxy' \
-#    --label fr.masamune.type='core'
+# ## Volumes management
+# #     cf. https://github.com/youpiwaza/server-related-tutorials/tree/master/01-docker/04-my-tests/09-traefik-curated/06-prod-traefik-curated
+
+# # docker volume create core-traefik-logs \
+# #    --label fr.masamune.client='masamune' \
+# #    --label fr.masamune.maintainer='masamune.code@gmail.com' \
+# #    --label fr.masamune.project='traefik reverse proxy' \
+# #    --label fr.masamune.type='core'
 # - name: Create a named volume for traefik logs
 #   docker_volume:
-#     labels: 
-#     name: volume_one
+#     labels:
+#       fr.masamune.client: 'masamune'
+#       fr.masamune.maintainer: 'masamune.code@gmail.com'
+#       fr.masamune.project: 'reverse proxy / traefik / debug and access logs'
+#       fr.masamune.type: 'core'
+#     name: core-traefik-logs
+
+# # # Go inside the volume through an attached container, not using --user, so we're having root access inside the container
+# # docker run \
+# #    -it \
+# #    --rm \
+# #    --mount \
+# #       source=core-traefik-logs,target=/home/logs \
+# #    --workdir /home/logs \
+# #    alpine \
+# #    /bin/ash
+# # Create & (docker_peon namespaced user) chown required files
+# >> touch traefik-access.log && touch traefik-debug.log && chown 1003:1003 traefik-access.log && chown 1003:1003 traefik-debug.log
+# # Verification
+# >> ls -la
+- name: 'Edit core-traefik-logs volume content : create files & docker_peon chown 1003:1003'
+  docker_container:
+    auto_remove: yes
+    command: "/bin/ash -c 'touch traefik-access.log && touch traefik-debug.log && chown 1003:1003 traefik-access.log && chown 1003:1003 traefik-debug.log'"
+    image: alpine
+    interactive: yes
+    mounts:
+      - source: core-traefik-logs
+        target: /home/logs
+    name: watever
+    working_dir: /home/logs
+
+
+
+
 
 
 
