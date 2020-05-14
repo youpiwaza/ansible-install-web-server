@@ -16,11 +16,11 @@
 #   /home/logs/traefik-access.log
 #     chown 1003:1003
 
-# 🚀 core-traefik-https
+# ✅ core-traefik-https
 #   /home/https/
 #     chown 1003:1003
 
-## Start traefik DC
+## 🚀 Start traefik DC
 
 ## Start hellos
 # start
@@ -35,6 +35,7 @@
 
 # Execution
 
+### Network management
 # # docker network create --driver=overlay --attachable core-traefik-public
 # - name: Create traefik overlay network (swarmn, external, attachable)
 #   docker_network:
@@ -51,9 +52,10 @@
 #     state: present
 
 
-# ## Volumes management
+# ### Volumes management
 # #     cf. https://github.com/youpiwaza/server-related-tutorials/tree/master/01-docker/04-my-tests/09-traefik-curated/06-prod-traefik-curated
 
+## Trafik logs
 # # docker volume create core-traefik-logs \
 # #    --label fr.masamune.client='masamune' \
 # #    --label fr.masamune.maintainer='masamune.code@gmail.com' \
@@ -77,30 +79,69 @@
 # #    --workdir /home/logs \
 # #    alpine \
 # #    /bin/ash
-# # Create & (docker_peon namespaced user) chown required files
-# >> touch traefik-access.log && touch traefik-debug.log && chown 1003:1003 traefik-access.log && chown 1003:1003 traefik-debug.log
-# # Verification
-# >> ls -la
-- name: 'Edit core-traefik-logs volume content : create files & docker_peon chown 1003:1003'
-  docker_container:
-    auto_remove: yes
-    command: "/bin/ash -c 'touch traefik-access.log && touch traefik-debug.log && chown 1003:1003 traefik-access.log && chown 1003:1003 traefik-debug.log'"
-    image: alpine
-    interactive: yes
-    mounts:
-      - source: core-traefik-logs
-        target: /home/logs
-    name: watever
-    working_dir: /home/logs
+# # # Create & (docker_peon namespaced user) chown required files
+# # >> touch traefik-access.log && touch traefik-debug.log && chown 1003:1003 traefik-access.log && chown 1003:1003 traefik-debug.log
+# # # Verification
+# # >> ls -la
+# - name: 'Edit core-traefik-logs volume content : create files & docker_peon chown 1003:1003'
+#   docker_container:
+#     auto_remove: yes
+#     command: "/bin/ash -c 'touch traefik-access.log && touch traefik-debug.log && chown 1003:1003 traefik-access.log && chown 1003:1003 traefik-debug.log'"
+#     image: alpine
+#     interactive: yes
+#     mounts:
+#       - source: core-traefik-logs
+#         target: /home/logs
+#     name: watever
+#     working_dir: /home/logs
+
+
+# ## Trafik https certificates (acme.json)
+# # # docker volume create core-traefik-https \
+# # #    --label fr.masamune.client='masamune' \
+# # #    --label fr.masamune.maintainer='masamune.code@gmail.com' \
+# # #    --label fr.masamune.project='traefik reverse proxy' \
+# # #    --label fr.masamune.type='core'
+# - name: Create a named volume for traefik https certificates
+#   docker_volume:
+#     labels:
+#       fr.masamune.client: 'masamune'
+#       fr.masamune.maintainer: 'masamune.code@gmail.com'
+#       fr.masamune.project: 'reverse proxy / traefik / https certificates (acme.json)'
+#       fr.masamune.type: 'core'
+#     name: core-traefik-https
+
+# # # Traefik needs to create acme.json, so we let it manage the whole folder
+# # docker run \
+# #    -it \
+# #    --rm \
+# #    --mount \
+# #       source=core-traefik-https,target=/home/https \
+# #    --workdir /home \
+# #    alpine \
+# #    /bin/ash
+# # >> chown -R 1003:1003 https/
+# # # Verification
+# # >> ls -la
+
+# - name: 'Edit core-traefik-https volume content : create folder /home/https/ & docker_peon chown -R 1003:1003'
+#   docker_container:
+#     auto_remove: yes
+#     command: "/bin/ash -c 'chown -R 1003:1003 https/'"
+#     image: alpine
+#     interactive: yes
+#     mounts:
+#       - source: core-traefik-https
+#         target: /home/https
+#     name: watever
+#     working_dir: /home
 
 
 
 
 
 
-
-
-# ## Start services from a docker-compose file : traefik.yml
+# ## Start traefik from a docker-compose file
 # - name: Deploy stack from a compose file
 #   docker_stack:
 #     name: '{{ core_init_reverse_proxy__traefikCuratedRepo.name }}'
