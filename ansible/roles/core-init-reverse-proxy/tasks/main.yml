@@ -155,18 +155,4 @@
 # #     var: output
 
 # Logs > docker exec -it core-traefik_traefik_1 /bin/ash -c "tail -f home/logs/traefik-debug.log"
-# {"entryPointName":"websecure","level":"error","msg":"close tcp [::]:443: use of closed network connection","time":"2020-05-14T16:16:19Z"}
-# {"entryPointName":"web","level":"error","msg":"accept tcp [::]:80: use of closed network connection","time":"2020-05-14T16:16:19Z"}
-# {"entryPointName":"traefik","level":"error","msg":"close tcp [::]:8080: use of closed network connection","time":"2020-05-14T16:16:19Z"}
-# {"entryPointName":"traefik","level":"error","msg":"accept tcp [::]:8080: use of closed network connection","time":"2020-05-14T16:16:19Z"}
-# {"entryPointName":"websecure","level":"error","msg":"accept tcp [::]:443: use of closed network connection","time":"2020-05-14T16:16:19Z"}
-# {"entryPointName":"web","level":"error","msg":"close tcp [::]:80: use of closed network connection","time":"2020-05-14T16:16:19Z"}
-
-# TODO: check logs après ue ça ai tourné tte la nuit
-
-# MEP: 3 hellos CURATED (user, DBS)
-# Note pour hellos > Corriger networks (label & network !) + "core-"
-
-# KO / Couper > docker-compose -f /home/the_docker_peon/core/reverse-proxy/traefik/traefik.yml down
-# Tâche ponctuelle > traefik down
 ...
