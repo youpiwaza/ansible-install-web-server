@@ -138,14 +138,24 @@
 
 
 
+# ### Start traefik from docker-compose
+# # docker-compose -f /home/the_docker_peon/core/reverse-proxy/traefik/traefik.yml up
 
+- name: Start traefik through docker-compose
+  docker_compose:
+    files:
+      traefik.yml
+    project_name: core-traefik
+    project_src: '/home/{{ users.3.name }}/core/reverse-proxy/traefik/'
+    state: present
+  register: output
 
+- name: Debug
+  debug:
+    var: output
 
-# ## Start traefik from a docker-compose file
-# - name: Deploy stack from a compose file
-#   docker_stack:
-#     name: '{{ core_init_reverse_proxy__traefikCuratedRepo.name }}'
-#     compose:
-#       - '/home/{{ users.3.name }}/core/{{ core_init_reverse_proxy__traefikCuratedRepo.name }}/traefik.yml'
-#     state: present
+# Logs > docker exec -it core-traefik_traefik_1 /bin/ash -c "tail -f home/logs/traefik-debug.log"
+# Couper > docker-compose -f /home/the_docker_peon/core/reverse-proxy/traefik/traefik.yml down
+
+# Note pour hellos > Corriger networks (label & network !) + "core-"
 ...
