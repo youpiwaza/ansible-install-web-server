@@ -1,0 +1,28 @@
+---
+### Install core stack : reverse proxy (traefik)
+## the_builder_guy
+
+# Install project compose file in the_docker_peon /home folder
+- name: Create traefik directory
+  file:
+    path: '/home/{{ users.3.name }}/core/reverse-proxy/traefik/'
+    state: directory
+
+- name: Add traefik compose file from template
+  template:
+    dest: '/home/{{ users.3.name }}/core/reverse-proxy/traefik/traefik.yml'
+    src: templates/traefik.j2
+
+# ---
+
+## Install tests
+- name: Create traefik tests (tutum/hello-world) directory
+  file:
+    path: '/home/{{ users.3.name }}/tests/traefik/hellos/'
+    state: directory
+
+- name: Add hello compose file from template
+  template:
+    dest: '/home/{{ users.3.name }}/tests/traefik/hellos/hello.yml'
+    src: templates/hello.j2
+...
