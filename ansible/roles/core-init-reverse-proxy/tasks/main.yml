@@ -1,0 +1,74 @@
+---
+### Init core stack : reverse proxy (traefik)
+## docker_guy
+# File management in /home/the_docker_peon restricted folder done by the_builder_guy, cf. ansible/roles/core-install-reverse-proxy
+
+#### DA PLANNNNNN
+
+
+## ✅ Create public network
+
+
+## 🚀 Create named volumes
+# core-traefik-logs
+#   /home/logs/traefik-debug.log
+#     chown 1003:1003
+#   /home/logs/traefik-access.log
+#     chown 1003:1003
+
+# core-traefik-https
+#   /home/https/
+#     chown 1003:1003
+
+## Start traefik DC
+
+## Start hellos
+# start
+# curl test
+# stop
+
+## Volumes tests
+# core-traefik-logs > debug & access > not empty
+# core-traefik-https > /home/https/acme.json > present & not empty
+
+# ---
+
+# Execution
+
+# # docker network create --driver=overlay --attachable core-traefik-public
+- name: Create traefik overlay network (swarmn, external, attachable)
+  docker_network:
+    attachable: yes
+    driver: overlay
+    internal: no
+    labels:
+      fr.masamune.client: 'masamune'
+      fr.masamune.maintainer: 'masamune.code@gmail.com'
+      fr.masamune.project: 'traefik public swarm overlay attachable network'
+      fr.masamune.type: 'core'
+    name: core-traefik-public
+    scope: swarm
+    state: present
+
+
+# docker volume create core-traefik-logs \
+#    --label fr.masamune.client='masamune' \
+#    --label fr.masamune.maintainer='masamune.code@gmail.com' \
+#    --label fr.masamune.project='traefik reverse proxy' \
+#    --label fr.masamune.type='core'
+# - name: Create a named volume for traefik logs
+#   docker_volume:
+#     labels: 
+#     name: volume_one
+
+
+
+
+# ## Start services from a docker-compose file : traefik.yml
+# - name: Deploy stack from a compose file
+#   docker_stack:
+#     name: '{{ core_init_reverse_proxy__traefikCuratedRepo.name }}'
+#     compose:
+#       - '/home/{{ users.3.name }}/core/{{ core_init_reverse_proxy__traefikCuratedRepo.name }}/traefik.yml'
+#     state: present
+...
