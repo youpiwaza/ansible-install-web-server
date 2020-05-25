@@ -1,0 +1,25 @@
+---
+# Stop traefik service, as ansible auto reload it
+### docker_guy
+- name: '{{ users.2.name }} / Stop reverse proxy traefik service'
+  become: no
+  hosts: likorneWithCustomSSHPort
+
+  # the_docker_guy / cf. /ansible/roles/users/vars/main.yml
+  remote_user: '{{ users.2.name }}'
+  vars_files:
+  - defaults/main.yml
+  - roles/users/defaults/main.yml
+  - vars/main.yml
+  - roles/users/vars/main.yml
+
+  # Debug
+  tasks:
+    - name: Stop traefik through docker-compose
+      docker_compose:
+        files:
+          traefik.yml
+        project_name: core-traefik
+        project_src: '/home/{{ users.3.name }}/core/reverse-proxy/traefik/'
+        state: absent
+...
