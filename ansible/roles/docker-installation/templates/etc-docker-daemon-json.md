@@ -88,20 +88,20 @@ If icc is disabled (icc=false) it is required to tell which containers can commu
 - [Docker docs / ulimits](https://docs.docker.com/engine/reference/commandline/run/#set-ulimits-in-container---ulimit)
 - [Oracle docs / ulimits](https://docs.oracle.com/en/operating-systems/oracle-linux/docker/ch04s16.html)
 
-Docker defaults 64000.
+Docker defaults 64000. Tune down a litle.
 
 ```json
 {
   "default-ulimits": {
     "nofile": {
         "Name": "nofile",
-        "Hard": 128,
-        "Soft": 256
+        "Hard": 4096,
+        "Soft": 2048
       },
       "nproc" : {
         "Name": "nproc",
-        "Hard": 32,
-        "Soft": 64
+        "Hard": 512,
+        "Soft": 256
       }
   },
 }

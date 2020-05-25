@@ -66,11 +66,11 @@
 #   #   https://docs.oracle.com/en/operating-systems/oracle-linux/docker/ch04s16.html
 #   default_ulimits:
 #     nofile:
-#       hard: 256
-#       soft: 128
+#       hard: 4096
+#       soft: 2048
 #     nproc:
-#       hard: 64
-#       soft: 32
+#       hard: 512
+#       soft: 256
 
 # # It reduces server performances and isn't mandatory if you uses services
 # #   https://docs.docker.com/config/containers/resource_constraints/
