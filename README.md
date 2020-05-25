@@ -43,6 +43,11 @@ Working on Windows WSL, personnal notes for my setup
 
 # ---
 
+# Stop traefik service
+> ansible-playbook -i hostsWithCustomSSHPort 51-stop-traefik-service.yml | sed 's/\\n/\n/g'
+
+# ---
+
 ## Punctual tasks
 # Execute punctual role/s or task/s, for admin confort ;)
 > ansible-playbook -i hostsWithCustomSSHPort 97-punctal.yml | sed 's/\\n/\n/g'
