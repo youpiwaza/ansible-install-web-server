@@ -3,156 +3,148 @@
 ## docker_guy
 # File management in /home/the_docker_peon restricted folder done by the_builder_guy, cf. ansible/roles/core-install-reverse-proxy
 
-#### DA PLANNNNNN
+# Configuration details, debug, etc. here:
+#   https://github.com/youpiwaza/server-related-tutorials/tree/master/01-docker/04-my-tests/09-traefik-curated/11-prod-hello-curated/08-hello-stack-curated-comments
+#   Also contains commands for volume verifications ;)
 
-
-## ✅ Create public network
-
-
-## Create named volumes
-# ✅ core-traefik-logs
-#   /home/logs/traefik-debug.log
-#     chown 1003:1003
-#   /home/logs/traefik-access.log
-#     chown 1003:1003
-
-# ✅ core-traefik-https
-#   /home/https/
-#     chown 1003:1003
-
-## 🚀 Start traefik DC
-
-## Start hellos
-# start
-# curl test
-# stop
-
-## Volumes tests
-# core-traefik-logs > debug & access > not empty
-# core-traefik-https > /home/https/acme.json > present & not empty
-
-# ---
-
-# Execution
 
 ### Network management
-# # docker network create --driver=overlay --attachable core-traefik-public
-# - name: Create traefik overlay network (swarmn, external, attachable)
-#   docker_network:
-#     attachable: yes
-#     driver: overlay
-#     internal: no
-#     labels:
-#       fr.masamune.client: 'masamune'
-#       fr.masamune.maintainer: 'masamune.code@gmail.com'
-#       fr.masamune.project: 'reverse proxy / traefik / public swarm overlay attachable network to grant internet access'
-#       fr.masamune.type: 'core'
-#     name: core-traefik-public
-#     scope: swarm
-#     state: present
+# Create a global network for stacks containers to attach to, in order to allow traefik to publish them on the internet
+#    LATER: --opt encrypted=true
+
+# docker network create \
+#   --attachable \
+#   --driver=overlay \
+#   --label fr.masamune.client='masamune' \
+#   --label fr.masamune.maintainer='masamune.code@gmail.com' \
+#   --label fr.masamune.project='reverse proxy / traefik / public swarm overlay attachable network to grant internet access' \
+#   --label fr.masamune.type='core' \
+#   core-traefik-public
+
+- name: Create traefik overlay network (swarm, external, attachable)
+  docker_network:
+    attachable: yes
+    driver: overlay
+    internal: no
+    labels:
+      fr.masamune.client: 'masamune'
+      fr.masamune.maintainer: 'masamune.code@gmail.com'
+      fr.masamune.project: 'reverse proxy / traefik / public swarm overlay attachable network to grant internet access'
+      fr.masamune.type: 'core'
+    name: core-traefik-public
+    scope: swarm
+    state: present
 
 
-# ### Volumes management
-# #     cf. https://github.com/youpiwaza/server-related-tutorials/tree/master/01-docker/04-my-tests/09-traefik-curated/06-prod-traefik-curated
+
+### Volumes management
+#     Need 2 volumes: one for logs, one for https certificates
+
 
 ## Trafik logs
-# # docker volume create core-traefik-logs \
-# #    --label fr.masamune.client='masamune' \
-# #    --label fr.masamune.maintainer='masamune.code@gmail.com' \
-# #    --label fr.masamune.project='traefik reverse proxy' \
-# #    --label fr.masamune.type='core'
-# - name: Create a named volume for traefik logs
-#   docker_volume:
-#     labels:
-#       fr.masamune.client: 'masamune'
-#       fr.masamune.maintainer: 'masamune.code@gmail.com'
-#       fr.masamune.project: 'reverse proxy / traefik / debug and access logs'
-#       fr.masamune.type: 'core'
-#     name: core-traefik-logs
 
-# # # Go inside the volume through an attached container, not using --user, so we're having root access inside the container
-# # docker run \
-# #    -it \
-# #    --rm \
-# #    --mount \
-# #       source=core-traefik-logs,target=/home/logs \
-# #    --workdir /home/logs \
-# #    alpine \
-# #    /bin/ash
-# # # Create & (docker_peon namespaced user) chown required files
-# # >> touch traefik-access.log && touch traefik-debug.log && chown 1003:1003 traefik-access.log && chown 1003:1003 traefik-debug.log
-# # # Verification
-# # >> ls -la
-# - name: 'Edit core-traefik-logs volume content : create files & docker_peon chown 1003:1003'
-#   docker_container:
-#     auto_remove: yes
-#     command: "/bin/ash -c 'touch traefik-access.log && touch traefik-debug.log && chown 1003:1003 traefik-access.log && chown 1003:1003 traefik-debug.log'"
-#     image: alpine
-#     interactive: yes
-#     mounts:
-#       - source: core-traefik-logs
-#         target: /home/logs
-#     name: watever
-#     working_dir: /home/logs
+# docker volume create core-traefik-logs \
+#    --label fr.masamune.client='masamune' \
+#    --label fr.masamune.maintainer='masamune.code@gmail.com' \
+#    --label fr.masamune.project='reverse proxy / traefik / debug and access logs' \
+#    --label fr.masamune.type='core'
 
+- name: "Create a named volume for traefik logs 'core-traefik-logs'"
+  docker_volume:
+    labels:
+      fr.masamune.client: 'masamune'
+      fr.masamune.maintainer: 'masamune.code@gmail.com'
+      fr.masamune.project: 'reverse proxy / traefik / debug and access logs'
+      fr.masamune.type: 'core'
+    name: core-traefik-logs
 
-# ## Trafik https certificates (acme.json)
-# # # docker volume create core-traefik-https \
-# # #    --label fr.masamune.client='masamune' \
-# # #    --label fr.masamune.maintainer='masamune.code@gmail.com' \
-# # #    --label fr.masamune.project='traefik reverse proxy' \
-# # #    --label fr.masamune.type='core'
-# - name: Create a named volume for traefik https certificates
-#   docker_volume:
-#     labels:
-#       fr.masamune.client: 'masamune'
-#       fr.masamune.maintainer: 'masamune.code@gmail.com'
-#       fr.masamune.project: 'reverse proxy / traefik / https certificates (acme.json)'
-#       fr.masamune.type: 'core'
-#     name: core-traefik-https
+# Go inside the volume through temp alpine container, for rights configuration
+# not using --user, so we're having root access inside the container
 
-# # # Traefik needs to create acme.json, so we let it manage the whole folder
-# # docker run \
-# #    -it \
-# #    --rm \
-# #    --mount \
-# #       source=core-traefik-https,target=/home/https \
-# #    --workdir /home \
-# #    alpine \
-# #    /bin/ash
-# # >> chown -R 1003:1003 https/
-# # # Verification
-# # >> ls -la
+# docker run \
+#    -it \
+#    --mount \
+#       source=core-traefik-logs,target=/home \
+#    --rm \
+#    --workdir /home \
+#    alpine \
+#    /bin/ash -c '                           \
+#     touch traefik-access.log            && \
+#     chown 1003:1003 traefik-access.log  && \
+#     touch traefik-debug.log             && \
+#     chown 1003:1003 traefik-debug.log      '
 
-# - name: 'Edit core-traefik-https volume content : create folder /home/https/ & docker_peon chown -R 1003:1003'
-#   docker_container:
-#     auto_remove: yes
-#     command: "/bin/ash -c 'chown -R 1003:1003 https/'"
-#     image: alpine
-#     interactive: yes
-#     mounts:
-#       - source: core-traefik-https
-#         target: /home/https
-#     name: watever
-#     working_dir: /home
+- name: "Edit 'core-traefik-logs' volume content : create files & docker_peon chown 1003:1003"
+  docker_container:
+    auto_remove: yes
+    command: "/bin/ash -c 'touch traefik-access.log && chown 1003:1003 traefik-access.log && touch traefik-debug.log && chown 1003:1003 traefik-debug.log'"
+    image: alpine
+    interactive: yes
+    mounts:
+      - source: core-traefik-logs
+        target: /home
+    name: watever
+    working_dir: /home
 
 
+## Trafik https certificates (acme.json)
 
-# ### Start traefik from docker-compose
-# # docker-compose -f /home/the_docker_peon/core/reverse-proxy/traefik/traefik.yml up
+# docker volume create core-traefik-https \
+#    --label fr.masamune.client='masamune' \
+#    --label fr.masamune.maintainer='masamune.code@gmail.com' \
+#    --label fr.masamune.project='reverse proxy / traefik / https certificates (acme.json)' \
+#    --label fr.masamune.type='core'
 
-- name: Start traefik through docker-compose
+- name: "Create a named volume for traefik https certificates 'core-traefik-https'"
+  docker_volume:
+    labels:
+      fr.masamune.client: 'masamune'
+      fr.masamune.maintainer: 'masamune.code@gmail.com'
+      fr.masamune.project: 'reverse proxy / traefik / https certificates (acme.json)'
+      fr.masamune.type: 'core'
+    name: core-traefik-https
+
+# Traefik needs to create acme.json, so we let it manage the whole folder
+
+# docker run \
+#    -it \
+#    --mount \
+#       source=core-traefik-https,target=/home \
+#    --rm \
+#    --workdir /home \
+#    alpine \
+#    /bin/ash -c '                   \
+#     mkdir https                 && \
+#     chown -R 1003:1003 https/      '
+
+- name: "Edit 'core-traefik-https' volume content : create folder /home/https/ & docker_peon chown -R 1003:1003"
+  docker_container:
+    auto_remove: yes
+    command: "/bin/ash -c 'mkdir https && chown -R 1003:1003 https/'"
+    image: alpine
+    interactive: yes
+    mounts:
+      - source: core-traefik-https
+        target: /home
+    name: watever
+    working_dir: /home
+
+
+
+## Start traefik + docker socket proxy container through docker-compose
+#     DC mandatory for privileged containers, rights overload & more security
+
+# docker-compose -f ~/wtv/traefik.yml up -d
+
+# File placement hard-coded in ansible/roles/core-install-reverse-proxy/tasks/main.yml
+- name: Start Traefik through docker compose
   docker_compose:
     files:
       traefik.yml
     project_name: core-traefik
     project_src: '/home/{{ users.3.name }}/core/reverse-proxy/traefik/'
     state: present
-# #   register: output
 
-# # - name: Debug
-# #   debug:
-# #     var: output
-
-# Logs > docker exec -it core-traefik_traefik_1 /bin/ash -c "tail -f home/logs/traefik-debug.log"
+# Note: running 'docker-compose -f ~/wtv/traefik.yml down' on the host CLI won't work, as it will auto-reload
+#   Use the dedicated role ansible/51-stop-traefik-service.yml
 ...
