@@ -110,8 +110,10 @@ services:
       
       # HTTPS certificates
       #   Use staging for tests, to avoid proc'ing the limits (~1week black listed)
-      - "--certificatesresolvers.leresolver.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory"
-      # - "--certificatesresolvers.leresolver.acme.caserver=https://acme-v02.api.letsencrypt.org/directory"
+      #   KEYWORD: https, Let's Encrypt, LetsEncrypt, not working, black list, limit exceeded, exceeding, Limit Reached
+      # LATER: convert to ansible var
+      # - "--certificatesresolvers.leresolver.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory"
+      - "--certificatesresolvers.leresolver.acme.caserver=https://acme-v02.api.letsencrypt.org/directory"
       - "--certificatesresolvers.leresolver.acme.email=masamune.code@gmail.com"
       - "--certificatesresolvers.leresolver.acme.storage=/home/https/acme.json"
       - "--certificatesresolvers.leresolver.acme.tlschallenge=true"
