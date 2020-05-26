@@ -1,7 +1,17 @@
 version: "3.7"
 
+# Usage
+#     Classic
+# > docker-compose -f traefik.yml up -d
+#     Logs
+# > docker-compose -f traefik.yml up
+#     Stop
+# > docker-compose -f traefik.yml down
+
 # Original setup & tests project
 #   https://github.com/youpiwaza/server-related-tutorials/tree/master/01-docker/04-my-tests/09-traefik-curated
+# Final stuff, debugged & fine tuned with helloworld test projects
+#   https://github.com/youpiwaza/server-related-tutorials/01-docker/04-my-tests/09-traefik-curated/11-prod-hello-curated/08-hello-stack-curated-comments
 
 # Issues & fixes
 #   Access to docker socket is a security risk
@@ -33,6 +43,10 @@ version: "3.7"
 #   Creating tests_traefik_2                        ... error 
 #   Bind for 0.0.0.0:80 failed: port is already allocated
 
+# Use named volumes (with pre-existing files/folders, properly chowned) for traefik logs & https
+
+# ulimits > kinda random as I couldn't find any recommandations. Just doubled my defaults.
+
 services:
   dockersocketproxy:
     cap_drop:
@@ -42,13 +56,14 @@ services:
       NETWORKS: 1
       SERVICES: 1
       TASKS: 1
-    image: tecnativa/docker-socket-proxy
+    # Latest ~01/2020
+    image: '{{ core_install_reverse_proxy__docker_socket_proxy_image }}'
     labels:
       fr.masamune.client: 'masamune'
       fr.masamune.maintainer: 'masamune.code@gmail.com'
       fr.masamune.project: 'docker socket proxy'
       fr.masamune.type: 'core'
-    # dockersocketproxy doesn't support syslog
+    # docker-compose interactive debug
     logging:
       driver: "json-file"
       options:
@@ -64,12 +79,23 @@ services:
     # read_only: true
     security_opt:
       - apparmor=docker-default
-      - no-new-privileges:true
+      - no-new-privileges=true
       - seccomp=/etc/docker/seccomp-profiles/default-docker-profile.json
+    ulimits:
+      nproc: 
+        hard: 20000
+        soft: 10000
+      nofile:
+        hard: 1000
+        soft: 500
     userns_mode: "host"
     volumes:
       # Access to socket, read-only for security
-      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      # - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - type: bind
+        read_only: true
+        source: /var/run/docker.sock
+        target: /var/run/docker.sock
   
   traefik:
     cap_add:
@@ -81,32 +107,41 @@ services:
       - "--accesslog=true"
       - "--accesslog.bufferingsize=100"
       - "--accesslog.filepath=/home/logs/traefik-access.log"
+      
       # HTTPS certificates
-      # - "--certificatesresolvers.leresolver.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory"
-      - "--certificatesresolvers.leresolver.acme.caserver=https://acme-v02.api.letsencrypt.org/directory"
+      #   Use staging for tests, to avoid proc'ing the limits (~1week black listed)
+      - "--certificatesresolvers.leresolver.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory"
+      # - "--certificatesresolvers.leresolver.acme.caserver=https://acme-v02.api.letsencrypt.org/directory"
       - "--certificatesresolvers.leresolver.acme.email=masamune.code@gmail.com"
       - "--certificatesresolvers.leresolver.acme.storage=/home/https/acme.json"
       - "--certificatesresolvers.leresolver.acme.tlschallenge=true"
+      
       # Specify internet access > HTTP 80 & HTTPS 443
       # Note that "web" & "websecure" are abitrary names, but will be reused in services' contrainers
       - "--entrypoints.web.address=:80"
       - "--entryPoints.websecure.address=:443"
+      
       # Send Traefik anonymous usage data / https://docs.traefik.io/contributing/data-collection/
       - "--global.sendAnonymousUsage"
+      
       # Enable logs
       - "--log.filePath=/home/logs/traefik-debug.log"
       # - "--log.format=common"
       - "--log.format=json"
       # - "--log.level=DEBUG"
       - "--log.level=ERROR"
+      
       # Allow pings, for traefik healthchecks
       - "--ping=true"
+      
       # Traefik socket access from the proxy container, on the defined port
       - "--providers.docker.endpoint=tcp://dockersocketproxy:2375"
+      
       # Only specified containers exposed on the internet
       - "--providers.docker.exposedbydefault=false"
       # Tell Traefik to get the contents provided by this service using a dedicated shared attachable overlay network.
       - "--providers.docker.network=core-traefik-public"
+      
       # Enable docker swarm
       - "--providers.docker.swarmMode=true"
     depends_on:
@@ -117,8 +152,8 @@ services:
       timeout: 10s
       retries: 3
       start_period: 0s
-    # Traefik 2.2
-    image: "traefik:chevrotin"
+    # {{ core_install_reverse_proxy__traefik_image_label }}
+    image: '{{ core_install_reverse_proxy__traefik_image }}'
     labels:
       - "fr.masamune.client: 'masamune'"
       - "fr.masamune.maintainer: 'masamune.code@gmail.com'"
@@ -136,28 +171,36 @@ services:
       # Traefik access to web server containers, to allow reverse proxy serving
       - core-traefik-public
     ports:
+      # Need to be binded
       - "80:80"
       - "443:443"
+    # Prevent modifications
+    read_only: true
     security_opt:
       - apparmor=docker-default
-      - no-new-privileges:true
+      - no-new-privileges=true
       - seccomp=/etc/docker/seccomp-profiles/default-docker-profile.json
-    # Assign the_docker_peon unprivileged user
-    user: 1003:1003
     # Specific unprivileged user needs access to ports < 1024
     sysctls:
       net.ipv4.ip_unprivileged_port_start: 0
-    # Prevent modifications
-    read_only: true
+    # Assign the_docker_peon unprivileged user
+    user: 1003:1003
+    ulimits:
+      nofile: 
+        hard: 20000
+        soft: 10000
+      nproc:
+        hard: 1000
+        soft: 500
     volumes:
       # Store HTTPS certificates in a named volume
-      # Traefik needs full access (incl. file creation) on acme.json
+      # Traefik needs full access (incl. file creation) on acme.json > chown -R on the volume's /https folder
       #   For concurrency reason, this file (acme.json) cannot be shared across multiple instances of Traefik.
       #     https://docs.traefik.io/https/acme/#storage
       - type: volume
         read_only: false
         source: core-traefik-https
-        target: /home/https
+        target: /home
       # Send logs to a named volume
       - type: volume
         read_only: false
@@ -185,16 +228,10 @@ networks:
   #   - have a set name without automatic prefix
   # > docker network create --driver=overlay --attachable core-traefik-public
   core-traefik-public:
-    # Connect to an existing network
     external: true
-    labels:
-      fr.masamune.client: 'masamune'
-      fr.masamune.maintainer: 'masamune.code@gmail.com'
-      fr.masamune.project: 'traefik outside internet access network'
-      fr.masamune.type: 'core'
 
 volumes:
-  # Needs to be created before using docker compose
+  # Needs to be created before using docker compose, do not recreate one with a prefix
   core-traefik-https:
     external: true
   # cf. server-related-tutorials/01-docker/04-my-tests/09-traefik-curated/06-prod-traefik-curated/README.md #### How to manage named volumes access rights

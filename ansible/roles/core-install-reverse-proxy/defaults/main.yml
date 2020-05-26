@@ -1,0 +1,12 @@
+---
+# https://hub.docker.com/r/tecnativa/docker-socket-proxy/
+# No proper tag versionning :/
+# ~01/2020
+# SIZE: 8.05 MB
+# DIGEST: sha256:1d3eb63508d9a56d1086487889493fb6dd10d80220a6a92d26b8934526b31559
+core_install_reverse_proxy__docker_socket_proxy_image: 'tecnativa/docker-socket-proxy:latest'
+
+# https://hub.docker.com/_/traefik
+core_install_reverse_proxy__traefik_image: 'traefik:chevrotin'
+core_install_reverse_proxy__traefik_image_label: 'Traefik 2.2'
+...
