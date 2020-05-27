@@ -39,7 +39,7 @@ Working on Windows WSL, personnal notes for my setup
 > ansible-playbook -i hostsWithCustomSSHPort 3-utils-security-docker-setup.yml | sed 's/\\n/\n/g'
 
 # Lancer le playbook de mise en place des services docker de base (traefik, container metrics & alerts)
-> ansible-playbook -i hostsWithCustomSSHPort 4-init-core-services.yml | sed 's/\\n/\n/g'
+> ansible-playbook -i hostsWithCustomSSHPort 4-setup-core-services.yml | sed 's/\\n/\n/g'
 
 # ---
 
