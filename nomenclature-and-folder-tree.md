@@ -19,6 +19,8 @@ All the core stuff will be prefixed with "core".
 - Everything concerning the core service will be set in "/home/the_docker_peon/core/TYPE-OF-SERVICE/SERVICE/".
 - Basic configuration examples (~nginx) will be set in "/home/the_docker_peon/config/TYPE-OF-SERVICE/SERVICE/" in addition to ansible repo.
   - This will allow the execution of generic tests
+  - Naming convention: CONCERNED_IMAGE--DESCRIPTION--ORIGINAL_FILENAME
+    - Ex: tutum--customUser-p8080-php--nginx.conf
 - Services templates (ex: traefik.yml) will not be stored on the host, but in the ansible repository.
   - ex: ansible/roles/core-install-reverse-proxy/templates/traefik.j2
 
@@ -40,7 +42,8 @@ All the core stuff will be prefixed with "core".
     - /config
       - /webserver
         - /nginx
-          - nginx.conf
+          - nginx--customUser-p8080--nginx.conf
+          - tutum--customUser-p8080-php--nginx.conf
     - /core
       - /reverse-proxy
         - /traefik

@@ -1,0 +1,19 @@
+---
+### Install generic config files for nginx
+# cf. https://github.com/youpiwaza/server-related-tutorials/blob/master/01-docker/04-my-tests/09-traefik-curated/11-prod-hello-curated/08-hello-stack-curated-comments/curated-p8080-customUser-phpfpm--nginx.conf
+
+- name: 'Create configs/ directory for nginx : /home/{{ users.3.name }}/configs/webserver/nginx/'
+  file:
+    path: '/home/{{ users.3.name }}/configs/webserver/nginx/'
+    state: directory
+
+- name: Add nginx config (custom user & internal port 8080) from template
+  template:
+    dest: '/home/{{ users.3.name }}/configs/webserver/nginx/nginx--customUser-p8080--nginx.conf'
+    src: templates/nginx--customUser-p8080--nginx.conf.j2
+
+- name: Add nginx config for tutum/helloworld (custom user, internal port 8080 & php) from template
+  template:
+    dest: '/home/{{ users.3.name }}/configs/webserver/nginx/tutum--customUser-p8080-php--nginx.conf'
+    src: templates/tutum--customUser-p8080-php--nginx.conf.j2
+...
