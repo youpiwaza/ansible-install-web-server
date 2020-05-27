@@ -64,7 +64,7 @@
 
 
 ### builder_guy
-- name: '{{ users.0.name }} / Install genereic config files in /home/{{ users.3.name }}/configs/'
+- name: '{{ users.0.name }} / Install generic config files in /home/{{ users.3.name }}/configs/'
   become: yes
   hosts: likorneWithCustomSSHPort
   # the_builder_guy / cf. /ansible/roles/users/vars/main.yml
