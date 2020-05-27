@@ -10,23 +10,24 @@ All the core stuff will be prefixed with "core".
 
 ## Folder tree
 
-When naming files & folders, use a dash notation, ex: "some-stuff.md".
+### Administration & core
 
-Everything regarding servers tests & maintenance will be set in "/home/the_builder_guy" folder.
+- When naming files & folders, use a dash notation, ex: "some-stuff.md".
+- Everything regarding **server** tests & maintenance will be set in "/home/the_builder_guy" folder.
+- Everything regarding **docker** tests & maintenance will be set in "/home/the_docker_guy" folder.
+- Everything regarding **docker containers** execution will be set in "/home/the_docker_peon" folder.
+- Everything concerning the core service will be set in "/home/the_docker_peon/core/TYPE-OF-SERVICE/SERVICE/".
+- Basic configuration examples (~nginx) will be set in "/home/the_docker_peon/config/TYPE-OF-SERVICE/SERVICE/" in addition to ansible repo.
+  - This will allow the execution of generic tests
+- Services templates (ex: traefik.yml) will not be stored on the host, but in the ansible repository.
+  - ex: ansible/roles/core-install-reverse-proxy/templates/traefik.j2
 
-Everything regarding docker tests & maintenance will be set in "/home/the_docker_guy" folder.
+### Clients
 
-Everything regarding docker containers execution will be set in "/home/the_docker_peon" folder.
+- Clients will have a dedicated folder, containing a dedicated folder for every client and inside, a dedicated fodler for every project.
+- A project name will be, if possible, the uri of the website (with subdomain and extension), else the project name (ex: tests/labs on subdomains..).
 
-Everything concerning the core service will be set in "/home/the_docker_peon/core/TYPE-OF-SERVICE/SERVICE/".
-
-Services template will not be stored on the host, but in the ansible repository.
-
-Clients will have a dedicated folder, containing a dedicated folder for every client and inside, a dedicated fodler for every project.
-
-A project name will be, if possible, the uri of the website (with subdomain and extension), else the project name.
-
-Example folder tree:
+### Example folder tree
 
 - /home
   - /the_builder_guy
@@ -69,7 +70,21 @@ Containers will access the internet through the overlay attachable "core-traefik
 - Be sure to connect only required containers (~webserver:80 & :443)
 - Use a private network for project containers' connections.
 
-### Named volumes
+### Project & datas storages
+
+~~As much as possible, datas will be stored in a /home/STUFF folder, to facilitate rights managements.~~
+
+No, as much as possible, named volumes will be used (stored in /docker/ folder..).
+
+Clients project will be splitted in 3:
+
+- Generic images of technology used (ex: nginx, wordpress, ..)
+- Client/project files, stored on github/gitlab
+  - Injected in projects' dedicated named volumes according to needs, through ansible
+- Clients generated datas (uploads, database contents)
+  - Stored in named volumes
+
+#### Named volumes
 
 TYPE-TECHNO/SUB_CLIENT_URI-DESCRIPTION
 
@@ -80,15 +95,14 @@ Examples:
 - prod-spongebob_com-database
 - prod-sub_spongebob_com-database
 
-As much as possible, datas will be stored in a /home/STUFF folder, to facilitate rights managements.
-
 Ex: for traefik logs, they are stored in /home/logs/traefik.log in the core-traefik-logs named volume.
 
 #### Volumes recommandations
 
-- Do not use volumes for containers configurations, use config.
-- Named volumes are for website content & tmp files only.
+- Do not use volumes for containers configurations, use **config**, cf. [dedicated tests](https://github.com/youpiwaza/server-related-tutorials/blob/master/01-docker/04-my-tests/09-traefik-curated/11-prod-hello-curated/08-hello-stack-curated-comments/README-use-docker-config.md).
+- Named volumes are for website contents : project files & clients datas
   - Website content should be independant from container's image, to facilitate updates.
-- Used named volumes only with stacks
+  - **DO NOT mount /tmp/ folders**, are they can provoke conflicts between replicas.
+- Used named volumes with stacks
   - bind volumes are a security risk
   - anonymous volumes are destroyed when/if stacks are shutdown (manually or failures)
