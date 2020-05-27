@@ -37,9 +37,14 @@ All the core stuff will be prefixed with "core".
     - /tests
       - /some-docker-test
   - /the_docker_peon
+    - /config
+      - /webserver
+        - /nginx
+          - nginx.conf
     - /core
       - /reverse-proxy
         - /traefik
+          - traefik.yml
     - /clients
       - /spongebob
         - /spongebob-com            # spongebob.com
