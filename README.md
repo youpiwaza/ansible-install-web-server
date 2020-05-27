@@ -124,7 +124,7 @@ Mettre en place le nouveau serveur
       2. ✅ Recos archi linux
       3. ✅ fail2ban > [securité++](https://wiki.archlinux.org/index.php/Fail2ban#Service_hardening)
    10. ✅🔍 cocadmin / [sécurité serveur](https://www.youtube.com/watch?v=UmbndsZFIUE)
-4. Mettre en place les utilitaires du serveur
+4. ✅ Mettre en place les utilitaires du serveur
    1. 🌱 Envoi de mail
        1. ✅🔍 Docs
          - [Ubuntu](https://help.ubuntu.com/lts/serverguide/postfix.html)
@@ -157,7 +157,7 @@ Mettre en place le nouveau serveur
       7. ✅ systemctl status systemd-timesyncd > inactive dead
          1. [doc](https://unix.stackexchange.com/questions/504381/chrony-vs-systemd-timesyncd-what-are-the-differences-and-use-cases-as-ntp-cli)
       8. ✅ Firewall / Autoriser Mise à l'heure du serveur [NTP](https://www.google.com/search?q=ntp)
-5. Installation de docker
+5. ✅ Installation de docker
    1. ✅🔍 Note: Rootless Docker
       1. is experimental
       2. features are not supported : Overlay network
@@ -331,7 +331,7 @@ Mettre en place le nouveau serveur
    8. ✅ Update to [Ubuntu 20](https://ubuntu.com/blog/ubuntu-20-04-lts-arrives)
       1. ✅ Check n' fix if needed
    9. ✅🎉🎉🎉 Close this fucking topic
-6. Clean ansible before pursuing
+6. ✅ Clean ansible before pursuing
    1. Refacto variables
       1. ✅ Déplacers tours les vars/main_not_so_real.yml dans */defaults/main.yml
          1. ✅ Si vars === not_so_real > supprimer vars (garder uniquement pour données persos)
@@ -356,7 +356,7 @@ Mettre en place le nouveau serveur
       1. Piocher dans les rôles d'installation
    2. ✅ 99-Crafts & tests > Playbook dédié à la création, pour éviter de tout commenter/décommenter/oublier
    3. ✅ 97-Punctal-task   > Playbook pour éxécuter une (ou plusieurs) tâches ponctuelles
-8. 🚀 Installer les containers de l'architecture de base via ansible
+8. ✅ Installer les containers de l'architecture de base via ansible
    1. ✅ Mettre en place les noms de domaine pour les tests & services publics de base
       1. test           .DOMAIN.COM   // basic nginx
       2. test-wordpress .DOMAIN.COM   // basic nginx
@@ -374,7 +374,7 @@ Mettre en place le nouveau serveur
       3. ✅ Utiliser la version curated
       4. ✅ Resoudre les problèmes de droits
       5. ✅ Cleaner et mettre en place (99e playbook > 4eme playbook)
-   6. 🚀 Reverse Proxy
+   6. ✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅ Reverse Proxy ✅✅✅✅✅✅✅✅✅✅✅✅✅
       6. Installation de [traefik pour Docker](https://docs.traefik.io/providers/docker/)
          1. ✅ Docs
             1. [Traefik > Docker swarm discovery](https://docs.traefik.io/providers/docker/)
@@ -480,7 +480,7 @@ Mettre en place le nouveau serveur
                3. Proper volumes + rights
                4. config instead of bind
                5. etc. etc., cf. server-related-tutorials/01-docker/04-my-tests/09-traefik-curated/11-prod-hello-curated/08-hello-stack-curated-comments/README.md
-         5. 🚀 Host / Automation via ansible
+         5. ✅ Host / Automation via ansible
             1. ✅ Role > traefik install
             2. ✅ Role > traefik init
             3. ✅ Role > Nginx custom conf install
