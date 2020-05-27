@@ -1,0 +1,13 @@
+---
+### Install tests services files
+## the_builder_guy
+
+# Install tests services files in the_docker_peon /home folder
+- name: 'Install tests services files / Create directory /home/{{ users.3.name }}/tests/'
+  file:
+    path: '/home/{{ users.3.name }}/tests/'
+    state: directory
+
+- name: Install tutum/helloworld tests files
+  include: tutum.yml
+...
