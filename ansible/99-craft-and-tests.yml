@@ -13,22 +13,6 @@
 
 # ✅ Install basci nginx configs
 # ✅ Install hellos
-# TODO: Start hellos
-# TODO: Test & remove hellos
-
-### docker_guy
-- name: '{{ users.2.name }} / Start tests services hello world'
-  become: no
-  hosts: likorneWithCustomSSHPort
-
-  # the_docker_guy / cf. /ansible/roles/users/vars/main.yml
-  remote_user: '{{ users.2.name }}'
-  vars_files:
-  - defaults/main.yml
-  - roles/users/defaults/main.yml
-  - vars/main.yml
-  - roles/users/vars/main.yml
-
-  roles:
-    - tests-init-hello
+# ✅ Start hellos
+# LATER🚑: Test & remove hellos
 ...

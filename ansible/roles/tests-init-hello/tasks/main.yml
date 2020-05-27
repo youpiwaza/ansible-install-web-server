@@ -74,4 +74,74 @@
 # docker stack rm test-hello
 # TODO: test stack
 # TODO: remove stack
+
+
+
+#### helloDeux (http://grafana.masamune.fr/)
+
+### Volumes management
+## Logs
+
+# docker volume create test-helloDeux-logs \
+#    --label fr.masamune.client='masamune' \
+#    --label fr.masamune.maintainer='masamune.code@gmail.com' \
+#    --label fr.masamune.project='tutum/helloworld logs' \
+#    --label fr.masamune.type='test'
+
+- name: "Create a named volume for helloDeux logs 'test-helloDeux-logs'"
+  docker_volume:
+    labels:
+      fr.masamune.client: 'masamune'
+      fr.masamune.maintainer: 'masamune.code@gmail.com'
+      fr.masamune.project: 'test / tutum / helloDeux / logs'
+      fr.masamune.type: 'test'
+    name: test-helloDeux-logs
+
+
+# Go inside the volume through temp alpine container, for rights configuration
+# not using --user, so we're having root access inside the container
+
+# nginx/ folder MUST be 1003:1003 owned too, not only files inside
+# docker run \
+#    --mount \
+#       source=test-helloDeux-logs,target=/home \
+#    --rm \
+#    --workdir /home \
+#    alpine \
+#    /bin/ash -c '                           \
+#     touch php-fpm.log                   && \
+#     chown 1003:1003 php-fpm.log         && \
+#     mkdir nginx                         && \
+#     touch ./nginx/access.log            && \
+#     touch ./nginx/error.log             && \
+#     chown -R 1003:1003 nginx'
+
+- name: "Edit 'test-helloDeux-logs' volume content : create files & docker_peon chown 1003:1003"
+  docker_container:
+    auto_remove: yes
+    command: "/bin/ash -c 'touch php-fpm.log && chown 1003:1003 php-fpm.log && mkdir nginx && touch ./nginx/access.log && touch ./nginx/error.log && chown -R 1003:1003 nginx'"
+    image: alpine
+    interactive: yes
+    mounts:
+      - source: test-helloDeux-logs
+        target: /home
+    name: watever
+    working_dir: /home
+
+
+## Start helloDeux stack
+# docker stack deploy -c ~/wtv/helloDeux.yml helloDeux
+
+# File placement hard-coded in ansible/roles/tests-install/tasks/tutum.yml
+- name: "Deploy 'test-helloDeux' stack from a compose file"
+  docker_stack:
+    name: test-helloDeux
+    compose:
+      - '/home/{{ users.3.name }}/tests/helloworld/tutum/helloDeux.yml'
+    state: present
+
+## Remove stack
+# docker stack rm test-helloDeux
+# TODO: test stack
+# TODO: remove stack
 ...
