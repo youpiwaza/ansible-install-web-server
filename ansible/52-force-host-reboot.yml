@@ -1,0 +1,28 @@
+---
+# Force reboot on host
+#   For maintenance or tests purpose (service restart)
+
+### builder_guy
+- name: 'Execute admin stuff / {{ users.0.name }}'
+  become: yes
+  hosts: likorneWithCustomSSHPort
+  # the_builder_guy / cf. /ansible/roles/users/vars/main.yml
+  remote_user: '{{ users.0.name }}'
+  vars_files:
+  - defaults/main.yml
+  - roles/users/defaults/main.yml
+  - vars/main.yml
+  - roles/users/vars/main.yml
+
+  # Debug
+  tasks:
+    # https://docs.ansible.com/ansible/latest/modules/reboot_module.html
+    - name: Reboot the Debian or Ubuntu server
+      reboot:
+        msg: 'Reboot initiated by Ansible due to kernel updates'
+        connect_timeout: 5
+        reboot_timeout: 300
+        pre_reboot_delay: 0
+        post_reboot_delay: 5
+        test_command: uptime
+...

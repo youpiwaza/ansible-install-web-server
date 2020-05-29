@@ -46,6 +46,9 @@ Working on Windows WSL, personnal notes for my setup
 # Stop traefik service
 > ansible-playbook -i hostsWithCustomSSHPort 51-stop-traefik-service.yml | sed 's/\\n/\n/g'
 
+# Force host reboot
+> ansible-playbook -i hostsWithCustomSSHPort 52-force-host-reboot.yml | sed 's/\\n/\n/g'
+
 # ---
 
 ## Punctual tasks
