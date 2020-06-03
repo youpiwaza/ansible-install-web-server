@@ -57,7 +57,7 @@ Working on Windows WSL, personnal notes for my setup
 
 # Update/Upgrade web server packages & OS, docker system prune
 #  /!\ Be careful ! Might include reboots !
-#  /!\ Be careful ! Removes dangling containers, networks & volumes
+#  /!\ Be careful ! Removes stopped containers, dangling images, networks & volumes
 > ansible-playbook -i hostsWithCustomSSHPort 98-maintenance.yml | sed 's/\\n/\n/g'
 
 # WIP & tests
