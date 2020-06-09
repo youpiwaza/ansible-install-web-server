@@ -17,7 +17,7 @@ Généré automatiquement via ansible, cf. [github repo](https://github.com/youp
 | Variable | Value | Notes |
 |-|-|-|
 | public_uri | {{ traefik.public_uri }} | Ensure DNS are set accordingly to point towards host IP. This will point towards 'https://{{ traefik.public_uri }}/' |
-| uid | {{ traefik.uid }} | For router & middleware names generation. Recommanded notation: `subDomain_domain_ext__stacktype` |
+| uid | {{ traefik.uid }} | For router & middleware names generation. Recommanded notation: `subDomain_domain_ext` |
 
 ## Database
 

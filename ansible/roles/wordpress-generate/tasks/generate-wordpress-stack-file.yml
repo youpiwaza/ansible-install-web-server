@@ -1,0 +1,13 @@
+---
+### Locally generate wordpress-stack.yml file
+- name: Locally generate wordpress-stack.yml file
+  template:
+    dest: '{{ project.type }}--{{ project.client_name }}--{{ traefik.public_uri }}--wordpress-stack--generated.yml'
+    src: templates/wordpress-stack.yml.j2
+  # On the local machine
+  delegate_to: 127.0.0.1
+
+- debug:
+    msg: "\n\nA stack file '{{ project.type }}--{{ project.client_name }}--{{ traefik.public_uri }}--wordpress-stack--generated.yml' have been generated at the root of this project :)\n
+    It will be uploaded to the host and removed afterwards.\n\n"
+...

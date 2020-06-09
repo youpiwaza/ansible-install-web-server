@@ -1,7 +1,7 @@
 version: '3.7'
-# Based on server-related-tutorials/01-docker/04-my-tests/10-wordpress/08-manual-steps/wordpress-stack.yml
+# Based on https://github.com/youpiwaza/server-related-tutorials/tree/master/01-docker/04-my-tests/10-wordpress/08-manual-steps/wordpress-stack.yml
 
-## Create network and named volumes
+## Create named volumes
 # docker volume create \
 #    --label fr.masamune.test-wordpress.client='masamune' \
 #    --label fr.masamune.test-wordpress.maintainer='masamune.code@gmail.com' \

@@ -15,16 +15,35 @@
 ## Local
 # ✅ Manage required vars
 # ✅ Generate a local README.md file w. vars
-# 🚀 Default vars overload template in test playbook
-# 🚀 Make a wordpress-stack.yml.j2 template file
+# ✅ Default vars overload template in test playbook
+# ✅ Make a wordpress-stack.yml.j2 template file
+#   📌 docker guy host cli > remove stack 'test-wordpress' and test generated file
+#     volumes are generated automaticcally w. stack ? no need to create
 # Manage generated vars
 # Generate a local wordpress-stack.yml file using vars
 
 ## Builder guy
 # Upload wordpress-stack.yml to host
+# Remove local wordpress-stack.yml file
 
 ## Docker guy
 # Volumes creation
+  ## Create named volumes
+  # docker volume create \
+  #    --label fr.masamune.test-wordpress.client='masamune' \
+  #    --label fr.masamune.test-wordpress.maintainer='masamune.code@gmail.com' \
+  #    --label fr.masamune.test-wordpress.project='test service wordpress > mariadb' \
+  #    --label fr.masamune.test-wordpress.type='test' \
+  #    test--test-wordpress-masamune-fr--wordpress--db \
+  # && \
+  # docker volume create \
+  #    --label fr.masamune.test-wordpress.client='masamune' \
+  #    --label fr.masamune.test-wordpress.maintainer='masamune.code@gmail.com' \
+  #    --label fr.masamune.test-wordpress.project='test service wordpress > wordpress' \
+  #    --label fr.masamune.test-wordpress.type='test' \
+  #    test--test-wordpress-masamune-fr--wordpress--files
+  ## ANSIBLE > {{ project.type }}--{{ project.dashed_domain }}--wordpress--db
+# Debug warning: ~1min to start (database creation)
 # Start stack
 # Automated ~Manual steps (wp-cli, etc.)
 
@@ -52,6 +71,7 @@
 
   #   project:
   #     client_name: 'masamune__overload_test'
+  #     dashed_domain: 'test-wordpress-masamune-fr__overload_test'
   #     # Docker recommanded notation: extension.site.subdomain.SOME-LABEL
   #     #   https://docs.docker.com/config/labels-custom-metadata/#key-format-recommendations
   #     labels_prefix: 'fr.masamune.test-wordpress__overload_test'

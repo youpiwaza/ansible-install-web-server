@@ -11,6 +11,7 @@ database:
 
 project:
   client_name: 'masamune'
+  dashed_domain: 'test-wordpress-masamune-fr'
   # Docker recommanded notation: extension.site.subdomain.SOME-LABEL
   #   https://docs.docker.com/config/labels-custom-metadata/#key-format-recommendations
   labels_prefix: 'fr.masamune.test-wordpress'
@@ -23,8 +24,8 @@ traefik:
   # This will point towards 'https://test-wordpress.masamune.fr/'
   public_uri: 'test-wordpress.masamune.fr'
   # For router & middleware names generation
-  # subDomain_domain_ext__stacktype
-  uid: 'testWordpress_masamune_fr__wordpress'
+  # subDomain_domain_ext
+  uid: 'testWordpress_masamune_fr'
 
 wordpress:
   image: 'bitnami/wordpress:5'

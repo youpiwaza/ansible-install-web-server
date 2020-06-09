@@ -1,20 +1,5 @@
 version: '3.7'
-# Based on server-related-tutorials/01-docker/04-my-tests/10-wordpress/08-manual-steps/wordpress-stack.yml
-
-## Create network and named volumes
-# docker volume create \
-#    --label fr.masamune.test-wordpress.client='masamune' \
-#    --label fr.masamune.test-wordpress.maintainer='masamune.code@gmail.com' \
-#    --label fr.masamune.test-wordpress.project='test service wordpress > mariadb' \
-#    --label fr.masamune.test-wordpress.type='test' \
-#    test--test-wordpress-masamune-fr--wordpress--db \
-# && \
-# docker volume create \
-#    --label fr.masamune.test-wordpress.client='masamune' \
-#    --label fr.masamune.test-wordpress.maintainer='masamune.code@gmail.com' \
-#    --label fr.masamune.test-wordpress.project='test service wordpress > wordpress' \
-#    --label fr.masamune.test-wordpress.type='test' \
-#    test--test-wordpress-masamune-fr--wordpress--files
+# Based on https://github.com/youpiwaza/server-related-tutorials/tree/master/01-docker/04-my-tests/10-wordpress/08-manual-steps/wordpress-stack.yml
 
 services:
   mariadb:
@@ -24,10 +9,10 @@ services:
     deploy:
       endpoint_mode: vip
       labels:
-        - "fr.masamune.client='masamune'"
-        - "fr.masamune.maintainer='masamune.code@gmail.com'"
-        - "fr.masamune.project='test service wordpress > mariadb'"
-        - "fr.masamune.type='test'"
+        - "{{ project.labels_prefix }}.client='{{ project.client_name }}'"
+        - "{{ project.labels_prefix }}.maintainer='{{ project.maintainer }}'"
+        - "{{ project.labels_prefix }}.project='{{ project.name }} > mariadb'"
+        - "{{ project.labels_prefix }}.type='{{ project.type }}'"
       mode: replicated
       # Possibility to implement replicas : https://hub.docker.com/r/bitnami/mariadb/ > Setting up a replication cluster
       replicas: 1
@@ -63,15 +48,15 @@ services:
       MARIADB_CHARACTER_SET: 'utf8'
       MARIADB_COLLATE: 'utf8_general_ci'
       
-      MARIADB_DATABASE: 'bitnami_wordpress_drdS87QVpvADFw5W'
+      MARIADB_DATABASE: '{{ database.MARIADB_DATABASE }}'
       # MARIADB_EXTRA_FLAGS=--max-connect-errors=1000 --max_connections=155
-      MARIADB_PASSWORD: 'G6Sn3VaLqf2DDL9W'
-      MARIADB_USER: 'yAKqwcWYAr9kzLdn'
+      MARIADB_PASSWORD: '{{ database.MARIADB_PASSWORD }}'
+      MARIADB_USER: '{{ database.MARIADB_USER }}'
 
-      MARIADB_ROOT_PASSWORD: 'F9pXgdTAwcWSxH4WnZYex3pLJmR947VZ'
+      MARIADB_ROOT_PASSWORD: '{{ database.MARIADB_ROOT_PASSWORD }}'
       # # Path to a file that contains the admin user password. This will override the value specified in MARIADB_ROOT_PASSWORD
       # MARIADB_ROOT_PASSWORD_FILE: 'secret.txt'
-      MARIADB_ROOT_USER: 'root_F5g8H7F'
+      MARIADB_ROOT_USER: '{{ database.MARIADB_ROOT_USER }}'
 
     healthcheck:
       test: 'stat /opt/bitnami/mariadb/conf/my.cnf || exit 1'
@@ -79,12 +64,12 @@ services:
       timeout: 10s
       retries: 3
       start_period: 0s
-    image: 'bitnami/mariadb:10.3'
+    image: '{{ database.image }}'
     labels:
-      fr.masamune.client: 'masamune'
-      fr.masamune.maintainer: 'masamune.code@gmail.com'
-      fr.masamune.project: 'curated service wordpress / mariadb'
-      fr.masamune.type: 'test'
+      {{ project.labels_prefix }}.client: '{{ project.client_name }}'
+      {{ project.labels_prefix }}.maintainer: '{{ project.maintainer }}'
+      {{ project.labels_prefix }}.project: '{{ project.name }} > mariadb'
+      {{ project.labels_prefix }}.type: '{{ project.type }}'
     # # Does not support syslog driver
     # #   Use docker logs CONTAINER_NAME or docker service logs SERVICE_NAME (not stack, service) to access outputs
     logging:
@@ -109,7 +94,7 @@ services:
     volumes:
       - type: volume
         read_only: false
-        source: test--test-wordpress-masamune-fr--wordpress--db
+        source: {{ project.type }}--{{ project.dashed_domain }}--wordpress--db
         target: /bitnami/mariadb
 
   wordpress:
@@ -128,35 +113,35 @@ services:
 
         ## HTTPS router specifications
         # Entrypoint
-        - "traefik.http.routers.https_testWordpress_MasamuneFr_Wordpress_Router.entrypoints=websecure"
+        - "traefik.http.routers.https_{{ traefik.uid }}__wordpress__Router.entrypoints=websecure"
         # On which url ? Reverse proxy regexp
-        - "traefik.http.routers.https_testWordpress_MasamuneFr_Wordpress_Router.rule=Host(`test-wordpress.masamune.fr`)"
+        - "traefik.http.routers.https_{{ traefik.uid }}__wordpress__Router.rule=Host(`{{ traefik.public_uri }}`)"
         # Use the service created below specifying the internal port
-        - "traefik.http.routers.https_testWordpress_MasamuneFr_Wordpress_Router.service=https_testWordpress_MasamuneFr_Wordpress_Service"
+        - "traefik.http.routers.https_{{ traefik.uid }}__wordpress__Router.service=https_{{ traefik.uid }}__wordpress__Service"
         # Enable TLS
-        - "traefik.http.routers.https_testWordpress_MasamuneFr_Wordpress_Router.tls=true"
+        - "traefik.http.routers.https_{{ traefik.uid }}__wordpress__Router.tls=true"
         # Automtic certifcate resolver, created in traefik.yml
-        - "traefik.http.routers.https_testWordpress_MasamuneFr_Wordpress_Router.tls.certresolver=leresolver"
+        - "traefik.http.routers.https_{{ traefik.uid }}__wordpress__Router.tls.certresolver=leresolver"
         
         # Create a service specifying the internal port
         # Internal port > 1024 to prevent usage of root restricted ports
-        - "traefik.http.services.https_testWordpress_MasamuneFr_Wordpress_Service.loadbalancer.server.port=8080"
+        - "traefik.http.services.https_{{ traefik.uid }}__wordpress__Service.loadbalancer.server.port=8080"
 
         ## HTTP_ router / Redirect every http requests to their https equivalent
         # Create a middleware to redirect http to https
         #     Middleware aren't shared ?
         - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
         # All hosts..
-        - "traefik.http.routers.http_testWordpress_MasamuneFr_Wordpress_Router.rule=hostregexp(`{host:.+}`)"
+        - "traefik.http.routers.http_{{ traefik.uid }}__wordpress__Router.rule=hostregexp(`{host:.+}`)"
         # .. coming from entrypoint web ..
-        - "traefik.http.routers.http_testWordpress_MasamuneFr_Wordpress_Router.entrypoints=web"
+        - "traefik.http.routers.http_{{ traefik.uid }}__wordpress__Router.entrypoints=web"
         # .. use the previously created middleware
-        - "traefik.http.routers.http_testWordpress_MasamuneFr_Wordpress_Router.middlewares=redirect-to-https"
+        - "traefik.http.routers.http_{{ traefik.uid }}__wordpress__Router.middlewares=redirect-to-https"
         
-        - "fr.masamune.client='masamune'"
-        - "fr.masamune.maintainer='masamune.code@gmail.com'"
-        - "fr.masamune.project='test service wordpress > wordpress'"
-        - "fr.masamune.type='test'"
+        - "{{ project.labels_prefix }}.client='{{ project.client_name }}'"
+        - "{{ project.labels_prefix }}.maintainer='{{ project.maintainer }}'"
+        - "{{ project.labels_prefix }}.project='{{ project.name }} > wordpress'"
+        - "{{ project.labels_prefix }}.type='{{ project.type }}'"
       mode: replicated
       replicas: 2
       resources:
@@ -187,20 +172,20 @@ services:
         parallelism: 1
     environment:
       # # mariadb database creation
-      MARIADB_ROOT_PASSWORD: 'F9pXgdTAwcWSxH4WnZYex3pLJmR947VZ'
-      MARIADB_ROOT_USER: 'root_F5g8H7F'
-      MYSQL_CLIENT_CREATE_DATABASE_NAME: 'bitnami_wordpress_drdS87QVpvADFw5W'
-      MYSQL_CLIENT_CREATE_DATABASE_PASSWORD: 'G6Sn3VaLqf2DDL9W'
-      MYSQL_CLIENT_CREATE_DATABASE_USER: 'yAKqwcWYAr9kzLdn'
-      WORDPRESS_TABLE_PREFIX: 'wp_PL9ZFfYp_'
+      MARIADB_ROOT_PASSWORD: '{{ database.MARIADB_ROOT_PASSWORD }}'
+      MARIADB_ROOT_USER: '{{ database.MARIADB_ROOT_USER }}'
+      MYSQL_CLIENT_CREATE_DATABASE_NAME: '{{ database.MARIADB_DATABASE }}'
+      MYSQL_CLIENT_CREATE_DATABASE_PASSWORD: '{{ database.MARIADB_PASSWORD }}'
+      MYSQL_CLIENT_CREATE_DATABASE_USER: '{{ database.MARIADB_USER }}'
+      WORDPRESS_TABLE_PREFIX: '{{ wordpress.WORDPRESS_TABLE_PREFIX }}'
       
       # # mariadb connection
       ALLOW_EMPTY_PASSWORD: 'no'
       MARIADB_HOST: 'mariadb'
       MARIADB_PORT_NUMBER: '3306'
-      WORDPRESS_DATABASE_NAME: 'bitnami_wordpress_drdS87QVpvADFw5W'
-      WORDPRESS_DATABASE_PASSWORD: 'G6Sn3VaLqf2DDL9W'
-      WORDPRESS_DATABASE_USER: 'yAKqwcWYAr9kzLdn'
+      WORDPRESS_DATABASE_NAME: '{{ database.MARIADB_DATABASE }}'
+      WORDPRESS_DATABASE_PASSWORD: '{{ database.MARIADB_PASSWORD }}'
+      WORDPRESS_DATABASE_USER: '{{ database.MARIADB_USER }}'
       WORDPRESS_SKIP_INSTALL: 'no'
       
       # # PHP
@@ -214,14 +199,14 @@ services:
       # SMTP_PROTOCOL: 'tls'
 
       # # WordPress user info
-      WORDPRESS_BLOG_NAME: "Custom User's blog"
-      WORDPRESS_EMAIL: 'customuser@example.com'
-      WORDPRESS_FIRST_NAME: 'Bob'
-      WORDPRESS_LAST_NAME: 'Sponge'
+      WORDPRESS_BLOG_NAME: "{{ wordpress.WORDPRESS_BLOG_NAME }}"
+      WORDPRESS_EMAIL: '{{ wordpress.WORDPRESS_EMAIL }}'
+      WORDPRESS_FIRST_NAME: '{{ wordpress.WORDPRESS_FIRST_NAME }}'
+      WORDPRESS_LAST_NAME: '{{ wordpress.WORDPRESS_LAST_NAME }}'
       # 50 chars length / NO SPECIAL CHARS, tends to not match when container is up
-      WORDPRESS_USERNAME: 'ndj4E2rDbVeRkEHHcu9X7me3asqTNFmzwjKAhU9LbqpMb8Wbcf'
+      WORDPRESS_USERNAME: '{{ wordpress.WORDPRESS_USERNAME }}'
       # 50 chars length / Wordpress recommandations : ! ? % ^ & ) / No no $ ' "
-      WORDPRESS_PASSWORD: 'ndj4E2r!bVeRkE?Hcu8%7me3as^TNFmzwjKAh)U9Lbqp&b8Wbcf'
+      WORDPRESS_PASSWORD: '{{ wordpress.WORDPRESS_PASSWORD }}'
 
       # # WordPress config
       WORDPRESS_HTACCESS_OVERRIDE_NONE: 'yes'
@@ -237,12 +222,12 @@ services:
       retries: 3
       # Let some time for database setup
       start_period: 60s
-    image: 'bitnami/wordpress:5'
+    image: '{{ wordpress.image }}'
     labels:
-      fr.masamune.client: 'masamune'
-      fr.masamune.maintainer: 'masamune.code@gmail.com'
-      fr.masamune.project: 'curated service wordpress / wordpress'
-      fr.masamune.type: 'test'
+      {{ project.labels_prefix }}.client: '{{ project.client_name }}'
+      {{ project.labels_prefix }}.maintainer: '{{ project.maintainer }}'
+      {{ project.labels_prefix }}.project: '{{ project.name }} > wordpress'
+      {{ project.labels_prefix }}.type: '{{ project.type }}'
     # # Does not support syslog driver
     # #   Use docker logs CONTAINER_NAME or docker service logs SERVICE_NAME (not stack, service) to access outputs
     logging:
@@ -272,7 +257,7 @@ services:
     volumes:
       - type: volume
         read_only: false
-        source: test--test-wordpress-masamune-fr--wordpress--files
+        source: {{ project.type }}--{{ project.dashed_domain }}--wordpress--files
         target: /bitnami/wordpress
 
 networks:
@@ -283,9 +268,9 @@ networks:
   wordpress:
 
 volumes:
-  test--test-wordpress-masamune-fr--wordpress--db:
+  {{ project.type }}--{{ project.dashed_domain }}--wordpress--db:
     # Use an existing volume, do not recreate one with a prefix
     external: true
-  test--test-wordpress-masamune-fr--wordpress--files:
+  {{ project.type }}--{{ project.dashed_domain }}--wordpress--files:
     # Use an existing volume, do not recreate one with a prefix
     external: true
