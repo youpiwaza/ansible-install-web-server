@@ -1,0 +1,5 @@
+---
+### WordPress project generation: Variables + var files + .yml file
+- name: Generate ids README.md file locally
+  include: generate-ids-readme.yml
+...
