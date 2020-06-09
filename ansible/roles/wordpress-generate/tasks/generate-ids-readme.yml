@@ -1,6 +1,6 @@
 ---
 ### Locally generate README.md file containing wordpress infos
-- name: Locally denerate README.md file containing wordpress infos
+- name: Locally generate README.md file containing wordpress infos
   template:
     dest: '{{ project.type }}--{{ project.client_name }}--{{ traefik.public_uri }}--ids-README-generated.md'
     src: templates/README.md.j2
