@@ -43,6 +43,11 @@ Working on Windows WSL, personnal notes for my setup
 
 # ---
 
+# Lancer le playbook de mise en place d'un wordpress. Nécessite la configuration de variables ! (defauts: test wordpress)
+> ansible-playbook -i hostsWithCustomSSHPort 20-setup-a-wordpress.yml | sed 's/\\n/\n/g'
+
+# ---
+
 # Stop traefik service
 > ansible-playbook -i hostsWithCustomSSHPort 51-stop-traefik-service.yml | sed 's/\\n/\n/g'
 
