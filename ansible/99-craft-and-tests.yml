@@ -13,7 +13,7 @@
 
 ### TODO
 ## Local
-# Manage required vars
+# 📌 Manage required vars
 # Manage generated vars
 # Generate a local README.md file w. vars
 # Make a wordpress-stack.yml.j2 template file
@@ -23,7 +23,9 @@
 # Upload wordpress-stack.yml to host
 
 ## Docker guy
+# Volumes creation
 # Start stack
+# Automated ~Manual steps (wp-cli, etc.)
 
 # ---
 
