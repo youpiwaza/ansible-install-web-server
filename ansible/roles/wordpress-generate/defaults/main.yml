@@ -10,21 +10,21 @@ database:
   MARIADB_ROOT_USER: 'root_F5g8H7F'
 
 project:
-  client_name: masamune
+  client_name: 'masamune'
   # Docker recommanded notation: extension.site.subdomain.SOME-LABEL
   #   https://docs.docker.com/config/labels-custom-metadata/#key-format-recommendations
-  labels_prefix: fr.masamune.test-wordpress
-  maintainer: masamune.code@gmail.com
-  name: test wordpress
-  type: test
+  labels_prefix: 'fr.masamune.test-wordpress'
+  maintainer: 'masamune.code@gmail.com'
+  name: 'test wordpress'
+  type: 'test'
 
 traefik:
   # Ensure DNS are set accordingly to point towards host IP
   # This will point towards 'https://test-wordpress.masamune.fr/'
-  public_uri: test-wordpress.masamune.fr
+  public_uri: 'test-wordpress.masamune.fr'
   # For router & middleware names generation
   # subDomain_domain_ext__stacktype
-  uid: testWordpress_masamune_fr__wordpress
+  uid: 'testWordpress_masamune_fr__wordpress'
 
 wordpress:
   image: 'bitnami/wordpress:5'
