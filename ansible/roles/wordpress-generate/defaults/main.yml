@@ -3,11 +3,11 @@
 
 database:
   image: 'bitnami/mariadb:10.3'
-  MARIADB_DATABASE: 'bitnami_wordpress_drdS87QVpvADFw5W'
-  MARIADB_PASSWORD: 'G6Sn3VaLqf2DDL9W'
-  MARIADB_USER: 'yAKqwcWYAr9kzLdn'
-  MARIADB_ROOT_PASSWORD: 'F9pXgdTAwcWSxH4WnZYex3pLJmR947VZ'
-  MARIADB_ROOT_USER: 'root_F5g8H7F'
+  MARIADB_DATABASE: 'default_drdS87QVpvADFw5Wx3pLJmR947VZ'
+  MARIADB_PASSWORD: 'default_G6Sn3VaLqf2DDL9W'
+  MARIADB_USER: 'default_yAKqwcWYAr9kzLdn'
+  MARIADB_ROOT_PASSWORD: 'default_F9pXgdTAwcWSxH4WnZYex3pL'
+  MARIADB_ROOT_USER: 'default_F5g8H7FcWS8'
 
 project:
   client_name: 'masamune'
@@ -29,13 +29,13 @@ traefik:
 
 wordpress:
   image: 'bitnami/wordpress:5'
-  WORDPRESS_TABLE_PREFIX: 'wp_PL9ZFfYp_'
+  WORDPRESS_TABLE_PREFIX: 'wp_default_PL9ZF_'
   WORDPRESS_BLOG_NAME: "Sponge Bob's blog"
   WORDPRESS_EMAIL: 'masamune.code@gmail.com'
   WORDPRESS_FIRST_NAME: 'Bob'
   WORDPRESS_LAST_NAME: 'Sponge'
   # 50 chars length / NO SPECIAL CHARS, tends to not match when container is up
-  WORDPRESS_USERNAME: 'ndj4E2rDbVeRkEHHcu9X7me3asqTNFmzwjKAhU9LbqpMb8Wbcf'
+  WORDPRESS_USERNAME: 'default_kEHHcu9X7me3asqTNFmzwjKAhU9LbqpMb8Wbcf'
   # 50 chars length / Wordpress recommandations : ! ? % ^ & ) / No no $ ' "
-  WORDPRESS_PASSWORD: 'ndj4E2r!bVeRkE?Hcu8%7me3as^TNFmzwjKAh)U9Lbqp&b8Wbcf'
+  WORDPRESS_PASSWORD: 'default_ndj4E2r!bVeRkE?Hcu8%7me3as^TNF)U9Lb8Wbcf'
 ...
