@@ -17,9 +17,10 @@
 # ✅ Generate a local README.md file w. vars
 # ✅ Default vars overload template in test playbook
 # ✅ Make a wordpress-stack.yml.j2 template file
-#   📌 docker guy host cli > remove stack 'test-wordpress' and test generated file
-#     volumes are generated automaticcally w. stack ? no need to create
-# Manage generated vars
+#   ✅ docker guy host cli > remove stack 'test-wordpress' and test generated file
+#   ✅ volumes are generated automatically w. stack ? no need to create FOR TEST (needs labels)
+# 🌱 Comment generated local file (debug only), final file will be templated on the host directly by the builder guy
+# 🚀 Manage generated vars
 # Generate a local wordpress-stack.yml file using vars
 
 ## Builder guy
