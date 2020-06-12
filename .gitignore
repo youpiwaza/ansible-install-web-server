@@ -9,4 +9,5 @@ hostsWithCustomSSHPort
 **/*_secret*
 
 # Generated files
+tmp/
 **/*-generated*
