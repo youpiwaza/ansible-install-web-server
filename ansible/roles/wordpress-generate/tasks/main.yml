@@ -4,8 +4,9 @@
 ## cf. ansible/20-setup-a-wordpress.yml use case, that uses random string generation
 
 - name: Generate ids README.md file locally
+  delegate_to: 127.0.0.1
   include: generate-ids-readme.yml
 
-- name: Generate wordpress-stack.yml file locally
+- name: Generate wordpress-stack--generated.yml file
   include: generate-wordpress-stack-file.yml
 ...
