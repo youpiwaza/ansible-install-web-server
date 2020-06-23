@@ -51,7 +51,7 @@ All the core stuff will be prefixed with "core".
     - /clients
       - /spongebob
         - /spongebob-com            # spongebob.com
-          - main.yml
+          - wordpress-stack--generated.yml
           - agenda.yml              # Sub folder dedicated container > spongebob.com/agenda/
         - /sub-spongebob-com        # sub.spongebob.com
           - main.yml
