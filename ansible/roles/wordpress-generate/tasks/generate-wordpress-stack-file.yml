@@ -12,14 +12,14 @@
 
 - name: 'Create type/client/project/ directory for wordpress : /home/{{ users.3.name }}/{{ project.type }}/{{ project.client_name }}/{{ project.dashed_domain }}/'
   file:
-    path: '/home/{{ users.3.name }}/{{ project.type }}/{{ project.client_name }}/{{ project.dashed_domain }}/'
+    path: '/home/{{ users.3.name }}/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/'
     state: directory
 
 - name: Generate wordpress-stack--generated.yml file
   template:
-    dest: '/home/{{ users.3.name }}/{{ project.type }}/{{ project.client_name }}/{{ project.dashed_domain }}/wordpress-stack--generated.yml'
+    dest: '/home/{{ users.3.name }}/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/wordpress-stack--generated.yml'
     src: templates/wordpress-stack.yml.j2
 
 - debug:
-    msg: "\n\nThe stack file '/home/{{ users.3.name }}/{{ project.type }}/{{ project.client_name }}/{{ project.dashed_domain }}/wordpress-stack--generated.yml' have been generated on the host :)\n"
+    msg: "\n\nThe stack file '/home/{{ users.3.name }}s/{{ project.type }}/{{ project.client_name }}/{{ project.dashed_domain }}/wordpress-stack--generated.yml' have been generated on the host :)\n"
 ...
