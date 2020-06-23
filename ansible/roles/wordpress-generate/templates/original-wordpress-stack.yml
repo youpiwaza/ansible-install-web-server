@@ -26,7 +26,7 @@ services:
       labels:
         - "fr.masamune.client='masamune'"
         - "fr.masamune.maintainer='masamune.code@gmail.com'"
-        - "fr.masamune.project='test service wordpress > mariadb'"
+        - "fr.masamune.project='test service wordpress / mariadb'"
         - "fr.masamune.type='test'"
       mode: replicated
       # Possibility to implement replicas : https://hub.docker.com/r/bitnami/mariadb/ > Setting up a replication cluster
@@ -155,7 +155,7 @@ services:
         
         - "fr.masamune.client='masamune'"
         - "fr.masamune.maintainer='masamune.code@gmail.com'"
-        - "fr.masamune.project='test service wordpress > wordpress'"
+        - "fr.masamune.project='test service wordpress / wordpress'"
         - "fr.masamune.type='test'"
       mode: replicated
       replicas: 2

@@ -11,7 +11,7 @@ services:
       labels:
         - "{{ project.labels_prefix }}.client='{{ project.client_name }}'"
         - "{{ project.labels_prefix }}.maintainer='{{ project.maintainer }}'"
-        - "{{ project.labels_prefix }}.project='{{ project.name }} > mariadb'"
+        - "{{ project.labels_prefix }}.project='{{ project.name }} / mariadb'"
         - "{{ project.labels_prefix }}.type='{{ project.type }}'"
       mode: replicated
       # Possibility to implement replicas : https://hub.docker.com/r/bitnami/mariadb/ > Setting up a replication cluster
@@ -68,7 +68,7 @@ services:
     labels:
       {{ project.labels_prefix }}.client: '{{ project.client_name }}'
       {{ project.labels_prefix }}.maintainer: '{{ project.maintainer }}'
-      {{ project.labels_prefix }}.project: '{{ project.name }} > mariadb'
+      {{ project.labels_prefix }}.project: '{{ project.name }} / mariadb'
       {{ project.labels_prefix }}.type: '{{ project.type }}'
     # # Does not support syslog driver
     # #   Use docker logs CONTAINER_NAME or docker service logs SERVICE_NAME (not stack, service) to access outputs
@@ -140,7 +140,7 @@ services:
         
         - "{{ project.labels_prefix }}.client='{{ project.client_name }}'"
         - "{{ project.labels_prefix }}.maintainer='{{ project.maintainer }}'"
-        - "{{ project.labels_prefix }}.project='{{ project.name }} > wordpress'"
+        - "{{ project.labels_prefix }}.project='{{ project.name }} / wordpress'"
         - "{{ project.labels_prefix }}.type='{{ project.type }}'"
       mode: replicated
       replicas: 2
@@ -226,7 +226,7 @@ services:
     labels:
       {{ project.labels_prefix }}.client: '{{ project.client_name }}'
       {{ project.labels_prefix }}.maintainer: '{{ project.maintainer }}'
-      {{ project.labels_prefix }}.project: '{{ project.name }} > wordpress'
+      {{ project.labels_prefix }}.project: '{{ project.name }} / wordpress'
       {{ project.labels_prefix }}.type: '{{ project.type }}'
     # # Does not support syslog driver
     # #   Use docker logs CONTAINER_NAME or docker service logs SERVICE_NAME (not stack, service) to access outputs
