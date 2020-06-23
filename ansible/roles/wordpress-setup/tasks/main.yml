@@ -66,4 +66,12 @@
   docker_volume:
     labels: '{{ wp_files_labels_dict }}'
     name: '{{ project.type }}--{{ project.dashed_domain }}--wordpress--files'
+
+
+# ---
+
+
+- name: Warning: WordPress setup delay
+  debug:
+    msg: "Bitnami's WordPress take roughly 1 minute to start, especially on first try since it must create database."
 ...

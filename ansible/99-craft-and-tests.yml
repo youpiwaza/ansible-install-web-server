@@ -68,8 +68,8 @@
   #    --label fr.masamune.test-wordpress.type='test' \
   #    test--test-wordpress-masamune-fr--wordpress--files
   ## ANSIBLE > {{ project.type }}--{{ project.dashed_domain }}--wordpress--db
-# 🚀 Debug warning: ~1min to start (database creation)
-# Start stack
+# ✅ Debug warning: ~1min to start (database creation)
+# 🚀 Start stack
 # Automated ~Manual steps (wp-cli, etc.)
 
 ### the_docker_guy
