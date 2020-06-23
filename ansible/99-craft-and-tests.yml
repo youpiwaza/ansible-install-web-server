@@ -13,75 +13,37 @@
 
 
 
-# ### Setup a WordPress stack
-# # Based on bitnami's WordPress & MariaDB images
-# #   https://hub.docker.com/r/bitnami/wordpress/
-# #   https://hub.docker.com/r/bitnami/mariadb/
+### Setup a WordPress stack
+# Based on bitnami's WordPress & MariaDB images
+#   https://hub.docker.com/r/bitnami/wordpress/
+#   https://hub.docker.com/r/bitnami/mariadb/
 
-# # You'll need the_builder_guy to have it's ssh key added to the local agent, cf. the_builder_guy generated documentation
-# # You'll need the_docker_guy  to have it's ssh key added to the local agent, cf. the_docker_guy  generated documentation
+# You'll need the_builder_guy to have it's ssh key added to the local agent, cf. the_builder_guy generated documentation
+# You'll need the_docker_guy  to have it's ssh key added to the local agent, cf. the_docker_guy  generated documentation
 
-# - name: 'Generate a WordPress stack'
-#   become: yes
-#   hosts: likorneWithCustomSSHPort
-#   # the_builder_guy / cf. /ansible/roles/users/vars/main.yml
-#   remote_user: '{{ users.0.name }}'
-#   vars:
-#     # Generate random strings with lookup, cf. https://github.com/youpiwaza/server-related-tutorials/tree/master/02-ansible/14-password-generation
+- name: 'Generate a WordPress stack'
+  become: yes
+  hosts: likorneWithCustomSSHPort
+  # the_builder_guy / cf. /ansible/roles/users/vars/main.yml
+  remote_user: '{{ users.0.name }}'
+  vars_files:
+  - defaults/main.yml
+  - roles/users/defaults/main.yml
+  - vars/main.yml
+  - roles/users/vars/main.yml
+  # Duplicate ansible/roles/wordpress-generate/vars/template.yml to a proper location and change variables to suit your needs
+  # /!\ Variable file name needs to be changed below as well (docker_guy > wordpress-setup) as well
+  - roles/wordpress-generate/vars/test/masamune/test-wordpress-masamune-fr/main.yml
+  # - roles/wordpress-generate/vars/test/masamune/test-wordpress-masamune-fr/main_secret.yml
 
-#     database:
-#       image: 'bitnami/mariadb:10.3'
-
-#       MARIADB_DATABASE: "{{ lookup('password', './tmp/{{ project.type }}--{{ project.client_name }}--{{ project.dashed_domain }}--MARIADB_DATABASE-generated.txt length=32 chars=ascii_letters,digits') }}"
-#       MARIADB_PASSWORD: "{{ lookup('password', './tmp/{{ project.type }}--{{ project.client_name }}--{{ project.dashed_domain }}--MARIADB_PASSWORD-generated.txt length=32 chars=ascii_letters,digits') }}"
-#       MARIADB_USER: "{{ lookup('password', './tmp/{{ project.type }}--{{ project.client_name }}--{{ project.dashed_domain }}--MARIADB_USER-generated.txt length=32 chars=ascii_letters,digits') }}"
-#       MARIADB_ROOT_PASSWORD: "{{ lookup('password', './tmp/{{ project.type }}--{{ project.client_name }}--{{ project.dashed_domain }}--MARIADB_ROOT_PASSWORD-generated.txt length=32 chars=ascii_letters,digits') }}"
-#       MARIADB_ROOT_USER: "{{ lookup('password', './tmp/{{ project.type }}--{{ project.client_name }}--{{ project.dashed_domain }}--MARIADB_ROOT_USER-generated.txt length=32 chars=ascii_letters,digits') }}"
-
-#     project:
-#       client_name: 'masamune'
-#       dashed_domain: 'test-wordpress-masamune-fr'
-#       # Docker recommanded notation: extension.site.subdomain.SOME-LABEL
-#       #   https://docs.docker.com/config/labels-custom-metadata/#key-format-recommendations
-#       labels_prefix: 'fr.masamune.test-wordpress'
-#       maintainer: 'masamune.code@gmail.com'
-#       name: 'test wordpress'
-#       type: 'test'
-
-#     traefik:
-#       # Ensure DNS are set accordingly to point towards host IP
-#       # This will point towards 'https://test-wordpress.masamune.fr/'
-#       public_uri: 'test-wordpress.masamune.fr'
-#       # For router & middleware names generation
-#       # subDomain_domain_ext__stacktype
-#       uid: 'testWordpress_masamune_fr__wordpress'
-
-#     wordpress:
-#       image: 'bitnami/wordpress:5'
-
-#       WORDPRESS_TABLE_PREFIX: "{{ lookup('password', './tmp/{{ project.type }}--{{ project.client_name }}--{{ project.dashed_domain }}--WORDPRESS_TABLE_PREFIX-generated.txt length=16 chars=ascii_letters,digits') }}"
-#       WORDPRESS_BLOG_NAME: "Sponge Bob's blog"
-#       WORDPRESS_EMAIL: 'masamune.code@gmail.com'
-#       WORDPRESS_FIRST_NAME: 'Bob'
-#       WORDPRESS_LAST_NAME: 'Sponge'
-#       # 50 chars length / NO SPECIAL CHARS, tends to not match when container is up
-#       WORDPRESS_USERNAME: "{{ lookup('password', './tmp/{{ project.type }}--{{ project.client_name }}--{{ project.dashed_domain }}--WORDPRESS_USERNAME-generated.txt length=50 chars=ascii_letters,digits') }}"
-#       # 50 chars length / Wordpress recommandations : ! ? % ^ & ) / No no $ ' :"
-#       WORDPRESS_PASSWORD: "{{ lookup('password', './tmp/{{ project.type }}--{{ project.client_name }}--{{ project.dashed_domain }}--WORDPRESS_PASSWORD-generated.txt length=50 chars=ascii_letters,digits,!,?,%,^,&,)') }}"
-#   vars_files:
-#   - defaults/main.yml
-#   - roles/users/defaults/main.yml
-#   - vars/main.yml
-#   - roles/users/vars/main.yml
-
-#   roles:
-#     - wordpress-generate
+  roles:
+    - wordpress-generate
   
-#   # # Debug / Test generated variable disponibility & immutability
-#   # tasks:
-#   #   - name: 'Test generated variable disponibility & immutability'
-#   #     debug:
-#   #       msg: 'database.MARIADB_DATABASE : {{ database.MARIADB_DATABASE }}'
+  # # Debug / Test generated variable disponibility & immutability
+  # tasks:
+  #   - name: 'Test generated variable disponibility & immutability'
+  #     debug:
+  #       msg: 'database.MARIADB_DATABASE : {{ database.MARIADB_DATABASE }}'
 
 
 
@@ -122,6 +84,8 @@
   - roles/users/defaults/main.yml
   - vars/main.yml
   - roles/users/vars/main.yml
+  - roles/wordpress-generate/vars/test/masamune/test-wordpress-masamune-fr/main.yml
+  # - roles/wordpress-generate/vars/test/masamune/test-wordpress-masamune-fr/main_secret.yml
 
   roles:
     # Remove tests artifacts

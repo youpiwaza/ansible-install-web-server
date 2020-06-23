@@ -2,7 +2,7 @@
 ### WordPress project setup: Create volumes & start containers
 ## This role is meant to be run AFTER the 'wordpress-generate' role
 
-- name: Say hey
+- name: Test project vars disponibility
   debug:
-    msg: 'Hey'
+    msg: '{{ database.MARIADB_DATABASE }}'
 ...

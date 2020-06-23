@@ -3,6 +3,16 @@
 ## This role contains default vars, that can (and SHOULD) be overriden in playbook.
 ## cf. ansible/20-setup-a-wordpress.yml use case, that uses random string generation
 
+- name: Custom website variables warning
+  debug:
+    msg: "\n\nBEFORE RUNNING THIS ROLE !
+          \n\nDuplicate 'ansible/roles/wordpress-generate/vars/template.yml' to a proper location, ex. 'ansible/roles/wordpress-generate/vars/TYPE/CLIENT/DASHED_DOMAIN/main_secret.yml'
+          \n\nand modify the '20-setup-a-wordpress.yml' playbook accordingly.\n\n"
+
+- name: 'Read the warning message ^'
+  wait_for:
+    timeout: 5
+
 - name: Generate ids README.md file locally
   delegate_to: 127.0.0.1
   include: generate-ids-readme.yml
