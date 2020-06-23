@@ -52,7 +52,7 @@
 
 
 ## Docker guy
-# Volumes creation
+# ✅ Volumes creation
   ## Create named volumes
   # docker volume create \
   #    --label fr.masamune.test-wordpress.client='masamune' \
@@ -68,7 +68,7 @@
   #    --label fr.masamune.test-wordpress.type='test' \
   #    test--test-wordpress-masamune-fr--wordpress--files
   ## ANSIBLE > {{ project.type }}--{{ project.dashed_domain }}--wordpress--db
-# Debug warning: ~1min to start (database creation)
+# 🚀 Debug warning: ~1min to start (database creation)
 # Start stack
 # Automated ~Manual steps (wp-cli, etc.)
 
@@ -88,6 +88,5 @@
   # - roles/wordpress-generate/vars/test/masamune/test-wordpress-masamune-fr/main_secret.yml
 
   roles:
-    # Remove tests artifacts
     - wordpress-setup
 ...

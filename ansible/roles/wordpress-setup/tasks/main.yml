@@ -1,8 +1,69 @@
 ---
 ### WordPress project setup: Create volumes & start containers
-## This role is meant to be run AFTER the 'wordpress-generate' role
+## docker_guy
+# File management in /home/the_docker_peon restricted folder done by the_builder_guy, cf. ansible/roles/wordpress-generate
 
-- name: Test project vars disponibility
-  debug:
-    msg: '{{ database.MARIADB_DATABASE }}'
+## This role is meant to be run AFTER the 'wordpress-generate' role, and will use the variables injected from a wp variables dedicated file
+##    ex. ansible/roles/wordpress-generate/vars/TYPE/CLIENT/DASHED_DOMAIN/main.yml
+## cf. 20-setup-a-wordpress.yml && ansible/roles/wordpress-generate
+
+
+
+### Volumes management
+
+## Bitnamis' database (mariadb)
+# docker volume create \
+#    --label fr.masamune.test-wordpress.client='masamune' \
+#    --label fr.masamune.test-wordpress.maintainer='masamune.code@gmail.com' \
+#    --label fr.masamune.test-wordpress.project='test service wordpress / mariadb' \
+#    --label fr.masamune.test-wordpress.type='test' \
+#    test--test-wordpress-masamune-fr--wordpress--db \
+
+# Use set_fact to create a dictionnary with dynamic keys
+#   cf. https://stackoverflow.com/a/44570290/12026487
+#   Also NEEDs trailing comma "," to force dictionnary type, else it's considered as a string
+- name: Generate WordPress database labels dictionnary (dynamic keys needs special syntax in ansible)
+  set_fact:
+    wp_db_labels_dict:
+      "{
+        '{{ project.labels_prefix }}.client': '{{ project.client_name }}'
+        ,'{{ project.labels_prefix }}.maintainer': '{{ project.maintainer }}'
+        ,'{{ project.labels_prefix }}.project':'{{ project.name }} / mariadb'
+        ,'{{ project.labels_prefix }}.type':'{{ project.type }}'
+      }"
+
+# - debug:
+#     msg: '{{ wp_db_labels_dict }}'
+
+- name: "Create a named volume for WordPress database '{{ project.type }}--{{ project.dashed_domain }}--wordpress--db'"
+  docker_volume:
+    labels: '{{ wp_db_labels_dict }}'
+    name: '{{ project.type }}--{{ project.dashed_domain }}--wordpress--db'
+
+
+## Bitnamis' WordPress files
+# docker volume create \
+#    --label fr.masamune.test-wordpress.client='masamune' \
+#    --label fr.masamune.test-wordpress.maintainer='masamune.code@gmail.com' \
+#    --label fr.masamune.test-wordpress.project='test service wordpress / wordpress' \
+#    --label fr.masamune.test-wordpress.type='test' \
+#    test--test-wordpress-masamune-fr--wordpress--files
+
+- name: Generate WordPress files labels dictionnary (dynamic keys needs special syntax in ansible)
+  set_fact:
+    wp_files_labels_dict:
+      "{
+        '{{ project.labels_prefix }}.client': '{{ project.client_name }}'
+        ,'{{ project.labels_prefix }}.maintainer': '{{ project.maintainer }}'
+        ,'{{ project.labels_prefix }}.project':'{{ project.name }} / wordpress files'
+        ,'{{ project.labels_prefix }}.type':'{{ project.type }}'
+      }"
+
+# - debug:
+#     msg: '{{ wp_files_labels_dict }}'
+
+- name: "Create a named volume for WordPress files '{{ project.type }}--{{ project.dashed_domain }}--wordpress--files'"
+  docker_volume:
+    labels: '{{ wp_files_labels_dict }}'
+    name: '{{ project.type }}--{{ project.dashed_domain }}--wordpress--files'
 ...
