@@ -8,7 +8,7 @@
   delegate_to: 127.0.0.1
 
 - debug:
-    msg: "\n\nA stack file '{{ project.type }}--{{ project.client_name }}--{{ project.dashed_domain }}--wordpress-stack--generated.yml' have been generated at the root of this project :)\n"
+    msg: "\n\nA stack file '{{ project.type }}--{{ project.client_name }}--{{ project.dashed_domain }}--wordpress-stack--generated.yml' have been generated in the /tmp/ folder of this project, if you wanna make sure everything is fine :)\n"
 
 - name: 'Create type/client/project/ directory for wordpress : /home/{{ users.3.name }}/{{ project.type }}/{{ project.client_name }}/{{ project.dashed_domain }}/'
   file:
@@ -21,5 +21,5 @@
     src: templates/wordpress-stack.yml.j2
 
 - debug:
-    msg: "\n\nThe stack file '/home/{{ users.3.name }}/{{ project.type }}/{{ project.client_name }}/{{ project.dashed_domain }}/wordpress-stack--generated.yml' have been generated :)\n"
+    msg: "\n\nThe stack file '/home/{{ users.3.name }}/{{ project.type }}/{{ project.client_name }}/{{ project.dashed_domain }}/wordpress-stack--generated.yml' have been generated on the host :)\n"
 ...
