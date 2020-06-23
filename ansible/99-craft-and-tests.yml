@@ -53,23 +53,9 @@
 
 ## Docker guy
 # ✅ Volumes creation
-  ## Create named volumes
-  # docker volume create \
-  #    --label fr.masamune.test-wordpress.client='masamune' \
-  #    --label fr.masamune.test-wordpress.maintainer='masamune.code@gmail.com' \
-  #    --label fr.masamune.test-wordpress.project='test service wordpress > mariadb' \
-  #    --label fr.masamune.test-wordpress.type='test' \
-  #    test--test-wordpress-masamune-fr--wordpress--db \
-  # && \
-  # docker volume create \
-  #    --label fr.masamune.test-wordpress.client='masamune' \
-  #    --label fr.masamune.test-wordpress.maintainer='masamune.code@gmail.com' \
-  #    --label fr.masamune.test-wordpress.project='test service wordpress > wordpress' \
-  #    --label fr.masamune.test-wordpress.type='test' \
-  #    test--test-wordpress-masamune-fr--wordpress--files
-  ## ANSIBLE > {{ project.type }}--{{ project.dashed_domain }}--wordpress--db
 # ✅ Debug warning: ~1min to start (database creation)
-# 🚀 Start stack
+# ✅Start stack
+# 🚀 Wait for service publication (curl ?)
 # Automated ~Manual steps (wp-cli, etc.)
 
 ### the_docker_guy
