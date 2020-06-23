@@ -20,7 +20,7 @@
 #   ✅ docker guy host cli > remove stack 'test-wordpress' and test generated file
 #   ✅ volumes are generated automatically w. stack ? no need to create FOR TEST (needs labels)
 # ✅ Manage generated vars
-#   🚀 Prefix generated vars files with client_name-dashed_domain, as they will be needed to upgrade DImages without altering vars (lookup doesn't recreate)
+#   ✅ Prefix generated vars files with client_name-dashed_domain, as they will be needed to upgrade DImages without altering vars (lookup doesn't recreate)
 # ✅ Generate a local wordpress-stack.yml file using vars, for debug purposes
 
 ## Builder guy
@@ -69,11 +69,11 @@
       # image: 'bitnami/mariadb:10.3__overload_test'
       image: 'bitnami/mariadb:10.3'
 
-      MARIADB_DATABASE: "{{ lookup('password', './tmp/MARIADB_DATABASE-generated.txt length=32 chars=ascii_letters,digits') }}"
-      MARIADB_PASSWORD: "{{ lookup('password', './tmp/MARIADB_PASSWORD-generated.txt length=32 chars=ascii_letters,digits') }}"
-      MARIADB_USER: "{{ lookup('password', './tmp/MARIADB_USER-generated.txt length=32 chars=ascii_letters,digits') }}"
-      MARIADB_ROOT_PASSWORD: "{{ lookup('password', './tmp/MARIADB_ROOT_PASSWORD-generated.txt length=32 chars=ascii_letters,digits') }}"
-      MARIADB_ROOT_USER: "{{ lookup('password', './tmp/MARIADB_ROOT_USER-generated.txt length=32 chars=ascii_letters,digits') }}"
+      MARIADB_DATABASE: "{{ lookup('password', './tmp/{{ project.type }}--{{ project.client_name }}--{{ project.dashed_domain }}--MARIADB_DATABASE-generated.txt length=32 chars=ascii_letters,digits') }}"
+      MARIADB_PASSWORD: "{{ lookup('password', './tmp/{{ project.type }}--{{ project.client_name }}--{{ project.dashed_domain }}--MARIADB_PASSWORD-generated.txt length=32 chars=ascii_letters,digits') }}"
+      MARIADB_USER: "{{ lookup('password', './tmp/{{ project.type }}--{{ project.client_name }}--{{ project.dashed_domain }}--MARIADB_USER-generated.txt length=32 chars=ascii_letters,digits') }}"
+      MARIADB_ROOT_PASSWORD: "{{ lookup('password', './tmp/{{ project.type }}--{{ project.client_name }}--{{ project.dashed_domain }}--MARIADB_ROOT_PASSWORD-generated.txt length=32 chars=ascii_letters,digits') }}"
+      MARIADB_ROOT_USER: "{{ lookup('password', './tmp/{{ project.type }}--{{ project.client_name }}--{{ project.dashed_domain }}--MARIADB_ROOT_USER-generated.txt length=32 chars=ascii_letters,digits') }}"
 
     project:
       client_name: 'masamune'
@@ -95,15 +95,15 @@
 
     wordpress:
       image: 'bitnami/wordpress:5'
-      WORDPRESS_TABLE_PREFIX: "{{ lookup('password', './tmp/WORDPRESS_TABLE_PREFIX-generated.txt length=16 chars=ascii_letters,digits') }}"
+      WORDPRESS_TABLE_PREFIX: "{{ lookup('password', './tmp/{{ project.type }}--{{ project.client_name }}--{{ project.dashed_domain }}--WORDPRESS_TABLE_PREFIX-generated.txt length=16 chars=ascii_letters,digits') }}"
       WORDPRESS_BLOG_NAME: "Sponge Bob's blog"
       WORDPRESS_EMAIL: 'masamune.code@gmail.com'
       WORDPRESS_FIRST_NAME: 'Bob'
       WORDPRESS_LAST_NAME: 'Sponge'
       # 50 chars length / NO SPECIAL CHARS, tends to not match when container is up
-      WORDPRESS_USERNAME: "{{ lookup('password', './tmp/WORDPRESS_USERNAME-generated.txt length=50 chars=ascii_letters,digits') }}"
+      WORDPRESS_USERNAME: "{{ lookup('password', './tmp/{{ project.type }}--{{ project.client_name }}--{{ project.dashed_domain }}--WORDPRESS_USERNAME-generated.txt length=50 chars=ascii_letters,digits') }}"
       # 50 chars length / Wordpress recommandations : ! ? % ^ & ) / No no $ ' :"
-      WORDPRESS_PASSWORD: "{{ lookup('password', './tmp/WORDPRESS_PASSWORD-generated.txt length=50 chars=ascii_letters,digits,!,?,%,^,&,)') }}"
+      WORDPRESS_PASSWORD: "{{ lookup('password', './tmp/{{ project.type }}--{{ project.client_name }}--{{ project.dashed_domain }}--WORDPRESS_PASSWORD-generated.txt length=50 chars=ascii_letters,digits,!,?,%,^,&,)') }}"
   vars_files:
   - defaults/main.yml
   - roles/users/defaults/main.yml
