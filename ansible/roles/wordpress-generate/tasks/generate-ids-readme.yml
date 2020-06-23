@@ -2,12 +2,11 @@
 ### Locally generate README.md file containing wordpress infos
 - name: Locally generate README.md file containing wordpress infos
   template:
-    dest: '{{ project.type }}--{{ project.client_name }}--{{ traefik.public_uri }}--ids-README-generated.md'
+    dest: '{{ project.type }}--{{ project.client_name }}--{{ project.dashed_domain }}--ids-README-generated.md'
     src: templates/README.md.j2
-  # On the local machine
   delegate_to: 127.0.0.1
 
 - debug:
-    msg: "\n\nA file containing all website infos '{{ project.type }}--{{ project.client_name }}--{{ traefik.public_uri }}--ids-README-generated.md' have been generated at the root of this project :)\n
+    msg: "\n\nA file containing all website infos '{{ project.type }}--{{ project.client_name }}--{{ project.dashed_domain }}--ids-README-generated.md' have been generated at the root of this project :)\n
     Consider storing it in a safe place (private repo) and then delete the local file\n\n"
 ...
