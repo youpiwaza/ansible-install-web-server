@@ -3,7 +3,7 @@
 
 - name: Local / Debug / Generate wordpress-stack--generated.yml file
   template:
-    dest: '{{ project.type }}--{{ project.client_name }}--{{ project.dashed_domain }}--wordpress-stack--generated.yml'
+    dest: './tmp/{{ project.type }}--{{ project.client_name }}--{{ project.dashed_domain }}--wordpress-stack--generated.yml'
     src: templates/wordpress-stack.yml.j2
   delegate_to: 127.0.0.1
 
