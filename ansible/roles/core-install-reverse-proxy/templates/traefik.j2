@@ -105,10 +105,13 @@ services:
     cap_drop:
       - ALL
     command:
-      # Enable access logs
-      - "--accesslog=true"
-      - "--accesslog.bufferingsize=100"
-      - "--accesslog.filepath=/home/logs/traefik-access.log"
+      # # Enable access logs
+      # # Or not, as is tends to tear TTFB to pieces !?
+      # # Edit 11/2020 : Might have a concrete solution for log rotation : https://doc.traefik.io/traefik/observability/access-logs/#log-rotation
+      # - "--accesslog=true"
+      - "--accesslog=false"
+      # - "--accesslog.bufferingsize=100"
+      # - "--accesslog.filepath=/home/logs/traefik-access.log"
       
       # HTTPS certificates
       #   Use staging for tests, to avoid proc'ing the limits (~1week black listed)

@@ -5,9 +5,9 @@
     update_cache: yes
     cache_valid_time: 3600
 
-- name: Upgrade installed packages
-  apt:
-    upgrade: dist
+# - name: Upgrade installed packages
+#   apt:
+#     upgrade: dist
 
 - name: Reboot system if required
   include: reboot-if-needed.yml
