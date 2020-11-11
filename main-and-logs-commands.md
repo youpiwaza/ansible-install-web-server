@@ -43,6 +43,9 @@
 > sudo tail -f /var/log/dist-upgrade/main.log
 # > sudo tail -f /var/log/dist-upgrade/apt.log
 # > sudo tail -f /var/log/dist-upgrade/term.log
+
+# Récap utilisation de cpu/mémoire
+ps -eo pmem,pcpu,rss,vsize,args | sort -k 1 -r | less
 ```
 
 ## Docker logs
@@ -58,7 +61,7 @@ Using syslog logging driver, logs are written in `/var/log/syslog`.
 
 
 
-## Logs services / stacks
+## Logs containers / services / stacks
 # Note: In order to be able to see logs, you must have log-driver specified either as json-file or jornald
 #   https://docs.docker.com/engine/reference/commandline/service_logs/#extended-description
 # Debug > specify log driver when using docker service create
@@ -66,7 +69,8 @@ Using syslog logging driver, logs are written in `/var/log/syslog`.
 # (get service name)
 # > sudo docker service ls
 # Then use on another instance (or in detached mode)
-> sudo docker service logs -f SERVICE_NAME_OR_ID
+sudo docker logs -f CONTAINER_NAME_OR_ID
+sudo docker service logs -f SERVICE_NAME_OR_ID
 ```
 
 ## Docker tests
@@ -88,4 +92,18 @@ Using syslog logging driver, logs are written in `/var/log/syslog`.
 
 # Inspect container health (healthchecks)
 > sudo docker inspect --format='{{.State.Health.Status}}' CONTAINER_NAME
+```
+
+## Performances, conso CPU/RAM
+
+```bash
+## Analyses consos CPU/RAM
+# Tous les process
+ps -eo pmem,pcpu,rss,vsize,args | sort -k 1 -r | less
+
+# Tous les conteneurs
+sudo docker stats
+
+# Un conteneur
+sudo docker stats CONTAINER_NAME_OR_ID
 ```
