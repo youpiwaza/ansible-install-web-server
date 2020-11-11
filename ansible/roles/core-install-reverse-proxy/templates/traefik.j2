@@ -46,6 +46,9 @@ version: "3.7"
 # Use named volumes (with pre-existing files/folders, properly chowned) for traefik logs & https
 
 # ulimits > kinda random as I couldn't find any recommandations. Just doubled my defaults.
+# TODO : docker stats > analyse > define
+#         proxy > ~ 5mo RAM, CPU ~null
+#         traefik > ~ 40mo RAM, CPU max 20% of wtv the fuck is defined now, when a little stressed
 
 services:
   dockersocketproxy:
