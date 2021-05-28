@@ -20,6 +20,14 @@
     - packages-installation
     - docker-maintenance
 
+## If manual check reveals non updated packages, log in through builder & 
+# > sudo apt-get update
+# > sudo apt upgrade
+## Manually resolve conflicts or stuff, but take in consideration that this step won't be automated
+## TODO: Add sup. steps to ansible.
+
+
+
 ## LATER: If using a real swarm (~1 manager 2 workers), prioritize updates (in case of reboots) to prevent downtime
 # ~Example:
 #   1. Update worker1
