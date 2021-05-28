@@ -18,55 +18,55 @@ Working on Windows WSL, personnal notes for my setup
 
 ```bash
 # Acceder au projet
-> cd ~/../c/Users/Patolash/Documents/_dev/ansible-install-web-server/ansible
+cd ~/../c/Users/Patolash/Documents/_dev/ansible-install-web-server/ansible
 
 # Une seule fois, lancer le playbook pour configurer la première connexion
-> ansible-playbook -i hosts 1-first-connexion-setup.yml | sed 's/\\n/\n/g'
+ansible-playbook -i hosts 1-first-connexion-setup.yml | sed 's/\\n/\n/g'
 
 # Executer les commandes dans le fichier généré 'manual-commands.md'
 # Add ~root ssh key to local ssh agent, cf. __root-manual-commands.md
-> eval `ssh-agent`
-> ssh-add ~/.ssh/YOUR_REMOTE_USER-ssh-key-ed25519
+eval `ssh-agent`
+ssh-add ~/.ssh/YOUR_REMOTE_USER-ssh-key-ed25519
 
 # Lancer le playbook de création des utilisateurs et changement du port SSH
-> ansible-playbook -i hosts 2-generate-users-and-change-ssh-port.yml | sed 's/\\n/\n/g'
-# > ansible-playbook -i hostsWithCustomSSHPort 2-generate-users-and-change-ssh-port.yml | sed 's/\\n/\n/g'
+ansible-playbook -i hosts 2-generate-users-and-change-ssh-port.yml | sed 's/\\n/\n/g'
+# ansible-playbook -i hostsWithCustomSSHPort 2-generate-users-and-change-ssh-port.yml | sed 's/\\n/\n/g'
 
 # Add ~the_builder_guy ssh key to local ssh agent, cf. _the_builder_guy-manual-commands.md
-> ssh-add ~/.ssh/_the_builder_guy-ssh-key-ed25519
+ssh-add ~/.ssh/_the_builder_guy-ssh-key-ed25519
 
 # Lancer le playbook d'installation de l'hôte (sécurité, docker, docker swarm)
-> ansible-playbook -i hostsWithCustomSSHPort 3-utils-security-docker-setup.yml | sed 's/\\n/\n/g'
+ansible-playbook -i hostsWithCustomSSHPort 3-utils-security-docker-setup.yml | sed 's/\\n/\n/g'
 
 # Lancer le playbook de mise en place des services docker de base (traefik, container metrics & alerts)
-> ansible-playbook -i hostsWithCustomSSHPort 4-setup-core-services.yml | sed 's/\\n/\n/g'
+ansible-playbook -i hostsWithCustomSSHPort 4-setup-core-services.yml | sed 's/\\n/\n/g'
 
 # ---
 
 # Lancer le playbook de mise en place d'un wordpress. Nécessite la configuration de variables ! (defauts: test wordpress)
-> ansible-playbook -i hostsWithCustomSSHPort 20-setup-a-wordpress.yml | sed 's/\\n/\n/g'
+ansible-playbook -i hostsWithCustomSSHPort 20-setup-a-wordpress.yml | sed 's/\\n/\n/g'
 
 # ---
 
 # Stop traefik service
-> ansible-playbook -i hostsWithCustomSSHPort 51-stop-traefik-service.yml | sed 's/\\n/\n/g'
+ansible-playbook -i hostsWithCustomSSHPort 51-stop-traefik-service.yml | sed 's/\\n/\n/g'
 
 # Force host reboot
-> ansible-playbook -i hostsWithCustomSSHPort 52-force-host-reboot.yml | sed 's/\\n/\n/g'
+ansible-playbook -i hostsWithCustomSSHPort 52-force-host-reboot.yml | sed 's/\\n/\n/g'
 
 # ---
 
 ## Punctual tasks
 # Execute punctual role/s or task/s, for admin confort ;)
-> ansible-playbook -i hostsWithCustomSSHPort 97-punctal.yml | sed 's/\\n/\n/g'
+ansible-playbook -i hostsWithCustomSSHPort 97-punctal.yml | sed 's/\\n/\n/g'
 
 # Update/Upgrade web server packages & OS, docker system prune
 #  /!\ Be careful ! Might include reboots !
 #  /!\ Be careful ! Removes stopped containers, dangling images, networks & volumes
-> ansible-playbook -i hostsWithCustomSSHPort 98-maintenance.yml | sed 's/\\n/\n/g'
+ansible-playbook -i hostsWithCustomSSHPort 98-maintenance.yml | sed 's/\\n/\n/g'
 
 # WIP & tests
-> ansible-playbook -i hostsWithCustomSSHPort 99-craft-and-tests.yml | sed 's/\\n/\n/g'
+ansible-playbook -i hostsWithCustomSSHPort 99-craft-and-tests.yml | sed 's/\\n/\n/g'
 ```
 
 ## Plan de route
