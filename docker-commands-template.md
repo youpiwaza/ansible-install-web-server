@@ -82,7 +82,7 @@ See ansible/roles/docker-installation/tasks/test-alpine-curated-container.yml fo
 - [Doc docker backup volumes](https://docs.docker.com/storage/volumes/#backup-restore-or-migrate-data-volumes)
 - [Doc tar](https://doc.ubuntu-fr.org/tar)
 
-### Backup preparation & debug
+### Preparation & debug
 
 It might be usefull (at least when doing manually) to inspect a container's volume.
 
