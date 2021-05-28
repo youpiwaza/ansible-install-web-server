@@ -58,6 +58,10 @@ Do not use underscores.
               - /dev--masamune--fr
                 - VOLUME-NAME---backup---$(date +%Y-%m-%d--%Hh%Mm%Ss).tar
                 - client---dev--masamune--fr---wordpress--db---backup---2021-05-27--11h23m57s.tar
+          - /core
+            - /traefik
+          - /tests
+            - /wtv
     - /tests
       - /some-docker-test
   - /the-docker-peon
