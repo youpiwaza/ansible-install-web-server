@@ -19,7 +19,8 @@
   - vars/main.yml
   - roles/users/vars/main.yml
   # Duplicate ansible/roles/wordpress-generate/vars/template.yml to a proper location and change variables to suit your needs
-  # /!\ Variable file name needs to be changed below as well (docker_guy > wordpress-setup) as well
+  # /!\ Variable file name needs to be changed below as well (docker_guy > wordpress-setup) as well in this file, line ~52
+  # /!\ MUST CHANGE /!\
   - roles/wordpress-generate/vars/test/masamune/test-wordpress-masamune-fr/main.yml
   # - roles/wordpress-generate/vars/test/masamune/test-wordpress-masamune-fr/main_secret.yml
 
@@ -48,6 +49,7 @@
   - roles/users/defaults/main.yml
   - vars/main.yml
   - roles/users/vars/main.yml
+  # /!\ MUST CHANGE /!\
   - roles/wordpress-generate/vars/test/masamune/test-wordpress-masamune-fr/main.yml
   # - roles/wordpress-generate/vars/test/masamune/test-wordpress-masamune-fr/main_secret.yml
 
