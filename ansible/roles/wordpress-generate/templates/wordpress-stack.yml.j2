@@ -45,6 +45,10 @@ services:
     environment:
       ALLOW_EMPTY_PASSWORD: 'no'
 
+      # Allow more logs about bitnami's containers errors (use w. docker-compose up ; no -d)
+      #   https://github.com/bitnami/bitnami-docker-mysql/issues/79#issuecomment-545477842
+      BITNAMI_DEBUG: 'true'
+
       MARIADB_CHARACTER_SET: 'utf8'
       MARIADB_COLLATE: 'utf8_general_ci'
       
@@ -171,6 +175,10 @@ services:
         order: stop-first
         parallelism: 1
     environment:
+      # Allow more logs about bitnami's containers errors (use w. docker-compose up ; no -d)
+      #   https://github.com/bitnami/bitnami-docker-mysql/issues/79#issuecomment-545477842
+      BITNAMI_DEBUG: 'true'
+
       # # mariadb database creation
       MARIADB_ROOT_PASSWORD: '{{ database.MARIADB_ROOT_PASSWORD }}'
       MARIADB_ROOT_USER: '{{ database.MARIADB_ROOT_USER }}'
