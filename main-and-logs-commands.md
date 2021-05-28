@@ -94,7 +94,7 @@ sudo docker service logs -f SERVICE_NAME_OR_ID
 > sudo docker inspect --format='{{.State.Health.Status}}' CONTAINER_NAME
 ```
 
-## Performances, conso CPU/RAM
+## Performances, conso CPU/RAM/Disk
 
 ```bash
 ## Analyses consos CPU/RAM
