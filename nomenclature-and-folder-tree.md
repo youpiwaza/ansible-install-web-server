@@ -61,8 +61,8 @@ Do not use underscores.
     - /config
       - /webserver
         - /nginx
-          - nginx--customUser-p8080--nginx.conf
-          - tutum--customUser-p8080-php--nginx.conf
+          - nginx--custom-user-p8080--nginx.conf
+          - tutum--custom-user-p8080-php--nginx.conf
     - /core
       - /reverse-proxy
         - /traefik
@@ -72,7 +72,7 @@ Do not use underscores.
 
 ### Networks
 
-TYPE-TECHNO---SUBDOMAIN--CLIENT-URI--EXT---[DESCRIPTION]
+TYPE---SUBDOMAIN--CLIENT-URI--EXT[---DESCRIPTION]
 
 Examples:
 
@@ -116,14 +116,14 @@ Clients project will be splitted in 3:
 
 #### Named volumes
 
-TYPE-TECHNO---SUB--CLIENT-URI--EXT---DESCRIPTION
+TYPE---SUB--CLIENT-URI--EXT---TECHNO-DESCRIPTION
 
 Examples:
 
 - core---traefik-logs
-- client---dev--spongebob--com---database
-- client---spongebob--com---database
-- client---sub--spongebob-other-website--com---database
+- client---dev--spongebob--com---wordpress-database
+- client---spongebob--com---wordpress-files
+- client---sub--spongebob-other-website--com---wordpress-database
 
 Ex: for traefik logs, they are stored in /home/logs/traefik.log in the core---traefik-logs named volume.
 
