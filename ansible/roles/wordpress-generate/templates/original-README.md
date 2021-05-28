@@ -17,7 +17,7 @@ Généré automatiquement via ansible, cf. [github repo](https://github.com/youp
 | Variable | Value | Notes |
 |-|-|-|
 | public_uri | test-wordpress.masamune.fr | Ensure DNS are set accordingly to point towards host IP. This will point towards 'https://test-wordpress.masamune.fr/' |
-| uid | testWordpress_masamune_fr | For router & middleware names generation. Recommanded notation: `subDomain_domain_ext` |
+| uid | testWordpress__masamune__fr | For router & middleware names generation. Recommanded notation: `subDomain__domain__ext` |
 
 ## Database
 

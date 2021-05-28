@@ -98,7 +98,7 @@ services:
     volumes:
       - type: volume
         read_only: false
-        source: {{ project.type }}--{{ project.dashed_domain }}--wordpress--db
+        source: {{ project.type }}---{{ project.dashed_domain }}---wordpress--database
         target: /bitnami/mariadb
 
   wordpress:
@@ -265,7 +265,7 @@ services:
     volumes:
       - type: volume
         read_only: false
-        source: {{ project.type }}--{{ project.dashed_domain }}--wordpress--files
+        source: {{ project.type }}---{{ project.dashed_domain }}---wordpress--files
         target: /bitnami/wordpress
 
 networks:
@@ -276,9 +276,9 @@ networks:
   wordpress:
 
 volumes:
-  {{ project.type }}--{{ project.dashed_domain }}--wordpress--db:
+  {{ project.type }}---{{ project.dashed_domain }}---wordpress--database:
     # Use an existing volume, do not recreate one with a prefix
     external: true
-  {{ project.type }}--{{ project.dashed_domain }}--wordpress--files:
+  {{ project.type }}---{{ project.dashed_domain }}---wordpress--files:
     # Use an existing volume, do not recreate one with a prefix
     external: true

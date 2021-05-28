@@ -4,7 +4,7 @@
 # File management in /home/the_docker_peon restricted folder done by the_builder_guy, cf. ansible/roles/wordpress-generate
 
 ## This role is meant to be run AFTER the 'wordpress-generate' role, and will use the variables injected from a wp variables dedicated file
-##    ex. ansible/roles/wordpress-generate/vars/TYPE/CLIENT/DASHED_DOMAIN/main.yml
+##    ex. ansible/roles/wordpress-generate/vars/TYPE/CLIENT/DASHED-DOMAIN/main.yml
 ## cf. 20-setup-a-wordpress.yml && ansible/roles/wordpress-generate
 
 
@@ -22,7 +22,7 @@
 #    --label fr.masamune.test-wordpress.maintainer='masamune.code@gmail.com' \
 #    --label fr.masamune.test-wordpress.project='test service wordpress / mariadb' \
 #    --label fr.masamune.test-wordpress.type='test' \
-#    test--test-wordpress-masamune-fr--wordpress--db \
+#    test---test-wordpress--masamune--fr---wordpress--database \
 
 # Use set_fact to create a dictionnary with dynamic keys
 #   cf. https://stackoverflow.com/a/44570290/12026487
@@ -40,10 +40,10 @@
 # - debug:
 #     msg: '{{ wp_db_labels_dict }}'
 
-- name: "Create a named volume for WordPress database '{{ project.type }}--{{ project.dashed_domain }}--wordpress--db'"
+- name: "Create a named volume for WordPress database '{{ project.type }}---{{ project.dashed_domain }}---wordpress--database'"
   docker_volume:
     labels: '{{ wp_db_labels_dict }}'
-    name: '{{ project.type }}--{{ project.dashed_domain }}--wordpress--db'
+    name: '{{ project.type }}---{{ project.dashed_domain }}---wordpress--database'
 
 
 ## Bitnamis' WordPress files
@@ -52,7 +52,7 @@
 #    --label fr.masamune.test-wordpress.maintainer='masamune.code@gmail.com' \
 #    --label fr.masamune.test-wordpress.project='test service wordpress / wordpress' \
 #    --label fr.masamune.test-wordpress.type='test' \
-#    test--test-wordpress-masamune-fr--wordpress--files
+#    test---test-wordpress--masamune--fr---wordpress--files
 
 - name: Generate WordPress files labels dictionnary (dynamic keys needs special syntax in ansible)
   set_fact:
@@ -67,10 +67,10 @@
 # - debug:
 #     msg: '{{ wp_files_labels_dict }}'
 
-- name: "Create a named volume for WordPress files '{{ project.type }}--{{ project.dashed_domain }}--wordpress--files'"
+- name: "Create a named volume for WordPress files '{{ project.type }}---{{ project.dashed_domain }}---wordpress--files'"
   docker_volume:
     labels: '{{ wp_files_labels_dict }}'
-    name: '{{ project.type }}--{{ project.dashed_domain }}--wordpress--files'
+    name: '{{ project.type }}---{{ project.dashed_domain }}---wordpress--files'
 
 
 # ---
@@ -78,11 +78,13 @@
 
 - name: 'Warning: WordPress setup delay'
   debug:
-    msg: "Bitnami's WordPress take roughly 1 minute to start, especially on first try since it must create database."
+    msg: "\n\nBe patient =)
+          \n\nBitnami's WordPress take roughly 1 minute to start, especially on first try since it must create database.
+          \n\nIt can go up up to 2-3 minutes if it downloads the containers' images."
 
-- name: "Deploy '{{ project.type }}--{{ project.dashed_domain }}' stack from a compose file"
+- name: "Deploy '{{ project.type }}---{{ project.dashed_domain }}' stack from a compose file"
   docker_stack:
-    name: '{{ project.type }}--{{ project.dashed_domain }}'
+    name: '{{ project.type }}---{{ project.dashed_domain }}'
     compose:
       # cf. ansible/roles/wordpress-generate/tasks/generate-wordpress-stack-file.yml > Generate wordpress-stack--generated.yml file
       - '/home/{{ users.3.name }}/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/wordpress-stack--generated.yml'
@@ -101,17 +103,17 @@
 # #     command: "docker inspect --format '{''{ .NetworkSettings.IPAddress }''}' mariadb-container"
 # #     register: mariadb_ip_address
 
-
-# docker stack services test--test-wordpress-masamune-fr
+## TODO: Clean example with proper dashed domain
+# docker stack services test---test-wordpress--masamune--fr
 # # ID                  NAME                                         MODE                REPLICAS            IMAGE                  PORTS
-# # xj9ta5jw5xbq        test--test-wordpress-masamune-fr_mariadb     replicated          1/1                 bitnami/mariadb:10.3
-# # yf93mxk8rbff        test--test-wordpress-masamune-fr_wordpress   replicated          2/2                 bitnami/wordpress:5    *:30002->8080/tcp, *:30003->8443/tcp
+# # xj9ta5jw5xbq        test---test-wordpress--masamune--fr_mariadb     replicated          1/1                 bitnami/mariadb:10.3
+# # yf93mxk8rbff        test---test-wordpress--masamune--fr_wordpress   replicated          2/2                 bitnami/wordpress:5    *:30002->8080/tcp, *:30003->8443/tcp
 
-# docker stack services --format '{''{ .Name }''}' test--test-wordpress-masamune-fr
-# # test--test-wordpress-masamune-fr_mariadb
-# # test--test-wordpress-masamune-fr_wordpress
+# docker stack services --format '{''{ .Name }''}' test---test-wordpress--masamune--fr
+# # test---test-wordpress--masamune--fr_mariadb
+# # test---test-wordpress--masamune--fr_wordpress
 
-# docker service inspect test--test-wordpress-masamune-fr_wordpress
+# docker service inspect test---test-wordpress--masamune--fr_wordpress
 # # Lots of stuff
 
 # # # Wait for the service to start before testing

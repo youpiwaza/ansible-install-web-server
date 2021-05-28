@@ -1,12 +1,14 @@
 ---
 ### WordPress var file template
-## Duplicate this file to a proper location, ex. ansible/roles/wordpress-generate/vars/TYPE/CLIENT/DASHED_DOMAIN/main.yml
+## Duplicate this file to a proper location, ex. ansible/roles/wordpress-generate/vars/TYPE/CLIENT/DASHED-DOMAIN/main.yml
 ## And use it with the role 20-setup-a-wordpress.yml
 
 # Generate random strings with lookup, cf. https://github.com/youpiwaza/server-related-tutorials/tree/master/02-ansible/14-password-generation
+#   /!\ Do not touch "{{ lookup stuff, it will be generated and store (in case of update) automatically
 
 database:
-  image: 'bitnami/mariadb:10.3'
+  # https://hub.docker.com/r/bitnami/mariadb/tags?page=1&ordering=last_updated
+  image: 'bitnami/mariadb:10.5.10'
 
   MARIADB_DATABASE: "{{ lookup('password', './tmp/{{ project.type }}--{{ project.client_name }}--{{ project.dashed_domain }}--MARIADB_DATABASE-generated.txt length=32 chars=ascii_letters,digits') }}"
   MARIADB_PASSWORD: "{{ lookup('password', './tmp/{{ project.type }}--{{ project.client_name }}--{{ project.dashed_domain }}--MARIADB_PASSWORD-generated.txt length=32 chars=ascii_letters,digits') }}"
@@ -16,7 +18,7 @@ database:
 
 project:
   client_name: 'masamune'
-  dashed_domain: 'test-wordpress-masamune-fr'
+  dashed_domain: 'test-wordpress--masamune--fr'
   # Docker recommanded notation: extension.site.subdomain.SOME-LABEL
   #   https://docs.docker.com/config/labels-custom-metadata/#key-format-recommendations
   labels_prefix: 'fr.masamune.test-wordpress'
@@ -29,11 +31,12 @@ traefik:
   # This will point towards 'https://test-wordpress.masamune.fr/'
   public_uri: 'test-wordpress.masamune.fr'
   # For router & middleware names generation
-  # subDomain_domain_ext__stacktype
-  uid: 'testWordpress_masamune_fr__wordpress'
+  # subDomain__domain__ext___stacktype
+  uid: 'testWordpress__masamune__fr___wordpress'
 
 wordpress:
-  image: 'bitnami/wordpress:5'
+  # https://hub.docker.com/r/bitnami/wordpress/tags?page=1&ordering=last_updated
+  image: 'bitnami/wordpress:5.7.2'
 
   WORDPRESS_TABLE_PREFIX: "{{ lookup('password', './tmp/{{ project.type }}--{{ project.client_name }}--{{ project.dashed_domain }}--WORDPRESS_TABLE_PREFIX-generated.txt length=16 chars=ascii_letters,digits') }}"
   WORDPRESS_BLOG_NAME: "Sponge Bob's blog"

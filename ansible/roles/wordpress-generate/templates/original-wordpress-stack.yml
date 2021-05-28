@@ -3,18 +3,18 @@ version: '3.7'
 
 ## Create named volumes
 # docker volume create \
-#    --label fr.masamune.test-wordpress.client='masamune' \
-#    --label fr.masamune.test-wordpress.maintainer='masamune.code@gmail.com' \
-#    --label fr.masamune.test-wordpress.project='test service wordpress > mariadb' \
-#    --label fr.masamune.test-wordpress.type='test' \
-#    test--test-wordpress-masamune-fr--wordpress--db \
+#    --label fr--masamune--test-wordpress.client='masamune' \
+#    --label fr--masamune--test-wordpress.maintainer='masamune.code@gmail.com' \
+#    --label fr--masamune--test-wordpress.project='test service wordpress > mariadb' \
+#    --label fr--masamune--test-wordpress.type='test' \
+#    test---test-wordpress--masamune--fr---wordpress-database \
 # && \
 # docker volume create \
-#    --label fr.masamune.test-wordpress.client='masamune' \
-#    --label fr.masamune.test-wordpress.maintainer='masamune.code@gmail.com' \
-#    --label fr.masamune.test-wordpress.project='test service wordpress > wordpress' \
-#    --label fr.masamune.test-wordpress.type='test' \
-#    test--test-wordpress-masamune-fr--wordpress--files
+#    --label fr--masamune--test-wordpress.client='masamune' \
+#    --label fr--masamune--test-wordpress.maintainer='masamune.code@gmail.com' \
+#    --label fr--masamune--test-wordpress.project='test service wordpress > wordpress' \
+#    --label fr--masamune--test-wordpress.type='test' \
+#    test---test-wordpress--masamune--fr---wordpress-files
 
 services:
   mariadb:
@@ -59,6 +59,10 @@ services:
         parallelism: 1
     environment:
       ALLOW_EMPTY_PASSWORD: 'no'
+
+      # Allow more logs about bitnami's containers errors (use w. docker-compose up ; no -d)
+      #   https://github.com/bitnami/bitnami-docker-mysql/issues/79#issuecomment-545477842
+      BITNAMI_DEBUG: 'true'
 
       MARIADB_CHARACTER_SET: 'utf8'
       MARIADB_COLLATE: 'utf8_general_ci'
@@ -109,7 +113,7 @@ services:
     volumes:
       - type: volume
         read_only: false
-        source: test--test-wordpress-masamune-fr--wordpress--db
+        source: test---test-wordpress--masamune--fr---wordpress-database
         target: /bitnami/mariadb
 
   wordpress:
@@ -158,7 +162,7 @@ services:
         - "fr.masamune.project='test service wordpress / wordpress'"
         - "fr.masamune.type='test'"
       mode: replicated
-      replicas: 2
+      replicas: 1
       resources:
         limits:
           cpus: '0.50'
@@ -186,6 +190,10 @@ services:
         order: stop-first
         parallelism: 1
     environment:
+      # Allow more logs about bitnami's containers errors (use w. docker-compose up ; no -d)
+      #   https://github.com/bitnami/bitnami-docker-mysql/issues/79#issuecomment-545477842
+      BITNAMI_DEBUG: 'true'
+      
       # # mariadb database creation
       MARIADB_ROOT_PASSWORD: 'F9pXgdTAwcWSxH4WnZYex3pLJmR947VZ'
       MARIADB_ROOT_USER: 'root_F5g8H7F'
@@ -272,7 +280,7 @@ services:
     volumes:
       - type: volume
         read_only: false
-        source: test--test-wordpress-masamune-fr--wordpress--files
+        source: test---test-wordpress--masamune--fr---wordpress-files
         target: /bitnami/wordpress
 
 networks:
@@ -283,9 +291,9 @@ networks:
   wordpress:
 
 volumes:
-  test--test-wordpress-masamune-fr--wordpress--db:
+  test---test-wordpress--masamune--fr---wordpress-database:
     # Use an existing volume, do not recreate one with a prefix
     external: true
-  test--test-wordpress-masamune-fr--wordpress--files:
+  test---test-wordpress--masamune--fr---wordpress-files:
     # Use an existing volume, do not recreate one with a prefix
     external: true
