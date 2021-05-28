@@ -29,8 +29,8 @@ Do not use underscores.
 - Everything concerning the core service will be set in "/home/the_docker_peon/core/TYPE-OF-SERVICE/SERVICE/".
 - Basic configuration examples (~nginx) will be set in "/home/the_docker_peon/config/TYPE-OF-SERVICE/SERVICE/" in addition to ansible repo.
   - This will allow the execution of generic tests
-  - Naming convention: CONCERNED_IMAGE--DESCRIPTION--ORIGINAL_FILENAME
-    - Ex: tutum--customUser-p8080-php--nginx.conf
+  - Naming convention: CONCERNED-IMAGE---DESCRIPTION---ORIGINAL_FILENAME
+    - Ex: tutum---customUser-p8080-php---nginx.conf
 - Services templates (ex: traefik.yml) will not be stored on the host, but in the ansible repository.
   - ex: ansible/roles/core-install-reverse-proxy/templates/traefik.j2
 
@@ -51,18 +51,18 @@ Do not use underscores.
   - /the-docker-peon
     - /clients
       - /spongebob
-        - /spongebob--com             # spongebob.com
+        - /spongebob--com                     # spongebob.com
           - wordpress-stack--generated.yml
-          - agenda.yml                # Sub folder dedicated container > spongebob.com/agenda/
-        - /sub--spongebob--com        # sub.spongebob.com
+          - agenda.yml                        # Sub folder dedicated container > spongebob.com/agenda/
+        - /sub--spongebob--com                # sub.spongebob.com
           - main.yml
-        - ~~/mini-website-preview~~   # Always use Uri notation, reflecting https access ; if not applicable go local
+        - ~~/mini-website-preview~~           # Always use Uri notation, reflecting https access ; if not applicable go local
           - main.yml
     - /config
       - /webserver
         - /nginx
-          - nginx--custom-user-p8080--nginx.conf
-          - tutum--custom-user-p8080-php--nginx.conf
+          - nginx---custom-user-p8080---nginx.conf
+          - tutum---custom-user-p8080-php---nginx.conf
     - /core
       - /reverse-proxy
         - /traefik
