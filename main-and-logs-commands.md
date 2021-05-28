@@ -71,6 +71,11 @@ Using syslog logging driver, logs are written in `/var/log/syslog`.
 # Then use on another instance (or in detached mode)
 sudo docker logs -f CONTAINER_NAME_OR_ID
 sudo docker service logs -f SERVICE_NAME_OR_ID
+
+# Accès direct au conteneur
+sudo docker exec -it CONTAINER_NAME_OR_ID bash
+# ~alpine
+sudo docker exec -it CONTAINER_NAME_OR_ID bin/ash
 ```
 
 ## Docker tests
@@ -106,4 +111,7 @@ sudo docker stats
 
 # Un conteneur
 sudo docker stats CONTAINER_NAME_OR_ID
+
+# Espace occupé sur le disque dur (images, repos, volumes, docker builds)
+docker system df -v
 ```
