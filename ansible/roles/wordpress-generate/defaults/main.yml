@@ -29,7 +29,8 @@ traefik:
   uid: 'testWordpress_masamune_fr'
 
 wordpress:
-  image: 'bitnami/wordpress:5'
+  # https://hub.docker.com/r/bitnami/wordpress/tags?page=1&ordering=last_updated
+  image: 'bitnami/wordpress:5.7.2'
   WORDPRESS_TABLE_PREFIX: 'wp_default_PL9ZF_'
   WORDPRESS_BLOG_NAME: "Sponge Bob's blog"
   WORDPRESS_EMAIL: 'masamune.code@gmail.com'
