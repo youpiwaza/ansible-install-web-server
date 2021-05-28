@@ -8,6 +8,16 @@ Differentiate core services from (client) specific websites.
 
 All the core stuff will be prefixed with "core".
 
+### Dashed & Uri notations
+
+In order to stay homogenous & crystal clear, dash notation will be used this way :
+
+- One dash to separate words, eg. masamune-website
+- Two dashes to separate subdomains, extensions, eg. dev--masamune-website--fr
+- Three dashes to separate context, eg. volume---dev--masamune-website--fr---wordpress-files
+
+Do not use underscores.
+
 ## Folder tree
 
 ### Administration & core
@@ -32,13 +42,22 @@ All the core stuff will be prefixed with "core".
 ### Example folder tree
 
 - /home
-  - /the_builder_guy
+  - /the-builder-guy
     - /tests
       - /some-server-test
-  - /the_docker_guy
+  - /the-docker-guy
     - /tests
       - /some-docker-test
-  - /the_docker_peon
+  - /the-docker-peon
+    - /clients
+      - /spongebob
+        - /spongebob--com             # spongebob.com
+          - wordpress-stack--generated.yml
+          - agenda.yml                # Sub folder dedicated container > spongebob.com/agenda/
+        - /sub--spongebob--com        # sub.spongebob.com
+          - main.yml
+        - ~~/mini-website-preview~~   # Always use Uri notation, reflecting https access ; if not applicable go local
+          - main.yml
     - /config
       - /webserver
         - /nginx
@@ -48,41 +67,44 @@ All the core stuff will be prefixed with "core".
       - /reverse-proxy
         - /traefik
           - traefik.yml
-    - /clients
-      - /spongebob
-        - /spongebob-com            # spongebob.com
-          - wordpress-stack--generated.yml
-          - agenda.yml              # Sub folder dedicated container > spongebob.com/agenda/
-        - /sub-spongebob-com        # sub.spongebob.com
-          - main.yml
-        - /mini-website-preview
-          - main.yml
 
 ## Naming conventions
 
 ### Networks
 
-TYPE-TECHNO/SUB_CLIENT_URI-[DESCRIPTION]
+TYPE-TECHNO---SUBDOMAIN--CLIENT-URI--EXT---[DESCRIPTION]
 
 Examples:
 
-- core-traefik-public
-- dev-spongebob_com
-- prod-spongebob_com
-- prod-sub_spongebob_com
+- core---traefik-public
+- client---dev--spongebob--com
+- client---spongebob--com
+- client---sub--spongebob-other-website--com
 
 #### Network recommandations
 
-Containers will access the internet through the overlay attachable "core-traefik-public" network.
+Containers will access the internet through the overlay attachable "core---traefik-public" network.
 
-- Be sure to connect only required containers (~webserver:80 & :443)
-- Use a private network for project containers' connections.
+- Be sure to connect only required containers ports (~webserver:80 & :443)
+- Use a private network for inner project containers' connections.
 
 ### Project & datas storages
 
 ~~As much as possible, datas will be stored in a /home/STUFF folder, to facilitate rights managements.~~
 
-No, as much as possible, named volumes will be used (stored in /docker/ folder..).
+No, for security reasons, named volumes will be used (automaticcaly stored in /docker/ folder..).
+
+Access to data will be available through
+
+- Manual access:
+  - `docker exec bash` into the container
+  - `docker run` a temp container with a temp volume binded to host
+- Auto/client access
+  - `docker run` a temp container with a temp volume binded to host's DOCKER_PEON folder, allowing SSH restricted access
+
+See the [documentation](./main-and-logs-commands.md) for more examples.
+
+---
 
 Clients project will be splitted in 3:
 
@@ -94,16 +116,18 @@ Clients project will be splitted in 3:
 
 #### Named volumes
 
-TYPE-TECHNO/SUB_CLIENT_URI-DESCRIPTION
+TYPE-TECHNO---SUB--CLIENT-URI--EXT---DESCRIPTION
 
 Examples:
 
-- core-traefik-logs
-- dev-spongebob_com-database
-- prod-spongebob_com-database
-- prod-sub_spongebob_com-database
+- core---traefik-logs
+- client---dev--spongebob--com---database
+- client---spongebob--com---database
+- client---sub--spongebob-other-website--com---database
 
-Ex: for traefik logs, they are stored in /home/logs/traefik.log in the core-traefik-logs named volume.
+Ex: for traefik logs, they are stored in /home/logs/traefik.log in the core---traefik-logs named volume.
+
+Note: Folders populated in named volume are described in relative docker-compose .yml files, used to start the container.
 
 #### Volumes recommandations
 
