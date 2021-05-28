@@ -9,6 +9,11 @@
 
 
 
+- debug:
+    msg: 'Make sure to have the right public uri for traefik to match to DNS : traefik.public_uri : {{ traefik.public_uri }}'
+
+
+
 ### Volumes management
 
 ## Bitnamis' database (mariadb)
