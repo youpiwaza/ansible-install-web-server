@@ -76,12 +76,6 @@
 # ---
 
 
-- name: 'Warning: WordPress setup delay'
-  debug:
-    msg: "\n\nBe patient =)
-          \n\nBitnami's WordPress take roughly 1 minute to start, especially on first try since it must create database.
-          \n\nIt can go up up to 2-3 minutes if it downloads the containers' images."
-
 - name: "Deploy '{{ project.type }}---{{ project.dashed_domain }}' stack from a compose file"
   docker_stack:
     name: '{{ project.type }}---{{ project.dashed_domain }}'
@@ -93,6 +87,15 @@
 
 # # - debug:
 # #     msg: '{{ my_stack_status }}'
+
+- name: 'Warning: WordPress setup delay'
+  debug:
+    msg: "\n\nBe patient =)
+          \n\nBitnami's WordPress take roughly 1 minute to start, especially on first try since it must create database.
+          \n\nIt can go up up to 2-3 minutes if it downloads the containers' images.
+          \n\nNote: If MariaDB fails to initialize, make sure there isn't an existing named volume (with previous IDs..) !"
+
+
 
 # ### TODO: Wait for / Test website deployment
 
