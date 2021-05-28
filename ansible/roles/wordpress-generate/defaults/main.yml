@@ -2,7 +2,8 @@
 ### WordPress project generation related vars
 
 database:
-  image: 'bitnami/mariadb:10.3'
+  # https://hub.docker.com/r/bitnami/mariadb/tags?page=1&ordering=last_updated
+  image: 'bitnami/mariadb:10.5.10'
   MARIADB_DATABASE: 'default_drdS87QVpvADFw5Wx3pLJmR947VZ'
   MARIADB_PASSWORD: 'default_G6Sn3VaLqf2DDL9W'
   MARIADB_USER: 'default_yAKqwcWYAr9kzLdn'
