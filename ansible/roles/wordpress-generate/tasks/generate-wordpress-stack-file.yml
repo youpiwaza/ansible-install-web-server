@@ -3,12 +3,12 @@
 
 - name: Local / Debug / Generate wordpress-stack--generated.yml file
   template:
-    dest: './tmp/{{ project.type }}--{{ project.client_name }}--{{ project.dashed_domain }}--wordpress-stack--generated.yml'
+    dest: './tmp/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/{{ project.dashed_domain }}--wordpress-stack--generated.yml'
     src: templates/wordpress-stack.yml.j2
   delegate_to: 127.0.0.1
 
 - debug:
-    msg: "\n\nA stack file '{{ project.type }}--{{ project.client_name }}--{{ project.dashed_domain }}--wordpress-stack--generated.yml' have been generated in the /tmp/ folder of this project, if you wanna make sure everything is fine :)\n"
+    msg: "\n\nA stack file '/tmp/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/{{ project.dashed_domain }}--wordpress-stack--generated.yml' have been generated in the /tmp/ folder of this project, if you wanna make sure everything is fine :)\n"
 
 - name: 'Create TYPE/CLIENT/DASHED-DOMAIN/ directory for wordpress : /home/{{ users.3.name }}/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/'
   file:
