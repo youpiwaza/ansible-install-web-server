@@ -31,33 +31,33 @@ services:
         
         ## HTTPS router specifications
         # Entrypoint
-        - "traefik.http.routers.https_testMasamuneFr_Helloworld_Router.entrypoints=websecure"
+        - "traefik.http.routers.https_helloMasamuneFr_Helloworld_Router.entrypoints=websecure"
         # On which url ? Reverse proxy regexp
-        - "traefik.http.routers.https_testMasamuneFr_Helloworld_Router.rule=Host(`test.masamune.fr`)"
+        - "traefik.http.routers.https_helloMasamuneFr_Helloworld_Router.rule=Host(`hello.masamune.fr`)"
         # Use the service created below specifying the internal port
-        - "traefik.http.routers.https_testMasamuneFr_Helloworld_Router.service=https_testMasamuneFr_Helloworld_Service"
+        - "traefik.http.routers.https_helloMasamuneFr_Helloworld_Router.service=https_helloMasamuneFr_Helloworld_Service"
         # Enable TLS
-        - "traefik.http.routers.https_testMasamuneFr_Helloworld_Router.tls=true"
+        - "traefik.http.routers.https_helloMasamuneFr_Helloworld_Router.tls=true"
         # Automatic generation on all subdomains, using SANs
-        # - "traefik.http.routers.https_testMasamuneFr_Helloworld_Router.tls.domains[0].main=masamune.fr"
-        # - "traefik.http.routers.https_testMasamuneFr_Helloworld_Router.tls.domains[0].sans=*.masamune.fr"
+        # - "traefik.http.routers.https_helloMasamuneFr_Helloworld_Router.tls.domains[0].main=masamune.fr"
+        # - "traefik.http.routers.https_helloMasamuneFr_Helloworld_Router.tls.domains[0].sans=*.masamune.fr"
         # Automtic certifcate resolver, created in traefik.yml
-        - "traefik.http.routers.https_testMasamuneFr_Helloworld_Router.tls.certresolver=leresolver"
+        - "traefik.http.routers.https_helloMasamuneFr_Helloworld_Router.tls.certresolver=leresolver"
         
         # Create a service specifying the internal port
         # Internal port > 1024 to prevent usage of root restricted ports
-        - "traefik.http.services.https_testMasamuneFr_Helloworld_Service.loadbalancer.server.port=8080"
+        - "traefik.http.services.https_helloMasamuneFr_Helloworld_Service.loadbalancer.server.port=8080"
 
         ## HTTP_ router / Redirect every http requests to their https equivalent
         # Create a middleware to redirect http to https
         #     Middleware aren't shared ?
         - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
         # All hosts..
-        - "traefik.http.routers.http_testMasamuneFr_Helloworld_Router.rule=hostregexp(`{host:.+}`)"
+        - "traefik.http.routers.http_helloMasamuneFr_Helloworld_Router.rule=hostregexp(`{host:.+}`)"
         # .. coming from entrypoint web ..
-        - "traefik.http.routers.http_testMasamuneFr_Helloworld_Router.entrypoints=web"
+        - "traefik.http.routers.http_helloMasamuneFr_Helloworld_Router.entrypoints=web"
         # .. use the previously created middleware
-        - "traefik.http.routers.http_testMasamuneFr_Helloworld_Router.middlewares=redirect-to-https"
+        - "traefik.http.routers.http_helloMasamuneFr_Helloworld_Router.middlewares=redirect-to-https"
 
         - "fr.masamune.client='masamune'"
         - "fr.masamune.maintainer='masamune.code@gmail.com'"
@@ -138,7 +138,7 @@ services:
     volumes:
       - type: volume
         read_only: false
-        source: test---test--masamune--fr---tutum-hello---logs
+        source: test---hello--masamune--fr---tutum-hello---logs
         target: /var/log/
       # # Note: Use config for docker stack deploy. Bind volumes can be a security issue, and should only be used for debug through docker-compose up
       # # - '/home/{{ users.3.name }}/configs/webserver/nginx/tutum--customUser-p8080-php--nginx.conf:/etc/nginx/nginx.conf:ro'
@@ -158,6 +158,6 @@ networks:
     external: true
 
 volumes:
-  test---test--masamune--fr---tutum-hello---logs:
+  test---hello--masamune--fr---tutum-hello---logs:
     # Use an existing volume, do not recreate one with a prefix
     external: true

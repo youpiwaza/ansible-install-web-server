@@ -22,20 +22,20 @@
 ### Volumes management
 ## Logs
 
-# docker volume create test---test--masamune--fr---tutum-hello---logs \
+# docker volume create test---hello--masamune--fr---tutum-hello---logs \
 #    --label fr.masamune.client='masamune' \
 #    --label fr.masamune.maintainer='masamune.code@gmail.com' \
 #    --label fr.masamune.project='test / tutum / hello / logs' \
 #    --label fr.masamune.type='test'
 
-- name: "Create a named volume for hello logs 'test---test--masamune--fr---tutum-hello---logs'"
+- name: "Create a named volume for hello logs 'test---hello--masamune--fr---tutum-hello---logs'"
   docker_volume:
     labels:
       fr.masamune.client: 'masamune'
       fr.masamune.maintainer: 'masamune.code@gmail.com'
       fr.masamune.project: 'test / tutum / hello / logs'
       fr.masamune.type: 'test'
-    name: test---test--masamune--fr---tutum-hello---logs
+    name: test---hello--masamune--fr---tutum-hello---logs
 
 
 # Go inside the volume through temp alpine container, for rights configuration
@@ -44,7 +44,7 @@
 # nginx/ folder MUST be 1003:1003 owned too, not only files inside
 # docker run \
 #    --mount \
-#       source=test---test--masamune--fr---tutum-hello---logs,target=/home \
+#       source=test---hello--masamune--fr---tutum-hello---logs,target=/home \
 #    --rm \
 #    --workdir /home \
 #    alpine \
@@ -56,32 +56,32 @@
 #     touch ./nginx/error.log             && \
 #     chown -R 1003:1003 nginx               '
 
-- name: "Edit 'test---test--masamune--fr---tutum-hello---logs' volume content : create files & docker_peon chown 1003:1003"
+- name: "Edit 'test---hello--masamune--fr---tutum-hello---logs' volume content : create files & docker_peon chown 1003:1003"
   docker_container:
     auto_remove: yes
     command: "/bin/ash -c 'touch php-fpm.log && chown 1003:1003 php-fpm.log && mkdir nginx && touch ./nginx/access.log && touch ./nginx/error.log && chown -R 1003:1003 nginx'"
     image: alpine
     interactive: yes
     mounts:
-      - source: test---test--masamune--fr---tutum-hello---logs
+      - source: test---hello--masamune--fr---tutum-hello---logs
         target: /home
-    name: watever
+    name: temp---edit-volume
     working_dir: /home
 
 
-## Start test---test--masamune--fr---tutum-hello stack
-# docker stack deploy -c ~/wtv/hello.yml test---test--masamune--fr---tutum-hello
+## Start test---hello--masamune--fr---tutum-hello stack
+# docker stack deploy -c ~/wtv/hello.yml test---hello--masamune--fr---tutum-hello
 
 # File placement hard-coded in ansible/roles/tests-install/tasks/tutum.yml
-- name: "Deploy 'test---test--masamune--fr---tutum-hello' stack from a compose file"
+- name: "Deploy '/home/{{ users.3.name }}/tests/helloworld/hello--masamune--fr/hello--masamune--fr---tutum-hello---generated.yml' stack from a compose file"
   docker_stack:
-    name: test---test--masamune--fr---tutum-hello
+    name: test---hello--masamune--fr---tutum-hello
     compose:
-      - '/home/{{ users.3.name }}/tests/helloworld/tutum/hello.yml'
+      - '/home/{{ users.3.name }}/tests/helloworld/hello--masamune--fr/hello--masamune--fr---tutum-hello---generated.yml'
     state: present
 
 ## Remove stack
-# docker stack rm test---test--masamune--fr---tutum-hello
+# docker stack rm test---hello--masamune--fr---tutum-hello
 # TODO: test stack
 # TODO: remove stack
 
@@ -92,20 +92,20 @@
 ### Volumes management
 ## Logs
 
-# docker volume create test---grafana--masamune--fr---tutum-hello-php-logs \
+# docker volume create test---hello-php--masamune--fr---tutum-hello-php-logs \
 #    --label fr.masamune.client='masamune' \
 #    --label fr.masamune.maintainer='masamune.code@gmail.com' \
 #    --label fr.masamune.project='tutum/helloworld logs' \
 #    --label fr.masamune.type='test'
 
-- name: "Create a named volume for hello-php logs 'test---grafana--masamune--fr---tutum-hello-php-logs'"
+- name: "Create a named volume for hello-php logs 'test---hello-php--masamune--fr---tutum-hello-php-logs'"
   docker_volume:
     labels:
       fr.masamune.client: 'masamune'
       fr.masamune.maintainer: 'masamune.code@gmail.com'
       fr.masamune.project: 'test / tutum / hello-php / logs'
       fr.masamune.type: 'test'
-    name: test---grafana--masamune--fr---tutum-hello-php-logs
+    name: test---hello-php--masamune--fr---tutum-hello-php-logs
 
 
 # Go inside the volume through temp alpine container, for rights configuration
@@ -114,7 +114,7 @@
 # nginx/ folder MUST be 1003:1003 owned too, not only files inside
 # docker run \
 #    --mount \
-#       source=test---grafana--masamune--fr---tutum-hello-php-logs,target=/home \
+#       source=test---hello-php--masamune--fr---tutum-hello-php-logs,target=/home \
 #    --rm \
 #    --workdir /home \
 #    alpine \
@@ -126,32 +126,32 @@
 #     touch ./nginx/error.log             && \
 #     chown -R 1003:1003 nginx'
 
-- name: "Edit 'test---grafana--masamune--fr---tutum-hello-php-logs' volume content : create files & docker_peon chown 1003:1003"
+- name: "Edit 'test---hello-php--masamune--fr---tutum-hello-php-logs' volume content : create files & docker_peon chown 1003:1003"
   docker_container:
     auto_remove: yes
     command: "/bin/ash -c 'touch php-fpm.log && chown 1003:1003 php-fpm.log && mkdir nginx && touch ./nginx/access.log && touch ./nginx/error.log && chown -R 1003:1003 nginx'"
     image: alpine
     interactive: yes
     mounts:
-      - source: test---grafana--masamune--fr---tutum-hello-php-logs
+      - source: test---hello-php--masamune--fr---tutum-hello-php-logs
         target: /home
-    name: watever
+    name: temp---edit-volume
     working_dir: /home
 
 
-## Start test---grafana--masamune--fr---tutum-hello-php stack
-# docker stack deploy -c ~/wtv/hello-php.yml test---grafana--masamune--fr---tutum-hello-php
+## Start test---hello-php--masamune--fr---tutum-hello-php stack
+# docker stack deploy -c ~/wtv/hello-php.yml test---hello-php--masamune--fr---tutum-hello-php
 
 # File placement hard-coded in ansible/roles/tests-install/tasks/tutum.yml
-- name: "Deploy 'test---grafana--masamune--fr---tutum-hello-php' stack from a compose file"
+- name: "Deploy '/home/{{ users.3.name }}/tests/helloworld/hello-php--masamune--fr/hello-php--masamune--fr---tutum-hello---generated.yml' stack from a compose file"
   docker_stack:
-    name: test---grafana--masamune--fr---tutum-hello-php
+    name: test---hello-php--masamune--fr---tutum-hello-php
     compose:
-      - '/home/{{ users.3.name }}/tests/helloworld/tutum/hello-php.yml'
+      - '/home/{{ users.3.name }}/tests/helloworld/hello-php--masamune--fr/hello-php--masamune--fr---tutum-hello---generated.yml'
     state: present
 
 ## Remove stack
-# docker stack rm test---grafana--masamune--fr---tutum-hello-php
+# docker stack rm test---hello-php--masamune--fr---tutum-hello-php
 # TODO: test stack
 # TODO: remove stack
 ...

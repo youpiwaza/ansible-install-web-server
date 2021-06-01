@@ -2,8 +2,8 @@
 # Use through README.md recommandations
 
 ### Docker required services setup
-# Traefik       / Reverse proxy
-# Test website  / Classic web server (tutum / hello world) for test purposes
+# Traefik             / Reverse proxy
+# Test website        / Classic web server (tutum / hello world) for test purposes
 # TODO: Swarmprom     / Metrics, stats, alerts
 
 # You'll need the_builder_guy to have it's ssh key added to the local agent, cf. the_builder_guy generated documentation
@@ -64,6 +64,15 @@
   roles:
     - core-init-reverse-proxy
 
+
+
+# ---
+
+
+
+## Test core installation through a couple of hello world containers
+# Currently hardcoded to serve tutum/hello (nginx) on test.masamune.fr & test-php.masamune.fr
+# TODO: Add vars
 
 ### builder_guy
 - name: '{{ users.0.name }} / Install generic config files in /home/{{ users.3.name }}/configs/'

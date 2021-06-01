@@ -2,18 +2,30 @@
 ### Install tutum/helloworld tests files
 # cf. https://github.com/youpiwaza/server-related-tutorials/blob/master/01-docker/04-my-tests/09-traefik-curated/11-prod-hello-curated/08-hello-stack-curated-comments/
 
-- name: 'Create tests/ directory for tutum : /home/{{ users.3.name }}/tests/helloworld/tutum/'
+- name: 'Create tests/ directory for hello world containers : /home/{{ users.3.name }}/tests/helloworld/'
   file:
-    path: '/home/{{ users.3.name }}/tests/helloworld/tutum/'
+    path: '/home/{{ users.3.name }}/tests/helloworld/'
     state: directory
 
-- name: Add tutum/hello-world hello.yml file from template
+
+- name: 'Create tests/ directory for hello world containers : /home/{{ users.3.name }}/tests/helloworld/hello--masamune--fr/'
+  file:
+    path: '/home/{{ users.3.name }}/tests/helloworld/hello--masamune--fr/'
+    state: directory
+
+- name: Generate nginx hello world .yml file from template
   template:
-    dest: '/home/{{ users.3.name }}/tests/helloworld/tutum/hello.yml'
+    dest: '/home/{{ users.3.name }}/tests/helloworld/hello--masamune--fr/hello--masamune--fr---tutum-hello---generated.yml'
     src: templates/hello.j2
 
-- name: Add tutum/hello-world hello-php.yml file from template
+
+- name: 'Create tests/ directory for hello world containers : /home/{{ users.3.name }}/tests/helloworld/hello-php--masamune--fr/'
+  file:
+    path: '/home/{{ users.3.name }}/tests/helloworld/hello-php--masamune--fr/'
+    state: directory
+
+- name: Generate nginx hello world (with php) .yml file from template
   template:
-    dest: '/home/{{ users.3.name }}/tests/helloworld/tutum/hello-php.yml'
+    dest: '/home/{{ users.3.name }}/tests/helloworld/hello-php--masamune--fr/hello-php--masamune--fr---tutum-hello---generated.yml'
     src: templates/hello-php.j2
 ...
