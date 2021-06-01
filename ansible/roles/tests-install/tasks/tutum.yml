@@ -12,8 +12,8 @@
     dest: '/home/{{ users.3.name }}/tests/helloworld/tutum/hello.yml'
     src: templates/hello.j2
 
-- name: Add tutum/hello-world helloDeux.yml file from template
+- name: Add tutum/hello-world hello-php.yml file from template
   template:
-    dest: '/home/{{ users.3.name }}/tests/helloworld/tutum/helloDeux.yml'
-    src: templates/helloDeux.j2
+    dest: '/home/{{ users.3.name }}/tests/helloworld/tutum/hello-php.yml'
+    src: templates/hello-php.j2
 ...

@@ -4,15 +4,15 @@ version: '3.7'
 # LATER: Make reusable / adapt vars
 
 # Usage
-# docker stack deploy -c helloDeux.yml helloDeux
-# docker stack rm helloDeux
+# docker stack deploy -c hello-php.yml hello-php
+# docker stack rm hello-php
 
 # Example for http only.
 # Works ONLY on [http uri](http://grafana.masamune.fr/), httpS KO if main domain isn't https + subdomains defined
 #   Pay attention as most modern browser will redirect to https by default, inducing false negative
 
 services:
-  helloworldDeux:
+  hello-php:
     # cap_drop:
     #   - ALL
     # # /!\ Only works with docker stack deploy, use bind volume for docker-compose
@@ -34,18 +34,18 @@ services:
         - "traefik.enable=true"
         
         # Specify entrypoint
-        - "traefik.http.routers.grafanaMasamuneFr_HelloworldDeux_Router.entrypoints=web"
+        - "traefik.http.routers.grafanaMasamuneFr_HelloPhp_Router.entrypoints=web"
         # On which url ? Reverse proxy regexp
-        - "traefik.http.routers.grafanaMasamuneFr_HelloworldDeux_Router.rule=Host(`grafana.masamune.fr`)"
+        - "traefik.http.routers.grafanaMasamuneFr_HelloPhp_Router.rule=Host(`grafana.masamune.fr`)"
         # Use the service specifying the internal port
-        - "traefik.http.routers.grafanaMasamuneFr_HelloworldDeux_Router.service=grafanaMasamuneFr_HelloworldDeux_Service"
+        - "traefik.http.routers.grafanaMasamuneFr_HelloPhp_Router.service=grafanaMasamuneFr_HelloPhp_Service"
         
         # Create a service specifying the internal port
-        - "traefik.http.services.grafanaMasamuneFr_HelloworldDeux_Service.loadbalancer.server.port=8080"
+        - "traefik.http.services.grafanaMasamuneFr_HelloPhp_Service.loadbalancer.server.port=8080"
         
         - "fr.masamune.client='masamune'"
         - "fr.masamune.maintainer='masamune.code@gmail.com'"
-        - "fr.masamune.project='curated service helloworld deux'"
+        - "fr.masamune.project='curated service helloworld avec php'"
         - "fr.masamune.type='test'"
       mode: replicated
       replicas: 2
@@ -122,7 +122,7 @@ services:
     volumes:
       - type: volume
         read_only: false
-        source: test---grafana--masamune--fr---tutum-helloDeux-logs
+        source: test---grafana--masamune--fr---tutum-hello-php-logs
         target: /var/log/
       # # Note: Use config for docker stack deploy. Bind volumes can be a security issue, and should only be used for debug through docker-compose up
       # # - '/home/{{ users.3.name }}/configs/webserver/nginx/tutum--customUser-p8080-php--nginx.conf:/etc/nginx/nginx.conf:ro'
@@ -142,6 +142,6 @@ networks:
     external: true
 
 volumes:
-  test---grafana--masamune--fr---tutum-helloDeux-logs:
+  test---grafana--masamune--fr---tutum-hello-php-logs:
     # Use an existing volume, do not recreate one with a prefix
     external: true

@@ -92,20 +92,20 @@
 ### Volumes management
 ## Logs
 
-# docker volume create test---grafana--masamune--fr---tutum-helloDeux-logs \
+# docker volume create test---grafana--masamune--fr---tutum-hello-php-logs \
 #    --label fr.masamune.client='masamune' \
 #    --label fr.masamune.maintainer='masamune.code@gmail.com' \
 #    --label fr.masamune.project='tutum/helloworld logs' \
 #    --label fr.masamune.type='test'
 
-- name: "Create a named volume for helloDeux logs 'test---grafana--masamune--fr---tutum-helloDeux-logs'"
+- name: "Create a named volume for hello-php logs 'test---grafana--masamune--fr---tutum-hello-php-logs'"
   docker_volume:
     labels:
       fr.masamune.client: 'masamune'
       fr.masamune.maintainer: 'masamune.code@gmail.com'
-      fr.masamune.project: 'test / tutum / helloDeux / logs'
+      fr.masamune.project: 'test / tutum / hello-php / logs'
       fr.masamune.type: 'test'
-    name: test---grafana--masamune--fr---tutum-helloDeux-logs
+    name: test---grafana--masamune--fr---tutum-hello-php-logs
 
 
 # Go inside the volume through temp alpine container, for rights configuration
@@ -114,7 +114,7 @@
 # nginx/ folder MUST be 1003:1003 owned too, not only files inside
 # docker run \
 #    --mount \
-#       source=test---grafana--masamune--fr---tutum-helloDeux-logs,target=/home \
+#       source=test---grafana--masamune--fr---tutum-hello-php-logs,target=/home \
 #    --rm \
 #    --workdir /home \
 #    alpine \
@@ -126,32 +126,32 @@
 #     touch ./nginx/error.log             && \
 #     chown -R 1003:1003 nginx'
 
-- name: "Edit 'test---grafana--masamune--fr---tutum-helloDeux-logs' volume content : create files & docker_peon chown 1003:1003"
+- name: "Edit 'test---grafana--masamune--fr---tutum-hello-php-logs' volume content : create files & docker_peon chown 1003:1003"
   docker_container:
     auto_remove: yes
     command: "/bin/ash -c 'touch php-fpm.log && chown 1003:1003 php-fpm.log && mkdir nginx && touch ./nginx/access.log && touch ./nginx/error.log && chown -R 1003:1003 nginx'"
     image: alpine
     interactive: yes
     mounts:
-      - source: test---grafana--masamune--fr---tutum-helloDeux-logs
+      - source: test---grafana--masamune--fr---tutum-hello-php-logs
         target: /home
     name: watever
     working_dir: /home
 
 
-## Start test---grafana--masamune--fr---tutum-helloDeux stack
-# docker stack deploy -c ~/wtv/helloDeux.yml test---grafana--masamune--fr---tutum-helloDeux
+## Start test---grafana--masamune--fr---tutum-hello-php stack
+# docker stack deploy -c ~/wtv/hello-php.yml test---grafana--masamune--fr---tutum-hello-php
 
 # File placement hard-coded in ansible/roles/tests-install/tasks/tutum.yml
-- name: "Deploy 'test---grafana--masamune--fr---tutum-helloDeux' stack from a compose file"
+- name: "Deploy 'test---grafana--masamune--fr---tutum-hello-php' stack from a compose file"
   docker_stack:
-    name: test---grafana--masamune--fr---tutum-helloDeux
+    name: test---grafana--masamune--fr---tutum-hello-php
     compose:
-      - '/home/{{ users.3.name }}/tests/helloworld/tutum/helloDeux.yml'
+      - '/home/{{ users.3.name }}/tests/helloworld/tutum/hello-php.yml'
     state: present
 
 ## Remove stack
-# docker stack rm test---grafana--masamune--fr---tutum-helloDeux
+# docker stack rm test---grafana--masamune--fr---tutum-hello-php
 # TODO: test stack
 # TODO: remove stack
 ...
