@@ -43,6 +43,9 @@ ansible-playbook -i hostsWithCustomSSHPort 4-setup-core-services.yml | sed 's/\\
 
 # ---
 
+# Lancer le playbook de mise en place de 2 serveurs web nginx (un classique & un avec php)
+ansible-playbook -i hostsWithCustomSSHPort 10-setup-a-web-server-nginx-hello-world.yml | sed 's/\\n/\n/g'
+
 # Lancer le playbook de mise en place d'un wordpress. Nécessite la configuration de variables ! (defauts: test wordpress)
 ansible-playbook -i hostsWithCustomSSHPort 20-setup-a-wordpress.yml | sed 's/\\n/\n/g'
 
