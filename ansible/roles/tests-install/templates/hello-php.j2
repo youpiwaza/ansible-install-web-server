@@ -33,16 +33,36 @@ services:
         # Allow internet exposition (publish on port 80)
         - "traefik.enable=true"
         
-        # Specify entrypoint
-        - "traefik.http.routers.helloPhpMasamuneFr_HelloPhp_Router.entrypoints=web"
+        ## HTTPS router specifications
+        # Entrypoint
+        - "traefik.http.routers.https_helloPhPMasamuneFr_Helloworld_Router.entrypoints=websecure"
         # On which url ? Reverse proxy regexp
-        - "traefik.http.routers.helloPhpMasamuneFr_HelloPhp_Router.rule=Host(`hello-php.masamune.fr`)"
-        # Use the service specifying the internal port
-        - "traefik.http.routers.helloPhpMasamuneFr_HelloPhp_Router.service=helloPhpMasamuneFr_HelloPhp_Service"
+        - "traefik.http.routers.https_helloPhPMasamuneFr_Helloworld_Router.rule=Host(`hello-php.masamune.fr`)"
+        # Use the service created below specifying the internal port
+        - "traefik.http.routers.https_helloPhPMasamuneFr_Helloworld_Router.service=https_helloPhPMasamuneFr_Helloworld_Service"
+        # Enable TLS
+        - "traefik.http.routers.https_helloPhPMasamuneFr_Helloworld_Router.tls=true"
+        # Automatic generation on all subdomains, using SANs
+        # - "traefik.http.routers.https_helloPhPMasamuneFr_Helloworld_Router.tls.domains[0].main=masamune.fr"
+        # - "traefik.http.routers.https_helloPhPMasamuneFr_Helloworld_Router.tls.domains[0].sans=*.masamune.fr"
+        # Automtic certifcate resolver, created in traefik.yml
+        - "traefik.http.routers.https_helloPhPMasamuneFr_Helloworld_Router.tls.certresolver=leresolver"
         
         # Create a service specifying the internal port
-        - "traefik.http.services.helloPhpMasamuneFr_HelloPhp_Service.loadbalancer.server.port=8080"
-        
+        # Internal port > 1024 to prevent usage of root restricted ports
+        - "traefik.http.services.https_helloPhPMasamuneFr_Helloworld_Service.loadbalancer.server.port=8080"
+
+        ## HTTP_ router / Redirect every http requests to their https equivalent
+        # Create a middleware to redirect http to https
+        #     Middleware aren't shared ?
+        - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+        # All hosts..
+        - "traefik.http.routers.http_helloPhPMasamuneFr_Helloworld_Router.rule=hostregexp(`{host:.+}`)"
+        # .. coming from entrypoint web ..
+        - "traefik.http.routers.http_helloPhPMasamuneFr_Helloworld_Router.entrypoints=web"
+        # .. use the previously created middleware
+        - "traefik.http.routers.http_helloPhPMasamuneFr_Helloworld_Router.middlewares=redirect-to-https"
+
         - "fr.masamune.client='masamune'"
         - "fr.masamune.maintainer='masamune.code@gmail.com'"
         - "fr.masamune.project='curated service helloworld with php'"
