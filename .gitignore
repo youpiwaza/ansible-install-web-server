@@ -8,6 +8,10 @@ hostsWithCustomSSHPort
 # Secret README files
 **/*_secret*
 
-# Generated files
-tmp/
+## Generated files
+# everything in the generated/ folder..
+generated/*
+# .. except REAMDE.md
+!generated/README.md
+# also ignore everywhere any generated file
 **/*-generated*

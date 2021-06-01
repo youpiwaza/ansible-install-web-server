@@ -150,7 +150,7 @@ Note: Folders populated in named volume are described in relative docker-compose
 - Do not use volumes for containers configurations, use **config**, cf. [dedicated tests](https://github.com/youpiwaza/server-related-tutorials/blob/master/01-docker/04-my-tests/09-traefik-curated/11-prod-hello-curated/08-hello-stack-curated-comments/README-use-docker-config.md).
 - Named volumes are for website contents : project files & clients datas
   - Website content should be independant from container's image, to facilitate updates.
-  - **DO NOT mount /tmp/ folders**, are they can provoke conflicts between replicas.
+  - **DO NOT mount /generated/ folders**, are they can provoke conflicts between replicas.
 - Used named volumes with stacks
   - bind volumes are a security risk
   - anonymous volumes are destroyed when/if stacks are shutdown (manually or failures)
