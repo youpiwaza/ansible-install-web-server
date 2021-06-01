@@ -3,6 +3,8 @@
 # To enforce container default security & good practices
 #   Cf. ansible/roles/docker-installation/tasks/test-alpine-curated-container.yml
 
+# Consider testing stressing containers & adapt CPU/RAM limitations to avoid stability issues
+
 - name: 'Do not run this, only get module_defaults'
   become: no
   hosts: likorneWithCustomSSHPort

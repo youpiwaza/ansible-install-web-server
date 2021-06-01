@@ -1,4 +1,6 @@
 ---
+# Use through README.md recommandations
+
 - name: Install my web server / Generate users and set custom SSH port
   hosts: likorne
   # hosts: likorneWithCustomSSHPort

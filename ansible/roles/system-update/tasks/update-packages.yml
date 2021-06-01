@@ -1,14 +1,17 @@
 ---
 ### Update OS and packages
+# eq. apt-get update
 - name: Only run "update_cache=yes" if the last one is more than 3600 seconds ago
   apt:
     update_cache: yes
     cache_valid_time: 3600
 
-# # TODO: BUG: Ne renvoie pas OK, renvoie la liste du bousin effectué
-# - name: Upgrade installed packages
-#   apt:
-#     upgrade: dist
+# eq. apt upgrade
+# TODO: BUG: Ne renvoie pas OK, renvoie la liste du bousin effectué
+# 01/06/21 : Pas de package mis a jour, bug non constaté :/
+- name: Upgrade installed packages
+  apt:
+    upgrade: dist
 
 - name: Reboot system if required
   include: reboot-if-needed.yml

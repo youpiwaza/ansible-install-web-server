@@ -1,5 +1,7 @@
 ---
-# Stop traefik service, as ansible auto reload it
+## Stop traefik service, as ansible auto reload it
+# > ansible-playbook -i hostsWithCustomSSHPort 51-stop-traefik-service.yml | sed 's/\\n/\n/g'
+
 ### docker_guy
 - name: '{{ users.2.name }} / Stop reverse proxy traefik service'
   become: no

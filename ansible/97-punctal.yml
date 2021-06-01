@@ -1,6 +1,7 @@
 ---
 ### Execute punctual role/s or task/s
 # You'll need it's ssh key added to the local agent, cf. the_builder_guy generated documentation
+# > ansible-playbook -i hostsWithCustomSSHPort 97-punctal.yml | sed 's/\\n/\n/g'
 
 # Package installation/updates
 # /!\ Be careful ! Might include reboots !

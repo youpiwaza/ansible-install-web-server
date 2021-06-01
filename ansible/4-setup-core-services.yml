@@ -1,4 +1,6 @@
 ---
+# Use through README.md recommandations
+
 ### Docker required services setup
 # Traefik       / Reverse proxy
 # Test website  / Classic web serveur for test purposes

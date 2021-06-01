@@ -1,4 +1,6 @@
 ---
+# Use through README.md recommandations
+
 ### Proceed to full installation with newly generated sudoer user the_builder_guy
 # You'll need it's ssh key added to the local agent, cf. the_builder_guy generated documentation
 - name: 'Install my web server / {{ users.0.name }} / Utils & security setup, then docker installation & test'

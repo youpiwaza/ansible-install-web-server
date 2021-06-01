@@ -1,6 +1,7 @@
 ---
 ### Proceed to server upgrade through the builder guy, using installation roles
 # You'll need it's ssh key added to the local agent, cf. the_builder_guy generated documentation
+# > ansible-playbook -i hostsWithCustomSSHPort 98-maintenance.yml | sed 's/\\n/\n/g'
 
 # /!\ Be careful ! Might include reboots !
 
@@ -16,15 +17,15 @@
   - roles/users/vars/main.yml
 
   roles:
-    - system-update # Also upgrade to latest Ubuntu LTS
+    # Also upgrade to latest Ubuntu LTS, Upgrade every 2 years
+    - system-update 
     - packages-installation
     - docker-maintenance
 
-## If manual check reveals non updated packages, log in through builder & 
+## If manual check reveals non updated packages, log in through BUILDER_GUY & 
 # > sudo apt-get update
 # > sudo apt upgrade
 ## Manually resolve conflicts or stuff, but take in consideration that this step won't be automated
-## TODO: Add sup. steps to ansible.
 
 
 
