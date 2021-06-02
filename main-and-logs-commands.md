@@ -99,6 +99,23 @@ sudo docker exec -it CONTAINER_NAME_OR_ID bin/ash
 > sudo docker inspect --format='{{.State.Health.Status}}' CONTAINER_NAME
 ```
 
+### Clean ps
+
+cf. [docker ps --format](https://stackoverflow.com/a/49973096/12026487)
+
+```bash
+## Triées par Status (date de fonctionnement asc = kikaplanté en dernier)
+docker ps --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"
+## image & taille
+docker ps --format "table {{.Names}}\t{{.Image}}\t{{.Size}}"
+
+## Triées par noms
+docker ps --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}" | (read -r; printf "%s\n" "$REPLY"; sort -k 1 )
+
+## Sur une page (meilleure visibilité mais pas d'historique)
+docker ps --format "table {{.Names}}\t{{.Image}}\t{{.Status}}\t{{.Ports}}" | (read -r; printf "%s\n" "$REPLY"; sort -k 1 ) | less -S
+```
+
 ## Performances, conso CPU/RAM/Disk
 
 ```bash
