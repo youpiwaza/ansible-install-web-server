@@ -38,7 +38,13 @@ ssh-add ~/.ssh/_the_builder_guy-ssh-key-ed25519
 # Lancer le playbook d'installation de l'hôte (sécurité, docker, docker swarm)
 ansible-playbook -i hostsWithCustomSSHPort 3-utils-security-docker-setup.yml
 
-# Lancer le playbook de mise en place des services docker de base (traefik, container metrics & alerts)
+# ---
+
+## 🛂 A partir de la, les stack (fichiers docker-compose lancés via swarm) seront composés de 2 parties :
+##    BUILDER_GUY : Génération des fichiers /yml, et upload
+##    DOCKER_GUY  : Lancement/mise à jour des fichiers (~docker run / docker stack deploy)
+
+## Lancer le playbook de mise en place des services docker de base (reverse proxy, monitoring)
 ansible-playbook -i hostsWithCustomSSHPort 4-setup-core-services.yml
 
 # ---
