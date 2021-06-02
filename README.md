@@ -6,8 +6,8 @@ cf. [dedicated repo](https://github.com/youpiwaza/server-related-tutorials/tree/
 
 Requirements :
 
-- A working terminal
-- A working SSH access through terminal (private key & ssh-agent on local machine, & public key on server)
+- [A working terminal](https://github.com/youpiwaza/install-dev-env)
+- A [working SSH access](https://github.com/youpiwaza/server-related-tutorials/tree/master/02-ansible/01-configuration-ssh) through terminal (private key & ssh-agent on local machine, & public key on server)
 - Be careful on your login configuration (hosts) if you edited the SSH port (default: 22)
 
 Note: I'm letting this repo public for educationnal purposes, and obfuscate real ids files, but if you want to use it, feel free to replace *_not_so_real files with your ids :)
@@ -18,10 +18,10 @@ Working on Windows WSL, personnal notes for my setup
 
 ```bash
 # Acceder au projet
-cd ~/../c/Users/Patolash/Documents/_dev/ansible-install-web-server/ansible
+cd /mnt/c/Users/Patolash/Documents/_dev/ansible-install-web-server/ansible/
 
 # Une seule fois, lancer le playbook pour configurer la première connexion
-ansible-playbook -i hosts 1-first-connexion-setup.yml | sed 's/\\n/\n/g'
+ansible-playbook -i hosts 1-first-connexion-setup.yml
 
 # Executer les commandes dans le fichier généré 'manual-commands.md'
 # Add ~root ssh key to local ssh agent, cf. __root-manual-commands.md
@@ -29,47 +29,47 @@ eval `ssh-agent`
 ssh-add ~/.ssh/YOUR_REMOTE_USER-ssh-key-ed25519
 
 # Lancer le playbook de création des utilisateurs et changement du port SSH
-ansible-playbook -i hosts 2-generate-users-and-change-ssh-port.yml | sed 's/\\n/\n/g'
-# ansible-playbook -i hostsWithCustomSSHPort 2-generate-users-and-change-ssh-port.yml | sed 's/\\n/\n/g'
+ansible-playbook -i hosts 2-generate-users-and-change-ssh-port.yml
+# ansible-playbook -i hostsWithCustomSSHPort 2-generate-users-and-change-ssh-port.yml
 
 # Add ~the_builder_guy ssh key to local ssh agent, cf. _the_builder_guy-manual-commands.md
 ssh-add ~/.ssh/_the_builder_guy-ssh-key-ed25519
 
 # Lancer le playbook d'installation de l'hôte (sécurité, docker, docker swarm)
-ansible-playbook -i hostsWithCustomSSHPort 3-utils-security-docker-setup.yml | sed 's/\\n/\n/g'
+ansible-playbook -i hostsWithCustomSSHPort 3-utils-security-docker-setup.yml
 
 # Lancer le playbook de mise en place des services docker de base (traefik, container metrics & alerts)
-ansible-playbook -i hostsWithCustomSSHPort 4-setup-core-services.yml | sed 's/\\n/\n/g'
+ansible-playbook -i hostsWithCustomSSHPort 4-setup-core-services.yml
 
 # ---
 
 # Lancer le playbook de mise en place de 2 serveurs web nginx (un classique & un avec php)
-ansible-playbook -i hostsWithCustomSSHPort 10-setup-a-web-server-nginx-hello-world.yml | sed 's/\\n/\n/g'
+ansible-playbook -i hostsWithCustomSSHPort 10-setup-a-web-server-nginx-hello-world.yml
 
 # Lancer le playbook de mise en place d'un wordpress. Nécessite la configuration de variables ! (defauts: test wordpress)
-ansible-playbook -i hostsWithCustomSSHPort 20-setup-a-wordpress.yml | sed 's/\\n/\n/g'
+ansible-playbook -i hostsWithCustomSSHPort 20-setup-a-wordpress.yml
 
 # ---
 
 # Stop traefik service
-ansible-playbook -i hostsWithCustomSSHPort 51-stop-traefik-service.yml | sed 's/\\n/\n/g'
+ansible-playbook -i hostsWithCustomSSHPort 51-stop-traefik-service.yml
 
 # Force host reboot
-ansible-playbook -i hostsWithCustomSSHPort 52-force-host-reboot.yml | sed 's/\\n/\n/g'
+ansible-playbook -i hostsWithCustomSSHPort 52-force-host-reboot.yml
 
 # ---
 
 ## Punctual tasks
 # Execute punctual role/s or task/s, for admin confort ;)
-ansible-playbook -i hostsWithCustomSSHPort 97-punctal.yml | sed 's/\\n/\n/g'
+ansible-playbook -i hostsWithCustomSSHPort 97-punctal.yml
 
 # Update/Upgrade web server packages & OS, docker system prune
 #  /!\ Be careful ! Might include reboots !
 #  /!\ Be careful ! Removes stopped containers, dangling images, networks & volumes
-ansible-playbook -i hostsWithCustomSSHPort 98-maintenance.yml | sed 's/\\n/\n/g'
+ansible-playbook -i hostsWithCustomSSHPort 98-maintenance.yml
 
 # WIP & tests
-ansible-playbook -i hostsWithCustomSSHPort 99-craft-and-tests.yml | sed 's/\\n/\n/g'
+ansible-playbook -i hostsWithCustomSSHPort 99-craft-and-tests.yml
 ```
 
 ## Plan de route

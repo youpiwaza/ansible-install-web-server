@@ -1,7 +1,7 @@
 ---
 ### Crafts and tests
 ## Prevents me from commenting/uncommenting/forgetting on final production files ^^'
-# > ansible-playbook -i hostsWithCustomSSHPort 99-craft-and-tests.yml | sed 's/\\n/\n/g'
+# > ansible-playbook -i hostsWithCustomSSHPort 99-craft-and-tests.yml
 
 # ---
 # Currently working on: End of Playbook 4 / Generate & start a hello world

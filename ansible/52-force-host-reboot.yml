@@ -1,7 +1,7 @@
 ---
 ## Force reboot on host
 #   For maintenance or tests purpose (service restart)
-# > ansible-playbook -i hostsWithCustomSSHPort 52-force-host-reboot.yml | sed 's/\\n/\n/g'
+# > ansible-playbook -i hostsWithCustomSSHPort 52-force-host-reboot.yml
 
 ### builder_guy
 - name: 'Execute admin stuff / {{ users.0.name }}'

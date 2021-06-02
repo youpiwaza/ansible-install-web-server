@@ -1,7 +1,7 @@
 ---
 ### Proceed to server upgrade through the builder guy, using installation roles
 # You'll need it's ssh key added to the local agent, cf. the_builder_guy generated documentation
-# > ansible-playbook -i hostsWithCustomSSHPort 98-maintenance.yml | sed 's/\\n/\n/g'
+# > ansible-playbook -i hostsWithCustomSSHPort 98-maintenance.yml
 
 # /!\ Be careful ! Might include reboots !
 
