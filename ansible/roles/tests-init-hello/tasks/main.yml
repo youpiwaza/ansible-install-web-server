@@ -10,7 +10,7 @@
 
 
 
-# File management in /home/the_docker_peon restricted folder done by the_builder_guy, cf. ansible/roles/core-install-reverse-proxy
+# File management in /home/the_docker_peon restricted folder done by the_builder_guy, cf. ansible/roles/stack-web-nginx-generate
 
 # Configuration details, debug, etc. here:
 #   https://github.com/youpiwaza/server-related-tutorials/tree/master/01-docker/04-my-tests/09-traefik-curated/11-prod-hello-curated/08-hello-stack-curated-comments

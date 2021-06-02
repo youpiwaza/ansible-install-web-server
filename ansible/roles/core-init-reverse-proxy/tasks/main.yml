@@ -1,7 +1,7 @@
 ---
 ### Init core stack : reverse proxy (traefik)
 ## docker_guy
-# File management in /home/the_docker_peon restricted folder done by the_builder_guy, cf. ansible/roles/core-install-reverse-proxy
+# File management in /home/the_docker_peon restricted folder done by the_builder_guy, cf. ansible/roles/core-reverse-proxy-traefik-generate
 
 # Configuration details, debug, etc. here:
 #   https://github.com/youpiwaza/server-related-tutorials/tree/master/01-docker/04-my-tests/09-traefik-curated/11-prod-hello-curated/08-hello-stack-curated-comments
@@ -136,7 +136,7 @@
 
 # docker-compose -f /home/{{ users.3.name }}/core/reverse-proxy/traefik/traefik--generated.yml up -d
 
-# File placement hard-coded in ansible/roles/core-install-reverse-proxy/tasks/main.yml
+# File placement hard-coded in ansible/roles/core-reverse-proxy-traefik-generate/tasks/main.yml
 - name: Start Traefik through docker compose
   docker_compose:
     files:
