@@ -40,10 +40,10 @@ ansible-playbook -i hostsWithCustomSSHPort 3-utils-security-docker-setup.yml
 
 # ---
 
-## 🛂 A partir de la, les stack (fichiers docker-compose lancés via swarm) seront composés de 3 parties :
-##    BUILDER_GUY : Génération des fichiers de configs, et upload
-##    BUILDER_GUY : Génération des fichiers .yml, et upload
-##    DOCKER_GUY  : Lancement/mise à jour des fichiers (~docker run / docker stack deploy)
+### 🛂 A partir de la, les stack (fichiers docker-compose lancés via swarm) seront composés de 3 parties :
+##    BUILDER_GUY : Génération des fichiers de configs, et mise en ligne sur le serveur
+##    BUILDER_GUY : Génération des fichiers .yml, et mise en ligne sur le serveur
+##    DOCKER_GUY  : Lancement ou mise à jour des instances (~docker run / docker stack deploy)
 
 ## Lancer le playbook de mise en place des services docker de base (reverse proxy, monitoring)
 ansible-playbook -i hostsWithCustomSSHPort 4-setup-core-services.yml
