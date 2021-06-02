@@ -72,7 +72,7 @@
 ## Start test---hello--masamune--fr---tutum-hello stack
 # docker stack deploy -c ~/wtv/hello.yml test---hello--masamune--fr---tutum-hello
 
-# File placement hard-coded in ansible/roles/tests-install/tasks/tutum.yml
+# File placement hard-coded in ansible/roles/stack-web-nginx-generate/tasks/tutum.yml
 - name: "Deploy '/home/{{ users.3.name }}/tests/helloworld/hello--masamune--fr/hello--masamune--fr---tutum-hello---generated.yml' stack from a compose file"
   docker_stack:
     name: test---hello--masamune--fr---tutum-hello
@@ -142,7 +142,7 @@
 ## Start test---hello-php--masamune--fr---tutum-hello-php stack
 # docker stack deploy -c ~/wtv/hello-php.yml test---hello-php--masamune--fr---tutum-hello-php
 
-# File placement hard-coded in ansible/roles/tests-install/tasks/tutum.yml
+# File placement hard-coded in ansible/roles/stack-web-nginx-generate/tasks/tutum.yml
 - name: "Deploy '/home/{{ users.3.name }}/tests/helloworld/hello-php--masamune--fr/hello-php--masamune--fr---tutum-hello---generated.yml' stack from a compose file"
   docker_stack:
     name: test---hello-php--masamune--fr---tutum-hello-php

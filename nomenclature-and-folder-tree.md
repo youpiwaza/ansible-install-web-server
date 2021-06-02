@@ -32,7 +32,7 @@ Do not use underscores.
   - Naming convention: CONCERNED-IMAGE---DESCRIPTION---ORIGINAL_FILENAME
     - Ex: tutum---customUser-p8080-php---nginx.conf
 - Services templates (ex: traefik.yml) will not be stored on the host, but in the ansible repository.
-  - ex: ansible/roles/core-install-reverse-proxy/templates/traefik.j2
+  - ex: ansible/roles/core-reverse-proxy-traefik-generate/templates/traefik.j2
 
 ### Clients
 
