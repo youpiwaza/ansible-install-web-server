@@ -111,7 +111,7 @@ services:
       endpoint_mode: vip
       labels:
         # Tell Traefik to get the contents provided by this service using that shared network.
-        - "traefik.docker.network=core-traefik-public"
+        - "traefik.docker.network=core---traefik-public--access-internet"
         # Allow internet exposition (publish on port 80)
         - "traefik.enable=true"
 
@@ -247,7 +247,7 @@ services:
     # --memory-swap -1
     networks:
       # Connect to traefik dedicated overlay network, allow reverse proxy
-      - core-traefik-public
+      - core---traefik-public--access-internet
       - wordpress
     # --pids-limit 200
     ports:
@@ -269,7 +269,7 @@ services:
         target: /bitnami/wordpress
 
 networks:
-  core-traefik-public:
+  core---traefik-public--access-internet:
     # Connect to an existing network, do not recreate one with a prefix
     external: true
   # Will be prefixed on stack deploy
