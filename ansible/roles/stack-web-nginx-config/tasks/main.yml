@@ -2,6 +2,7 @@
 ### Install generic config files for nginx
 ## the_builder_guy
 
+# nginx wo php
 - name: 'Local / Debug / Create configs / directory for nginx : ./generated/configs/web/nginx/'
   file:
     path: './generated/configs/web/nginx/'
@@ -16,12 +17,30 @@
 
 - name: Local / History / Config / Web / Nginx / Generate './generated/configs/web/nginx/nginx--generated-{{ currentDateTime }}.yml'
   template:
-    dest: './generated/configs/web/nginx/traefik--generated-{{ currentDateTime }}.yml'
+    dest: './generated/configs/web/nginx/nginx--generated-{{ currentDateTime }}.yml'
     src: templates/nginx--customUser-p8080--nginx.conf.j2
   delegate_to: 127.0.0.1
 
 - debug:
     msg: "\n\nA stack file './generated/configs/web/nginx/nginx--generated.conf' have been generated in the /generated/ folder of this project, if you wanna make sure everything is fine :)\n"
+
+
+
+# nginx w php
+- name: Local / Debug / Config / Web / Nginx php / Generate './generated/configs/web/nginx/nginx-php--generated.conf'
+  template:
+    dest: './generated/configs/web/nginx/nginx-php--generated.conf'
+    src: templates/tutum--customUser-p8080-php--nginx.conf.j2
+  delegate_to: 127.0.0.1
+
+- name: Local / History / Config / Web / Nginx php / Generate './generated/configs/web/nginx/nginx-php--generated-{{ currentDateTime }}.yml'
+  template:
+    dest: './generated/configs/web/nginx/nginx-php--generated-{{ currentDateTime }}.yml'
+    src: templates/tutum--customUser-p8080-php--nginx.conf.j2
+  delegate_to: 127.0.0.1
+
+- debug:
+    msg: "\n\nA stack file './generated/configs/web/nginx/nginx-php--generated.conf' have been generated in the /generated/ folder of this project, if you wanna make sure everything is fine :)\n"
 
 
 
@@ -32,6 +51,7 @@
     state: directory
 
 
+# nginx wo php
 # cf. https://github.com/youpiwaza/server-related-tutorials/blob/master/01-docker/04-my-tests/09-traefik-curated/11-prod-hello-curated/08-hello-stack-curated-comments/curated-p8080-customUser-phpfpm--nginx.conf
 - name: 'Config / Web / Nginx / Create directory : /home/{{ users.3.name }}/configs/webserver/nginx/'
   file:
@@ -50,8 +70,14 @@
 
 
 
-- name: Add nginx config for tutum/helloworld (custom user, internal port 8080 & php) from template
+# nginx w php
+- name: Config / Web / Nginx php / Generate nginx config (custom user, internal port 8080 & php) from template
   template:
     dest: '/home/{{ users.3.name }}/configs/webserver/nginx/tutum--customUser-p8080-php--nginx.conf'
+    src: templates/tutum--customUser-p8080-php--nginx.conf.j2
+
+- name: Config / Web / Nginx php / History / Generate '/home/{{ users.3.name }}/configs/webserver/nginx/nginx--customUser-p8080--nginx-php--generated-{{ currentDateTime }}.conf'
+  template:
+    dest: '/home/{{ users.3.name }}/configs/webserver/nginx/nginx--customUser-p8080--nginx-php--generated-{{ currentDateTime }}.conf'
     src: templates/tutum--customUser-p8080-php--nginx.conf.j2
 ...
