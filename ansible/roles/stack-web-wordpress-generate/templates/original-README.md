@@ -1,6 +1,6 @@
 # Identifiants pour le site hey.fr
 
-Généré automatiquement via ansible, cf. [github repo](https://github.com/youpiwaza/ansible-install-web-server/tree/master/ansible/roles/wordpress-generate).
+Généré automatiquement via ansible, cf. [github repo](https://github.com/youpiwaza/ansible-install-web-server/tree/master/ansible/roles/stack-web-wordpress-generate).
 
 ## Project
 
