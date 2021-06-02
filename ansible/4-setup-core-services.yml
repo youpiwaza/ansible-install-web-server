@@ -51,7 +51,7 @@
     - core-reverse-proxy-traefik-generate
 
 ### docker_guy
-- name: '{{ users.2.name }} / Start reverse proxy traefik'
+- name: '{{ users.2.name }} / Core / Reverse proxy / Traefik / Start or update service'
   become: no
   hosts: likorneWithCustomSSHPort
 
@@ -64,7 +64,7 @@
   - roles/users/vars/main.yml
 
   roles:
-    - core-init-reverse-proxy
+    - core-reverse-proxy-traefik-run
 
 
 
