@@ -6,7 +6,7 @@
 
 ## Local host needs some packages through pip
 # https://docs.ansible.com/ansible/latest/modules/docker_compose_module.html#requirements
-- name: Ansible host / pip / Install docker-compose modules for Python, to allow ansible manipulations
+- name: Local / pip / Install docker-compose modules for Python, to allow ansible manipulations
   pip:
     name: '{{ docker_compose_installation__bothHostsPipPackagesToInstall }}'
   delegate_to: 127.0.0.1

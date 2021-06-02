@@ -4,7 +4,7 @@
 # https://linuxize.com/post/how-to-install-python-3-8-on-ubuntu-18-04/
 
 ## Ansible host (local)
-- name: Install latest python on both local & host / Ansible host / Install software-properties-common & python-apt
+- name: Install latest python on both local & host / Local / Install software-properties-common & python-apt
   apt:
     cache_valid_time: '3600'
     name: [
@@ -17,14 +17,14 @@
   delegate_to: 127.0.0.1
 
 # Add the deadsnakes PPA to your system's sources list
-- name: Ansible host / Add the deadsnakes PPA to your system's sources list
+- name: Local / Add the deadsnakes PPA to your system's sources list
   apt_repository:
     repo: ppa:deadsnakes/ppa
     state: present
   delegate_to: 127.0.0.1
 
 # Install latest python
-- name: Ansible host / Install latest ATM Python 3.9
+- name: Local / Install latest ATM Python 3.9
   apt:
     cache_valid_time: '3600'
     name: 'python3.9'
@@ -46,7 +46,7 @@
     repo: ppa:deadsnakes/ppa
     state: present
 
-- name: Ansible host / Install latest ATM Python 3.9
+- name: Local / Install latest ATM Python 3.9
   apt:
     cache_valid_time: '3600'
     name: 'python3.9'

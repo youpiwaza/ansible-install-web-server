@@ -10,7 +10,7 @@
   include: install-latest-python.yml
 
 ## Local host needs some packages, both apt & pip
-- name: Ansible host / Install pip, to allow Python packages installation
+- name: Local / Install pip, to allow Python packages installation
   apt:
     cache_valid_time: '3600'
     name: '{{ docker_installation__localHostPackagesToInstall }}'
@@ -19,7 +19,7 @@
   delegate_to: 127.0.0.1
 
 # https://docs.ansible.com/ansible/latest/scenario_guides/guide_docker.html#requirements
-- name: Ansible host / pip / Install docker module for Python, to allow ansible manipulations
+- name: Local / pip / Install docker module for Python, to allow ansible manipulations
   pip:
     name: '{{ docker_installation__bothHostsPipPackagesToInstall }}'
   delegate_to: 127.0.0.1

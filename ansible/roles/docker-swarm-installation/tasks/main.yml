@@ -13,7 +13,7 @@
 
 ## Docker stack needs installations
 # https://docs.ansible.com/ansible/latest/modules/docker_stack_module.html#requirements
-- name: Ansible host / pip / Install docker module for Python, to allow ansible manipulations
+- name: Local / pip / Install docker module for Python, to allow ansible manipulations
   pip:
     name: '{{ docker_swarm_installation__bothHostsPipPackagesToInstall }}'
   delegate_to: 127.0.0.1
