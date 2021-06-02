@@ -149,7 +149,7 @@ services:
 
 configs:
   nginx_config:
-    # cf. ansible/roles/configs-install/tasks/nginx.yml
+    # cf. ansible/roles/stack-web-nginx-config/tasks/nginx.yml
     file: '/home/{{ users.3.name }}/configs/webserver/nginx/tutum--customUser-p8080-php--nginx.conf'
 
 networks:

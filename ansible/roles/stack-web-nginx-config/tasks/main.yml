@@ -1,7 +1,15 @@
 ---
 ### Install generic config files for nginx
-# cf. https://github.com/youpiwaza/server-related-tutorials/blob/master/01-docker/04-my-tests/09-traefik-curated/11-prod-hello-curated/08-hello-stack-curated-comments/curated-p8080-customUser-phpfpm--nginx.conf
+## the_builder_guy
 
+# Install service configs file in the_docker_peon /home folder
+- name: 'Install generic config files for services / Create directory /home/{{ users.3.name }}/configs/'
+  file:
+    path: '/home/{{ users.3.name }}/configs/'
+    state: directory
+
+
+# cf. https://github.com/youpiwaza/server-related-tutorials/blob/master/01-docker/04-my-tests/09-traefik-curated/11-prod-hello-curated/08-hello-stack-curated-comments/curated-p8080-customUser-phpfpm--nginx.conf
 - name: 'Create configs/ directory for nginx : /home/{{ users.3.name }}/configs/webserver/nginx/'
   file:
     path: '/home/{{ users.3.name }}/configs/webserver/nginx/'
