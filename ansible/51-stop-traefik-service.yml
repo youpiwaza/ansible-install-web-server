@@ -20,8 +20,8 @@
     - name: Stop traefik through docker-compose
       docker_compose:
         files:
-          traefik.yml
-        project_name: core-traefik
+          traefik--generated.yml
+        project_name: core---traefik
         project_src: '/home/{{ users.3.name }}/core/reverse-proxy/traefik/'
         state: absent
 ...

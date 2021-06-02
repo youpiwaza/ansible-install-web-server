@@ -2,14 +2,42 @@
 ### Install core stack : reverse proxy (traefik)
 ## the_builder_guy
 
+- name: Local / Debug / Create traefik directory './generated/core/reverse-proxy/traefik/'
+  file:
+    path: './generated/core/reverse-proxy/traefik/'
+    state: directory
+  delegate_to: 127.0.0.1
+
+- name: Local / Debug / Generate './generated/core/reverse-proxy/traefik/traefik--generated.yml'
+  template:
+    dest: './generated/core/reverse-proxy/traefik/traefik--generated.yml'
+    src: templates/traefik.j2
+  delegate_to: 127.0.0.1
+
+- name: Local / History / Generate './generated/core/reverse-proxy/traefik/traefik--generated-{{ currentDateTime }}.yml'
+  template:
+    dest: './generated/core/reverse-proxy/traefik/traefik--generated-{{ currentDateTime }}.yml'
+    src: templates/traefik.j2
+  delegate_to: 127.0.0.1
+
+- debug:
+    msg: "\n\nA stack file './generated/core/reverse-proxy/traefik/traefik--generated.yml' have been generated in the /generated/ folder of this project, if you wanna make sure everything is fine :)\n"
+
+
+
 # Install project compose file in the_docker_peon /home folder
 - name: 'Create traefik directory /home/{{ users.3.name }}/core/reverse-proxy/traefik/'
   file:
     path: '/home/{{ users.3.name }}/core/reverse-proxy/traefik/'
     state: directory
 
-- name: Add traefik compose file from template
+- name: Add traefik compose file from template in '/home/{{ users.3.name }}/core/reverse-proxy/traefik/traefik--generated.yml'
   template:
-    dest: '/home/{{ users.3.name }}/core/reverse-proxy/traefik/traefik.yml'
+    dest: '/home/{{ users.3.name }}/core/reverse-proxy/traefik/traefik--generated.yml'
+    src: templates/traefik.j2
+
+- name: History / Add traefik compose file from template in '/home/{{ users.3.name }}/core/reverse-proxy/traefik/traefik--generated-{{ currentDateTime }}.yml'
+  template:
+    dest: '/home/{{ users.3.name }}/core/reverse-proxy/traefik/traefik--generated-{{ currentDateTime }}.yml'
     src: templates/traefik.j2
 ...

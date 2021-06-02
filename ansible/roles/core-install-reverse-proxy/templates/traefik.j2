@@ -1,6 +1,7 @@
 version: "3.7"
 
 # Usage
+# - Need network & volume creation/config before start, see ansible-install-web-server/ansible/roles/core-init-reverse-proxy/tasks/main.yml
 #     Classic
 # > docker-compose -f traefik.yml up -d
 #     Logs
@@ -59,7 +60,6 @@ services:
       NETWORKS: 1
       SERVICES: 1
       TASKS: 1
-    # Latest ~01/2020
     image: '{{ core_install_reverse_proxy__docker_socket_proxy_image }}'
     labels:
       fr.masamune.client: 'masamune'
@@ -73,7 +73,7 @@ services:
         max-size: "50m"
     # Traefik's docker socket access on dedicated bridge network
     networks:
-      - core-traefik-proxy
+      - core---traefik-proxy
     ports:
       # Publish on (usual) tcp port
       - 2375
@@ -150,7 +150,7 @@ services:
       # Only specified containers exposed on the internet
       - "--providers.docker.exposedbydefault=false"
       # Tell Traefik to get the contents provided by this service using a dedicated shared attachable overlay network.
-      - "--providers.docker.network=core-traefik-public"
+      - "--providers.docker.network=core---traefik-public--access-internet"
       
       # Enable docker swarm
       - "--providers.docker.swarmMode=true"
@@ -177,9 +177,9 @@ services:
         max-size: "50m"
     networks:
       # Traefik's docker socket access on dedicated network
-      - core-traefik-proxy
+      - core---traefik-proxy
       # Traefik access to web server containers, to allow reverse proxy serving
-      - core-traefik-public
+      - core---traefik-public--access-internet
     ports:
       # Need to be binded
       - "80:80"
@@ -211,16 +211,16 @@ services:
       #     https://docs.traefik.io/https/acme/#storage
       - type: volume
         read_only: false
-        source: core-traefik-https
+        source: core---traefik--https-certificates
         target: /home
       # Send logs to a named volume
       - type: volume
         read_only: false
-        source: core-traefik-logs
+        source: core---traefik--logs
         target: /home/logs
 
 networks:
-  core-traefik-proxy:
+  core---traefik-proxy:
     # Prevent access to this network from other containers
     attachable: false
     # Force default driver as it will be used from docker compose, exclusively for proxy & traefik
@@ -238,14 +238,14 @@ networks:
   #   In order to:
   #   - be accessible to futur stacks
   #   - have a set name without automatic prefix
-  # > docker network create --driver=overlay --attachable core-traefik-public
-  core-traefik-public:
+  # > docker network create --driver=overlay --attachable core---traefik-public--access-internet
+  core---traefik-public--access-internet:
     external: true
 
 volumes:
   # Needs to be created before using docker compose, do not recreate one with a prefix
-  core-traefik-https:
+  core---traefik--https-certificates:
     external: true
   # cf. server-related-tutorials/01-docker/04-my-tests/09-traefik-curated/06-prod-traefik-curated/README.md #### How to manage named volumes access rights
-  core-traefik-logs:
+  core---traefik--logs:
     external: true

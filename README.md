@@ -51,7 +51,7 @@ ansible-playbook -i hostsWithCustomSSHPort 20-setup-a-wordpress.yml
 
 # ---
 
-# Stop traefik service
+# Stop traefik service, preventing docker to auto reload it
 ansible-playbook -i hostsWithCustomSSHPort 51-stop-traefik-service.yml
 
 # Force host reboot
