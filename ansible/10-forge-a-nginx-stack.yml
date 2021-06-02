@@ -44,7 +44,7 @@
     - stack-web-nginx-generate
 
 ### docker_guy
-- name: '{{ users.2.name }} / Start tests services hello world'
+- name: '{{ users.2.name }} / Test / Nginx / Stack / Start or update service
   become: no
   hosts: likorneWithCustomSSHPort
 
@@ -57,5 +57,5 @@
   - roles/users/vars/main.yml
 
   roles:
-    - tests-init-hello
+    - stack-web-nginx-run
 ...
