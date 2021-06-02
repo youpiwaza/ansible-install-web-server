@@ -5,7 +5,7 @@
 
 ## This role is meant to be run AFTER the 'stack-web-wordpress-generate' role, and will use the variables injected from a wp variables dedicated file
 ##    ex. ansible/roles/stack-web-wordpress-generate/vars/TYPE/CLIENT/DASHED-DOMAIN/main.yml
-## cf. 20-setup-a-wordpress.yml && ansible/roles/stack-web-wordpress-generate
+## cf. 20-forge-a-wordpress-stack.yml && ansible/roles/stack-web-wordpress-generate
 
 
 

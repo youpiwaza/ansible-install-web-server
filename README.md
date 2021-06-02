@@ -54,7 +54,7 @@ ansible-playbook -i hostsWithCustomSSHPort 4-setup-core-services.yml
 ansible-playbook -i hostsWithCustomSSHPort 10-forge-a-nginx-stack.yml
 
 # Lancer le playbook de mise en place d'un wordpress. Nécessite la configuration de variables ! (defauts: test wordpress)
-ansible-playbook -i hostsWithCustomSSHPort 20-setup-a-wordpress.yml
+ansible-playbook -i hostsWithCustomSSHPort 20-forge-a-wordpress-stack.yml
 
 # ---
 
