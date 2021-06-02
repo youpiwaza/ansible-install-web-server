@@ -15,7 +15,8 @@
   - roles/users/vars/main.yml
 
   roles:
-    - system-update # Also upgrade to latest Ubuntu LTS
+    # Also upgrade to latest Ubuntu LTS
+    - system-update
     - packages-installation
     - utils-time
     - utils-terminal
