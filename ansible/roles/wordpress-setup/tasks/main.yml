@@ -1,11 +1,11 @@
 ---
 ### WordPress project setup: Create volumes & start containers
 ## docker_guy
-# File management in /home/the_docker_peon restricted folder done by the_builder_guy, cf. ansible/roles/wordpress-generate
+# File management in /home/the_docker_peon restricted folder done by the_builder_guy, cf. ansible/roles/stack-web-wordpress-generate
 
-## This role is meant to be run AFTER the 'wordpress-generate' role, and will use the variables injected from a wp variables dedicated file
-##    ex. ansible/roles/wordpress-generate/vars/TYPE/CLIENT/DASHED-DOMAIN/main.yml
-## cf. 20-setup-a-wordpress.yml && ansible/roles/wordpress-generate
+## This role is meant to be run AFTER the 'stack-web-wordpress-generate' role, and will use the variables injected from a wp variables dedicated file
+##    ex. ansible/roles/stack-web-wordpress-generate/vars/TYPE/CLIENT/DASHED-DOMAIN/main.yml
+## cf. 20-setup-a-wordpress.yml && ansible/roles/stack-web-wordpress-generate
 
 
 
@@ -80,7 +80,7 @@
   docker_stack:
     name: '{{ project.type }}---{{ project.dashed_domain }}'
     compose:
-      # cf. ansible/roles/wordpress-generate/tasks/generate-wordpress-stack-file.yml > Generate wordpress-stack--generated.yml file
+      # cf. ansible/roles/stack-web-wordpress-generate/tasks/generate-wordpress-stack-file.yml > Generate wordpress-stack--generated.yml file
       - '/home/{{ users.3.name }}/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/wordpress-stack--generated.yml'
     state: present
   register: my_stack_status
