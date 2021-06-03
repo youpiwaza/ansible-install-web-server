@@ -11,13 +11,13 @@
 - name: Local / Debug / Generate './generated/core/reverse-proxy/traefik/traefik--generated.yml'
   template:
     dest: './generated/core/reverse-proxy/traefik/traefik--generated.yml'
-    src: templates/traefik.j2
+    src: templates/traefik.yml.j2
   delegate_to: 127.0.0.1
 
 - name: Local / History / Generate './generated/core/reverse-proxy/traefik/traefik--generated-{{ currentDateTime }}.yml'
   template:
     dest: './generated/core/reverse-proxy/traefik/traefik--generated-{{ currentDateTime }}.yml'
-    src: templates/traefik.j2
+    src: templates/traefik.yml.j2
   delegate_to: 127.0.0.1
 
 - debug:
@@ -34,10 +34,10 @@
 - name: Generate '/home/{{ users.3.name }}/core/reverse-proxy/traefik/traefik--generated.yml'
   template:
     dest: '/home/{{ users.3.name }}/core/reverse-proxy/traefik/traefik--generated.yml'
-    src: templates/traefik.j2
+    src: templates/traefik.yml.j2
 
 - name: History / Generate '/home/{{ users.3.name }}/core/reverse-proxy/traefik/traefik--generated-{{ currentDateTime }}.yml'
   template:
     dest: '/home/{{ users.3.name }}/core/reverse-proxy/traefik/traefik--generated-{{ currentDateTime }}.yml'
-    src: templates/traefik.j2
+    src: templates/traefik.yml.j2
 ...
