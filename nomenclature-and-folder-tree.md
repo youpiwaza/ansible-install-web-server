@@ -29,10 +29,18 @@ Do not use underscores.
 - Everything concerning the core service will be set in "/home/the_docker_peon/core/TYPE-OF-SERVICE/SERVICE/".
 - Basic configuration examples (~nginx) will be set in "/home/the_docker_peon/config/TYPE-OF-SERVICE/SERVICE/" in addition to ansible repo.
   - This will allow the execution of generic tests
-  - Naming convention: CONCERNED-IMAGE---DESCRIPTION---ORIGINAL_FILENAME
-    - Ex: tutum---customUser-p8080-php---nginx.conf
-- Services templates (ex: traefik.yml) will not be stored on the host, but in the ansible repository.
-  - ex: ansible/roles/core-reverse-proxy-traefik-generate/templates/traefik.j2
+  - Naming convention: TYPE---THE-SUB--THE-DOMAIN--EXT---STACK-TYPE--DESC
+    - Ex: test---test-wordpress--masamune--fr---wordpress--files
+- All services & stack will be generated locally and uploaded to the server, with an extra timed version for modification history.
+  - Example of files concerned for traefik
+    - Sources files will be .j2 templates:    `ansible/roles/core-reverse-proxy-traefik--generate/templates/traefik.j2`
+      - It's recommanded to manually make an history, or at least comment :)
+    - Local / Generated file:                 `ansible/generated/core/reverse-proxy/traefik/traefik--generated.yml`
+    - Local / History / Generated file:       `ansible/generated/core/reverse-proxy/traefik/traefik--generated-2021-06-03--11h48m36s.yml`
+    - Server / Generated file:                `/home/DOCKER_PEON/core/reverse-proxy/traefik/traefik--generated.yml`
+      - ^ This is the one actually **deployed**
+      - ^ This allow to update the running stacks through the same files (consecutive deploys), and always know which one is running
+    - Server / History / Generated file:      `/home/DOCKER_PEON/core/reverse-proxy/traefik/traefik--generated-{{ currentDateTime }}.yml`
 
 ### Clients
 
@@ -68,10 +76,12 @@ Do not use underscores.
     - /clients
       - /spongebob
         - /spongebob--com                     # spongebob.com
-          - wordpress-stack--generated.yml
+          - client---spongebob--com---wordpress--generated.yml
+          - client---spongebob--com---wordpress--generated-2021-06-03--11h48m36s.yml
           - agenda.yml                        # Sub folder dedicated container > spongebob.com/agenda/
         - /sub--spongebob--com                # sub.spongebob.com
-          - main.yml
+          - client---sub--spongebob--com---wordpress--generated.yml
+          - client---sub--spongebob--com---wordpress--generated-2021-06-03--11h48m36s.yml
         - ~~/mini-website-preview~~           # Always use Uri notation, reflecting https access ; if not applicable go local
           - main.yml
     - /config
@@ -82,17 +92,18 @@ Do not use underscores.
     - /core
       - /reverse-proxy
         - /traefik
-          - traefik.yml
+          - traefik--generated.yml
+          - traefik--generated-2021-06-03--11h48m36s.yml
 
 ## Naming conventions
 
 ### Networks
 
-TYPE---SUBDOMAIN--CLIENT-URI--EXT[---DESCRIPTION]
+TYPE---THE-SUBDOMAIN--THE-DOMAIN--EXT[---DESCRIPTION]
 
 Examples:
 
-- core---traefik-public
+- core---traefik-public--access-internet
 - client---dev--spongebob--com
 - client---spongebob--com
 - client---sub--spongebob-other-website--com
@@ -132,11 +143,11 @@ Clients project will be splitted in 3:
 
 #### Named volumes
 
-TYPE---SUB--CLIENT-URI--EXT---TECHNO-DESCRIPTION
+TYPE---THE-SUBDOMAIN--THE-DOMAIN--EXT---TECHNO-DESCRIPTION
 
 Examples:
 
-- core---traefik-logs
+- core---traefik--logs
 - client---dev--spongebob--com---wordpress-database
 - client---spongebob--com---wordpress-files
 - client---sub--spongebob-other-website--com---wordpress-database
