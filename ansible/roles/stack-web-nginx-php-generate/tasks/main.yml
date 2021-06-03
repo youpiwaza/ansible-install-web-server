@@ -1,0 +1,20 @@
+---
+### Generate nginx + php stack file & upload them
+## the_builder_guy
+
+# Install tests services files in the_docker_peon /home folder
+- name: 'Install tests services files / Create directory /home/{{ users.3.name }}/tests/'
+  file:
+    path: '/home/{{ users.3.name }}/tests/'
+    state: directory
+
+- name: 'Create tests/ directory for hello world containers : /home/{{ users.3.name }}/tests/helloworld/hello-php--masamune--fr/'
+  file:
+    path: '/home/{{ users.3.name }}/tests/helloworld/hello-php--masamune--fr/'
+    state: directory
+
+- name: Generate nginx hello world (with php) .yml file from template
+  template:
+    dest: '/home/{{ users.3.name }}/tests/helloworld/hello-php--masamune--fr/hello-php--masamune--fr---tutum-hello---generated.yml'
+    src: templates/hello-php.j2
+...

@@ -1,5 +1,5 @@
 ---
-### Install tests services files
+### Generate nginx stack file & upload them
 ## the_builder_guy
 
 # Install tests services files in the_docker_peon /home folder
@@ -8,6 +8,13 @@
     path: '/home/{{ users.3.name }}/tests/'
     state: directory
 
-- name: Install tutum/helloworld tests files
-  include: tutum.yml
+- name: 'Create tests/ directory for hello world containers : /home/{{ users.3.name }}/tests/helloworld/hello--masamune--fr/'
+  file:
+    path: '/home/{{ users.3.name }}/tests/helloworld/hello--masamune--fr/'
+    state: directory
+
+- name: Generate nginx hello world .yml file from template
+  template:
+    dest: '/home/{{ users.3.name }}/tests/helloworld/hello--masamune--fr/hello--masamune--fr---tutum-hello---generated.yml'
+    src: templates/hello.j2
 ...
