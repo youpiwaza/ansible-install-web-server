@@ -1,44 +1,15 @@
 ---
-### Install generic config files for nginx
-## the_builder_guy ./generated/TYPE/CLIENT/DASHED_DOMAIN/DASHED_DOMAIN--generated
-
-- name: Local / Debug / Create directory './generated/TYPE/CLIENT/DASHED_DOMAIN/'
-  file:
-    path: './generated/configs/masamune/hello--masamune--fr/'
-    state: directory
+### Generate & upload generic config files for nginx
+## the_builder_guy
+- name: Local / Web / Nginx / Generate config
   delegate_to: 127.0.0.1
+  include: generate-config.yml
+  vars:
+    root_folder: './generated'
 
-- name: Local / Debug / Generate './generated/TYPE/CLIENT/DASHED_DOMAIN/DASHED_DOMAIN---STACK--generated.conf'
-  template:
-    dest: './generated/configs/masamune/hello--masamune--fr/hello--masamune--fr---nginx--generated.conf'
-    src: templates/nginx.conf.j2
-  delegate_to: 127.0.0.1
-
-- name: Local / History / Generate './generated/TYPE/CLIENT/DASHED_DOMAIN/DASHED_DOMAIN---STACK--generated-{{ currentDateTime }}.yml'
-  template:
-    dest: './generated/configs/masamune/hello--masamune--fr/hello--masamune--fr---nginx--generated-{{ currentDateTime }}.yml'
-    src: templates/nginx.conf.j2
-  delegate_to: 127.0.0.1
-
-- debug:
-    msg: "\n\nA stack file './generated/configs/masamune/hello--masamune--fr/hello--masamune--fr---nginx--generated.conf' have been generated in the /generated/ folder of this project, if you wanna make sure everything is fine :)\n"
-
-
-
-# Upload/Update config file in the_docker_peon /home folder
-#   cf. https://github.com/youpiwaza/server-related-tutorials/blob/master/01-docker/04-my-tests/09-traefik-curated/11-prod-hello-curated/08-hello-stack-curated-comments/curated-p8080-customUser-phpfpm--nginx.conf
-- name: Create directory '/home/{{ users.3.name }}/TYPE/CLIENT/DASHED_DOMAIN/'
-  file:
-    path: '/home/{{ users.3.name }}/configs/masamune/hello--masamune--fr/'
-    state: directory
-
-- name: Generate '/home/{{ users.3.name }}/configs/masamune/hello--masamune--fr/hello--masamune--fr---nginx--generated.conf'
-  template:
-    dest: '/home/{{ users.3.name }}/configs/masamune/hello--masamune--fr/hello--masamune--fr---nginx--generated.conf'
-    src: templates/nginx.conf.j2
-
-- name: History / Generate '/home/{{ users.3.name }}/configs/masamune/hello--masamune--fr/hello--masamune--fr---nginx--generated-{{ currentDateTime }}.conf'
-  template:
-    dest: '/home/{{ users.3.name }}/configs/masamune/hello--masamune--fr/hello--masamune--fr---nginx--generated-{{ currentDateTime }}.conf'
-    src: templates/nginx.conf.j2
+### Upload/Update config file in the_docker_peon /home folder
+- name: Server / Web / Nginx / Upload/Update config
+  include: generate-config.yml
+  vars:
+    root_folder: '/home/{{ users.3.name }}'
 ...

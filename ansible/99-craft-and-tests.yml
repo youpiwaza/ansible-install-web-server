@@ -4,10 +4,7 @@
 # > ansible-playbook -i hostsWithCustomSSHPort 99-craft-and-tests.yml
 
 # ---
-# Currently working on: ansible-install-web-server\ansible\4-setup-core-services.yml
-
-# OK / Faire tourner en local > vérifier nouveau traefik.yml ok
-# OK / Générer avec timestamp
+# Currently working on: testing shit
 
 # ---
 
@@ -16,8 +13,7 @@
 
 # ---
 
-### builder_guy
-- name: '{{ users.0.name }} / Install reverse proxy traefik files'
+- name: '{{ users.0.name }} / Test / Web / Nginx / Generate or update config files and upload them'
   become: yes
   hosts: likorneWithCustomSSHPort
   # the_builder_guy / cf. /ansible/roles/users/vars/main.yml
@@ -31,5 +27,5 @@
   - roles/users/vars/main.yml
 
   roles:
-    - core-reverse-proxy-traefik--generate
+    - stack-web-nginx--config
 ...
