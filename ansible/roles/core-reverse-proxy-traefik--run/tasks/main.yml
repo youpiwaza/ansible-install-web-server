@@ -137,7 +137,7 @@
 # docker-compose -f /home/{{ users.3.name }}/core/reverse-proxy/traefik/traefik--generated.yml up -d
 
 # File placement hard-coded in ansible/roles/core-reverse-proxy-traefik--generate/tasks/main.yml
-- name: Start/Update Traefik through docker compose
+- name: Start or update Traefik through docker compose
   docker_compose:
     files:
       traefik--generated.yml
