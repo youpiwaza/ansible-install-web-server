@@ -10,9 +10,9 @@
     dest: '{{ root_folder }}/configs/masamune/hello--masamune--fr/hello--masamune--fr---nginx--generated.conf'
     src: templates/nginx.conf.j2
 
-- name: History / Generate '{{ root_folder }}/TYPE/CLIENT/DASHED_DOMAIN/DASHED_DOMAIN---STACK--generated-{{ currentDateTime }}.yml'
+- name: History / Generate '{{ root_folder }}/TYPE/CLIENT/DASHED_DOMAIN/DASHED_DOMAIN---STACK--generated-{{ currentDateTime }}.conf'
   template:
-    dest: '{{ root_folder }}/configs/masamune/hello--masamune--fr/hello--masamune--fr---nginx--generated-{{ currentDateTime }}.yml'
+    dest: '{{ root_folder }}/configs/masamune/hello--masamune--fr/hello--masamune--fr---nginx--generated-{{ currentDateTime }}.conf'
     src: templates/nginx.conf.j2
 
 - debug:

@@ -5,9 +5,9 @@
     path: '{{ root_folder }}/core/reverse-proxy/traefik/'
     state: directory
 
-- name: Generate '{{ root_folder }}/core/reverse-proxy/traefik/traefik--generated.conf'
+- name: Generate '{{ root_folder }}/core/reverse-proxy/traefik/traefik--generated.yml'
   template:
-    dest: '{{ root_folder }}/core/reverse-proxy/traefik/traefik--generated.conf'
+    dest: '{{ root_folder }}/core/reverse-proxy/traefik/traefik--generated.yml'
     src: templates/traefik.yml.j2
 
 - name: History / Generate '{{ root_folder }}/core/reverse-proxy/traefik/traefik--generated-{{ currentDateTime }}.yml'
