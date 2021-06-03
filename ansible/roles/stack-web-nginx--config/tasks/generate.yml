@@ -1,16 +1,16 @@
 ---
 ## the_builder_guy
-- name: Create directory '{{ root_folder }}/TYPE/CLIENT/DASHED_DOMAIN/'
+- name: Create directory '{{ root_folder }}/configs/masamune/hello--masamune--fr/'
   file:
     path: '{{ root_folder }}/configs/masamune/hello--masamune--fr/'
     state: directory
 
-- name: Generate '{{ root_folder }}/TYPE/CLIENT/DASHED_DOMAIN/DASHED_DOMAIN---STACK--generated.conf'
+- name: Generate '{{ root_folder }}/configs/masamune/hello--masamune--fr/hello--masamune--fr---nginx--generated.conf'
   template:
     dest: '{{ root_folder }}/configs/masamune/hello--masamune--fr/hello--masamune--fr---nginx--generated.conf'
     src: templates/nginx.conf.j2
 
-- name: History / Generate '{{ root_folder }}/TYPE/CLIENT/DASHED_DOMAIN/DASHED_DOMAIN---STACK--generated-{{ currentDateTime }}.conf'
+- name: History / Generate '{{ root_folder }}/configs/masamune/hello--masamune--fr/hello--masamune--fr---nginx--generated-{{ currentDateTime }}.conf'
   template:
     dest: '{{ root_folder }}/configs/masamune/hello--masamune--fr/hello--masamune--fr---nginx--generated-{{ currentDateTime }}.conf'
     src: templates/nginx.conf.j2

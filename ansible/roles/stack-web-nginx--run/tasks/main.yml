@@ -72,11 +72,11 @@
 # docker stack deploy -c ~/wtv/hello.yml test---hello--masamune--fr---tutum-hello
 
 # File placement hard-coded in ansible/roles/stack-web-nginx--generate/tasks/tutum.yml
-- name: "Deploy '/home/{{ users.3.name }}/tests/helloworld/hello--masamune--fr/hello--masamune--fr---tutum-hello---generated.yml' stack from a compose file"
+- name: "Deploy '/home/{{ users.3.name }}/tests/masamune/hello--masamune--fr/hello--masamune--fr---nginx--generated.yml' stack from a compose file"
   docker_stack:
     name: test---hello--masamune--fr---tutum-hello
     compose:
-      - '/home/{{ users.3.name }}/tests/helloworld/hello--masamune--fr/hello--masamune--fr---tutum-hello---generated.yml'
+      - '/home/{{ users.3.name }}/tests/masamune/hello--masamune--fr/hello--masamune--fr---nginx--generated.yml'
     state: present
 
 ## Remove stack
