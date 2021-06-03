@@ -1,0 +1,129 @@
+---
+### WordPress project setup: Create volumes & start containers
+## docker_guy
+# File management in /home/the_docker_peon restricted folder done by the_builder_guy, cf. ansible/roles/stack-web-wordpress--generate
+
+## This role is meant to be run AFTER the 'stack-web-wordpress--generate' role, and will use the variables injected from a wp variables dedicated file
+##    ex. ansible/roles/stack-web-wordpress--generate/vars/TYPE/CLIENT/DASHED-DOMAIN/main.yml
+## cf. 20-forge-a-wordpress-stack.yml && ansible/roles/stack-web-wordpress--generate
+
+
+
+- debug:
+    msg: 'Make sure to have the right public uri for traefik to match to DNS : traefik.public_uri : {{ traefik.public_uri }}'
+
+
+
+### Volumes management
+
+## Bitnamis' database (mariadb)
+# docker volume create \
+#    --label fr.masamune.test-wordpress.client='masamune' \
+#    --label fr.masamune.test-wordpress.maintainer='masamune.code@gmail.com' \
+#    --label fr.masamune.test-wordpress.project='test service wordpress / mariadb' \
+#    --label fr.masamune.test-wordpress.type='test' \
+#    test---test-wordpress--masamune--fr---wordpress--database \
+
+# Use set_fact to create a dictionnary with dynamic keys
+#   cf. https://stackoverflow.com/a/44570290/12026487
+#   Also NEEDs trailing comma "," to force dictionnary type, else it's considered as a string
+- name: Generate WordPress database labels dictionnary (dynamic keys needs special syntax in ansible)
+  set_fact:
+    wp_db_labels_dict:
+      "{
+        '{{ project.labels_prefix }}.client': '{{ project.client_name }}'
+        ,'{{ project.labels_prefix }}.maintainer': '{{ project.maintainer }}'
+        ,'{{ project.labels_prefix }}.project':'{{ project.name }} / mariadb'
+        ,'{{ project.labels_prefix }}.type':'{{ project.type }}'
+      }"
+
+# - debug:
+#     msg: '{{ wp_db_labels_dict }}'
+
+- name: "Create a named volume for WordPress database '{{ project.type }}---{{ project.dashed_domain }}---wordpress--database'"
+  docker_volume:
+    labels: '{{ wp_db_labels_dict }}'
+    name: '{{ project.type }}---{{ project.dashed_domain }}---wordpress--database'
+
+
+## Bitnamis' WordPress files
+# docker volume create \
+#    --label fr.masamune.test-wordpress.client='masamune' \
+#    --label fr.masamune.test-wordpress.maintainer='masamune.code@gmail.com' \
+#    --label fr.masamune.test-wordpress.project='test service wordpress / wordpress' \
+#    --label fr.masamune.test-wordpress.type='test' \
+#    test---test-wordpress--masamune--fr---wordpress--files
+
+- name: Generate WordPress files labels dictionnary (dynamic keys needs special syntax in ansible)
+  set_fact:
+    wp_files_labels_dict:
+      "{
+        '{{ project.labels_prefix }}.client': '{{ project.client_name }}'
+        ,'{{ project.labels_prefix }}.maintainer': '{{ project.maintainer }}'
+        ,'{{ project.labels_prefix }}.project':'{{ project.name }} / wordpress files'
+        ,'{{ project.labels_prefix }}.type':'{{ project.type }}'
+      }"
+
+# - debug:
+#     msg: '{{ wp_files_labels_dict }}'
+
+- name: "Create a named volume for WordPress files '{{ project.type }}---{{ project.dashed_domain }}---wordpress--files'"
+  docker_volume:
+    labels: '{{ wp_files_labels_dict }}'
+    name: '{{ project.type }}---{{ project.dashed_domain }}---wordpress--files'
+
+
+# ---
+
+
+- name: "Deploy '{{ project.type }}---{{ project.dashed_domain }}' stack from a compose file"
+  docker_stack:
+    name: '{{ project.type }}---{{ project.dashed_domain }}'
+    compose:
+      # cf. ansible/roles/stack-web-wordpress--generate/tasks/generate-wordpress-stack-file.yml > Generate wordpress-stack--generated.yml file
+      - '/home/{{ users.3.name }}/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/wordpress-stack--generated.yml'
+    state: present
+  register: my_stack_status
+
+# # - debug:
+# #     msg: '{{ my_stack_status }}'
+
+- name: 'Warning: WordPress setup delay'
+  debug:
+    msg: "\n\nBe patient =)
+          \n\nBitnami's WordPress take roughly 1 minute to start, especially on first try since it must create database.
+          \n\nIt can go up up to 2-3 minutes if it downloads the containers' images.
+          \n\nNote: If MariaDB fails to initialize, make sure there isn't an existing named volume (with previous IDs..) !"
+
+
+
+# ### TODO: Wait for / Test website deployment
+
+# ## Gather stack infos
+# #   https://stackoverflow.com/a/41805678/12026487
+# # Example to get ip from a container
+# #   - name: get mariadb IP address
+# #     command: "docker inspect --format '{''{ .NetworkSettings.IPAddress }''}' mariadb-container"
+# #     register: mariadb_ip_address
+
+## TODO: Clean example with proper dashed domain
+# docker stack services test---test-wordpress--masamune--fr
+# # ID                  NAME                                         MODE                REPLICAS            IMAGE                  PORTS
+# # xj9ta5jw5xbq        test---test-wordpress--masamune--fr_mariadb     replicated          1/1                 bitnami/mariadb:10.3
+# # yf93mxk8rbff        test---test-wordpress--masamune--fr_wordpress   replicated          2/2                 bitnami/wordpress:5    *:30002->8080/tcp, *:30003->8443/tcp
+
+# docker stack services --format '{''{ .Name }''}' test---test-wordpress--masamune--fr
+# # test---test-wordpress--masamune--fr_mariadb
+# # test---test-wordpress--masamune--fr_wordpress
+
+# docker service inspect test---test-wordpress--masamune--fr_wordpress
+# # Lots of stuff
+
+# # # Wait for the service to start before testing
+# # #   https://medium.com/planetarynetworks/ansible-wait-for-with-docker-container-31d3944da953
+# # #   https://docs.ansible.com/ansible/latest/modules/wait_for_module.html
+
+# # - name: Wait for service to publish on port 8443 ?
+# #   wait_for:
+# #     port: 8443
+...

@@ -1,0 +1,84 @@
+---
+### Nginx stack with php: setup networks & volumes, then deploy
+## docker_guy
+# Basic test of web server displaying a hellow world page on dedicated URI (test stack & reverse proxy uri management)
+# Can be used as a concrete example (boilerplate)
+
+# Test uri : (https://hello.masamune.fr/)
+
+
+
+# File management in /home/the_docker_peon restricted folder done by the_builder_guy, cf. ansible/roles/stack-web-nginx--generate
+
+# Configuration details, debug, etc. here:
+#   https://github.com/youpiwaza/server-related-tutorials/tree/master/01-docker/04-my-tests/09-traefik-curated/11-prod-hello-curated/08-hello-stack-curated-comments
+#   Also contains commands for volume verifications ;)
+
+
+
+### Volumes management
+## Logs
+
+# docker volume create test---hello-php--masamune--fr---tutum-hello-php-logs \
+#    --label fr.masamune.client='masamune' \
+#    --label fr.masamune.maintainer='masamune.code@gmail.com' \
+#    --label fr.masamune.project='tutum/helloworld logs' \
+#    --label fr.masamune.type='test'
+
+- name: "Create a named volume for hello-php logs 'test---hello-php--masamune--fr---tutum-hello-php-logs'"
+  docker_volume:
+    labels:
+      fr.masamune.client: 'masamune'
+      fr.masamune.maintainer: 'masamune.code@gmail.com'
+      fr.masamune.project: 'test / tutum / hello-php / logs'
+      fr.masamune.type: 'test'
+    name: test---hello-php--masamune--fr---tutum-hello-php-logs
+
+
+# Go inside the volume through temp alpine container, for rights configuration
+# not using --user, so we're having root access inside the container
+
+# nginx/ folder MUST be 1003:1003 owned too, not only files inside
+# docker run \
+#    --mount \
+#       source=test---hello-php--masamune--fr---tutum-hello-php-logs,target=/home \
+#    --rm \
+#    --workdir /home \
+#    alpine \
+#    /bin/ash -c '                           \
+#     touch php-fpm.log                   && \
+#     chown 1003:1003 php-fpm.log         && \
+#     mkdir nginx                         && \
+#     touch ./nginx/access.log            && \
+#     touch ./nginx/error.log             && \
+#     chown -R 1003:1003 nginx'
+
+- name: "Edit 'test---hello-php--masamune--fr---tutum-hello-php-logs' volume content : create files & docker_peon chown 1003:1003"
+  docker_container:
+    auto_remove: yes
+    command: "/bin/ash -c 'touch php-fpm.log && chown 1003:1003 php-fpm.log && mkdir nginx && touch ./nginx/access.log && touch ./nginx/error.log && chown -R 1003:1003 nginx'"
+    image: alpine
+    interactive: yes
+    mounts:
+      - source: test---hello-php--masamune--fr---tutum-hello-php-logs
+        target: /home
+    name: temp---edit-volume
+    working_dir: /home
+
+
+## Start test---hello-php--masamune--fr---tutum-hello-php stack
+# docker stack deploy -c ~/wtv/hello-php.yml test---hello-php--masamune--fr---tutum-hello-php
+
+# File placement hard-coded in ansible/roles/stack-web-nginx--generate/tasks/tutum.yml
+- name: "Deploy '/home/{{ users.3.name }}/tests/helloworld/hello-php--masamune--fr/hello-php--masamune--fr---tutum-hello---generated.yml' stack from a compose file"
+  docker_stack:
+    name: test---hello-php--masamune--fr---tutum-hello-php
+    compose:
+      - '/home/{{ users.3.name }}/tests/helloworld/hello-php--masamune--fr/hello-php--masamune--fr---tutum-hello---generated.yml'
+    state: present
+
+## Remove stack
+# docker stack rm test---hello-php--masamune--fr---tutum-hello-php
+# TODO: test stack
+# TODO: remove stack
+...

@@ -1,5 +1,6 @@
 ---
 # Use through README.md recommandations
+# > ansible-playbook -i hostsWithCustomSSHPort 4-setup-core-services.yml
 
 ### Docker required services setup
 # Traefik             / Reverse proxy
@@ -48,7 +49,7 @@
   - roles/users/vars/main.yml
 
   roles:
-    - core-reverse-proxy-traefik-generate
+    - core-reverse-proxy-traefik--generate
 
 ### docker_guy
 - name: '{{ users.2.name }} / Core / Reverse proxy / Traefik / Start or update service'
@@ -64,5 +65,5 @@
   - roles/users/vars/main.yml
 
   roles:
-    - core-reverse-proxy-traefik-run
+    - core-reverse-proxy-traefik--run
 ...

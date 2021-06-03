@@ -1,0 +1,22 @@
+---
+### WordPress project generation: Variables + var files + .yml file
+## This role contains default vars, that can (and SHOULD) be overriden in playbook.
+## cf. ansible/20-forge-a-wordpress-stack.yml use case, that uses random string generation
+
+- name: Custom website variables warning
+  debug:
+    msg: "\n\nBEFORE RUNNING THIS ROLE !
+          \n\nDuplicate 'ansible/roles/stack-web-wordpress--generate/vars/template.yml' to a proper location, ex. 'ansible/roles/stack-web-wordpress--generate/vars/TYPE/CLIENT/DASHED-DOMAIN/main_secret.yml'
+          \n\nand modify/duplicate the '20-forge-a-wordpress-stack.yml' playbook accordingly.\n\n"
+
+- name: 'Read the warning message ^'
+  wait_for:
+    timeout: 5
+
+- name: Generate ids README.md file locally
+  delegate_to: 127.0.0.1
+  include: generate-ids-readme.yml
+
+- name: Generate wordpress-stack--generated.yml file
+  include: generate-wordpress-stack-file.yml
+...

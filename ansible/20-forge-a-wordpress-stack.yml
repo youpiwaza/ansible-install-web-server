@@ -1,5 +1,7 @@
 ---
 ### Setup a WordPress stack
+# Set variables in dedicated files & use:
+# > ansible-playbook -i hostsWithCustomSSHPort 20-forge-a-wordpress-stack.yml
 
 # Based on bitnami's WordPress & MariaDB images
 #   https://hub.docker.com/r/bitnami/wordpress/
@@ -8,8 +10,6 @@
 # You'll need the_builder_guy to have it's ssh key added to the local agent, cf. the_builder_guy generated documentation
 # You'll need the_docker_guy  to have it's ssh key added to the local agent, cf. the_docker_guy  generated documentation
 
-# Set variables in dedicated files & use:
-# > ansible-playbook -i hostsWithCustomSSHPort 20-forge-a-wordpress-stack.yml
 
 - name: Generate a WordPress stack
   become: yes
@@ -21,16 +21,16 @@
   - roles/users/defaults/main.yml
   - vars/main.yml
   - roles/users/vars/main.yml
-  # Duplicate ansible/roles/stack-web-wordpress-generate/vars/template.yml to a proper location ( ansible/roles/stack-web-wordpress-generate/vars/ clients/ or tests/ )
+  # Duplicate ansible/roles/stack-web-wordpress--generate/vars/template.yml to a proper location ( ansible/roles/stack-web-wordpress--generate/vars/ clients/ or tests/ )
   #   and change variables to suit your needs
-  #   You can check an example of the generated .yml file at ansible-install-web-server/ansible/roles/stack-web-wordpress-generate/templates/original-wordpress-stack.yml
+  #   You can check an example of the generated .yml file at ansible-install-web-server/ansible/roles/stack-web-wordpress--generate/templates/original-wordpress-stack.yml
   #     .. or buy running this role with the defaults :)
-  # /!\ Variable file name needs to be changed below as well in this file (docker_guy > stack-web-wordpress-run), around line ~58
-  - roles/stack-web-wordpress-generate/vars/tests/masamune/test-wordpress--masamune--fr/main.yml
-  # - roles/stack-web-wordpress-generate/vars/tests/masamune/test-wordpress--masamune--fr/main_secret.yml
+  # /!\ Variable file name needs to be changed below as well in this file (docker_guy > stack-web-wordpress--run), around line ~58
+  - roles/stack-web-wordpress--generate/vars/tests/masamune/test-wordpress--masamune--fr/main.yml
+  # - roles/stack-web-wordpress--generate/vars/tests/masamune/test-wordpress--masamune--fr/main_secret.yml
 
   roles:
-    - stack-web-wordpress-generate
+    - stack-web-wordpress--generate
 
 
 # ---
@@ -55,9 +55,9 @@
   - vars/main.yml
   - roles/users/vars/main.yml
   # /!\ Change here too
-  - roles/stack-web-wordpress-generate/vars/tests/masamune/test-wordpress--masamune--fr/main.yml
-  # - roles/stack-web-wordpress-generate/vars/tests/masamune/test-wordpress--masamune--fr/main_secret.yml
+  - roles/stack-web-wordpress--generate/vars/tests/masamune/test-wordpress--masamune--fr/main.yml
+  # - roles/stack-web-wordpress--generate/vars/tests/masamune/test-wordpress--masamune--fr/main_secret.yml
 
   roles:
-    - stack-web-wordpress-run
+    - stack-web-wordpress--run
 ...

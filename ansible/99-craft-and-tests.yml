@@ -31,5 +31,5 @@
   - roles/users/vars/main.yml
 
   roles:
-    - core-reverse-proxy-traefik-generate
+    - core-reverse-proxy-traefik--generate
 ...

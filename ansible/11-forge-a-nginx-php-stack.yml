@@ -1,12 +1,12 @@
 ---
 ### Setup a Nginx web server also using PHP, displaying a 'hello world' page on a specific URI
+# > ansible-playbook -i hostsWithCustomSSHPort 11-forge-a-nginx-php-stack.yml
+
 # Example & boilerplate to start a container with security & reverse proxy
 
 ### Docker required services setup
 # Traefik / Reverse proxy
 
-# Example command
-# > ansible-playbook -i hostsWithCustomSSHPort 11-forge-a-nginx-php-stack.yml
 
 # You'll need the_builder_guy to have it's ssh key added to the local agent, cf. the_builder_guy generated documentation
 # You'll need the_docker_guy  to have it's ssh key added to the local agent, cf. the_docker_guy  generated documentation
@@ -26,7 +26,7 @@
   - roles/users/vars/main.yml
 
   roles:
-    - stack-web-nginx-php-config
+    - stack-web-nginx-php--config
 
 
 ### builder_guy
@@ -44,7 +44,7 @@
   - roles/users/vars/main.yml
 
   roles:
-    - stack-web-nginx-php-generate
+    - stack-web-nginx-php--generate
 
 ### docker_guy
 - name: '{{ users.2.name }} / Test / Nginx php / Stack / Start or update service'
@@ -60,5 +60,5 @@
   - roles/users/vars/main.yml
 
   roles:
-    - stack-web-nginx-php-run
+    - stack-web-nginx-php--run
 ...

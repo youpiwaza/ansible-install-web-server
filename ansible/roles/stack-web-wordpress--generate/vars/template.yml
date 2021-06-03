@@ -1,0 +1,50 @@
+---
+### WordPress var file template
+## Duplicate this file to a proper location, ex. ansible/roles/stack-web-wordpress--generate/vars/TYPE/CLIENT/DASHED-DOMAIN/main.yml
+## And use it with the role 20-forge-a-wordpress-stack.yml
+
+# Generate random strings with lookup, cf. https://github.com/youpiwaza/server-related-tutorials/tree/master/02-ansible/14-password-generation
+#   /!\ Do not touch "{{ lookup stuff, it will be generated and store (in case of update) automatically
+
+database:
+  # https://hub.docker.com/r/bitnami/mariadb/tags?page=1&ordering=last_updated
+  image: 'bitnami/mariadb:10.5.10'
+
+  MARIADB_DATABASE: "{{ lookup('password', './generated/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/vars-files/MARIADB_DATABASE-generated.txt length=32 chars=ascii_letters,digits') }}"
+  MARIADB_PASSWORD: "{{ lookup('password', './generated/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/vars-files/MARIADB_PASSWORD-generated.txt length=32 chars=ascii_letters,digits') }}"
+  MARIADB_USER: "{{ lookup('password', './generated/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/vars-files/MARIADB_USER-generated.txt length=32 chars=ascii_letters,digits') }}"
+  MARIADB_ROOT_PASSWORD: "{{ lookup('password', './generated/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/vars-files/MARIADB_ROOT_PASSWORD-generated.txt length=32 chars=ascii_letters,digits') }}"
+  MARIADB_ROOT_USER: "{{ lookup('password', './generated/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/vars-files/MARIADB_ROOT_USER-generated.txt length=32 chars=ascii_letters,digits') }}"
+
+project:
+  client_name: 'masamune'
+  dashed_domain: 'test-wordpress--masamune--fr'
+  # Docker recommanded notation: extension.site.subdomain.SOME-LABEL
+  #   https://docs.docker.com/config/labels-custom-metadata/#key-format-recommendations
+  labels_prefix: 'fr.masamune.test-wordpress'
+  maintainer: 'masamune.code@gmail.com'
+  name: 'test wordpress'
+  type: 'test'
+
+traefik:
+  # Ensure DNS are set accordingly to point towards host IP
+  # This will point towards 'https://test-wordpress.masamune.fr/'
+  public_uri: 'test-wordpress.masamune.fr'
+  # For router & middleware names generation
+  # subDomain__domain__ext___stacktype
+  uid: 'testWordpress__masamune__fr___wordpress'
+
+wordpress:
+  # https://hub.docker.com/r/bitnami/wordpress/tags?page=1&ordering=last_updated
+  image: 'bitnami/wordpress:5.7.2'
+
+  WORDPRESS_TABLE_PREFIX: "{{ lookup('password', './generated/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/vars-files/WORDPRESS_TABLE_PREFIX-generated.txt length=16 chars=ascii_letters,digits') }}"
+  WORDPRESS_BLOG_NAME: "Sponge Bob's blog"
+  WORDPRESS_EMAIL: 'masamune.code@gmail.com'
+  WORDPRESS_FIRST_NAME: 'Bob'
+  WORDPRESS_LAST_NAME: 'Sponge'
+  # 50 chars length / NO SPECIAL CHARS, tends to not match when container is up
+  WORDPRESS_USERNAME: "{{ lookup('password', './generated/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/vars-files/WORDPRESS_USERNAME-generated.txt length=50 chars=ascii_letters,digits') }}"
+  # 50 chars length / Wordpress recommandations : ! ? % ^ & ) / No no $ ' :"
+  WORDPRESS_PASSWORD: "{{ lookup('password', './generated/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/vars-files/WORDPRESS_PASSWORD-generated.txt length=50 chars=ascii_letters,digits,!,?,%,^,&,)') }}"
+...
