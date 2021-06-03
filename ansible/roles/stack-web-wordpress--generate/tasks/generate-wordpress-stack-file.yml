@@ -1,6 +1,8 @@
 ---
 ### Generate wordpress-stack.yml file
 
+# local directory ?
+
 - name: Local / Debug / Generate wordpress-stack--generated.yml file
   template:
     dest: './generated/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/{{ project.dashed_domain }}--wordpress-stack--generated.yml'
