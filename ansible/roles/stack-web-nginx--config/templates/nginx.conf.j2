@@ -1,4 +1,4 @@
-# Custom nginx.conf file for custom user and publication on port 8080
+# Custom nginx.conf file for both custom user and tutum phpfpm
 
 #   Using the nginx dockerhub image recommandations, overloading the nginx.conf file to have /tmp/ files in /tmp, instead of /var/lib/tmp/
 #     https://hub.docker.com/_/nginx > Running nginx as a non-root user
@@ -16,6 +16,8 @@ error_log  /var/log/nginx/error.log warn;
 pid        /tmp/nginx.pid;
 
 events {
+    # https://blog.monitis.com/blog/6-best-practices-for-optimizing-your-nginx-performance/
+    # worker_connections  127;
     worker_connections  1024;
 }
 
@@ -46,28 +48,26 @@ http {
 
     include /etc/nginx/conf.d/*.conf;
 
-    # nginx /etc/nginx/conf.d/default.conf
+    # Tutum php stuff
     server {
         # Publish on (container's internal) port 8080, to avoid using priviledged ports (< 1024)
         # listen       80;
         listen       8080;
         server_name  localhost;
-
-        #charset koi8-r;
-        #access_log  /var/log/nginx/host.access.log  main;
-
+        
+        root /www;
+        index index.php index.html index.htm;
+        
         location / {
-            root   /usr/share/nginx/html;
-            index  index.html index.htm;
+            try_files $uri $uri/ /index.php;
         }
 
-        #error_page  404              /404.html;
-
-        # redirect server error pages to the static page /50x.html
-        #
-        error_page   500 502 503 504  /50x.html;
-        location = /50x.html {
-            root   /usr/share/nginx/html;
+        location ~ \.php$ {
+            fastcgi_pass   127.0.0.1:9000;
+            fastcgi_index  index.php;
+            include         fastcgi_params;
+            fastcgi_param   SCRIPT_FILENAME    $document_root$fastcgi_script_name;
+            fastcgi_param   SCRIPT_NAME        $fastcgi_script_name;
         }
     }
 }
