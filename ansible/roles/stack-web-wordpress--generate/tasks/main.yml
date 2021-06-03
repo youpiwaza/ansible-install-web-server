@@ -13,10 +13,21 @@
   wait_for:
     timeout: 5
 
-- name: Generate ids README.md file locally
+- name: Local / Test / Web / Wordpress / Generate ids in a local README.md file
   delegate_to: 127.0.0.1
   include: generate-ids-readme.yml
 
-- name: Generate wordpress-stack--generated.yml file
+### Generate & upload web server wordpress files
+## the_builder_guy
+- name: Local / Test / Web / Wordpress / Generate files
+  delegate_to: 127.0.0.1
   include: generate-wordpress-stack-file.yml
+  vars:
+    root_folder: './generated'
+
+### Upload or update stack files in the_docker_peon /home folder
+- name: Server / Test / Web / Wordpress / Upload or update stack
+  include: generate-wordpress-stack-file.yml
+  vars:
+    root_folder: '/home/{{ users.3.name }}'
 ...

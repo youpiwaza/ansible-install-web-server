@@ -1,7 +1,7 @@
 ---
 ### Locally generate README.md file containing wordpress infos
 # directory ?
-- name: Locally generate README.md file containing wordpress infos
+- name: Locally generate README.md file containing wordpress ids & infos
   template:
     dest: './generated/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/{{ project.dashed_domain }}--ids-README-generated.md'
     src: templates/README.md.j2

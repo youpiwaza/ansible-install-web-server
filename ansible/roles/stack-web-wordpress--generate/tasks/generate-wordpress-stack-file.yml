@@ -1,27 +1,21 @@
 ---
-### Generate wordpress-stack.yml file
-
-# local directory ?
-
-- name: Local / Debug / Generate wordpress-stack--generated.yml file
-  template:
-    dest: './generated/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/{{ project.dashed_domain }}--wordpress-stack--generated.yml'
-    src: templates/wordpress-stack.yml.j2
-  delegate_to: 127.0.0.1
-
-- debug:
-    msg: "\n\nA stack file '/generated/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/{{ project.dashed_domain }}--wordpress-stack--generated.yml' have been generated in the /generated/ folder of this project, if you wanna make sure everything is fine :)\n"
-
-- name: 'Create TYPE/CLIENT/DASHED-DOMAIN/ directory for wordpress : /home/{{ users.3.name }}/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/'
+## the_builder_guy
+- name: Create directory '{{ root_folder }}/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/'
   file:
-    path: '/home/{{ users.3.name }}/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/'
+    path: '{{ root_folder }}/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/'
     state: directory
 
-- name: Generate wordpress-stack--generated.yml file
+- name: Generate '{{ root_folder }}/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/{{ project.dashed_domain }}--wordpress--generated.yml'
   template:
-    dest: '/home/{{ users.3.name }}/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/wordpress-stack--generated.yml'
-    src: templates/wordpress-stack.yml.j2
+    dest: '{{ root_folder }}/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/{{ project.dashed_domain }}--wordpress--generated.yml'
+    src: templates/wordpress.yml.j2
+
+- name: History / Generate '{{ root_folder }}/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/{{ project.dashed_domain }}--wordpress--generated-{{ currentDateTime }}.yml'
+  template:
+    dest: '{{ root_folder }}/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/{{ project.dashed_domain }}--wordpress--generated-{{ currentDateTime }}.yml'
+    src: templates/wordpress.yml.j2
 
 - debug:
-    msg: "\n\nThe stack file '/home/{{ users.3.name }}/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/wordpress-stack--generated.yml' have been generated on the host :)\n"
+    msg: "\n\nA stack file '{{ root_folder }}/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/{{ project.dashed_domain }}--wordpress--generated.yml' have been generated in the {{ root_folder }} folder of this project, if you wanna make sure everything is fine :)\n"
+  when: root_folder == './generated'
 ...
