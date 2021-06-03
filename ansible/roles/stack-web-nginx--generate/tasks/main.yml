@@ -2,19 +2,42 @@
 ### Generate nginx stack file & upload them
 ## the_builder_guy
 
-# Install tests services files in the_docker_peon /home folder
-- name: 'Install tests services files / Create directory /home/{{ users.3.name }}/tests/'
+- name: Local / Debug / Create directory './generated/TYPE/CLIENT/DASHED_DOMAIN/'
   file:
-    path: '/home/{{ users.3.name }}/tests/'
+    path: './generated/tests/masamune/hello--masamune--fr/'
     state: directory
+  delegate_to: 127.0.0.1
 
-- name: 'Create tests/ directory for hello world containers : /home/{{ users.3.name }}/tests/helloworld/hello--masamune--fr/'
-  file:
-    path: '/home/{{ users.3.name }}/tests/helloworld/hello--masamune--fr/'
-    state: directory
-
-- name: Generate nginx hello world .yml file from template
+- name: Local / Debug / Generate './generated/TYPE/CLIENT/DASHED_DOMAIN/DASHED_DOMAIN---STACK---generated.yml'
   template:
-    dest: '/home/{{ users.3.name }}/tests/helloworld/hello--masamune--fr/hello--masamune--fr---tutum-hello---generated.yml'
-    src: templates/hello.j2
+    dest: './generated/tests/masamune/hello--masamune--fr/hello--masamune--fr---nginx--generated.yml'
+    src: templates/nginx.yml.j2
+  delegate_to: 127.0.0.1
+
+- name: Local / History / Generate './generated/TYPE/CLIENT/DASHED_DOMAIN/DASHED_DOMAIN---STACK---generated-{{ currentDateTime }}.yml'
+  template:
+    dest: './generated/tests/masamune/hello--masamune--fr/hello--masamune--fr---nginx--generated-{{ currentDateTime }}.yml'
+    src: templates/nginx.yml.j2
+  delegate_to: 127.0.0.1
+
+- debug:
+    msg: "\n\nA stack file './generated/tests/masamune/hello--masamune--fr/hello--masamune--fr---nginx--generated.yml' have been generated in the /generated/ folder of this project, if you wanna make sure everything is fine :)\n"
+
+
+
+# Upload/Update config file in the_docker_peon /home folder
+- name: Create directory '/home/{{ users.3.name }}/tests/masamune/hello--masamune--fr/'
+  file:
+    path: '/home/{{ users.3.name }}/tests/masamune/hello--masamune--fr/'
+    state: directory
+
+- name: Generate '/home/{{ users.3.name }}/tests/masamune/hello--masamune--fr/hello--masamune--fr---nginx--generated.yml'
+  template:
+    dest: '/home/{{ users.3.name }}/tests/masamune/hello--masamune--fr/hello--masamune--fr---nginx--generated.yml'
+    src: templates/nginx.yml.j2
+
+- name: History / Generate '/home/{{ users.3.name }}/tests/masamune/hello--masamune--fr/hello--masamune--fr---nginx--generated-{{ currentDateTime }}.yml'
+  template:
+    dest: '/home/{{ users.3.name }}/tests/masamune/hello--masamune--fr/hello--masamune--fr---nginx--generated-{{ currentDateTime }}.yml'
+    src: templates/nginx.yml.j2
 ...

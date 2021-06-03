@@ -149,8 +149,9 @@ services:
 
 configs:
   nginx_config:
-    # cf. ansible/roles/stack-web-nginx--config/tasks/nginx.yml
-    file: '/home/{{ users.3.name }}/configs/webserver/nginx/tutum--customUser-p8080-php--nginx.conf'
+    # cf. ansible/roles/stack-web-nginx--config/tasks/main.yml
+    file: '/home/{{ users.3.name }}/configs/masamune/hello--masamune--fr/hello--masamune--fr---nginx--generated.conf'
+    
 
 networks:
   core---traefik-public--access-internet:
