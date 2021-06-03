@@ -1,0 +1,21 @@
+---
+## the_builder_guy
+- name: Create directory '{{ root_folder }}/core/reverse-proxy/traefik/'
+  file:
+    path: '{{ root_folder }}/core/reverse-proxy/traefik/'
+    state: directory
+
+- name: Generate '{{ root_folder }}/core/reverse-proxy/traefik/traefik--generated.conf'
+  template:
+    dest: '{{ root_folder }}/core/reverse-proxy/traefik/traefik--generated.conf'
+    src: templates/traefik.yml.j2
+
+- name: History / Generate '{{ root_folder }}/core/reverse-proxy/traefik/traefik--generated-{{ currentDateTime }}.yml'
+  template:
+    dest: '{{ root_folder }}/core/reverse-proxy/traefik/traefik--generated-{{ currentDateTime }}.yml'
+    src: templates/traefik.yml.j2
+
+- debug:
+    msg: "\n\nA stack file '{{ root_folder }}/core/reverse-proxy/traefik/traefik--generated.conf' have been generated in the {{ root_folder }} folder of this project, if you wanna make sure everything is fine :)\n"
+  when: root_folder == './generated'
+...

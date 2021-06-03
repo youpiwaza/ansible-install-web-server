@@ -1,43 +1,15 @@
 ---
-### Install core stack : reverse proxy (traefik)
+### Generate & upload reverse proxy (traefik) files
 ## the_builder_guy
-
-- name: Local / Debug / Create directory './generated/core/reverse-proxy/traefik/'
-  file:
-    path: './generated/core/reverse-proxy/traefik/'
-    state: directory
+- name: Local / Core / Reverse Proxy / Traefik / Generate files
   delegate_to: 127.0.0.1
+  include: generate.yml
+  vars:
+    root_folder: './generated'
 
-- name: Local / Debug / Generate './generated/core/reverse-proxy/traefik/traefik--generated.yml'
-  template:
-    dest: './generated/core/reverse-proxy/traefik/traefik--generated.yml'
-    src: templates/traefik.yml.j2
-  delegate_to: 127.0.0.1
-
-- name: Local / History / Generate './generated/core/reverse-proxy/traefik/traefik--generated-{{ currentDateTime }}.yml'
-  template:
-    dest: './generated/core/reverse-proxy/traefik/traefik--generated-{{ currentDateTime }}.yml'
-    src: templates/traefik.yml.j2
-  delegate_to: 127.0.0.1
-
-- debug:
-    msg: "\n\nA stack file './generated/core/reverse-proxy/traefik/traefik--generated.yml' have been generated in the /generated/ folder of this project, if you wanna make sure everything is fine :)\n"
-
-
-
-# Upload/Update compose file in the_docker_peon /home folder
-- name: Create directory '/home/{{ users.3.name }}/core/reverse-proxy/traefik/'
-  file:
-    path: '/home/{{ users.3.name }}/core/reverse-proxy/traefik/'
-    state: directory
-
-- name: Generate '/home/{{ users.3.name }}/core/reverse-proxy/traefik/traefik--generated.yml'
-  template:
-    dest: '/home/{{ users.3.name }}/core/reverse-proxy/traefik/traefik--generated.yml'
-    src: templates/traefik.yml.j2
-
-- name: History / Generate '/home/{{ users.3.name }}/core/reverse-proxy/traefik/traefik--generated-{{ currentDateTime }}.yml'
-  template:
-    dest: '/home/{{ users.3.name }}/core/reverse-proxy/traefik/traefik--generated-{{ currentDateTime }}.yml'
-    src: templates/traefik.yml.j2
+### Upload/Update config file in the_docker_peon /home folder
+- name: Server / Core / Reverse Proxy / Traefik / Upload or update stack
+  include: generate.yml
+  vars:
+    root_folder: '/home/{{ users.3.name }}'
 ...

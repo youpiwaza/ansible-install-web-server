@@ -1,5 +1,5 @@
 ---
-## the_builder_guy {{ root_folder }}/TYPE/CLIENT/DASHED_DOMAIN/DASHED_DOMAIN--generated
+## the_builder_guy
 - name: Create directory '{{ root_folder }}/TYPE/CLIENT/DASHED_DOMAIN/'
   file:
     path: '{{ root_folder }}/configs/masamune/hello--masamune--fr/'
