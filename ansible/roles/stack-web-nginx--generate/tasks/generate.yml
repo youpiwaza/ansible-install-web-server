@@ -1,0 +1,21 @@
+---
+## the_builder_guy
+- name: Create directory '{{ root_folder }}/TYPE/CLIENT/DASHED_DOMAIN/'
+  file:
+    path: '{{ root_folder }}/tests/masamune/hello--masamune--fr/'
+    state: directory
+
+- name: Generate '{{ root_folder }}/TYPE/CLIENT/DASHED_DOMAIN/DASHED_DOMAIN---STACK--generated.yml'
+  template:
+    dest: '{{ root_folder }}/tests/masamune/hello--masamune--fr/hello--masamune--fr---nginx--generated.yml'
+    src: templates/nginx.yml.j2
+
+- name: History / Generate '{{ root_folder }}/TYPE/CLIENT/DASHED_DOMAIN/DASHED_DOMAIN---STACK--generated-{{ currentDateTime }}.yml'
+  template:
+    dest: '{{ root_folder }}/tests/masamune/hello--masamune--fr/hello--masamune--fr---nginx--generated-{{ currentDateTime }}.yml'
+    src: templates/nginx.yml.j2
+
+- debug:
+    msg: "\n\nA stack file '{{ root_folder }}/tests/masamune/hello--masamune--fr/hello--masamune--fr---nginx--generated.yml' have been generated in the {{ root_folder }} folder of this project, if you wanna make sure everything is fine :)\n"
+  when: root_folder == './generated'
+...
