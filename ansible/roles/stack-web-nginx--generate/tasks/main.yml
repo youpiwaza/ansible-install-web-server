@@ -1,15 +1,31 @@
 ---
+### Generate & upload generic config files for nginx
+## the_builder_guy
+- name: Local / Test / Web / Nginx / Generate config files
+  delegate_to: 127.0.0.1
+  include: generate-config.yml
+  vars:
+    root_folder: './generated'
+
+### Upload or update config files in the_docker_peon /home folder
+- name: Server / Test / Web / Nginx / Upload or update config files
+  include: generate-config.yml
+  vars:
+    root_folder: '/home/{{ users.3.name }}'
+
+
+
 ### Generate & upload web server nginx files
 ## the_builder_guy
 - name: Local / Test / Web / Nginx / Generate files
   delegate_to: 127.0.0.1
-  include: generate.yml
+  include: generate-yml.yml
   vars:
     root_folder: './generated'
 
 ### Upload or update stack files in the_docker_peon /home folder
 - name: Server / Test / Web / Nginx / Upload or update stack
-  include: generate.yml
+  include: generate-yml.yml
   vars:
     root_folder: '/home/{{ users.3.name }}'
 ...
