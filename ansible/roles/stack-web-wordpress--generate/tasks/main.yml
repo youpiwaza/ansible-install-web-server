@@ -21,13 +21,13 @@
 ## the_builder_guy
 - name: Local / Test / Web / Wordpress / Generate files
   delegate_to: 127.0.0.1
-  include: generate-wordpress-stack-file.yml
+  include: generate-yml.yml
   vars:
     root_folder: './generated'
 
 ### Upload or update stack files in the_docker_peon /home folder
 - name: Server / Test / Web / Wordpress / Upload or update stack
-  include: generate-wordpress-stack-file.yml
+  include: generate-yml.yml
   vars:
     root_folder: '/home/{{ users.3.name }}'
 ...

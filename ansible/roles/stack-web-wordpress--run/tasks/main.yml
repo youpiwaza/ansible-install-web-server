@@ -80,7 +80,7 @@
   docker_stack:
     name: '{{ project.type }}---{{ project.dashed_domain }}'
     compose:
-      # cf. ansible/roles/stack-web-wordpress--generate/tasks/generate-wordpress-stack-file.yml > Generate wordpress-stack--generated.yml file
+      # cf. ansible/roles/stack-web-wordpress--generate/tasks/generate-yml.yml > Generate wordpress-stack--generated.yml file
       - '/home/{{ users.3.name }}/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/{{ project.dashed_domain }}--wordpress--generated.yml'
     state: present
   register: my_stack_status
