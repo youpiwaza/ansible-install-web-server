@@ -14,7 +14,7 @@
 # sudo aa-logprof                 / Display AppArmor audit messages
 # sudo dmesg                      / Other logs
 
-- name: Run the equivalent of "apt-get update"
+- name: Run the equivalent of "apt update"
   apt:
     cache_valid_time: '3600'
     force_apt_get: yes

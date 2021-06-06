@@ -23,8 +23,8 @@
     - docker-maintenance
 
 ## If manual check reveals non updated packages, log in through BUILDER_GUY & 
-# > sudo apt-get update
-# > sudo apt upgrade
+# > sudo apt update
+# > sudo apt -y upgrade
 ## Manually resolve conflicts or stuff, but take in consideration that this step won't be automated
 
 

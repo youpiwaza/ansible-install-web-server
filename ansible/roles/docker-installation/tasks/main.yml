@@ -30,7 +30,7 @@
     name: '{{ docker_installation__remoteHostOldPackagesToUninstall }}'
     state: absent
 
-- name: Run the equivalent of "apt-get update"
+- name: Run the equivalent of "apt update"
   apt:
     cache_valid_time: '3600'
     force_apt_get: yes

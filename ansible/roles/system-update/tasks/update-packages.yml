@@ -1,6 +1,6 @@
 ---
 ### Update OS and packages
-# eq. apt-get update
+# eq. apt update
 - name: Only run "update_cache=yes" if the last one is more than 3600 seconds ago
   apt:
     update_cache: yes

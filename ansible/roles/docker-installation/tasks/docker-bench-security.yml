@@ -249,7 +249,7 @@
 
 ### 1.2.3 > 1.2.12 - Ensure auditing is configured for various Docker files
 # Install auditd
-- name: Run the equivalent of "apt-get update"
+- name: Run the equivalent of "apt update"
   apt:
     cache_valid_time: '3600'
     force_apt_get: yes
