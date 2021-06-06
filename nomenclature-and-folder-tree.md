@@ -27,7 +27,7 @@ Do not use underscores.
 - Everything regarding **docker** tests & maintenance will be set in "/home/the_docker_guy" folder.
 - Everything regarding **docker containers** execution will be set in "/home/the_docker_peon" folder.
 - Everything concerning the core service will be set in "/home/the_docker_peon/core/TYPE-OF-SERVICE/SERVICE/".
-- Basic configuration examples (~nginx) will be set in "/home/the_docker_peon/config/TYPE-OF-SERVICE/SERVICE/" in addition to ansible repo.
+- Basic configuration examples (~nginx) will be set in each project. Orignials configs file will be stored as template, in this repositories.
   - This will allow the execution of generic tests
   - Naming convention: TYPE---THE-SUB--THE-DOMAIN--EXT---STACK-TYPE--DESC
     - Ex: test---test-wordpress--masamune--fr---wordpress--files
@@ -78,17 +78,14 @@ Do not use underscores.
         - /spongebob--com                     # spongebob.com
           - client---spongebob--com---wordpress--generated.yml
           - client---spongebob--com---wordpress--generated-2021-06-03--11h48m36s.yml
+          - client---spongebob--com---wordpress--generated.conf
+          - client---spongebob--com---wordpress--generated-2021-06-03--11h48m36s.conf
           - agenda.yml                        # Sub folder dedicated container > spongebob.com/agenda/
         - /sub--spongebob--com                # sub.spongebob.com
           - client---sub--spongebob--com---wordpress--generated.yml
           - client---sub--spongebob--com---wordpress--generated-2021-06-03--11h48m36s.yml
         - ~~/mini-website-preview~~           # Always use Uri notation, reflecting https access ; if not applicable go local
           - main.yml
-    - /config
-      - /webserver
-        - /nginx
-          - nginx---custom-user-p8080---nginx.conf
-          - tutum---custom-user-p8080-php---nginx.conf
     - /core
       - /reverse-proxy
         - /traefik
