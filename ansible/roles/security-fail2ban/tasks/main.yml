@@ -70,7 +70,7 @@
 - name: fail2ban / Service hardening / Create a drop-in configuration file for fail2ban service
   template:
     dest: /etc/systemd/system/fail2ban.service.d/override.conf
-    src: fail2ban-service-d-override.j2
+    src: fail2ban-service-d-override.conf.j2
   notify:
     - Reload systemd daemon
     - Restart fail2ban service
