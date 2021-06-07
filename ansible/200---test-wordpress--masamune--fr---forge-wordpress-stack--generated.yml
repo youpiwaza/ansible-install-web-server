@@ -3,9 +3,9 @@
 ## builder_guy & docker_guy
 # > ansible-playbook -i hostsWithCustomSSHPort 200---test-wordpress--masamune--fr---forge-wordpress-stack--generated.yml
 
-# This role have been generated through ansible/20-forge-a-wordpress-role.yml
+# This role have been generated through ansible/20-forge-a-wordpress-playbook.yml
 #   Variables should be properly sourced by your file, created previously:
-#   'roles/stack-web-wordpress--generate-role/vars/tests/masamune/test-wordpress--masamune--fr/test-wordpress--masamune--fr---vars.yml'
+#   'roles/stack-web-wordpress--generate-playbook/vars/tests/masamune/test-wordpress--masamune--fr/test-wordpress--masamune--fr---vars.yml'
 
 # Based on bitnami's WordPress & MariaDB images
 #   https://hub.docker.com/r/bitnami/wordpress/
@@ -21,13 +21,13 @@
   # builder_guy / cf. /ansible/roles/users/vars/main.yml
   remote_user: 'shaco_the_builder_guy_72nsk583qy'
   vars:
-    currentDateTime: "2021-06-07--13h10m38s"
+    currentDateTime: "2021-06-07--14h38m21s"
   vars_files:
   - defaults/main.yml
   - roles/users/defaults/main.yml
   - vars/main.yml
   - roles/users/vars/main.yml
-  - roles/stack-web-wordpress--generate-role/vars/tests/masamune/test-wordpress--masamune--fr/test-wordpress--masamune--fr---vars.yml
+  - roles/stack-web-wordpress--generate-playbook/vars/tests/masamune/test-wordpress--masamune--fr/test-wordpress--masamune--fr---vars.yml
 
   roles:
     - stack-web-wordpress--generate-stack
@@ -45,7 +45,7 @@
   - roles/users/defaults/main.yml
   - vars/main.yml
   - roles/users/vars/main.yml
-  - roles/stack-web-wordpress--generate-role/vars/tests/masamune/test-wordpress--masamune--fr/test-wordpress--masamune--fr---vars.yml
+  - roles/stack-web-wordpress--generate-playbook/vars/tests/masamune/test-wordpress--masamune--fr/test-wordpress--masamune--fr---vars.yml
 
   roles:
     - stack-web-wordpress--run

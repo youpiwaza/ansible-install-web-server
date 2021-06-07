@@ -1,6 +1,6 @@
 ---
 ### WordPress var file template
-## Duplicate this file to a proper location, ex. ansible/roles/stack-web-wordpress--generate/vars/TYPE/CLIENT/DASHED-DOMAIN/main.yml
+## Duplicate this file to a proper location, ex. ansible/roles/stack-web-wordpress--generate-playbook/vars/TYPE/CLIENT/DASHED-DOMAIN/main.yml
 ## And use it with the role 20-forge-a-wordpress-stack.yml
 
 # Generate random strings with lookup, cf. https://github.com/youpiwaza/server-related-tutorials/tree/master/02-ansible/14-password-generation
@@ -26,8 +26,8 @@ project:
   name: 'test wordpress'
   type: 'test'
   # Adjust path to you var file here 🔧
-  # vars_file_path: 'roles/stack-web-wordpress--generate-role/vars/TYPE/CLIENT/DASHED-URI/DASHED-URI---vars_secret.yml'
-  vars_file_path: 'roles/stack-web-wordpress--generate-role/vars/tests/masamune/test-wordpress--masamune--fr/test-wordpress--masamune--fr---vars.yml'
+  # vars_file_path: 'roles/stack-web-wordpress--generate-playbook/vars/TYPE/CLIENT/DASHED-URI/DASHED-URI---vars_secret.yml'
+  vars_file_path: 'roles/stack-web-wordpress--generate-playbook/vars/tests/masamune/test-wordpress--masamune--fr/test-wordpress--masamune--fr---vars.yml'
 
 traefik:
   # Ensure DNS are set accordingly to point towards host IP

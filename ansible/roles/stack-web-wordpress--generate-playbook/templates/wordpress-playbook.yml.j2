@@ -1,11 +1,11 @@
 ---
 ### Setup a WordPress stack: generate or update .yml files, upload them and deploy stack
 ## builder_guy & docker_guy
-# > ansible-playbook -i hostsWithCustomSSHPort 200---test-wordpress--masamune--fr---forge-wordpress-stack--generated.yml
+# > ansible-playbook -i hostsWithCustomSSHPort 200---{{ project.dashed_domain }}---forge-wordpress-stack--generated.yml
 
-# This role have been generated through ansible/20-forge-a-wordpress-role.yml
+# This role have been generated through ansible/20-forge-a-wordpress-playbook.yml
 #   Variables should be properly sourced by your file, created previously:
-#   'roles/stack-web-wordpress--generate-role/vars/tests/masamune/test-wordpress--masamune--fr/test-wordpress--masamune--fr---vars.yml'
+#   '{{ project.vars_file_path }}'
 
 # Based on bitnami's WordPress & MariaDB images
 #   https://hub.docker.com/r/bitnami/wordpress/
@@ -27,8 +27,7 @@
   - roles/users/defaults/main.yml
   - vars/main.yml
   - roles/users/vars/main.yml
-  # - roles/stack-web-wordpress--generate-role/vars/TYPE/CLIENT/DASHED-URI/DASHED-URI---vars_secret.yml
-  - roles/stack-web-wordpress--generate-role/vars/tests/masamune/test-wordpress--masamune--fr/test-wordpress--masamune--fr---vars.yml
+  - {{ project.vars_file_path }}
 
   roles:
     - stack-web-wordpress--generate-stack
@@ -46,8 +45,7 @@
   - roles/users/defaults/main.yml
   - vars/main.yml
   - roles/users/vars/main.yml
-  # - roles/stack-web-wordpress--generate-role/vars/TYPE/CLIENT/DASHED-URI/DASHED-URI---vars_secret.yml
-  - roles/stack-web-wordpress--generate-role/vars/tests/masamune/test-wordpress--masamune--fr/test-wordpress--masamune--fr---vars.yml
+  - {{ project.vars_file_path }}
 
   roles:
     - stack-web-wordpress--run
