@@ -75,6 +75,18 @@
     name: temp---edit-volume
     working_dir: /home
 
+- debug:
+    msg:
+      - "If the instance won't start, It can came from the timestamp of the config file."
+      - "Try stopping the stack before restarting the playbook : server > 'docker stack rm STACK_NAME'"
+      - "Else consider using : server > 'docker service logs -f SERVICE_NAME'"
+      - ""
+      - "Example of the error gibberish"
+      - "  fatal: Ignoring unsupported options: security_opt"
+      - "  failed to update config test---hello--masamune--fr_nginx_config:"
+      - "  only updates to Labels are allowed"
+
+
 - name: "Deploy '{{ project.type }}---{{ project.dashed_domain }}' stack from a compose file"
   docker_stack:
     name: '{{ project.type }}---{{ project.dashed_domain }}'
