@@ -1,0 +1,26 @@
+---
+### Nginx var file template
+## Duplicate this file to a proper location, ex. ansible/roles/stack-web-nginx--generate-playbook/vars/TYPE/CLIENT/DASHED-URI/main.yml
+## And use it with the playbook 10-forge-a-nginx-stack.yml
+
+project:
+  client_name: 'masamune'
+  dashed_domain: 'hello--masamune--fr'
+  # Docker recommanded notation: extension.site.subdomain.SOME-LABEL
+  #   https://docs.docker.com/config/labels-custom-metadata/#key-format-recommendations
+  labels_prefix: 'fr.masamune.hello'
+  maintainer: 'masamune.code@gmail.com'
+  name: 'test nginx'
+  type: 'test'
+  # Adjust path to you var file here 🔧
+  # vars_file_path: 'roles/stack-web-nginx--generate-playbook/vars/TYPE/CLIENT/DASHED-URI/DASHED-URI---vars_secret.yml'
+  vars_file_path: 'roles/stack-web-nginx--generate-playbook/vars/tests/masamune/hello--masamune--fr/hello--masamune--fr---vars.yml'
+
+traefik:
+  # Ensure DNS are set accordingly to point towards host IP
+  # This will point towards 'https://test-wordpress.masamune.fr/'
+  public_uri: 'hello.masamune.fr'
+  # For router & middleware names generation
+  # subDomain__domain__ext___stacktype
+  uid: 'hello__masamune__fr___wordpress'
+...

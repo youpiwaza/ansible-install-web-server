@@ -50,11 +50,13 @@ ansible-playbook -i hostsWithCustomSSHPort 4-setup-core-services.yml
 
 # ---
 
-# Lancer le playbook de mise en place de 2 serveurs web nginx (un classique & un avec php)
-ansible-playbook -i hostsWithCustomSSHPort 10-forge-a-nginx-stack.yml
+# Lancer le playbook de génération d'un playbook de mise en place d'un serveur nginx
+#     🔧 Nécessite la configuration de variables ! (défaut: hello.masamune.fr)
+ansible-playbook -i hostsWithCustomSSHPort 10-forge-a-nginx-playbook.yml
 
-# Lancer le playbook de mise en place d'un wordpress. Nécessite la configuration de variables ! (defauts: test wordpress)
-ansible-playbook -i hostsWithCustomSSHPort 20-forge-a-wordpress-stack.yml
+# Lancer le playbook de génération d'un playbook de mise en place d'un serveur nginx.
+#     🔧 Nécessite la configuration de variables ! (défaut: test-wordpress.masamune.fr)
+ansible-playbook -i hostsWithCustomSSHPort 20-forge-a-wordpress-playbook.yml
 
 # ---
 

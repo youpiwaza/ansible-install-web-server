@@ -1,0 +1,43 @@
+---
+### Nginx project generation: config files + .yml file
+## builder_guy
+
+## This role must be run through a specific playbook.
+## cf. ansible/10-forge-a-nginx-playbook.yml for use case and example.
+
+- name: Warning, this role needs a file providing variables
+  debug:
+    msg: "\n\nBEFORE RUNNING THIS ROLE !
+          \n\nThis role must be run through a specific playbook generated through ansible/10-forge-a-nginx-playbook.yml
+          \n\nIt also needs a specific file containing variables\n\n"
+
+- name: 'Read the warning message ^'
+  wait_for:
+    timeout: 5
+
+## Generate, then upload or update nginx config files
+
+- name: Local / Test / Web / Nginx / Generate config files
+  delegate_to: 127.0.0.1
+  include: generate-config.yml
+  vars:
+    root_folder: './generated'
+
+- name: Server / Test / Web / Nginx / Upload or update config files
+  include: generate-config.yml
+  vars:
+    root_folder: '/home/{{ users.3.name }}'
+
+## Generate, then upload or update nginx files
+
+- name: Local / Test / Web / Nginx / Generate files
+  delegate_to: 127.0.0.1
+  include: generate-yml.yml
+  vars:
+    root_folder: './generated'
+
+- name: Server / Test / Web / Nginx / Upload or update stack
+  include: generate-yml.yml
+  vars:
+    root_folder: '/home/{{ users.3.name }}'
+...

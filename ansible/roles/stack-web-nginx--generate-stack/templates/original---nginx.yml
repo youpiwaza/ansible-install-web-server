@@ -138,7 +138,7 @@ services:
     volumes:
       - type: volume
         read_only: false
-        source: test---hello--masamune--fr---tutum-hello---logs
+        source: test---hello--masamune--fr---nginx--logs
         target: /var/log/
       # # Note: Use config for docker stack deploy. Bind volumes can be a security issue, and should only be used for debug through docker-compose up
       # # - '/home/{{ users.3.name }}/tests/masamune/hello--masamune--fr/hello--masamune--fr---nginx--generated.conf:/etc/nginx/nginx.conf:ro'
@@ -159,6 +159,6 @@ networks:
     external: true
 
 volumes:
-  test---hello--masamune--fr---tutum-hello---logs:
+  test---hello--masamune--fr---nginx--logs:
     # Use an existing volume, do not recreate one with a prefix
     external: true

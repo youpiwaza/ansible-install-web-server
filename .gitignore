@@ -15,5 +15,3 @@ generated/*
 !generated/README.md
 # also ignore everywhere any generated file
 **/*-generated*
-# .. except that example one
-!200---test-wordpress--masamune--fr---forge-wordpress-stack--generated.yml

@@ -1,0 +1,53 @@
+---
+### Setup a Nginx stack: generate or update .yml files, upload them and deploy stack
+## builder_guy & docker_guy
+# > ansible-playbook -i hostsWithCustomSSHPort 100---hello--masamune--fr---forge-nginx-stack--generated.yml
+
+# This role have been generated through ansible/10-forge-a-nginx-playbook.yml
+#   Variables should be properly sourced by your file, created previously:
+#   'roles/stack-web-nginx--generate-role/vars/tests/masamune/hello--masamune--fr/hello--masamune--fr---vars.yml'
+
+# TODO: Replace by real nginx
+# Based on tutum/helloworld image
+#   https://hub.docker.com/r/tutum/hello-world/
+
+# You'll need the_builder_guy to have it's ssh key added to the local agent, cf. the_builder_guy generated documentation
+# You'll need the_docker_guy  to have it's ssh key added to the local agent, cf. the_docker_guy  generated documentation
+
+## builder_guy
+- name: 'Generate or update a Nginx stack'
+  become: yes
+  hosts: likorneWithCustomSSHPort
+  # builder_guy / cf. /ansible/roles/users/vars/main.yml
+  remote_user: '{{ users.0.name }}'
+  vars:
+    currentDateTime: "{{ lookup('pipe', 'date +%Y-%m-%d--%Hh%Mm%Ss') }}"
+  vars_files:
+  - defaults/main.yml
+  - roles/users/defaults/main.yml
+  - roles/users/vars/main.yml
+  - vars/main.yml
+  # - roles/stack-web-nginx--generate-role/vars/TYPE/CLIENT/DASHED-URI/DASHED-URI---vars_secret.yml
+  - roles/stack-web-nginx--generate-role/vars/tests/masamune/hello--masamune--fr/hello--masamune--fr---vars.yml
+
+  roles:
+    - stack-web-nginx--generate-stack
+
+## docker_guy
+- name: Setup networks & volumes then start or update WordPress stack
+  become: no
+  hosts: likorneWithCustomSSHPort
+
+  # docker_guy / cf. /ansible/roles/users/vars/main.yml
+  remote_user: '{{ users.2.name }}'
+  vars_files:
+  - defaults/main.yml
+  - roles/users/defaults/main.yml
+  - roles/users/vars/main.yml
+  - vars/main.yml
+  # - roles/stack-web-nginx--generate-role/vars/TYPE/CLIENT/DASHED-URI/DASHED-URI---vars_secret.yml
+  - roles/stack-web-nginx--generate-role/vars/tests/masamune/hello--masamune--fr/hello--masamune--fr---vars.yml
+
+  roles:
+    - stack-web-nginx--run
+...

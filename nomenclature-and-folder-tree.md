@@ -41,16 +41,13 @@ Do not use underscores.
       - ^ This is the one actually **deployed**
       - ^ This allow to update the running stacks through the same files (consecutive deploys), and always know which one is running
     - Server / History / Generated file:      `/home/DOCKER_PEON/core/reverse-proxy/traefik/traefik--generated-{{ currentDateTime }}.yml`
-  - Regarding clients stack to be generated
-    - ~~It will be in 2 parts : A templating part, intended to be duplicated & adjusted ; and instances of this template~~
-    - NEED REFACTO LOL ♻️
+  - Regarding clients stacks : 2 parts : Generate the playbooks generator, then run them
     - Example with wordpress
-      - template playbook: as an example
-        - `ansible/20-forge-a-wordpress-stack.yml` which uses
+      - Run the `ansible/20-forge-a-wordpress-stack.yml` playbook, which uses for vars
         - `roles/stack-web-wordpress--generate/vars/tests/masamune/test-wordpress--masamune--fr/test-wordpress--masamune--fr---vars.yml`
-      - instance created by/for any user:
-        - `ansible/200-forge---DASHED-URI---wordpress-stack.yml` (duplicate from template role) which uses
-        - `roles/stack-web-wordpress--generate/vars/TYPE/CLIENT/DASHED-URI/DASHED-URI---vars.yml` (duplicate from template var file)
+      - It will generate the example playbook `ansible/200---test-wordpress--masamune--fr---forge-wordpress-stack-generated.yml`
+        - which will generate, upload & deploy a dedicated wordpress stack
+        - cf. ansible/generated/tests/masamune/test-wordpress--masamune--fr/test-wordpress--masamune--fr---wordpress--generated.yml
 
 ### Clients
 
@@ -61,17 +58,17 @@ Do not use underscores.
 
 #### Local
 
-Clients' relative stuff, must be backuped in a private git repository
+Clients' crafted/generated stuff, must be backed-up in a private git repository
 
-##### Nginx
+- /ansible
+  - /stack-web-nginx--generate-playbook/vars/*
+  - /stack-web-wordpress--generate-playbook/vars/*
 
-- 10X-forge---DASHED-URI---nginx-stack.yml
-- ansible/roles/stack-web-nginx--generate/vars/
+Which allow the generation of
 
-##### WordPress
-
-- 20X-forge---DASHED-URI---wordpress-stack.yml
-- ansible/roles/stack-web-wordpress--generate/vars/
+- 100---DASHED-URI---forge-nginx-stack--generated.yml
+- 200---DASHED-URI---forge-wordpress-stack--generated.yml
+- /generated/*
 
 #### Server
 

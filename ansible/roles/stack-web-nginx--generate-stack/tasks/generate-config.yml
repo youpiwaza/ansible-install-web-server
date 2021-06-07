@@ -1,0 +1,21 @@
+---
+## the_builder_guy
+- name: Create directory '{{ root_folder }}/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/'
+  file:
+    path: '{{ root_folder }}/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/'
+    state: directory
+
+- name: Generate '{{ root_folder }}/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/{{ project.dashed_domain }}---nginx--generated.conf'
+  template:
+    dest: '{{ root_folder }}/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/{{ project.dashed_domain }}---nginx--generated.conf'
+    src: templates/nginx.conf.j2
+
+- name: History / Generate '{{ root_folder }}/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/{{ project.dashed_domain }}---nginx--generated-{{ currentDateTime }}.conf'
+  template:
+    dest: '{{ root_folder }}/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/{{ project.dashed_domain }}---nginx--generated-{{ currentDateTime }}.conf'
+    src: templates/nginx.conf.j2
+
+- debug:
+    msg: "\n\nA stack file '{{ root_folder }}/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/{{ project.dashed_domain }}---nginx--generated.conf' have been generated in the {{ root_folder }} folder of this project, if you wanna make sure everything is fine :)\n"
+  when: root_folder == './generated'
+...
