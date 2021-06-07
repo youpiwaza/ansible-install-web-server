@@ -32,7 +32,7 @@ Do not use underscores.
   - Naming convention: TYPE---THE-SUB--THE-DOMAIN--EXT---STACK-TYPE--DESC
     - Ex: test---test-wordpress--masamune--fr---wordpress--files
 - All services & stack will be generated locally and uploaded to the server, with an extra timed version for modification history.
-  - Example of files concerned for traefik
+  - Example of files concerned for core service / traefik
     - Sources files will be .j2 templates:    `ansible/roles/core-reverse-proxy-traefik--generate/templates/traefik.j2`
       - It's recommanded to manually make an history, or at least comment :)
     - Local / Generated file:                 `ansible/generated/core/reverse-proxy/traefik/traefik--generated.yml`
@@ -41,6 +41,16 @@ Do not use underscores.
       - ^ This is the one actually **deployed**
       - ^ This allow to update the running stacks through the same files (consecutive deploys), and always know which one is running
     - Server / History / Generated file:      `/home/DOCKER_PEON/core/reverse-proxy/traefik/traefik--generated-{{ currentDateTime }}.yml`
+  - Regarding clients stack to be generated
+    - ~~It will be in 2 parts : A templating part, intended to be duplicated & adjusted ; and instances of this template~~
+    - NEED REFACTO LOL ♻️
+    - Example with wordpress
+      - template playbook: as an example
+        - `ansible/20-forge-a-wordpress-stack.yml` which uses
+        - `roles/stack-web-wordpress--generate/vars/tests/masamune/test-wordpress--masamune--fr/test-wordpress--masamune--fr---vars.yml`
+      - instance created by/for any user:
+        - `ansible/200-forge---DASHED-URI---wordpress-stack.yml` (duplicate from template role) which uses
+        - `roles/stack-web-wordpress--generate/vars/TYPE/CLIENT/DASHED-URI/DASHED-URI---vars.yml` (duplicate from template var file)
 
 ### Clients
 
@@ -48,6 +58,22 @@ Do not use underscores.
 - A project name will be, if possible, the uri of the website (with subdomain and extension), else the project name (ex: tests/labs on subdomains..).
 
 ### Example folder tree
+
+#### Local
+
+Clients' relative stuff, must be backuped in a private git repository
+
+##### Nginx
+
+- 10X-forge---DASHED-URI---nginx-stack.yml
+- ansible/roles/stack-web-nginx--generate/vars/
+
+##### WordPress
+
+- 20X-forge---DASHED-URI---wordpress-stack.yml
+- ansible/roles/stack-web-wordpress--generate/vars/
+
+#### Server
 
 - /home
   - /the-builder-guy
