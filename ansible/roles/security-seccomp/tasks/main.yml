@@ -32,7 +32,7 @@
 - name: Copy profile from template
   template:
     dest: /etc/docker/seccomp-profiles/default-docker-profile.json
-    src: default-docker-profile.j2
+    src: default-docker-profile.json.j2
   when: "'CONFIG_SECCOMP=y' in seccomp_available.stdout_lines"
 
 # # Manual verification
