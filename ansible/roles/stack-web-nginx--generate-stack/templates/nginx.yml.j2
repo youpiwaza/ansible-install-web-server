@@ -7,13 +7,11 @@ version: '3.7'
 ## *Generated (yyyy-mm-dd) {{ currentDateTime }}*.
 ##---
 
+# Based on nginx image
+#   https://hub.docker.com/_/nginx
+#   https://nginx.com/
+
 # cf. https://github.com/youpiwaza/server-related-tutorials/tree/master/01-docker/04-my-tests/09-traefik-curated/11-prod-hello-curated/08-hello-stack-curated-comments
-
-# LATER: Make reusable / adapt vars
-
-# Usage
-# docker stack deploy -c hello.yml hello
-# docker stack rm hello
 
 services:
   nginx:
