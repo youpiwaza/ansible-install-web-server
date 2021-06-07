@@ -11,7 +11,9 @@ hostsWithCustomSSHPort
 ## Generated files
 # everything in the generated/ folder..
 generated/*
-# .. except REAMDE.md
+# .. except README.md
 !generated/README.md
 # also ignore everywhere any generated file
 **/*-generated*
+# .. except that example one
+!200---test-wordpress--masamune--fr---forge-wordpress-stack--generated.yml
