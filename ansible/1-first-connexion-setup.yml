@@ -5,6 +5,8 @@
 - name: Ajout d'une clé SSH
   hosts: 127.0.0.1
   connection: local
+  vars:
+    currentDateTime: "{{ lookup('pipe', 'date +%Y-%m-%d--%Hh%Mm%Ss') }}"
   vars_files:
   - defaults/main.yml
   - vars/main.yml
@@ -33,7 +35,7 @@
     - name: Local / Generate a file with manual commands to execute afterward..
       template:
         dest: '__{{ global__remote_user }}-manual-commands-generated.md'
-        src: templates/ssh-manual-commands.j2
+        src: templates/ssh-manual-commands.md.j2
 
     - debug:
         msg: 'You must now add {{ global__remote_user }} to your local SSH agent before proceeding. See generated files __{{ global__remote_user }}-manual-commands-generated.md'
