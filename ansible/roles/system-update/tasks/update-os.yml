@@ -16,11 +16,12 @@
 
 # Warn user
 - debug:
-    msg: '\n\nMight crash ansible if a major upgrade is made. Then just wait for it and restart the ansible script :)\n\n
-          Be patient as it might take up to 15-20mns.\n\n
-          If you wanna have some visual progress, open a new terminal, ssh connect with the_builder_guy, ans type in\n\n
-          > sudo tail -f /var/log/dist-upgrade/main.log\n\n
-          cf. https://wiki.ubuntu.com/DebuggingUpdateManager\n\n'
+    msg:
+      - "Might crash ansible if a major upgrade is made. Then just wait for it and restart the ansible script :)"
+      - "Be patient as it might take up to 15-20mns."
+      - "If you wanna have some visual progress, open a new terminal, ssh connect with the_builder_guy, ans type in"
+      - "> sudo tail -f /var/log/dist-upgrade/main.log"
+      - "cf. https://wiki.ubuntu.com/DebuggingUpdateManager"
 
 # Use -f DistUpgradeViewNonInteractive to force yes to all questions, removing the need for user inputs
 #   https://www.linuxnix.com/ubuntu-linuxhow-to-do-unattended-os-release-upgrade/

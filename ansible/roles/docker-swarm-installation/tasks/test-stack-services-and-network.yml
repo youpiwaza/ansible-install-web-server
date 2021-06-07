@@ -99,7 +99,9 @@
 
 - name: Display page content in ansible logs
   debug:
-    msg: 'Affichage du contenu de la page :\n\n{{ da_webpage.content }}'
+    msg:
+      - 'Affichage du contenu de la page :'
+      - '{{ da_webpage.content }}'
 
 ## Remove test services, and shut down swarm if needed
 # Remove test

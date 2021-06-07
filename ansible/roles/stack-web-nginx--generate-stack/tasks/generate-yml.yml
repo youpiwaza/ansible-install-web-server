@@ -16,6 +16,8 @@
     src: templates/nginx.yml.j2
 
 - debug:
-    msg: "A stack file '{{ root_folder }}/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/{{ project.dashed_domain }}---nginx--generated.yml' have been generated in the {{ root_folder }} folder of this project, if you wanna make sure everything is fine :)"
+    msg:
+      - "A stack file '{{ root_folder }}/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/{{ project.dashed_domain }}---nginx--generated.yml' have been generated in the {{ root_folder }} folder of this project,"
+      - "if you wanna make sure everything is fine :)"
   when: root_folder == './generated'
 ...

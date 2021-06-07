@@ -90,7 +90,9 @@
 
 - name: Do we need to enable swap limit support ?
   debug:
-    msg: '\nDocker host warnings:\n\n{{ result.host_info.Warnings }}\n\n'
+    msg:
+      - 'Docker host warnings :'
+      - '{{ result.host_info.Warnings }}'
   # If there is no warning, the property Warnings doesn't exist, and cookbook fails
   # when: "'WARNING: No swap limit support' in result.host_info.Warnings"
   when:
