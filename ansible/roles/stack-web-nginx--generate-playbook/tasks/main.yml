@@ -34,4 +34,13 @@
   template:
     dest: './generated/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/playbooks/100---{{ project.dashed_domain }}---forge-nginx-stack--generated-{{ currentDateTime }}.yml'
     src: nginx-playbook.yml.j2
+
+- name: Everything went fine :)
+  debug:
+    msg:
+      - "You can now run the newly generated playbook, it will use the same file for your project's vars."
+      - "It will generate the stack .yml files, then upload/update them, and finally deploy the stack !"
+      - "Here's the command :"
+      - ""
+      - "ansible-playbook -i hostsWithCustomSSHPort 100---{{ project.dashed_domain }}---forge-nginx-stack--generated.yml"
 ...
