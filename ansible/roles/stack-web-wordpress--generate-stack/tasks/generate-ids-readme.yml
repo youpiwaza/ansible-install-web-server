@@ -14,6 +14,7 @@
   delegate_to: 127.0.0.1
 
 - debug:
-    msg: "\n\nA file containing all website infos '/generated/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/{{ project.dashed_domain }}---ids-README-generated.md' have been generated in the /generated/ folder of this project :)\n
-    Consider storing it in a safe place (private repo) and then delete the local file\n\n"
+    msg: 
+      - "A file containing all website infos '/generated/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/{{ project.dashed_domain }}---ids-README-generated.md' have been generated in the /generated/ folder of this project :)"
+      - "Consider storing it in a safe place (private repo) and then delete the local file"
 ...

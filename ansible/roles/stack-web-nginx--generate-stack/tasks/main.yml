@@ -7,9 +7,10 @@
 
 - name: Warning, this role needs a file providing variables
   debug:
-    msg: "\n\nBEFORE RUNNING THIS ROLE !
-          \n\nThis role must be run through a specific playbook generated through ansible/10-forge-a-nginx-playbook.yml
-          \n\nIt also needs a specific file containing variables\n\n"
+    msg:
+      - "BEFORE RUNNING THIS ROLE !"
+      - "This role must be run through a specific playbook generated through ansible/10-forge-a-nginx-playbook.yml"
+      - "It also needs a specific file containing variables"
 
 - name: 'Read the warning message ^'
   wait_for:

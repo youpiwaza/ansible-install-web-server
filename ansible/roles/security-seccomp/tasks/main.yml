@@ -15,8 +15,9 @@
 #     msg: '{{ seccomp_available.stdout_lines }}'
 
 - debug:
-    msg: "\n\nSeccomp isn't available on your docker installation. Please refer to the docker documentation:\n
-          https://docs.docker.com/engine/security/seccomp/\n\n"
+    msg:
+      - "Seccomp isn't available on your docker installation. Please refer to the docker documentation :"
+      - "https://docs.docker.com/engine/security/seccomp/"
   when: "'CONFIG_SECCOMP=y' not in seccomp_available.stdout_lines"
 
 ## Add docker default profile

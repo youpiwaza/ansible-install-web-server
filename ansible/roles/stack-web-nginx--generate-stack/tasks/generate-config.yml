@@ -16,6 +16,6 @@
     src: templates/nginx.conf.j2
 
 - debug:
-    msg: "\n\nA stack file '{{ root_folder }}/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/{{ project.dashed_domain }}---nginx--generated.conf' have been generated in the {{ root_folder }} folder of this project, if you wanna make sure everything is fine :)\n"
+    msg: "A stack file '{{ root_folder }}/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/{{ project.dashed_domain }}---nginx--generated.conf' have been generated in the {{ root_folder }} folder of this project, if you wanna make sure everything is fine :)"
   when: root_folder == './generated'
 ...

@@ -7,9 +7,10 @@
 
 - name: Warning, without manual action this role will run an example
   debug:
-    msg: "\n\nBEFORE RUNNING THIS ROLE !
-          \n\nDuplicate 'ansible/roles/stack-web-wordpress--generate-playbook/vars/template.yml' to a proper location, ex. 'ansible/roles/stack-web-wordpress--generate-playbook/vars/TYPE/CLIENT/DASHED-DOMAIN/DASHED-DOMAIN---vars_secret.yml'
-          \n\nand modify the '20-forge-a-wordpress-playbook.yml' playbook accordingly.\n\n"
+    msg: 
+      - "BEFORE RUNNING THIS ROLE !"
+      - "Duplicate 'ansible/roles/stack-web-wordpress--generate-playbook/vars/template.yml' to a proper location, ex. 'ansible/roles/stack-web-wordpress--generate-playbook/vars/TYPE/CLIENT/DASHED-DOMAIN/DASHED-DOMAIN---vars_secret.yml'"
+      - "and modify the '20-forge-a-wordpress-playbook.yml' playbook accordingly."
 
 - name: 'Read the warning message ^'
   wait_for:

@@ -7,9 +7,11 @@
 
 - name: Warning, without manual action this role will run an example
   debug:
-    msg: "\n\nBEFORE RUNNING THIS ROLE !
-          \n\nDuplicate 'ansible/roles/stack-web-nginx--generate-playbook/vars/template.yml' to a proper location, ex. 'ansible/roles/stack-web-nginx--generate-playbook/vars/TYPE/CLIENT/DASHED-DOMAIN/DASHED-DOMAIN---vars_secret.yml'
-          \n\nand modify the '10-forge-a-nginx-playbook.yml' playbook accordingly.\n\n"
+    msg:
+      - "BEFORE RUNNING THIS ROLE !"
+      - "Duplicate 'ansible/roles/stack-web-nginx--generate-playbook/vars/template.yml' to a proper location"
+      - "for example : 'ansible/roles/stack-web-nginx--generate-playbook/vars/TYPE/CLIENT/DASHED-DOMAIN/DASHED-DOMAIN---vars_secret.yml'"
+      - "and modify the '10-forge-a-nginx-playbook.yml' playbook accordingly."
 
 - name: 'Read the warning message ^'
   wait_for:
