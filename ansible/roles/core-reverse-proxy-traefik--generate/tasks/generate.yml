@@ -17,7 +17,7 @@
 
 - debug:
     msg: 
-      - "A stack file '{{ root_folder }}/core/reverse-proxy/traefik/traefik--generated.conf' have been generated in the {{ root_folder }} folder of this project,"
+      - "A stack file '{{ root_folder }}/core/reverse-proxy/traefik/traefik--generated.yml' have been generated in the {{ root_folder }} folder of this project,"
       - "if you wanna make sure everything is fine :)"
   when: root_folder == './generated'
 ...
