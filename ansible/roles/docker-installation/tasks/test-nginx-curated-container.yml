@@ -78,7 +78,7 @@
 - name: Copy nginx custom user specific config
   template:
     dest: /home/{{ users.3.name }}/tests-volume/nginx/nginx.conf
-    src: nginx-custom-user.j2
+    src: nginx-custom-user.conf.j2
 
 # https://hub.docker.com/_/nginx
 - name: Pull default nginx image
