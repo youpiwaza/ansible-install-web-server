@@ -3,7 +3,7 @@
 - name: 'Generate a file with manual commands for {{ item.name }}'
   template:
     dest: '_{{ item.name }}-manual-commands-generated.md'
-    src: templates/ssh-users-manual-commands.j2
+    src: templates/ssh-users-manual-commands.md.j2
   # On the local machine
   delegate_to: 127.0.0.1
 ...
