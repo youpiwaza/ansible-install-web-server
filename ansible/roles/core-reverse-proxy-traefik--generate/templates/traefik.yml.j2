@@ -7,6 +7,10 @@ version: "3.7"
 ## *Generated (yyyy-mm-dd) {{ currentDateTime }}*.
 ##---
 
+# Based on traefik image
+#   https://hub.docker.com/_/traefik
+#   https://doc.traefik.io/traefik/
+
 # Usage
 # - Need network & volume creation/config before start, see ansible-install-web-server/ansible/roles/core-reverse-proxy-traefik--run/tasks/main.yml
 #     Classic
@@ -169,6 +173,7 @@ services:
       timeout: 10s
       retries: 3
       start_period: 0s
+    # # In case of migration break the glass / https://doc.traefik.io/traefik/migration/v2/
     # {{ core_install_reverse_proxy__traefik_image_label }}
     image: '{{ core_install_reverse_proxy__traefik_image }}'
     labels:
