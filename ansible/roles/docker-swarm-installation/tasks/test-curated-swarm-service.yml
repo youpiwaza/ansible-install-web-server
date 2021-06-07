@@ -280,7 +280,7 @@
 - name: Copy nginx custom user specific config
   template:
     dest: /home/{{ users.3.name }}/tests-volume/nginx/nginx.conf
-    src: nginx-custom-user.j2
+    src: nginx-custom-user.conf.j2
 
 # LATER: Custom network creation OK, linked to stack KO via ansible
 # - name: Don't run on docker default overlay network, create a custom one
