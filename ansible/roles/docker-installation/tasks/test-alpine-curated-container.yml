@@ -79,6 +79,7 @@
       - all
     # alpine sleep infinity so the container don't stop
     command: "sh -c 'while sleep 3600; do :; done'"
+    container_default_behavior: compatibility
     # Fair share of cpu capabilities # 512 = half # 2048 = double
     cpu_shares: 1024
     # run in background, to let the time to test docker security bench
@@ -138,6 +139,7 @@
 
 - name: Remove the test container // Comment to run the container and then docker security bench
   docker_container:
+    container_default_behavior: compatibility
     name: test-curated-alpine
     state: absent
 

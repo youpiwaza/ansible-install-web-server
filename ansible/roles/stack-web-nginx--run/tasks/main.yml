@@ -67,6 +67,7 @@
   docker_container:
     auto_remove: yes
     command: "/bin/ash -c 'touch php-fpm.log && chown 1003:1003 php-fpm.log && mkdir nginx && touch ./nginx/access.log && touch ./nginx/error.log && chown -R 1003:1003 nginx'"
+    container_default_behavior: compatibility
     image: alpine
     interactive: yes
     mounts:

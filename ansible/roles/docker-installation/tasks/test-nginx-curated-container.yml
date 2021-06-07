@@ -112,6 +112,7 @@
       - all
     # Nginx has a default command
     # command:
+    container_default_behavior: compatibility
     # Fair share of cpu capabilities # 512 = half # 2048 = double
     cpu_shares: 1024
     # run in background, to let the time to test docker security bench
@@ -181,6 +182,7 @@
 
 - name: Remove the test container // Comment to run the container and then docker security bench
   docker_container:
+    container_default_behavior: compatibility
     name: test-curated-nginx
     state: absent
 

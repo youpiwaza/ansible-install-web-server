@@ -21,8 +21,9 @@
 
 - name: Start a nginx test container, on port 80 (other are closed by firewall)
   docker_container:
-    name: test-nginx
+    container_default_behavior: compatibility
     image: '{{ global__nginxTestImage }}'
+    name: test-nginx
     ports:
       - '80:80'
     # Present create the container but doesn't start it
@@ -49,6 +50,7 @@
 # You can comment this task and go check the nginx default page on your server's IP (cf. hosts) :)
 - name: Remove test container
   docker_container:
+    container_default_behavior: compatibility
     name: test-nginx
     state: absent
 ...

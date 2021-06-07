@@ -13,6 +13,7 @@
     docker_container:
       cap_drop:
         - all
+      container_default_behavior: compatibility
       cpu_shares: 1024
       detach: yes
       healthcheck:

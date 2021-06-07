@@ -78,6 +78,7 @@
   docker_container:
     auto_remove: yes
     command: "/bin/ash -c 'touch traefik-access.log && chown 1003:1003 traefik-access.log && touch traefik-debug.log && chown 1003:1003 traefik-debug.log'"
+    container_default_behavior: compatibility
     image: alpine
     interactive: yes
     mounts:
@@ -121,6 +122,7 @@
   docker_container:
     auto_remove: yes
     command: "/bin/ash -c 'mkdir https && chown -R 1003:1003 https/'"
+    container_default_behavior: compatibility
     image: alpine
     interactive: yes
     mounts:
