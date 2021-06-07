@@ -34,7 +34,7 @@
     - stack-web-nginx--generate-stack
 
 ## docker_guy
-- name: Setup networks & volumes then start or update WordPress stack
+- name: 'Setup networks & volumes then start or update Nginx stack'
   become: no
   hosts: likorneWithCustomSSHPort
 
