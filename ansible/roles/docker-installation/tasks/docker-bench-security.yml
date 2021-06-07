@@ -274,7 +274,7 @@
   register: auditd_config_result
   template:
     dest: /etc/audit/rules.d/audit.rules
-    src: auditd-audit-rules.j2
+    src: auditd-audit.rules.j2
 
 - name: Restart auditd service if the configuration has changed, and restart on reboot
   service:
