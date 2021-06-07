@@ -1,5 +1,14 @@
 # Comments about /etc/docker/daemon.json creation
 
+---
+
+> 🤖 This file has been generated automatically through Ansible and **should not be edited by hand**.
+> See the [original script](https://github.com/youpiwaza/ansible-install-web-server/blob/master/ansible/roles/docker-installation/tasks/configure-docker-daemon.yml)
+> & [original template file](https://github.com/youpiwaza/ansible-install-web-server/blob/master/ansible/roles/docker-installation/templates/etc-docker-daemon-json.md).
+> *Generated (yyyy-mm-dd) {{ currentDateTime }}*.
+
+---
+
 - Cf. [Docker recommanded post installation steps](https://docs.docker.com/install/linux/linux-postinstall/)
 - Cf. [Docker recommanded Run your app in production](https://docs.docker.com/get-started/orchestration/)
 - Cf. [Project documentation](https://github.com/youpiwaza/ansible-install-web-server/tree/master/ansible/roles/docker-installation/tasks)
