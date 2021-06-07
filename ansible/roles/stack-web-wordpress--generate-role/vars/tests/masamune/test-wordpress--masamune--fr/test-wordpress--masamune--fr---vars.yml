@@ -25,6 +25,9 @@ project:
   maintainer: 'masamune.code@gmail.com'
   name: 'test wordpress'
   type: 'test'
+  # Adjust path to you var file here 🔧
+  # vars_file_path: 'roles/stack-web-wordpress--generate-role/vars/TYPE/CLIENT/DASHED-URI/DASHED-URI---vars_secret.yml'
+  vars_file_path: 'roles/stack-web-wordpress--generate-role/vars/tests/masamune/test-wordpress--masamune--fr/test-wordpress--masamune--fr---vars.yml'
 
 traefik:
   # Ensure DNS are set accordingly to point towards host IP

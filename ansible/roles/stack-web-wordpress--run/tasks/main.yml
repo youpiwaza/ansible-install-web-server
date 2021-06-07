@@ -10,6 +10,17 @@
 - debug:
     msg: 'Make sure to have the right public uri for traefik to match to DNS : traefik.public_uri : {{ traefik.public_uri }}'
 
+- debug:
+    msg: "\n\nIf the instance won't start, check if mariadb container keep rebooting.
+          \nYou can have a look to logs through 'docker service logs -f SERVICE_NAME'
+          \nIt should be something like 'docker service logs -f TYPE---DASHED-URI_mariadb'
+          \nThat might reveal that it can't connect. It can happen if generated vars files are deleted locally :it re-generate all access locally but not in (servers') already created volumes.
+          \n\n
+          \n\nIf that's the case
+          \n\1. Server > Stop the stack through 'docker stack rm STACK_NAME' and wait for all containers to be removed
+          \n\2. Server > Remove the corresponding volumes through 'docker volume rm VOLUME_NAME'
+          \n\3. Locally > Restart the playbook, as it creates empty named volumes
+          \n\n"
 
 
 ### Volumes management

@@ -14,8 +14,4 @@
   template:
     dest: '{{ root_folder }}/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/{{ project.dashed_domain }}--wordpress--generated-{{ currentDateTime }}.yml'
     src: templates/wordpress.yml.j2
-
-- debug:
-    msg: "\n\nA stack file '{{ root_folder }}/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/{{ project.dashed_domain }}--wordpress--generated.yml' have been generated in the {{ root_folder }} folder of this project, if you wanna make sure everything is fine :)\n"
-  when: root_folder == './generated'
 ...

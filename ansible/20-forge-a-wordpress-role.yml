@@ -3,25 +3,27 @@
 ## builder_guy
 # > ansible-playbook -i hostsWithCustomSSHPort 20-forge-a-wordpress-role.yml
 
-# 💡How to use: Set variables in a dedicated file, and this playbook to generate a wordpress role dedicated to one site
+# 💡How to use: Set variables in a dedicated file, and run this playbook to generate a wordpress role dedicated to one site
 #   Run the newly created role to generate, upload & deploy the .yml stack file.
 
 # 📌You can test this playbook by running it without modifications
 # > ansible-playbook -i hostsWithCustomSSHPort 20-forge-a-wordpress-role.yml
 # It will generate the example
-#     '/200-forge---test-wordpress--masamune--fr---wordpress-stack.yml'
+#     'ansible/200-forge---test-wordpress--masamune--fr---wordpress-stack.yml'
 #   sourced by the example var files
 #     'roles/stack-web-wordpress--generate-role/vars/tests/masamune/test-wordpress--masamune--fr/test-wordpress--masamune--fr---vars.yml'
 
 # 🧾Step-by-step How to:
 # 1. Duplicate 'ansible/roles/stack-web-wordpress--generate-role/vars/template.yml' to a proper location
-#    like 'ansible/roles/stack-web-wordpress--generate-role/vars/TYPE/CLIENT/DASHED-URI/DASHED-URI---vars.yml'
+#                                             Add '_secret' suffix to add this sensible file to .gitignore vv
+#    like 'ansible/roles/stack-web-wordpress--generate-role/vars/TYPE/CLIENT/DASHED-URI/DASHED-URI---vars_secret.yml' (which will be 🔧 vars_file_path)
 # 1.1. Edit your file according to your needs
-# 2. Edit '20-forge-a-wordpress-role.yml' to use your vars file,see the ✏️ around line ~45
+#      Adjust project.vars_file_path  to reflect the path from step 1. See the 🔧 around line ~30
+# 2. Edit '20-forge-a-wordpress-role.yml' to use your vars file,see the ✏️ around line ~48
 # 3. Run/Test your playbook: ~> ansible-playbook -i hostsWithCustomSSHPort 20-forge-a-wordpress-role.yml
 #    You can check the generated role file at the root folder 20X-forge---DASHED-URI---wordpress-stack-generated.yml
 # 4. Make backup to a private github repository if everything runs smoothly
-# 4.1 Private github account, ansible/roles/stack-web-wordpress--generate-role/vars/TYPE/CLIENT/DASHED-URI/DASHED-URI---vars.yml
+# 4.1 Private github account, ansible/roles/stack-web-wordpress--generate-role/vars/TYPE/CLIENT/DASHED-URI/DASHED-URI---vars_secret.yml
 # 4.2 History / ansible/roles/stack-web-wordpress--generate-role/vars/TYPE/CLIENT/DASHED-URI/DASHED-URI---vars-{{ currentDateTime }}.yml
 # 4.3 Add 20X-forge---DASHED-URI---wordpress-stack-generated.yml
 # 4.4 History / 20X-forge---DASHED-URI---wordpress-stack-generated-{{ currentDateTime }}.yml
@@ -42,7 +44,7 @@
   - vars/main.yml
   - roles/users/vars/main.yml
   # ✏️Edit project vars files here...
-  # - roles/stack-web-wordpress--generate-role/vars/TYPE/CLIENT/DASHED-URI/DASHED-URI---vars.yml
+  # - roles/stack-web-wordpress--generate-role/vars/TYPE/CLIENT/DASHED-URI/DASHED-URI---vars_secret.yml
   - roles/stack-web-wordpress--generate-role/vars/tests/masamune/test-wordpress--masamune--fr/test-wordpress--masamune--fr---vars.yml
 
   roles:

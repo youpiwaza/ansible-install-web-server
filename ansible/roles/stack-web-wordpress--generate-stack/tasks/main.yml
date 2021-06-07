@@ -3,13 +3,13 @@
 ## builder_guy
 
 ## This role must be run through a specific playbook.
-## cf. ansible/20-forge-a-wordpress-stack.yml for use case and example.
+## cf. ansible/20-forge-a-wordpress-role.yml for use case and example.
 
-- name: Custom website variables warning
+- name: Warning, this role needs a file providing variables
   debug:
     msg: "\n\nBEFORE RUNNING THIS ROLE !
-          \n\nDuplicate 'ansible/roles/stack-web-wordpress--generate/vars/template.yml' to a proper location, ex. 'ansible/roles/stack-web-wordpress--generate/vars/TYPE/CLIENT/DASHED-DOMAIN/main_secret.yml'
-          \n\nand modify/duplicate the '20-forge-a-wordpress-stack.yml' playbook accordingly.\n\n"
+          \n\nThis role must be run through a specific playbook generated through ansible/20-forge-a-wordpress-role.yml
+          \n\nIt also needs a specific file containing variables\n\n"
 
 - name: 'Read the warning message ^'
   wait_for:

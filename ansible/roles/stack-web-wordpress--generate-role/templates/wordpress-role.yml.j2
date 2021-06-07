@@ -1,32 +1,11 @@
 ---
-### Setup a WordPress stack
+### Setup a WordPress stack: generate or update .yml files, upload them and deploy stack
 ## builder_guy & docker_guy
-# 💡How to use: Set variables in a dedicated file, duplicate this playbook (adjusting the var file) & use it
+# > ansible-playbook -i hostsWithCustomSSHPort 200---{{ project.dashed_domain }}---forge-wordpress-stack--generated.yml
 
-# 📌You can test this playbook by running it without modifications
-# > ansible-playbook -i hostsWithCustomSSHPort 20-forge-a-wordpress-stack.yml
-# It will generate & run the example sourced by the example var files
-#   'roles/stack-web-wordpress--generate/vars/tests/masamune/test-wordpress--masamune--fr/test-wordpress--masamune--fr---vars.yml'
-#   Files will be generated locally in 'ansible-install-web-server/ansible/generated/tests/masamune/test-wordpress--masamune--fr/'
-
-# 🧾Step-by-step How to:
-# 1. Duplicate 'ansible/roles/stack-web-wordpress--generate/vars/template.yml' to a proper location
-#     like 'ansible/roles/stack-web-wordpress--generate/vars/TYPE/CLIENT/DASHED-URI/DASHED-URI---vars.yml'
-# 1.1. Fill in the variables according to your needs
-
-# 2. Duplicate this playbook file to give your project it's own playbook
-#      like '200-forge---DASHED-URI---wordpress-stack.yml'
-# 2.1. In your playbook file, edit the path to project variables, see the ✏️ around lines ~45 & 65
-
-# 3. Run/Test your playbook: ~> ansible-playbook -i hostsWithCustomSSHPort 200-forge---DASHED-URI---wordpress-stack.yml
-#   You can check the generated files locally in the ansible/generated/ folder
-
-# 4. Backups if everything runs smoothly
-# 4.1 Private github account, Add 20X-forge---DASHED-URI---wordpress-stack-generated.yml
-# 4.1.1 History / 20X-forge---DASHED-URI---wordpress-stack-generated-{{ currentDateTime }}.yml
-# 4.2 Private github account, ansible/roles/stack-web-wordpress--generate/vars/TYPE/CLIENT/DASHED-URI/DASHED-URI---vars.yml
-# 4.2.1 History / ansible/roles/stack-web-wordpress--generate/vars/TYPE/CLIENT/DASHED-URI/DASHED-URI---vars-{{ currentDateTime }}.yml
-
+# This role have been generated through ansible/20-forge-a-wordpress-role.yml
+#   Variables should be properly sourced by your file, created previously:
+#   '{{ project.vars_file_path }}'
 
 # Based on bitnami's WordPress & MariaDB images
 #   https://hub.docker.com/r/bitnami/wordpress/
@@ -48,9 +27,7 @@
   - roles/users/defaults/main.yml
   - vars/main.yml
   - roles/users/vars/main.yml
-  # ✏️Edit project vars files here...
-  - roles/stack-web-wordpress--generate-stack/vars/tests/masamune/test-wordpress--masamune--fr/test-wordpress--masamune--fr---vars.yml
-  # - roles/stack-web-wordpress--generate/vars/tests/masamune/test-wordpress--masamune--fr/test-wordpress--masamune--fr---vars_secret.yml
+  - {{ project.vars_file_path }}
 
   roles:
     - stack-web-wordpress--generate-stack
@@ -68,9 +45,7 @@
   - roles/users/defaults/main.yml
   - vars/main.yml
   - roles/users/vars/main.yml
-  # ✏️... and here
-  - roles/stack-web-wordpress--generate-stack/vars/tests/masamune/test-wordpress--masamune--fr/test-wordpress--masamune--fr---vars.yml
-  # - roles/stack-web-wordpress--generate-stack/vars/tests/masamune/test-wordpress--masamune--fr/test-wordpress--masamune--fr---vars_secret.yml
+  - {{ project.vars_file_path }}
 
   roles:
     - stack-web-wordpress--run
