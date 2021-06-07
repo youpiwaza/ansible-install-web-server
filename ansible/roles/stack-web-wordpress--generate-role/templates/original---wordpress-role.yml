@@ -49,11 +49,11 @@
   - vars/main.yml
   - roles/users/vars/main.yml
   # ✏️Edit project vars files here...
-  - roles/stack-web-wordpress--generate/vars/tests/masamune/test-wordpress--masamune--fr/test-wordpress--masamune--fr---vars.yml
+  - roles/stack-web-wordpress--generate-stack/vars/tests/masamune/test-wordpress--masamune--fr/test-wordpress--masamune--fr---vars.yml
   # - roles/stack-web-wordpress--generate/vars/tests/masamune/test-wordpress--masamune--fr/test-wordpress--masamune--fr---vars_secret.yml
 
   roles:
-    - stack-web-wordpress--generate
+    - stack-web-wordpress--generate-stack
 
 # ---
 
@@ -69,8 +69,8 @@
   - vars/main.yml
   - roles/users/vars/main.yml
   # ✏️... and here
-  - roles/stack-web-wordpress--generate/vars/tests/masamune/test-wordpress--masamune--fr/test-wordpress--masamune--fr---vars.yml
-  # - roles/stack-web-wordpress--generate/vars/tests/masamune/test-wordpress--masamune--fr/test-wordpress--masamune--fr---vars_secret.yml
+  - roles/stack-web-wordpress--generate-stack/vars/tests/masamune/test-wordpress--masamune--fr/test-wordpress--masamune--fr---vars.yml
+  # - roles/stack-web-wordpress--generate-stack/vars/tests/masamune/test-wordpress--masamune--fr/test-wordpress--masamune--fr---vars_secret.yml
 
   roles:
     - stack-web-wordpress--run
