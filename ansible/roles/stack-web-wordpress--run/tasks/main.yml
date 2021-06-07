@@ -10,19 +10,6 @@
 - debug:
     msg: 'Make sure to have the right public uri for traefik to match to DNS : traefik.public_uri : {{ traefik.public_uri }}'
 
-- debug:
-    msg: "\n\nIf the instance won't start, check if mariadb container keep rebooting.
-          \nYou can have a look to logs through 'docker service logs -f SERVICE_NAME'
-          \nIt should be something like 'docker service logs -f TYPE---DASHED-URI_mariadb'
-          \nThat might reveal that it can't connect. It can happen if generated vars files are deleted locally :it re-generate all access locally but not in (servers') already created volumes.
-          \n\n
-          \n\nIf that's the case
-          \n1. Server > Stop the stack through 'docker stack rm STACK_NAME' and wait for all containers to be removed
-          \n2. Server > Remove the corresponding volumes through 'docker volume rm VOLUME_NAME'
-          \n3. Locally > Restart the playbook, as it creates empty named volumes
-          \n\n"
-
-
 ### Volumes management
 
 ## Bitnamis' database (mariadb)
@@ -81,21 +68,31 @@
     labels: '{{ wp_files_labels_dict }}'
     name: '{{ project.type }}---{{ project.dashed_domain }}---wordpress--files'
 
-
 # ---
 
+- debug:
+    msg: "\n\nIf the instance won't start, check if mariadb container keep rebooting.
+          \nYou can have a look to logs through 'docker service logs -f SERVICE_NAME'
+          \nIt should be something like 'docker service logs -f TYPE---DASHED-URI_mariadb'
+          \nThat might reveal that it can't connect. It can happen if generated vars files are deleted locally :it re-generate all access locally but not in (servers') already created volumes.
+          \n\n
+          \n\nIf that's the case
+          \n1. Server > Stop the stack through 'docker stack rm STACK_NAME' and wait for all containers to be removed
+          \n2. Server > Remove the corresponding volumes through 'docker volume rm VOLUME_NAME'
+          \n3. Locally > Restart the playbook, as it creates empty named volumes
+          \n\n"
 
 - name: "Deploy '{{ project.type }}---{{ project.dashed_domain }}' stack from a compose file"
   docker_stack:
     name: '{{ project.type }}---{{ project.dashed_domain }}'
     compose:
-      # cf. ansible/roles/stack-web-wordpress--generate/tasks/generate-yml.yml > Generate wordpress-stack--generated.yml file
-      - '/home/{{ users.3.name }}/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/{{ project.dashed_domain }}--wordpress--generated.yml'
+      # cf. ansible/roles/stack-web-wordpress--generate-stack/tasks/generate-yml.yml
+      - '/home/{{ users.3.name }}/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/{{ project.dashed_domain }}---wordpress--generated.yml'
     state: present
   register: my_stack_status
 
-# # - debug:
-# #     msg: '{{ my_stack_status }}'
+# - debug:
+#     msg: '{{ my_stack_status }}'
 
 - name: 'Warning: WordPress setup delay'
   debug:

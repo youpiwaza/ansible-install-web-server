@@ -1,7 +1,7 @@
 ---
 ### WordPress var file template
 ## Duplicate this file to a proper location, ex. ansible/roles/stack-web-wordpress--generate-playbook/vars/TYPE/CLIENT/DASHED-DOMAIN/main.yml
-## And use it with the role 20-forge-a-wordpress-stack.yml
+## And use it with the playbook 20-forge-a-wordpress-stack.yml
 
 # Generate random strings with lookup, cf. https://github.com/youpiwaza/server-related-tutorials/tree/master/02-ansible/14-password-generation
 #   /!\ Do not touch "{{ lookup stuff, it will be generated and store (in case of update) automatically

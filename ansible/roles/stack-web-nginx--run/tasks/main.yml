@@ -1,49 +1,57 @@
 ---
-### Nginx stack: setup networks & volumes, then deploy
+### Nginx project setup: Create volumes & start containers
 ## docker_guy
-# Basic test of web server displaying a hellow world page on dedicated URI (test stack & reverse proxy uri management)
-# Can be used as a concrete example (boilerplate)
 
-# Test uri : (https://hello.masamune.fr/)
+## This role must be run through a specific playbook.
+## cf. ansible/10-forge-a-nginx-stack.yml for use case and example.
 
+## This role is meant to be run AFTER the 'stack-web-nginx--generate' role which will provide .yml stack files.
 
-
-# File management in /home/the_docker_peon restricted folder done by the_builder_guy, cf. ansible/roles/stack-web-nginx--generate
+- debug:
+    msg: 'Make sure to have the right public uri for traefik to match to DNS : traefik.public_uri : {{ traefik.public_uri }}'
 
 # Configuration details, debug, etc. here:
 #   https://github.com/youpiwaza/server-related-tutorials/tree/master/01-docker/04-my-tests/09-traefik-curated/11-prod-hello-curated/08-hello-stack-curated-comments
-#   Also contains commands for volume verifications ;)
-
 
 
 ### Volumes management
 ## Logs
 
-# docker volume create test---hello--masamune--fr---tutum-hello---logs \
-#    --label fr.masamune.client='masamune' \
-#    --label fr.masamune.maintainer='masamune.code@gmail.com' \
-#    --label fr.masamune.project='test / tutum / hello / logs' \
-#    --label fr.masamune.type='test'
+# docker volume create \
+#    --label fr.masamune.hello.client='masamune' \
+#    --label fr.masamune.hello.maintainer='masamune.code@gmail.com' \
+#    --label fr.masamune.hello.project='test / nginx / logs' \
+#    --label fr.masamune.hello.type='test'
+#   test---hello--masamune--fr---nginx---logs
 
-- name: "Create a named volume for hello logs 'test---hello--masamune--fr---tutum-hello---logs'"
+# Use set_fact to create a dictionnary with dynamic keys
+#   cf. https://stackoverflow.com/a/44570290/12026487
+#   Also NEEDs trailing comma "," to force dictionnary type, else it's considered as a string
+- name: Generate Nginx logs labels dictionnary (dynamic keys needs special syntax in ansible)
+  set_fact:
+    nginx_logs_labels_dict:
+      "{
+        '{{ project.labels_prefix }}.client': '{{ project.client_name }}'
+        ,'{{ project.labels_prefix }}.maintainer': '{{ project.maintainer }}'
+        ,'{{ project.labels_prefix }}.project':'{{ project.name }} / logs'
+        ,'{{ project.labels_prefix }}.type':'{{ project.type }}'
+      }"
+
+# - debug:
+#     msg: '{{ nginx_logs_labels_dict }}'
+
+- name: "Create a named volume for Nginx logs '{{ project.type }}---{{ project.dashed_domain }}---nginx--logs'"
   docker_volume:
-    labels:
-      fr.masamune.client: 'masamune'
-      fr.masamune.maintainer: 'masamune.code@gmail.com'
-      fr.masamune.project: 'test / tutum / hello / logs'
-      fr.masamune.type: 'test'
-    name: test---hello--masamune--fr---tutum-hello---logs
-
+    labels: '{{ nginx_logs_labels_dict }}'
+    name: '{{ project.type }}---{{ project.dashed_domain }}---nginx--logs'
 
 # Go inside the volume through temp alpine container, for rights configuration
-# not using --user, so we're having root access inside the container
-
-# TODO: Check if php-fpm logs are mandatory, in the container without php -_-
+#   not using --user, so we're having root access inside the container
 
 # nginx/ folder MUST be 1003:1003 owned too, not only files inside
 # docker run \
 #    --mount \
-#       source=test---hello--masamune--fr---tutum-hello---logs,target=/home \
+#       source=test---hello--masamune--fr---nginx---logs,target=/home \
 #    --rm \
 #    --workdir /home \
 #    alpine \
@@ -55,32 +63,27 @@
 #     touch ./nginx/error.log             && \
 #     chown -R 1003:1003 nginx               '
 
-- name: "Edit 'test---hello--masamune--fr---tutum-hello---logs' volume content : create files & docker_peon chown 1003:1003"
+- name: "Edit '{{ project.type }}---{{ project.dashed_domain }}---nginx--logs' volume content : create files & docker_peon chown 1003:1003"
   docker_container:
     auto_remove: yes
     command: "/bin/ash -c 'touch php-fpm.log && chown 1003:1003 php-fpm.log && mkdir nginx && touch ./nginx/access.log && touch ./nginx/error.log && chown -R 1003:1003 nginx'"
     image: alpine
     interactive: yes
     mounts:
-      - source: test---hello--masamune--fr---tutum-hello---logs
+      - source: '{{ project.type }}---{{ project.dashed_domain }}---nginx--logs'
         target: /home
     name: temp---edit-volume
     working_dir: /home
 
-
-## Start test---hello--masamune--fr---tutum-hello stack
-# docker stack deploy -c ~/wtv/hello.yml test---hello--masamune--fr---tutum-hello
-
-# File placement hard-coded in ansible/roles/stack-web-nginx--generate/tasks/tutum.yml
-- name: "Deploy '/home/{{ users.3.name }}/tests/masamune/hello--masamune--fr/hello--masamune--fr---nginx--generated.yml' stack from a compose file"
+- name: "Deploy '{{ project.type }}---{{ project.dashed_domain }}' stack from a compose file"
   docker_stack:
-    name: test---hello--masamune--fr---tutum-hello
+    name: '{{ project.type }}---{{ project.dashed_domain }}'
     compose:
-      - '/home/{{ users.3.name }}/tests/masamune/hello--masamune--fr/hello--masamune--fr---nginx--generated.yml'
+      # cf. ansible/roles/stack-web-nginx--generate-stack/tasks/generate-yml.yml
+      - '/home/{{ users.3.name }}/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/{{ project.dashed_domain }}---nginx--generated.yml'
     state: present
+  register: my_stack_status
 
-## Remove stack
-# docker stack rm test---hello--masamune--fr---tutum-hello
-# TODO: test stack
-# TODO: remove stack
+# - debug:
+#     msg: '{{ my_stack_status }}'
 ...

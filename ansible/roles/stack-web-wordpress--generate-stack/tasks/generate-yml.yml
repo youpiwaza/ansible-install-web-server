@@ -5,13 +5,13 @@
     path: '{{ root_folder }}/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/'
     state: directory
 
-- name: Generate '{{ root_folder }}/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/{{ project.dashed_domain }}--wordpress--generated.yml'
+- name: Generate '{{ root_folder }}/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/{{ project.dashed_domain }}---wordpress--generated.yml'
   template:
-    dest: '{{ root_folder }}/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/{{ project.dashed_domain }}--wordpress--generated.yml'
+    dest: '{{ root_folder }}/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/{{ project.dashed_domain }}---wordpress--generated.yml'
     src: templates/wordpress.yml.j2
 
-- name: History / Generate '{{ root_folder }}/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/{{ project.dashed_domain }}--wordpress--generated-{{ currentDateTime }}.yml'
+- name: History / Generate '{{ root_folder }}/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/{{ project.dashed_domain }}---wordpress--generated-{{ currentDateTime }}.yml'
   template:
-    dest: '{{ root_folder }}/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/{{ project.dashed_domain }}--wordpress--generated-{{ currentDateTime }}.yml'
+    dest: '{{ root_folder }}/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/{{ project.dashed_domain }}---wordpress--generated-{{ currentDateTime }}.yml'
     src: templates/wordpress.yml.j2
 ...

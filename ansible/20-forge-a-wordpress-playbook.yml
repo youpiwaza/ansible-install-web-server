@@ -11,7 +11,7 @@
 # It will generate the example
 #     'ansible/200-forge---test-wordpress--masamune--fr---wordpress-stack.yml'
 #   sourced by the example var files
-#     'playbooks/stack-web-wordpress--generate-playbook/vars/tests/masamune/test-wordpress--masamune--fr/test-wordpress--masamune--fr---vars.yml'
+#     'roles/stack-web-wordpress--generate-playbook/vars/tests/masamune/test-wordpress--masamune--fr/test-wordpress--masamune--fr---vars.yml'
 
 # 🧾Step-by-step How to:
 # 1. Duplicate 'ansible/roles/stack-web-wordpress--generate-playbook/vars/template.yml' to a proper location
@@ -27,6 +27,9 @@
 # 4.2 History / ansible/roles/stack-web-wordpress--generate-playbook/vars/TYPE/CLIENT/DASHED-URI/DASHED-URI---vars-{{ currentDateTime }}.yml
 # 4.3 Add 20X-forge---DASHED-URI---wordpress-stack-generated.yml
 # 4.4 History / 20X-forge---DASHED-URI---wordpress-stack-generated-{{ currentDateTime }}.yml
+
+# 🌱TODO:
+#  - Generate playbooks: stop stack, uninstall stack (rm volumes), save volumes
 
 # You'll need the_builder_guy to have it's ssh key added to the local agent, cf. the_builder_guy generated documentation
 

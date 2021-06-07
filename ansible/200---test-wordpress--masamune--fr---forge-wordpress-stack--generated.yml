@@ -21,30 +21,28 @@
   # builder_guy / cf. /ansible/roles/users/vars/main.yml
   remote_user: 'shaco_the_builder_guy_72nsk583qy'
   vars:
-    currentDateTime: "2021-06-07--14h38m21s"
+    currentDateTime: "2021-06-07--16h09m55s"
   vars_files:
   - defaults/main.yml
   - roles/users/defaults/main.yml
-  - vars/main.yml
   - roles/users/vars/main.yml
+  - vars/main.yml
   - roles/stack-web-wordpress--generate-playbook/vars/tests/masamune/test-wordpress--masamune--fr/test-wordpress--masamune--fr---vars.yml
 
   roles:
     - stack-web-wordpress--generate-stack
 
-# ---
-
 ## docker_guy
 - name: Setup networks & volumes then start or update WordPress stack
   become: no
   hosts: likorneWithCustomSSHPort
-  # the_docker_guy / cf. /ansible/roles/users/vars/main.yml
+  # docker_guy / cf. /ansible/roles/users/vars/main.yml
   remote_user: 'hecarim_the_docker_guy_57sq8jez6'
   vars_files:
   - defaults/main.yml
   - roles/users/defaults/main.yml
-  - vars/main.yml
   - roles/users/vars/main.yml
+  - vars/main.yml
   - roles/stack-web-wordpress--generate-playbook/vars/tests/masamune/test-wordpress--masamune--fr/test-wordpress--masamune--fr---vars.yml
 
   roles:

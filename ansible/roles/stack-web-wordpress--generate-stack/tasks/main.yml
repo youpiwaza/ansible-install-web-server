@@ -19,15 +19,14 @@
   delegate_to: 127.0.0.1
   include: generate-ids-readme.yml
 
-### Generate & upload web server wordpress files
-## the_builder_guy
+## Generate, then upload or update wordpress files
+
 - name: Local / Test / Web / Wordpress / Generate files
   delegate_to: 127.0.0.1
   include: generate-yml.yml
   vars:
     root_folder: './generated'
 
-### Upload or update stack files in the_docker_peon /home folder
 - name: Server / Test / Web / Wordpress / Upload or update stack
   include: generate-yml.yml
   vars:
