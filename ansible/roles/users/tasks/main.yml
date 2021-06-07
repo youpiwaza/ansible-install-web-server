@@ -43,7 +43,7 @@
   when: users__docker.createDockerGroup|bool == true
 
 # Usually you need to reconnect for the changes to take place, or use newgrp docker
-# But in this playbook the docker guy won't work until the third playbook, which forces reconnexion
+# But in this playbook the docker_guy won't work until the third playbook, which forces reconnexion
 - name: Add docker rights
   include: allow-docker.yml
   loop: '{{ users }}'

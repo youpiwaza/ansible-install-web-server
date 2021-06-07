@@ -1,13 +1,11 @@
 ---
 ### WordPress project setup: Create volumes & start containers
 ## docker_guy
-# File management in /home/the_docker_peon restricted folder done by the_builder_guy, cf. ansible/roles/stack-web-wordpress--generate
 
-## This role is meant to be run AFTER the 'stack-web-wordpress--generate' role, and will use the variables injected from a wp variables dedicated file
-##    ex. ansible/roles/stack-web-wordpress--generate/vars/TYPE/CLIENT/DASHED-DOMAIN/main.yml
-## cf. 20-forge-a-wordpress-stack.yml && ansible/roles/stack-web-wordpress--generate
+## This role must be run through a specific playbook.
+## cf. ansible/20-forge-a-wordpress-stack.yml for use case and example.
 
-
+## This role is meant to be run AFTER the 'stack-web-wordpress--generate' role which will provide .yml stack files.
 
 - debug:
     msg: 'Make sure to have the right public uri for traefik to match to DNS : traefik.public_uri : {{ traefik.public_uri }}'

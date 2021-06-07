@@ -10,11 +10,11 @@
 # You'll need the_builder_guy to have it's ssh key added to the local agent, cf. the_builder_guy generated documentation
 # You'll need the_docker_guy  to have it's ssh key added to the local agent, cf. the_docker_guy  generated documentation
 
-
+## builder_guy
 - name: Generate or update a WordPress stack
   become: yes
   hosts: likorneWithCustomSSHPort
-  # the_builder_guy / cf. /ansible/roles/users/vars/main.yml
+  # builder_guy / cf. /ansible/roles/users/vars/main.yml
   remote_user: '{{ users.0.name }}'
   vars:
     currentDateTime: "{{ lookup('pipe', 'date +%Y-%m-%d--%Hh%Mm%Ss') }}"
@@ -37,7 +37,7 @@
 
 # ---
 
-
+## docker_guy
 ## Docker guy
 # ✅ Volumes creation
 # ✅ Debug warning: ~1min to start (database creation)
@@ -48,7 +48,6 @@
 - name: Setup networks & volumes then start or update WordPress stack
   become: no
   hosts: likorneWithCustomSSHPort
-
   # the_docker_guy / cf. /ansible/roles/users/vars/main.yml
   remote_user: '{{ users.2.name }}'
   vars_files:

@@ -20,7 +20,7 @@ Is replacing root, for setup purposes.
 
 Will manage repeated/planned CRON tasks, and only him.
 
-### the Docker guy
+### the docker_guy
 
 Will manage everything related to Docker, and added to the docker group.
 

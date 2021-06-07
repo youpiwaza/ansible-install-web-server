@@ -1,5 +1,5 @@
 ---
-### Ensure that the docker guy can run docker without sudo
-- name: Ensure that the docker guy can run docker without sudo, and initiate a stack
+### Ensure that the docker_guy can run docker without sudo
+- name: Ensure that the docker_guy can run docker without sudo, and initiate a stack
   include: test-curated-stack.yml
 ...

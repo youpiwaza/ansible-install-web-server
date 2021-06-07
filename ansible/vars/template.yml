@@ -58,7 +58,7 @@
 #   uri: https://github.com/youpiwaza/docker-compose-curated-example.git
 
 
-# ## Docker guy check
+# ## docker_guy check
 # docker_guy_check__publicRepoCurated: 
 #   name: docker-compose-curated-example
 #   uri: https://github.com/youpiwaza/docker-compose-curated-example.git
