@@ -1,6 +1,6 @@
 ---
 ### Nginx var file template
-## Duplicate this file to a proper location, ex. ansible/roles/stack-web-nginx--generate-playbook/vars/TYPE/CLIENT/DASHED-URI/main.yml
+## Duplicate this file to a proper location, ex. ansible/roles/stack-web-nginx--generate-playbooks/vars/TYPE/CLIENT/DASHED-URI/main.yml
 ## And use it with the playbook 10-forge-a-nginx-stack.yml
 
 project:
@@ -13,8 +13,8 @@ project:
   name: 'test nginx'
   type: 'test'
   # Adjust path to you var file here 🔧
-  # vars_file_path: 'roles/stack-web-nginx--generate-playbook/vars/TYPE/CLIENT/DASHED-URI/DASHED-URI---vars_secret.yml'
-  vars_file_path: 'roles/stack-web-nginx--generate-playbook/vars/tests/masamune/hello--masamune--fr/hello--masamune--fr---vars.yml'
+  # vars_file_path: 'roles/stack-web-nginx--generate-playbooks/vars/TYPE/CLIENT/DASHED-URI/DASHED-URI---vars_secret.yml'
+  vars_file_path: 'roles/stack-web-nginx--generate-playbooks/vars/tests/masamune/hello--masamune--fr/hello--masamune--fr---vars.yml'
 
 traefik:
   # Ensure DNS are set accordingly to point towards host IP

@@ -1,0 +1,66 @@
+---
+### Nginx ansible playbook generation: .yml file
+## builder_guy
+
+## This role must be run through a specific playbook.
+## cf. ansible/10-forge-a-nginx.yml for use case and example.
+
+- name: Warning, without manual action this role will run an example
+  debug:
+    msg:
+      - "BEFORE RUNNING THIS ROLE !"
+      - "Duplicate 'ansible/roles/stack-web-nginx--generate-playbooks/vars/template.yml' to a proper location"
+      - "for example : 'ansible/roles/stack-web-nginx--generate-playbooks/vars/TYPE/CLIENT/DASHED-DOMAIN/DASHED-DOMAIN---vars_secret.yml'"
+      - "and modify the '10-forge-a-nginx.yml' playbook accordingly : the path to the new file."
+
+- name: 'Read the warning message ^'
+  wait_for:
+    timeout: 5
+
+# Create generated/ local directories
+- name: Create directory './generated/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/stack/'
+  delegate_to: 127.0.0.1
+  file:
+    path: './generated/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/stack/'
+    state: directory
+
+- name: Create directory './generated/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/history/stack'
+  delegate_to: 127.0.0.1
+  file:
+    path: './generated/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/history/stack'
+    state: directory
+
+
+
+## Generate all playbooks, customized using the duplicated project vars files
+# Start playbook
+- name: Generate './generated/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/100---{{ project.dashed_domain }}---nginx-stack--start--generated.yml'
+  delegate_to: 127.0.0.1
+  template:
+    dest: './generated/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/100---{{ project.dashed_domain }}---nginx-stack--start--generated.yml'
+    src: nginx-playbook-start.yml.j2
+
+- name: History / Generate './generated/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/playbooks/100---{{ project.dashed_domain }}---nginx-stack--start--generated-{{ currentDateTime }}.yml'
+  delegate_to: 127.0.0.1
+  template:
+    dest: './generated/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/playbooks/100---{{ project.dashed_domain }}---nginx-stack--start--generated-{{ currentDateTime }}.yml'
+    src: nginx-playbook-start.yml.j2
+
+# Convenience : duplicate to root
+- name: Generate './100---{{ project.dashed_domain }}---nginx-stack--start--generated.yml'
+  delegate_to: 127.0.0.1
+  template:
+    dest: './100---{{ project.dashed_domain }}---nginx-stack--start--generated.yml'
+    src: nginx-playbook-start.yml.j2
+
+
+
+- name: Everything went fine :)
+  debug:
+    msg:
+      - "You can now run the newly generated playbook, it will use the same file for your project's vars."
+      - "It will generate the stack .yml files, then upload/update them, and finally deploy the stack !"
+      - "Here's the command :"
+      - ""
+      - "ansible-playbook -i hostsWithCustomSSHPort 100---{{ project.dashed_domain }}---nginx-stack--start--generated.yml"
+...

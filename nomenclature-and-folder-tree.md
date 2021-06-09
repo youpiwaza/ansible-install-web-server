@@ -41,13 +41,13 @@ Do not use underscores.
       - ^ This is the one actually **deployed**
       - ^ This allow to update the running stacks through the same files (consecutive deploys), and always know which one is running
     - Server / History / Generated file:      `/home/DOCKER_PEON/core/reverse-proxy/traefik/traefik--generated-{{ currentDateTime }}.yml`
-  - Regarding clients stacks : 2 parts : Generate the playbooks generator, then run them
+  - Regarding clients stacks : 2 parts : Generate the playbooks generator, then run those new playbooks
     - Example with wordpress
       - Run the `ansible/20-forge-a-wordpress-stack.yml` playbook, which uses for vars
         - `roles/stack-web-wordpress--generate/vars/tests/masamune/test-wordpress--masamune--fr/test-wordpress--masamune--fr---vars.yml`
-      - It will generate the example playbook `ansible/200---test-wordpress--masamune--fr---forge-wordpress-stack-generated.yml`
-        - which will generate, upload & deploy a dedicated wordpress stack
-        - cf. ansible/generated/tests/masamune/test-wordpress--masamune--fr/test-wordpress--masamune--fr---wordpress--generated.yml
+      - It will generate the example playbook `ansible/generated/tests/masamune/test-wordpress--masamune--fr/200---test-wordpress--masamune--fr---forge-wordpress-stack-generated.yml`
+        - which will, when run, generate, upload & deploy a dedicated wordpress stack
+        - cf. `ansible/generated/tests/masamune/test-wordpress--masamune--fr/test-wordpress--masamune--fr---wordpress--generated.yml`
 
 ### Clients
 
@@ -61,14 +61,38 @@ Do not use underscores.
 Clients' crafted/generated stuff, must be backed-up in a private git repository
 
 - /ansible
-  - /stack-web-nginx--generate-playbook/vars/*
+  - /stack-web-nginx--generate-playbooks/vars/*
   - /stack-web-wordpress--generate-playbook/vars/*
 
 Which allow the generation of
 
-- 100---DASHED-URI---forge-nginx-stack--generated.yml
-- 200---DASHED-URI---forge-wordpress-stack--generated.yml
-- /generated/*
+- /generated
+  - **Nginx example**
+  - /TYPE/CLIENT/DASHED-URI
+    - /history
+      - /sub-folders-*
+        - *-generated-2021-06-03--11h48m36s.wtv
+    - /stack
+      - DASHED-URI---nginx--generated.yml
+      - DASHED-URI---nginx--generated.conf
+    - README-generated.md
+    - 100---DASHED-URI---nginx-stack--start--generated.yml // Generate or update, then deploy
+    - 100---DASHED-URI---nginx-stack--stop--generated.yml // Stop, preventing auto-reboot
+    - 100---DASHED-URI---nginx-stack--uninstall--generated.yml // Stop, then remove volumes
+    - 100---DASHED-URI---nginx-stack--backup-volumes--generated.yml // Make an archive file (.tar) on the server (extract docker named volumes to host)
+
+  - **Wordpress example**
+  - /TYPE/CLIENT/DASHED-URI
+    - /history
+      - /sub-folders-*
+        - *-generated-2021-06-03--11h48m36s.wtv
+    - /stack
+      - DASHED-URI---ids-README-generated.md
+      - DASHED-URI---wordpress--generated.yml
+    - /vars-files
+      - WORDPRESS_USERNAME-generated.txt
+    - README-generated.md
+    - 20---DASHED-URI---forge-wordpress-stack--generated.yml
 
 #### Server
 

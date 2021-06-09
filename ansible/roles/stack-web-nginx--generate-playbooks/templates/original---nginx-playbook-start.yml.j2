@@ -1,18 +1,11 @@
 ---
-##---
-## 🤖 This file has been generated automatically through Ansible and **should not be edited by hand**.
-## See the [original script](https://github.com/youpiwaza/ansible-install-web-server/blob/master/ansible/roles/stack-web-nginx--generate-playbook/tasks/main.yml)
-## & [original template file](https://github.com/youpiwaza/ansible-install-web-server/blob/master/ansible/roles/stack-web-nginx--generate-playbook/templates/nginx-playbook.yml.j2).
-## *Generated (yyyy-mm-dd) {{ currentDateTime }}*.
-##---
-
 ### Setup a Nginx stack: generate or update .yml files, upload them and deploy stack
 ## builder_guy & docker_guy
-# > ansible-playbook -i hostsWithCustomSSHPort 100---{{ project.dashed_domain }}---forge-nginx-stack--generated.yml
+# > ansible-playbook -i hostsWithCustomSSHPort 100---hello--masamune--fr---forge-nginx-stack--generated.yml
 
-# This role have been generated through ansible/10-forge-a-nginx-playbook.yml
+# This role have been generated through ansible/10-forge-a-nginx.yml
 #   Variables should be properly sourced by your file, created previously:
-#   '{{ project.vars_file_path }}'
+#   'roles/stack-web-nginx--generate-role/vars/tests/masamune/hello--masamune--fr/hello--masamune--fr---vars.yml'
 
 # TODO: Replace by real nginx
 # Based on tutum/helloworld image
@@ -34,7 +27,8 @@
   - roles/users/defaults/main.yml
   - roles/users/vars/main.yml
   - vars/main.yml
-  - {{ project.vars_file_path }}
+  # - roles/stack-web-nginx--generate-role/vars/TYPE/CLIENT/DASHED-URI/DASHED-URI---vars_secret.yml
+  - roles/stack-web-nginx--generate-role/vars/tests/masamune/hello--masamune--fr/hello--masamune--fr---vars.yml
 
   roles:
     - stack-web-nginx--generate-stack
@@ -51,8 +45,9 @@
   - roles/users/defaults/main.yml
   - roles/users/vars/main.yml
   - vars/main.yml
-  - {{ project.vars_file_path }}
+  # - roles/stack-web-nginx--generate-role/vars/TYPE/CLIENT/DASHED-URI/DASHED-URI---vars_secret.yml
+  - roles/stack-web-nginx--generate-role/vars/tests/masamune/hello--masamune--fr/hello--masamune--fr---vars.yml
 
   roles:
-    - stack-web-nginx--run
+    - stack-web-nginx--deploy
 ...

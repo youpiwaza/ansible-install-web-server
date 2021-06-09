@@ -1,0 +1,48 @@
+---
+### Generate or update a Nginx playbook
+## builder_guy
+# > ansible-playbook -i hostsWithCustomSSHPort 10-forge-a-nginx.yml
+
+# 💡How to use: Set variables in a dedicated file, and run this playbook to generate nginx playbooks dedicated to one site
+#   Run the newly created playbook "start" to generate, upload & deploy the .yml stack file.
+
+# 📌You can test this playbook by running it without modifications
+# > ansible-playbook -i hostsWithCustomSSHPort 10-forge-a-nginx.yml
+# It will generate the example in
+#     'ansible/generated/tests/masamune/hello--masamune--fr/'
+#   sourced by the example var files
+#     'roles/stack-web-nginx--generate-playbooks/vars/tests/masamune/hello--masamune--fr/hello--masamune--fr---vars.yml'
+
+# 🧾Step-by-step How to:
+# 1. Duplicate 'ansible/roles/stack-web-nginx--generate-playbooks/vars/template.yml' to a proper location
+#                                             Add '_secret' suffix to add this sensible file to .gitignore vv
+#    like 'ansible/roles/stack-web-nginx--generate-playbooks/vars/TYPE/CLIENT/DASHED-URI/DASHED-URI---vars_secret.yml' (which will be 🔧 vars_file_path)
+# 1.1. Edit your file according to your needs
+#      Adjust project.vars_file_path  to reflect the path from step 1. See the 🔧 around line ~30
+# 2. Edit this file '10-forge-a-nginx.yml' to use your vars file,see the ✏️ around line ~51
+# 3. Run/Test your playbook: ~> ansible-playbook -i hostsWithCustomSSHPort 10-forge-a-nginx.yml
+#    You can check the generated playbook file in the /generated folder
+# 4. Make backup to a private github repository if everything runs smoothly, and save your file withe variables, and the generated folder
+
+# You'll need the_builder_guy to have it's ssh key added to the local agent, cf. the_builder_guy generated documentation
+
+## builder_guy
+- name: Generate or update a Nginx playbooks
+  become: yes
+  hosts: likorneWithCustomSSHPort
+  # builder_guy / cf. /ansible/roles/users/vars/main.yml
+  remote_user: '{{ users.0.name }}'
+  vars:
+    currentDateTime: "{{ lookup('pipe', 'date +%Y-%m-%d--%Hh%Mm%Ss') }}"
+  vars_files:
+  - defaults/main.yml
+  - roles/users/defaults/main.yml
+  - vars/main.yml
+  - roles/users/vars/main.yml
+  # ✏️Edit project vars files here...
+  # - roles/stack-web-nginx--generate-playbooks/vars/TYPE/CLIENT/DASHED-URI/DASHED-URI---vars_secret.yml
+  - roles/stack-web-nginx--generate-playbooks/vars/tests/masamune/hello--masamune--fr/hello--masamune--fr---vars.yml
+
+  roles:
+    - stack-web-nginx--generate-playbooks
+...

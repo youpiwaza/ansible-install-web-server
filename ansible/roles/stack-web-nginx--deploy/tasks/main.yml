@@ -90,4 +90,13 @@
 
 # - debug:
 #     msg: '{{ my_stack_status }}'
+
+
+
+- name: Everything went fine :)
+  debug:
+    msg:
+      - "You should be able to see the website at the designated uri :"
+      - ""
+      - "https://{{ traefik.public_uri }}/"
 ...
