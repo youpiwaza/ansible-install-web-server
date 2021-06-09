@@ -62,7 +62,7 @@ Clients' crafted/generated stuff, must be backed-up in a private git repository
 
 - /ansible
   - /stack-web-nginx--generate-playbooks/vars/*
-  - /stack-web-wordpress--generate-playbook/vars/*
+  - /stack-web-wordpress--generate-playbooks/vars/*
 
 Which allow the generation of
 

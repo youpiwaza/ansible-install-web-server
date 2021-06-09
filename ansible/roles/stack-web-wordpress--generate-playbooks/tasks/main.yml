@@ -9,8 +9,8 @@
   debug:
     msg: 
       - "BEFORE RUNNING THIS ROLE !"
-      - "Duplicate 'ansible/roles/stack-web-wordpress--generate-playbook/vars/template.yml' to a proper location,"
-      - "ex. 'ansible/roles/stack-web-wordpress--generate-playbook/vars/TYPE/CLIENT/DASHED-DOMAIN/DASHED-DOMAIN---vars_secret.yml'"
+      - "Duplicate 'ansible/roles/stack-web-wordpress--generate-playbooks/vars/template.yml' to a proper location,"
+      - "ex. 'ansible/roles/stack-web-wordpress--generate-playbooks/vars/TYPE/CLIENT/DASHED-DOMAIN/DASHED-DOMAIN---vars_secret.yml'"
       - "and modify the '20-forge-a-wordpress.yml' playbook accordingly : the path to the new file."
 
 - name: 'Read the warning message ^'
