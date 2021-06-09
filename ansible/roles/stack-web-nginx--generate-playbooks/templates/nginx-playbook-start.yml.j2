@@ -26,9 +26,9 @@
   become: yes
   hosts: likorneWithCustomSSHPort
   # builder_guy / cf. /ansible/roles/users/vars/main.yml
-  remote_user: '{{ users.0.name }}'
+  remote_user: '{REMOVE-ME-TO-PRESERVE-VARS{ users.0.name }}'
   vars:
-    currentDateTime: "{{ lookup('pipe', 'date +%Y-%m-%d--%Hh%Mm%Ss') }}"
+    currentDateTime: "{REMOVE-ME-TO-PRESERVE-VARS{ ansible_date_time.date }}--{REMOVE-ME-TO-PRESERVE-VARS{ ansible_date_time.hour }}h{REMOVE-ME-TO-PRESERVE-VARS{ ansible_date_time.minute }}m{REMOVE-ME-TO-PRESERVE-VARS{ ansible_date_time.second }}s"
   vars_files:
   - defaults/main.yml
   - roles/users/defaults/main.yml
@@ -46,7 +46,7 @@
   hosts: likorneWithCustomSSHPort
 
   # docker_guy / cf. /ansible/roles/users/vars/main.yml
-  remote_user: '{{ users.2.name }}'
+  remote_user: '{REMOVE-ME-TO-PRESERVE-VARS{ users.2.name }}'
   vars_files:
   - defaults/main.yml
   - roles/users/defaults/main.yml
