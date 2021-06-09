@@ -34,7 +34,7 @@
 # Json format doesn't allow comments, so add the documentation on the host as well
 - name: Copy documentation for /etc/docker/daemon.json
   vars:
-    currentDateTime: "{{ lookup('pipe', 'date +%Y-%m-%d--%Hh%Mm%Ss') }}"
+    currentDateTime: "{{ ansible_date_time.date }}--{{ ansible_date_time.hour }}h{{ ansible_date_time.minute }}m{{ ansible_date_time.second }}s"
   template:
     dest: /etc/docker/README_daemon.json.md
     src: etc-docker-daemon.json.md

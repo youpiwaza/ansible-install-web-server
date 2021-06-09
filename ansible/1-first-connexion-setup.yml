@@ -6,7 +6,7 @@
   hosts: 127.0.0.1
   connection: local
   vars:
-    currentDateTime: "{{ lookup('pipe', 'date +%Y-%m-%d--%Hh%Mm%Ss') }}"
+    currentDateTime: "{{ ansible_date_time.date }}--{{ ansible_date_time.hour }}h{{ ansible_date_time.minute }}m{{ ansible_date_time.second }}s"
   vars_files:
   - defaults/main.yml
   - vars/main.yml
