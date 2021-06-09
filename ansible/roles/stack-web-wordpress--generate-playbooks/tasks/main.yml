@@ -40,6 +40,18 @@
 
 
 
+# Removes REMOVE-ME-TO-PRESERVE-VARS in "{REMOVE-ME-TO-PRESERVE-VARS{ vars_to_preserve }}"
+- name: Preserve specific vars in generated playbook files
+  delegate_to: 127.0.0.1
+  ansible.builtin.replace:
+    path: '{{ item }}'
+    regexp: 'REMOVE-ME-TO-PRESERVE-VARS'
+    replace: ''
+  loop:
+    - './generated/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/200---{{ project.dashed_domain }}---wordpress-stack--start--generated.yml'
+    - './generated/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/history/200---{{ project.dashed_domain }}---wordpress-stack--start--generated-{{ currentDateTime }}.yml'
+    - './200---{{ project.dashed_domain }}---wordpress-stack--start--generated.yml'
+
 - name: Everything went fine :)
   debug:
     msg:
@@ -47,5 +59,5 @@
       - "It will generate the stack .yml files, then upload/update them, and finally deploy the stack !"
       - "Here's the command :"
       - ""
-      - "ansible-playbook -i hostsWithCustomSSHPort 200---{{ project.dashed_domain }}---forge-wordpress-stack--generated.yml"
+      - "ansible-playbook -i hostsWithCustomSSHPort 200---{{ project.dashed_domain }}---wordpress-stack--start--generated.yml"
 ...
