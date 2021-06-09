@@ -1,0 +1,52 @@
+# Documentation for the project 'test nginx'
+
+---
+
+> 🤖 This file has been generated automatically through Ansible and **should not be edited by hand**.
+> See the [original script](https://github.com/youpiwaza/ansible-install-web-server/blob/master/ansible/roles/stack-web-wordpress--generate-playbooks/tasks/main.yml),
+> & [original template file](not yet :x but will mostly be in adjacent /templates folder).
+> depending on the technology involed, ex: stack-web-nginx/stack-web-wordpress.
+> *Generated (yyyy-mm-dd) {{ currentDateTime }}*.
+
+---
+
+This project hosts a [pretty website](https://hello.masamune.fr/), and works through ansible 🤖 (automation) & docker 🐳 (containers).
+
+See below how to handle the infrastructure made with 🐬💖 without ruining everything.
+
+## Main commands
+
+You'll **need ansible/python** installed to run those commands. See this [other project](https://github.com/youpiwaza/install-dev-env) to get all set.
+
+Each command runs an ansible playbook dedicated to your website.
+
+```bash
+# Setup a WordPress stack: generate or update .yml files, upload them and deploy stack
+ansible-playbook -i hostsWithCustomSSHPort 200---test-wordpress--masamune--fr---wordpress-stack--start--generated.yml
+```
+
+## What
+
+I'd strongly recommand to check on the [original project](https://github.com/youpiwaza/ansible-install-web-server/).
+
+The infrastructure is heavily automated & can generate a lot of stuff. See the playbooks generators : [10-forge-a-nginx.yml](https://github.com/youpiwaza/ansible-install-web-server/blob/master/ansible/10-forge-a-nginx.yml) / [20-forge-a-wordpress.yml](https://github.com/youpiwaza/ansible-install-web-server/blob/master/ansible/20-forge-a-wordpress.yml).
+
+It's mostly *Infrastructure As Code*, so even if it's scary at first glance, it unroll pretty well if you follow the files trail ;)
+
+The projects generators are populated with a file containing variables, and create a project.
+
+Basically each project is composed of:
+
+- Multiple ansible roles, allowing us to 1 line 🤖 complex operations (start/stop/update/remove/backup a server (in a 🐳container))
+- A docker-compose .yml file, describing the docker images used, and the configuration
+- Other misc files (README, config files, etc.) specific to the technology involved
+
+## Updates
+
+If you need to do updates on the containers, I'd recommand to edit the corresponding templates files (*.j2) and rerun the playbooks.
+
+For example, to update a wordpress:
+
+1. Edit the [wordpress.yml template](https://github.com/youpiwaza/ansible-install-web-server/blob/master/ansible/roles/stack-web-wordpress--generate-stack/templates/wordpress.yml.j2)
+2. For a new website, or if you don't have the generated files anymore, run the [wp playbooks generator](https://github.com/youpiwaza/ansible-install-web-server/blob/master/ansible/20-forge-a-wordpress.yml)
+3. Then run the generated "wordpress start/update" playbook, which should be like *ansible/100---hello--masamune--fr---nginx-stack--start--generated.yml*
