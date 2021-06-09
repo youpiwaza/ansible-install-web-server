@@ -4,7 +4,7 @@
   template:
     dest: '{{ item }}'
     src: templates/nginx.yml.j2
-    loop:
+  loop:
     - '{{ root_folder }}/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/stack/{{ project.dashed_domain }}---nginx--generated.yml'
     - '{{ root_folder }}/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/history/stack/{{ project.dashed_domain }}---nginx--generated-{{ currentDateTime }}.yml'
 
