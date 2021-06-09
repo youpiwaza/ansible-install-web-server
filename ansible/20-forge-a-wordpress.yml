@@ -1,13 +1,13 @@
 ---
 ### Generate or update a WordPress playbook
 ## builder_guy
-# > ansible-playbook -i hostsWithCustomSSHPort 20-forge-a-wordpress-playbook.yml
+# > ansible-playbook -i hostsWithCustomSSHPort 20-forge-a-wordpress.yml
 
 # 💡How to use: Set variables in a dedicated file, and run this playbook to generate a wordpress playbook dedicated to one site
 #   Run the newly created playbook to generate, upload & deploy the .yml stack file.
 
 # 📌You can test this playbook by running it without modifications
-# > ansible-playbook -i hostsWithCustomSSHPort 20-forge-a-wordpress-playbook.yml
+# > ansible-playbook -i hostsWithCustomSSHPort 20-forge-a-wordpress.yml
 # It will generate the example
 #     'ansible/200-forge---test-wordpress--masamune--fr---wordpress-stack.yml'
 #   sourced by the example var files
@@ -19,8 +19,8 @@
 #    like 'ansible/roles/stack-web-wordpress--generate-playbook/vars/TYPE/CLIENT/DASHED-URI/DASHED-URI---vars_secret.yml' (which will be 🔧 vars_file_path)
 # 1.1. Edit your file according to your needs
 #      Adjust project.vars_file_path  to reflect the path from step 1. See the 🔧 around line ~30
-# 2. Edit '20-forge-a-wordpress-playbook.yml' to use your vars file,see the ✏️ around line ~48
-# 3. Run/Test your playbook: ~> ansible-playbook -i hostsWithCustomSSHPort 20-forge-a-wordpress-playbook.yml
+# 2. Edit '20-forge-a-wordpress.yml' to use your vars file,see the ✏️ around line ~48
+# 3. Run/Test your playbook: ~> ansible-playbook -i hostsWithCustomSSHPort 20-forge-a-wordpress.yml
 #    You can check the generated playbook file at the root folder 20X-forge---DASHED-URI---wordpress-stack-generated.yml
 # 4. Make backup to a private github repository if everything runs smoothly, and save..
 # 4.1 ansible/roles/stack-web-wordpress--generate-playbook/vars/TYPE/CLIENT/DASHED-URI/DASHED-URI---vars_secret.yml

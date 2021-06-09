@@ -56,7 +56,7 @@ ansible-playbook -i hostsWithCustomSSHPort 10-forge-a-nginx.yml
 
 # Lancer le playbook de génération d'un playbook de mise en place d'un serveur nginx.
 #     🔧 Nécessite la configuration de variables ! (défaut: test-wordpress.masamune.fr)
-ansible-playbook -i hostsWithCustomSSHPort 20-forge-a-wordpress-playbook.yml
+ansible-playbook -i hostsWithCustomSSHPort 20-forge-a-wordpress.yml
 
 # ---
 

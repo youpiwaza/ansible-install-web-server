@@ -3,7 +3,7 @@
 ## builder_guy & docker_guy
 # > ansible-playbook -i hostsWithCustomSSHPort 200---test-wordpress--masamune--fr---forge-wordpress-stack--generated.yml
 
-# This role have been generated through ansible/20-forge-a-wordpress-playbook.yml
+# This role have been generated through ansible/20-forge-a-wordpress.yml
 #   Variables should be properly sourced by your file, created previously:
 #   'roles/stack-web-wordpress--generate-role/vars/tests/masamune/test-wordpress--masamune--fr/test-wordpress--masamune--fr---vars.yml'
 
