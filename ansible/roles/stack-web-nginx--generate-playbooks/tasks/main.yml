@@ -17,7 +17,7 @@
   wait_for:
     timeout: 5
 
-# Create generated/ local directories
+# Create generated/ local directory
 - name: Create directory './generated/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/history'
   delegate_to: 127.0.0.1
   file:
@@ -27,25 +27,18 @@
 
 
 ## Generate all playbooks, customized using the duplicated project vars files
-# Start playbook
-- name: Generate './generated/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/100---{{ project.dashed_domain }}---nginx-stack--start--generated.yml'
+- name: Generate nginx start playbook
   delegate_to: 127.0.0.1
   template:
-    dest: './generated/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/100---{{ project.dashed_domain }}---nginx-stack--start--generated.yml'
+    dest: '{{ item }}'
     src: nginx-playbook-start.yml.j2
+  loop:
+    - './generated/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/100---{{ project.dashed_domain }}---nginx-stack--start--generated.yml'
+    - './generated/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/history/100---{{ project.dashed_domain }}---nginx-stack--start--generated-{{ currentDateTime }}.yml'
+    # Convenience : duplicate to root
+    - './100---{{ project.dashed_domain }}---nginx-stack--start--generated.yml'
 
-- name: History / Generate './generated/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/history/100---{{ project.dashed_domain }}---nginx-stack--start--generated-{{ currentDateTime }}.yml'
-  delegate_to: 127.0.0.1
-  template:
-    dest: './generated/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/history/100---{{ project.dashed_domain }}---nginx-stack--start--generated-{{ currentDateTime }}.yml'
-    src: nginx-playbook-start.yml.j2
 
-# Convenience : duplicate to root
-- name: Generate './100---{{ project.dashed_domain }}---nginx-stack--start--generated.yml'
-  delegate_to: 127.0.0.1
-  template:
-    dest: './100---{{ project.dashed_domain }}---nginx-stack--start--generated.yml'
-    src: nginx-playbook-start.yml.j2
 
 # Removes REMOVE-ME-TO-PRESERVE-VARS in "{REMOVE-ME-TO-PRESERVE-VARS{ vars_to_preserve }}"
 - name: Preserve specific vars in generated playbook files
