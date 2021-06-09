@@ -11,7 +11,7 @@
       - "BEFORE RUNNING THIS ROLE !"
       - "Duplicate 'ansible/roles/stack-web-wordpress--generate-playbook/vars/template.yml' to a proper location,"
       - "ex. 'ansible/roles/stack-web-wordpress--generate-playbook/vars/TYPE/CLIENT/DASHED-DOMAIN/DASHED-DOMAIN---vars_secret.yml'"
-      - "and modify the '20-forge-a-wordpress-playbook.yml' playbook accordingly."
+      - "and modify the '20-forge-a-wordpress-playbook.yml' playbook accordingly : the path to the new file."
 
 - name: 'Read the warning message ^'
   wait_for:
