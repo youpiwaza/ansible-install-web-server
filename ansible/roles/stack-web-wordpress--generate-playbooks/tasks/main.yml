@@ -17,23 +17,27 @@
   wait_for:
     timeout: 5
 
-- name: Generate '/200---{{ project.dashed_domain }}---forge-wordpress-stack--generated.yml'
-  delegate_to: 127.0.0.1
-  template:
-    dest: './200---{{ project.dashed_domain }}---forge-wordpress-stack--generated.yml'
-    src: wordpress-playbook.yml.j2
-
-- name: Create directory './generated/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/playbooks/'
+# Create generated/ local directory
+- name: Create directory './generated/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/history'
   delegate_to: 127.0.0.1
   file:
-    path: './generated/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/playbooks/'
+    path: './generated/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/history'
     state: directory
 
-- name: History / Generate './generated/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/playbooks/200---{{ project.dashed_domain }}---forge-wordpress-stack--generated-{{ currentDateTime }}.yml'
+
+
+## Generate all playbooks, customized using the duplicated project vars files
+- name: Generate WordPress start playbook
   delegate_to: 127.0.0.1
   template:
-    dest: './generated/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/playbooks/200---{{ project.dashed_domain }}---forge-wordpress-stack--generated-{{ currentDateTime }}.yml'
-    src: wordpress-playbook.yml.j2
+    dest: '{{ item }}'
+    src: wordpress-playbook-start.yml.j2
+  loop:
+    - './generated/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/200---{{ project.dashed_domain }}---wordpress-stack--start--generated.yml'
+    - './generated/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/history/200---{{ project.dashed_domain }}---wordpress-stack--start--generated-{{ currentDateTime }}.yml'
+    # Convenience : duplicate to root
+    - './200---{{ project.dashed_domain }}---wordpress-stack--start--generated.yml'
+
 
 
 - name: Everything went fine :)
