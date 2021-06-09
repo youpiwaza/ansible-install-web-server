@@ -11,7 +11,7 @@
       - "BEFORE RUNNING THIS ROLE !"
       - "Duplicate 'ansible/roles/stack-web-nginx--generate-playbooks/vars/template.yml' to a proper location"
       - "for example : 'ansible/roles/stack-web-nginx--generate-playbooks/vars/TYPE/CLIENT/DASHED-DOMAIN/DASHED-DOMAIN---vars_secret.yml'"
-      - "and modify the '10-forge-a-nginx.yml' playbook accordingly : the path to the new file."
+      - "and modify the '10-forge-a-nginx.yml' playbook accordingly in vars : set the path to the new file."
 
 - name: 'Read the warning message ^'
   wait_for:
