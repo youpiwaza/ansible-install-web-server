@@ -8,7 +8,6 @@
     - '{{ root_folder }}/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/stack/'
     - '{{ root_folder }}/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/history/stack/'
 
-
 - name: Generate nginx.conf
   template:
     dest: '{{ item }}'
