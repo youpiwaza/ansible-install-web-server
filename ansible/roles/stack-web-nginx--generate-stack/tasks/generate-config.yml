@@ -1,25 +1,21 @@
 ---
 ## the_builder_guy
-- name: Create directory '{{ root_folder }}/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/stack/'
+- name: Create directories
   file:
-    path: '{{ root_folder }}/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/stack/'
+    path: '{{ item }}'
     state: directory
-
-- name: Create directory '{{ root_folder }}/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/history/stack/'
-  file:
-    path: '{{ root_folder }}/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/history/stack/'
-    state: directory
+  loop:
+    - '{{ root_folder }}/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/stack/'
+    - '{{ root_folder }}/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/history/stack/'
 
 
-- name: Generate '{{ root_folder }}/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/stack/{{ project.dashed_domain }}---nginx--generated.conf'
+- name: Generate nginx.conf
   template:
-    dest: '{{ root_folder }}/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/stack/{{ project.dashed_domain }}---nginx--generated.conf'
+    dest: '{{ item }}'
     src: templates/nginx.conf.j2
-
-- name: History / Generate '{{ root_folder }}/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/history/stack/{{ project.dashed_domain }}---nginx--generated-{{ currentDateTime }}.conf'
-  template:
-    dest: '{{ root_folder }}/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/history/stack/{{ project.dashed_domain }}---nginx--generated-{{ currentDateTime }}.conf'
-    src: templates/nginx.conf.j2
+  loop:
+    - '{{ root_folder }}/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/stack/{{ project.dashed_domain }}---nginx--generated.conf'
+    - '{{ root_folder }}/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/history/stack/{{ project.dashed_domain }}---nginx--generated-{{ currentDateTime }}.conf'
 
 - debug:
     msg:
