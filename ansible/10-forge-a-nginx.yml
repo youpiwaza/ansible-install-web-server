@@ -21,7 +21,7 @@
 #      Adjust project.vars_file_path  to reflect the path from step 1. See the 🔧 around line ~30
 # 2. Edit this file '10-forge-a-nginx.yml' to use your vars file,see the ✏️ around line ~43
 # 3. Run/Test your playbook: ~> ansible-playbook -i hostsWithCustomSSHPort 10-forge-a-nginx.yml
-#    You can check the generated playbook file in the /generated folder
+#    You can check the generated playbook file at the root/ or in the /generated folder
 # 4. Make backup to a private github repository if everything runs smoothly, and save your file withe variables, and the generated folder
 
 # You'll need the_builder_guy to have it's ssh key added to the local agent, cf. the_builder_guy generated documentation
