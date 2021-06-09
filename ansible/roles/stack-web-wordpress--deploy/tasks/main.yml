@@ -87,22 +87,23 @@
     name: '{{ project.type }}---{{ project.dashed_domain }}'
     compose:
       # cf. ansible/roles/stack-web-wordpress--generate-stack/tasks/generate-yml.yml
-      - '/home/{{ users.3.name }}/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/{{ project.dashed_domain }}---wordpress--generated.yml'
+      - '/home/{{ users.3.name }}/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/stack/{{ project.dashed_domain }}---wordpress--generated.yml'
     state: present
   register: my_stack_status
 
 # - debug:
 #     msg: '{{ my_stack_status }}'
 
-- name: 'Warning: WordPress setup delay'
+- name: 'Everything went fine :), but WordPress has setup delay'
   debug:
     msg:
       - "Be patient =)"
       - "Bitnami's WordPress take roughly 1 minute to start, especially on first try since it must create database."
       - "It can go up up to 2-3 minutes if it downloads the containers' images."
       - "Note : If MariaDB fails to initialize, make sure there isn't an existing named volume (with previous IDs..) !"
-
-
+      - "You should be able to see the website at the designated uri :"
+      - ""
+      - "https://{{ traefik.public_uri }}/"
 
 # ### TODO: Wait for / Test website deployment
 

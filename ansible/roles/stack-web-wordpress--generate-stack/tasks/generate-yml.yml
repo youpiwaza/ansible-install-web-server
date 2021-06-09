@@ -1,17 +1,18 @@
 ---
 ## the_builder_guy
-- name: Create directory '{{ root_folder }}/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/'
+- name: Create directories
   file:
-    path: '{{ root_folder }}/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/'
+    path: '{{ item }}'
     state: directory
+  loop:
+    - '{{ root_folder }}/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/stack/'
+    - '{{ root_folder }}/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/history/stack/'
 
-- name: Generate '{{ root_folder }}/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/{{ project.dashed_domain }}---wordpress--generated.yml'
+- name: Generate wordpress.yml'
   template:
-    dest: '{{ root_folder }}/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/{{ project.dashed_domain }}---wordpress--generated.yml'
+    dest: '{{ item }}'
     src: templates/wordpress.yml.j2
-
-- name: History / Generate '{{ root_folder }}/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/{{ project.dashed_domain }}---wordpress--generated-{{ currentDateTime }}.yml'
-  template:
-    dest: '{{ root_folder }}/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/{{ project.dashed_domain }}---wordpress--generated-{{ currentDateTime }}.yml'
-    src: templates/wordpress.yml.j2
+  loop:
+    - '{{ root_folder }}/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/stack/{{ project.dashed_domain }}---wordpress--generated.yml'
+    - '{{ root_folder }}/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/history/stack/{{ project.dashed_domain }}---wordpress--generated-{{ currentDateTime }}.yml'
 ...

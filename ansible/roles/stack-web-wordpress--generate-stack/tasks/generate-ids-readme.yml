@@ -1,17 +1,12 @@
 ---
 ### Locally generate README.md file containing wordpress infos
-# directory ?
-- name: Locally generate README.md file containing wordpress ids & infos
+- name: Generate ids-README.md file containing wordpress ids & infos
   template:
-    dest: './generated/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/{{ project.dashed_domain }}---ids-README-generated.md'
-    src: templates/README.md.j2
-  delegate_to: 127.0.0.1
-
-- name: History / Generate History / Generate './generated/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/{{ project.dashed_domain }}---ids-README-generated-{{ currentDateTime }}.md'
-  template:
-    dest: './generated/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/{{ project.dashed_domain }}---ids-README-generated-{{ currentDateTime }}.md'
-    src: templates/README.md.j2
-  delegate_to: 127.0.0.1
+    dest: '{{ item }}'
+    src: templates/ids-README.md.j2
+  loop:
+    - './generated/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/{{ project.dashed_domain }}---ids-README-generated.md'
+    - './generated/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/history/{{ project.dashed_domain }}---ids-README-generated-{{ currentDateTime }}.md'
 
 - debug:
     msg: 
