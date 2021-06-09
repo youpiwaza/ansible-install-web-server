@@ -48,5 +48,5 @@
   - roles/stack-web-wordpress--generate-role/vars/tests/masamune/test-wordpress--masamune--fr/test-wordpress--masamune--fr---vars.yml
 
   roles:
-    - stack-web-wordpress--run
+    - stack-web-wordpress--deploy
 ...
