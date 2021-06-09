@@ -1,5 +1,5 @@
 ---
-### Nginx project setup: Create volumes & start containers
+### Nginx stack setup: Create volumes & start containers
 ## docker_guy
 
 ## This role must be run through a specific playbook.
