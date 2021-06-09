@@ -148,8 +148,8 @@ services:
 
 configs:
   nginx_config:
-    # cf. ansible/roles/stack-web-nginx--config/tasks/main.yml
-    file: '/home/{{ users.3.name }}/tests/masamune/hello--masamune--fr/hello--masamune--fr---nginx--generated.conf'
+    # cf. ansible/roles/stack-web-nginx--generate-stack/tasks/generate-config.yml
+    file: '/home/{{ users.3.name }}/tests/masamune/hello--masamune--fr/stack/hello--masamune--fr---nginx--generated.conf'
     
 
 networks:

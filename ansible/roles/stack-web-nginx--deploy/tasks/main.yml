@@ -84,7 +84,7 @@
     name: '{{ project.type }}---{{ project.dashed_domain }}'
     compose:
       # cf. ansible/roles/stack-web-nginx--generate-stack/tasks/generate-yml.yml
-      - '/home/{{ users.3.name }}/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/{{ project.dashed_domain }}---nginx--generated.yml'
+      - '/home/{{ users.3.name }}/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/stack/{{ project.dashed_domain }}---nginx--generated.yml'
     state: present
   register: my_stack_status
 

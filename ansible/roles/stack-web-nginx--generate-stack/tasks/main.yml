@@ -16,8 +16,9 @@
   wait_for:
     timeout: 5
 
-## Generate, then upload or update nginx config files
 
+
+## Generate, then upload or update nginx config files
 - name: Local / Test / Web / Nginx / Generate config files
   delegate_to: 127.0.0.1
   include: generate-config.yml
@@ -30,7 +31,6 @@
     root_folder: '/home/{{ users.3.name }}'
 
 ## Generate, then upload or update nginx files
-
 - name: Local / Test / Web / Nginx / Generate files
   delegate_to: 127.0.0.1
   include: generate-yml.yml

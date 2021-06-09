@@ -18,16 +18,10 @@
     timeout: 5
 
 # Create generated/ local directories
-- name: Create directory './generated/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/stack/'
+- name: Create directory './generated/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/history'
   delegate_to: 127.0.0.1
   file:
-    path: './generated/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/stack/'
-    state: directory
-
-- name: Create directory './generated/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/history/stack'
-  delegate_to: 127.0.0.1
-  file:
-    path: './generated/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/history/stack'
+    path: './generated/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/history'
     state: directory
 
 
@@ -40,10 +34,10 @@
     dest: './generated/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/100---{{ project.dashed_domain }}---nginx-stack--start--generated.yml'
     src: nginx-playbook-start.yml.j2
 
-- name: History / Generate './generated/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/playbooks/100---{{ project.dashed_domain }}---nginx-stack--start--generated-{{ currentDateTime }}.yml'
+- name: History / Generate './generated/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/history/100---{{ project.dashed_domain }}---nginx-stack--start--generated-{{ currentDateTime }}.yml'
   delegate_to: 127.0.0.1
   template:
-    dest: './generated/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/playbooks/100---{{ project.dashed_domain }}---nginx-stack--start--generated-{{ currentDateTime }}.yml'
+    dest: './generated/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/history/100---{{ project.dashed_domain }}---nginx-stack--start--generated-{{ currentDateTime }}.yml'
     src: nginx-playbook-start.yml.j2
 
 # Convenience : duplicate to root

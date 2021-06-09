@@ -87,12 +87,12 @@ Which allow the generation of
       - /sub-folders-*
         - *-generated-2021-06-03--11h48m36s.wtv
     - /stack
-      - DASHED-URI---ids-README-generated.md
       - DASHED-URI---wordpress--generated.yml
     - /vars-files
       - WORDPRESS_USERNAME-generated.txt
-    - README-generated.md
-    - 20---DASHED-URI---forge-wordpress-stack--generated.yml
+    - DASHED-URI---ids-generated.md
+    - DASHED-URI---README-generated.md
+    - 200---DASHED-URI---forge-wordpress-stack--generated.yml
 
 #### Server
 
