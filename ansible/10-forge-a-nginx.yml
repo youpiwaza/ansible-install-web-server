@@ -19,7 +19,7 @@
 #    like 'ansible/roles/stack-web-nginx--generate-playbooks/vars/TYPE/CLIENT/DASHED-URI/DASHED-URI---vars_secret.yml' (which will be 🔧 vars_file_path)
 # 1.1. Edit your file according to your needs
 #      Adjust project.vars_file_path  to reflect the path from step 1. See the 🔧 around line ~30
-# 2. Edit this file '10-forge-a-nginx.yml' to use your vars file,see the ✏️ around line ~51
+# 2. Edit this file '10-forge-a-nginx.yml' to use your vars file,see the ✏️ around line ~43
 # 3. Run/Test your playbook: ~> ansible-playbook -i hostsWithCustomSSHPort 10-forge-a-nginx.yml
 #    You can check the generated playbook file in the /generated folder
 # 4. Make backup to a private github repository if everything runs smoothly, and save your file withe variables, and the generated folder
