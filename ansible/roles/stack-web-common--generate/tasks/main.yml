@@ -1,0 +1,24 @@
+---
+### Web common files generation: Project README.md file
+## builder_guy
+
+## This role must be run through a specific playbook.
+## cf. ansible/10-forge-a-nginx.yml for use case and example.
+## cf. ansible/20-forge-a-nginx.yml for use case and example.
+
+- name: Warning, this role needs some vars_file population
+  debug:
+    msg:
+      - "This role should be run through a web stack playbooks generator"
+
+- name: Local / Generate project README.md
+  delegate_to: 127.0.0.1
+  include: generate-README.md.yml
+  vars:
+    root_folder: './generated'
+
+- name: Server / Generate project README.md
+  include: generate-README.md.yml
+  vars:
+    root_folder: '/home/{{ users.3.name }}'
+...

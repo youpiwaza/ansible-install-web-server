@@ -1,0 +1,12 @@
+---
+## the_builder_guy
+- name: Create directory
+  file:
+    path: '{{ root_folder }}/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/'
+    state: directory
+
+- name: Generate README.md'
+  template:
+    dest: '{{ root_folder }}/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/{{ project.dashed_domain }}---README--generated.md'
+    src: templates/README.md.j2
+...

@@ -3,6 +3,14 @@
 ## Duplicate this file to a proper location, ex. ansible/roles/stack-web-nginx--generate-playbooks/vars/TYPE/CLIENT/DASHED-URI/main.yml
 ## And use it with the playbook 10-forge-a-nginx-stack.yml
 
+# Do not edit.
+constants:
+  # Aesthetic, for cleaner folder tree (alpha-reorder)
+  FILE_PREFIX: '100---'
+  # Keyword used to generate common files (README.md, etc.)
+  TECHNOLOGY: 'nginx'
+
+# Edit below :)
 project:
   client_name: 'masamune'
   dashed_domain: 'hello--masamune--fr'
