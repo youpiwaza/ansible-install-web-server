@@ -82,7 +82,7 @@
       - "2. Server > Remove the corresponding volumes through 'docker volume rm VOLUME_NAME'"
       - "3. Locally > Restart the playbook, as it creates empty named volumes"
 
-- name: "Deploy '{{ project.type }}---{{ project.dashed_domain }}' stack from a compose file"
+- name: "Deploy wordpress stack '{{ project.type }}---{{ project.dashed_domain }}' from a docker compose .yml file"
   docker_stack:
     name: '{{ project.type }}---{{ project.dashed_domain }}'
     compose:

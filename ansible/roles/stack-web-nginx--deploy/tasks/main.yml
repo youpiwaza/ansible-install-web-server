@@ -79,7 +79,7 @@
 - debug:
     msg: "If the instance won't start, consider using : server > 'docker service logs -f SERVICE_NAME'"
 
-- name: "Deploy '{{ project.type }}---{{ project.dashed_domain }}' stack from a compose file"
+- name: "Deploy nginx stack '{{ project.type }}---{{ project.dashed_domain }}' from a docker compose .yml file"
   docker_stack:
     name: '{{ project.type }}---{{ project.dashed_domain }}'
     compose:
