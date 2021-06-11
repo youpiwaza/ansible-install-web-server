@@ -3,9 +3,8 @@
 ---
 
 > 🤖 This file has been generated automatically through Ansible and **should not be edited by hand**.
-> See the [original script](https://github.com/youpiwaza/ansible-install-web-server/blob/master/ansible/roles/stack-web-wordpress--generate-playbooks/tasks/main.yml),
-> & [original template file](not yet :x but will mostly be in adjacent /templates folder).
-> depending on the technology involed, ex: stack-web-nginx/stack-web-wordpress.
+> See the [original script](https://github.com/youpiwaza/ansible-install-web-server/blob/master/ansible/roles/stack-web-nginx--generate-playbooks/tasks/main.yml),
+> & [original template file](https://github.com/youpiwaza/ansible-install-web-server/blob/master/ansible/roles/stack-web-common--generate/template/README.md.j2).
 > *Generated (yyyy-mm-dd) {{ currentDateTime }}*.
 
 ---
@@ -39,6 +38,8 @@ Basically each project is composed of:
 
 - Multiple ansible roles, allowing us to 1 line 🤖 complex operations (start/stop/update/remove/backup a server (in a 🐳container))
 - A docker-compose .yml file, describing the docker images used, and the configuration
+  - Note that some operations are done in ansible, ex: named volumes setup > creation & edit folders/files rights for custom user
+  - ^ due to that, they shouldn't be started directly through docker CLI.
 - Other misc files (README, config files, etc.) specific to the technology involved
 
 ## Updates
