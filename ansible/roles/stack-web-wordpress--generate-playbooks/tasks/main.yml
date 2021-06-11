@@ -33,10 +33,10 @@
     dest: '{{ item }}'
     src: wordpress-playbook-start.yml.j2
   loop:
-    - './generated/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/200---{{ project.dashed_domain }}---wordpress-stack--start--generated.yml'
-    - './generated/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/history/200---{{ project.dashed_domain }}---wordpress-stack--start--generated-{{ currentDateTime }}.yml'
+    - './generated/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/{{ constants.FILE_PREFIX }}{{ project.dashed_domain }}---wordpress-stack--start--generated.yml'
+    - './generated/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/history/{{ constants.FILE_PREFIX }}{{ project.dashed_domain }}---wordpress-stack--start--generated-{{ currentDateTime }}.yml'
     # Convenience : duplicate to root
-    - './200---{{ project.dashed_domain }}---wordpress-stack--start--generated.yml'
+    - './{{ constants.FILE_PREFIX }}{{ project.dashed_domain }}---wordpress-stack--start--generated.yml'
 
 
 
@@ -48,9 +48,9 @@
     regexp: 'REMOVE-ME-TO-PRESERVE-VARS'
     replace: ''
   loop:
-    - './generated/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/200---{{ project.dashed_domain }}---wordpress-stack--start--generated.yml'
-    - './generated/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/history/200---{{ project.dashed_domain }}---wordpress-stack--start--generated-{{ currentDateTime }}.yml'
-    - './200---{{ project.dashed_domain }}---wordpress-stack--start--generated.yml'
+    - './generated/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/{{ constants.FILE_PREFIX }}{{ project.dashed_domain }}---wordpress-stack--start--generated.yml'
+    - './generated/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/history/{{ constants.FILE_PREFIX }}{{ project.dashed_domain }}---wordpress-stack--start--generated-{{ currentDateTime }}.yml'
+    - './{{ constants.FILE_PREFIX }}{{ project.dashed_domain }}---wordpress-stack--start--generated.yml'
 
 - name: Everything went fine :)
   debug:
@@ -59,5 +59,5 @@
       - "It will generate the stack .yml files, then upload/update them, and finally deploy the stack !"
       - "Here's the command :"
       - ""
-      - "ansible-playbook -i hostsWithCustomSSHPort 200---{{ project.dashed_domain }}---wordpress-stack--start--generated.yml"
+      - "ansible-playbook -i hostsWithCustomSSHPort {{ constants.FILE_PREFIX }}{{ project.dashed_domain }}---wordpress-stack--start--generated.yml"
 ...
