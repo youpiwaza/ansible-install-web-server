@@ -509,6 +509,140 @@ Mettre en place le nouveau serveur
             5. ✅ Role > tutum test init & start
             6. 🌱🚑 Role > tutum test stop
 
+Reprise du taf en juin 2021
+
+1. ✅ Cleaner ansible-install-web-server/ansible/roles/wordpress-generate/templates > original stack ?
+      2. ✅ Backup nouveau serveur (volumes containers)
+      3. ✅ Lapie > All in one WP Migration
+      4. ✅ Tests backup volume > .tar
+         1. [Doc volumes](server-related-tutorials/01-docker/03-develop-with-docker/02-volumes/README.md)
+      5. 💩 Tests [archivage incrémentiel](https://doc.ubuntu-fr.org/tar#utilisation_en_archivage_incrementiel)
+         1. Test sur fichier alakon
+         2. Test sur fichier alakon dans volume
+         3. KO / --listed-incremential not found dans `tar`
+      6. ✅ Cleaner backup
+         1. ✅ Mettre nom, date & heure dans le nom de fichier de la sauvegarde
+            1. `nom-volume---backup---$(date +%Y-%m-%d--%H.%M.%S).tar`
+         2. ✅ Contenu de l'archive propre : 1 seul dossier bien nommé
+         3. ✅ Bien le ranger sur l'hôte (emplacement à choisir + maj ansible-install-web-server/nomenclature-and-folder-tree.md)
+            1. Les volumes sont liés aux conteneurs, mais contenu sensible (!DOCKER_PEON) > dans le dossier de DOCKER_GUY/
+            2. Arbo logique ek details `DOCKER_GUY/backups/volumes/clients/LE_CLIENT/SITE_COM/ANNEE/nom-volume---backup---$(date +%Y-%m-%d--%H.%M.%S).tar`
+            3. Mais, les noms de volumes ont de l'info, ex : `client---dev--masamune-fr---wordpress--db`, mais les sauvegardes seront récurrentes (vite le bordel si beaucoup de fichiers)
+            4. `DOCKER_GUY/backups/volumes/ANNEE/TYPE/LE_CLIENT/SITE_COM/nom-volume---backup---$(date +%Y-%m-%d--%Hh%Mm%Ss).tar`
+            5. Eg. `DOCKER_GUY/backups/volumes/2021/clients/masamune/dev--masamune--fr/client---dev--masamune--fr---wordpress--db---backup---2021-05-27--11h23m57s.tar`
+         4. ✅ Documenter
+            1. ✅ Fichier de commandes usuelles, pour sauvegarde manuelle
+            2. ✅ Arborescence du serveur
+               1. ✅ Maj de la notation dash
+               2. ✅ Ajout des backups
+      7. ✅ Faire les backups des volumes en prod
+         1. ✅ Virer les stacks inutiles
+         2. ✅ Faire les backups sur le serveur
+         3. ✅ SSH > récupérer les archives en local/github
+            1. ✅ Récupérer également les .yml temporaires (de nonore, etc.)
+      8. ✅ Mettre à jour la dashed notation partout (folders, files, containers, volumes, networks)
+         1. ✅ Update ~wp-generate & wp-setup
+         2. ✅ 20-setup-a-wordpress.yml
+      9. ✅ /tmp/ un dossier par client et par site
+         1. ex: `'/home/{{ users.3.name }}/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/wordpress-stack--generated.yml'`
+         2. cf. ansible-install-web-server/ansible/roles/wordpress-generate/vars/template.yml
+         3. ansible-install-web-server\ansible\roles\wordpress-generate\tasks\generate-ids-readme.yml
+         4. ansible-install-web-server\ansible\roles\wordpress-generate\tasks\generate-wordpress-stack-file.yml
+         5. & template files *.j2
+      10. ✅📌 Tester les rôles sur un [wp masa](https://test-wordpress.masamune.fr/)
+
+- ✅ Update hello tests
+  - ✅ New dashed notation
+  - ✅ Separate from role 4, in order to be easier to start new services, make a BP
+  - Hello php
+    - ✅ Passer en https
+- ✅ Tâches > Ajout de la commande d'éxécution correspondante dans chaque fichier (et pas uniquement dans README.md)
+- ✅ ansible-install-web-server/ansible/tmp/ > Transformer le dossier tmp/ en generated/
+- ✅ Maj **locales** putaing
+  - ✅ WSL
+  - ✅ Terminal
+  - ✅ Docker Desktop
+  - Maj tuto environnement de dev
+    - ✅ Terminal
+    - ✅ [Video du gars](https://ww-youtub-com/watch?v=idW-an99TAM)
+    - ✅ Docker
+    - ✅ Autres
+- ✅ Connexion au serveur optimisée
+- ✅ Libérer espace disque C
+- ✅ ansible-install-web-server/ansible/tmp/tests/masamune/test-wordpress--masamune--fr/generated > Transformer le dossier generated en var-files/
+- ✅ Uniformiser install/generate/init/setup
+  - ✅ core
+  - ✅ tutum/nginx
+  - ✅ wordpress
+  - Choix des mots :
+    - Etape 1 : Fichiers générés en local, puis copiés en ligne > generate
+    - Etape 2 : Network & volumes, lancement/Mise à jour des stacks > run
+    - Besoin de prefixes, ex:
+      - ✅ core-reverse-proxy-traefik--generate
+      - ✅ core-reverse-proxy-traefik--run
+      - core-monitoring-grafana-generate
+      - core-monitoring-grafana-run
+      - ✅ stack-web-nginx--configs
+      - ✅ stack-web-nginx--generate
+      - ✅ stack-web-nginx--deploy
+      - ✅  stack-web-wordpress--generate
+      - ✅  stack-web-wordpress--deploy
+      - ✅ 10-forge-a-nginx-stack # generate & run > setup network & volumes & < config, generate, upload, start/updat- Avec un README ça passe
+      - ✅ 20-forge-a-wordpress-stack
+- ✅ Séparer nginx & nginx php
+- ✅ Optimiser local/server, la seule diff c'est le début du chemin
+- Ajouter local & history partout, ref : ansible/roles/core-reverse-proxy-traefik--generate/tasks/main.yml
+  - ✅ stack-web-nginx--generate
+    - ✅ local
+    - ✅ history
+  - 💩 stack-web-nginx-php--generate
+    -💩 Refaire a partir de nginx, garder que la conf
+    - 🔥 Non, en fait ce sont les mêmes, les deux ont besoin de php
+  - ✅ stack-web-wordpress--generate
+    - ✅ generate id > local > history
+    - ✅ stack > history
+- ✅ nginx conf worker_connections  127; check diff entre normal et php << max perf : 1024
+- ✅ Générer tous les fichiers en local dans generated/
+  - ✅ core / reverse proxy
+  - ✅ tutum/nginx / test-hello & hello-php
+  - ✅  ansible-install-web-server\ansible\4-setup-core-services.yml
+  - ✅  Extract config wtf l. ~75 📌📌📌 normalement c'est fait + generated mais tjr besoin de split nginx & nginx phpay
+  - ✅  tout en fait
+- ✅ Serveur > Corriger 98-maintenance > faire vraiment les upgrades
+  - ansible-install-web-server/ansible/roles/system-update/tasks/update-packages.yml, l. 8
+  - 📌✅ Besoin d'un maj de plugin pour constater le bug > corrigé
+- ✅ Changer message d'accueil KO
+  
+1. ✅ Fusionner config dans generate
+2. ✅ Plus de dossier /configs, directement dans le dossier client/etc/habituel/
+3. ✅ Lint nginx folder & filenames > Renommer '/home/{{ users.3.name }}/configs/webserver/nginx/tutum--customUser-p8080-php--nginx.conf'
+   1. ansible-install-web-server\ansible\roles\stack-web-nginx--config\tasks\main.yml
+   2. ^ Attention à changer les chemins d'injection dans les .yml également
+   3. ansible-install-web-server\nomenclature-and-folder-tree.md
+4. ✅ WordPress forge stack > WordPress forge role
+   1. ✅ Playbook to generate .yml files: playbook & role 20X-forge---DASHED-URI---wordpress-stack-generated.yml
+   2. ✅ Ajuster stack-web-wordpress--generate-stack
+5. ✅ Nginx forge stack > WordPress forge role
+   1. ✅ Créer fichier de variables de projet
+   2. ✅ Adapter generate stack
+6. ✅👥 stack-web-nginx--generate > vars comme wordpress
+7. ✅ Sur les fichiers générés
+   1. ✅ En-tête avec commentaire: "Généré avec ansible + timestamp + ref au fichier original + ref playbook original"
+   2. ✅ suffixe extension > ex "README.j2" devient "README.md.j2"
+8. ✅ ansible > \n KO
+9. ✅ Deprecated docker_container explicit default behavior stuff [container_default_behavior: compatibility](https://docs.ansible.com/ansible/latest/collections/community/docker/docker_container_module.html#parameter-container_default_behavior)
+   1. ✅ ansible-install-web-server\ansible\roles\core-reverse-proxy-traefik--run\tasks\main.yml
+   2. ✅ ansible-install-web-server\ansible\roles\stack-web-nginx--generate
+   3. ✅ ansible-install-web-server\ansible\roles\stack-web-nginx--deploy
+10. ✅ BUG: stack-web-nginx--deploy > can't update due to timestamp in .conf file
+11. ✅ Forge playbookS > At the end add a message to start the generated playbook
+12. ✅ Maj traefik ?
+13. ✅ Clean noms containers (noms services fichiers yml :
+    1. OK / test---test-wordpress--masamune--fr_mariadb.1.6u0pzz5paqai596um2b22eu1c
+    2. NOK / test---hello-php--masamune--fr---tutum-hello-php_hello-php.1.
+14. ✅ Add docker images credits.docs
+15. ✅✅✅ Clean cette TODO, enlever les doublons👥
+
 ### Docker security benchmark checklist
 
 Depending on the use of docker/compose/service/stack, then all used with ansible
