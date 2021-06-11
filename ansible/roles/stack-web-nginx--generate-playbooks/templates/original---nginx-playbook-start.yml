@@ -1,7 +1,7 @@
 ---
 ### Setup a Nginx stack: generate or update .yml files, upload them and deploy stack
 ## builder_guy & docker_guy
-# > ansible-playbook -i hostsWithCustomSSHPort 100---hello--masamune--fr---forge-nginx-stack--generated.yml
+# > ansible-playbook -i hostsWithCustomSSHPort 100---hello--masamune--fr---nginx-stack--start--generated.yml
 
 # This role have been generated through ansible/10-forge-a-nginx.yml
 #   Variables should be properly sourced by your file, created previously:
