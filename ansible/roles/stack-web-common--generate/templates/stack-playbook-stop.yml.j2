@@ -1,0 +1,43 @@
+---
+##---
+## 🤖 This file has been generated automatically through Ansible and **should not be edited by hand**.
+## > See the [original script](https://github.com/youpiwaza/ansible-install-web-server/blob/master/ansible/roles/stack-web-common--generate/tasks/main.yml),
+## & [original template file](https://github.com/youpiwaza/ansible-install-web-server/blob/master/ansible/roles/stack-web-nginx--generate-playbooks/templates/service-playbook-stop.yml.j2).
+## *Generated (yyyy-mm-dd) {{ currentDateTime }}*.
+##---
+
+## Stop {{ constants.TECHNOLOGY }} stack, as ansible auto reload it
+## docker_guy
+# > ansible-playbook -i hostsWithCustomSSHPort {{ constants.FILE_PREFIX }}{{ project.dashed_domain }}---{{ constants.TECHNOLOGY }}-stack--stop--generated.yml
+
+# This role have been generated through ansible/X0-forge-a-{{ constants.TECHNOLOGY }}.yml
+#   🔧 Variables should be properly sourced by your file, created previously:
+#   '{{ project.vars_file_path }}'
+
+# You'll need the_docker_guy  to have it's ssh key added to the local agent, cf. the_docker_guy  generated documentation
+
+## docker_guy
+- name: 'Stop {{ constants.TECHNOLOGY }} stack'
+  become: no
+  hosts: likorneWithCustomSSHPort
+
+  # the_docker_guy / cf. /ansible/roles/users/vars/main.yml
+  remote_user: '{REMOVE-ME-TO-PRESERVE-VARS{ users.2.name }}'
+  vars_files:
+  - defaults/main.yml
+  - roles/users/defaults/main.yml
+  - vars/main.yml
+  - roles/users/vars/main.yml
+  # 🔧 project.vars_file_path
+  - {{ project.vars_file_path }}
+
+  tasks:
+    - name: "Stop {{ constants.TECHNOLOGY }} stack '{REMOVE-ME-TO-PRESERVE-VARS{ project.type }}---{REMOVE-ME-TO-PRESERVE-VARS{ project.dashed_domain }}'"
+      docker_stack:
+        name: '{REMOVE-ME-TO-PRESERVE-VARS{ project.type }}---{REMOVE-ME-TO-PRESERVE-VARS{ project.dashed_domain }}'
+        state: absent
+    #   register: my_stack_status
+    
+    # - debug:
+    #     msg: '{REMOVE-ME-TO-PRESERVE-VARS{ my_stack_status }}'
+...

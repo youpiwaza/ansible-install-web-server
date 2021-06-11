@@ -4,13 +4,23 @@
 
 ## This role must be run through a specific playbook.
 ## cf. ansible/10-forge-a-nginx.yml for use case and example.
-## cf. ansible/20-forge-a-nginx.yml for use case and example.
+## cf. ansible/20-forge-a-wordpress.yml for use case and example.
 
 - name: Warning, this role needs some vars_file population
   debug:
     msg:
       - "This role should be run through a web stack playbooks generator"
 
+# Create generated/ local directory
+- name: Create directory './generated/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/history'
+  delegate_to: 127.0.0.1
+  file:
+    path: './generated/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/history'
+    state: directory
+
+
+
+## Generate common project README.md
 - name: Local / Generate project README.md
   delegate_to: 127.0.0.1
   include: generate-README.md.yml
@@ -21,4 +31,32 @@
   include: generate-README.md.yml
   vars:
     root_folder: '/home/{{ users.3.name }}'
+
+
+
+## Generate stop stack playbook, customized using the duplicated project vars files
+- name: Generate {{ constants.TECHNOLOGY }} stop playbook
+  delegate_to: 127.0.0.1
+  template:
+    dest: '{{ item }}'
+    src: stack-playbook-stop.yml.j2
+  loop:
+    - './generated/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/{{ constants.FILE_PREFIX }}{{ project.dashed_domain }}---{{ constants.TECHNOLOGY }}-stack--stop--generated.yml'
+    - './generated/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/history/{{ constants.FILE_PREFIX }}{{ project.dashed_domain }}---{{ constants.TECHNOLOGY }}-stack--stop--generated-{{ currentDateTime }}.yml'
+    # Convenience : duplicate to root
+    - './{{ constants.FILE_PREFIX }}{{ project.dashed_domain }}---{{ constants.TECHNOLOGY }}-stack--stop--generated.yml'
+
+
+
+# Removes REMOVE-ME-TO-PRESERVE-VARS in "{REMOVE-ME-TO-PRESERVE-VARS{ vars_to_preserve }}"
+- name: Preserve specific vars in generated playbook files
+  delegate_to: 127.0.0.1
+  ansible.builtin.replace:
+    path: '{{ item }}'
+    regexp: 'REMOVE-ME-TO-PRESERVE-VARS'
+    replace: ''
+  loop:
+    - './generated/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/{{ constants.FILE_PREFIX }}{{ project.dashed_domain }}---{{ constants.TECHNOLOGY }}-stack--stop--generated.yml'
+    - './generated/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/history/{{ constants.FILE_PREFIX }}{{ project.dashed_domain }}---{{ constants.TECHNOLOGY }}-stack--stop--generated-{{ currentDateTime }}.yml'
+    - './{{ constants.FILE_PREFIX }}{{ project.dashed_domain }}---{{ constants.TECHNOLOGY }}-stack--stop--generated.yml'
 ...
