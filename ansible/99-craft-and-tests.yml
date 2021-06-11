@@ -14,7 +14,7 @@
 # ---
 
 ## builder_guy
-- name: Generate README for Nginx example project
+- name: Generate README for Wordpress example project
   become: yes
   hosts: likorneWithCustomSSHPort
   # builder_guy / cf. /ansible/roles/users/vars/main.yml
@@ -27,8 +27,8 @@
   - vars/main.yml
   - roles/users/vars/main.yml
   # ✏️Edit project vars files here...
-  # - roles/stack-web-nginx--generate-playbooks/vars/TYPE/CLIENT/DASHED-URI/DASHED-URI---vars_secret.yml
-  - roles/stack-web-nginx--generate-playbooks/vars/tests/masamune/hello--masamune--fr/hello--masamune--fr---vars.yml
+  # - roles/stack-web-wordpress--generate-playbooks/vars/TYPE/CLIENT/DASHED-URI/DASHED-URI---vars_secret.yml
+  - roles/stack-web-wordpress--generate-playbooks/vars/tests/masamune/test-wordpress--masamune--fr/test-wordpress--masamune--fr---vars.yml
 
   roles:
     - stack-web-common--generate

@@ -18,8 +18,8 @@
 #                                             Add '_secret' suffix to add this sensible file to .gitignore vv
 #    like 'ansible/roles/stack-web-wordpress--generate-playbooks/vars/TYPE/CLIENT/DASHED-URI/DASHED-URI---vars_secret.yml' (which will be 🔧 vars_file_path)
 # 1.1. Edit your file according to your needs
-#      Adjust project.vars_file_path  to reflect the path from step 1. See the 🔧 around line ~30
-# 2. Edit this file '20-forge-a-wordpress.yml' to use your vars file,see the ✏️ around line ~48
+#      Adjust project.vars_file_path  to reflect the path from step 1. See the 🔧 around line ~39
+# 2. Edit this file '20-forge-a-wordpress.yml' to use your vars file,see the ✏️ around line ~44
 # 3. Run/Test your playbook: ~> ansible-playbook -i hostsWithCustomSSHPort 20-forge-a-wordpress.yml
 #    You can check the generated playbook file at the root/ or in the /generated folder
 # 4. Make backup to a private github repository if everything runs smoothly, and save your file with the variables, and the generated/ folder
@@ -44,5 +44,6 @@
   - roles/stack-web-wordpress--generate-playbooks/vars/tests/masamune/test-wordpress--masamune--fr/test-wordpress--masamune--fr---vars.yml
 
   roles:
+    - stack-web-common--generate
     - stack-web-wordpress--generate-playbooks
 ...

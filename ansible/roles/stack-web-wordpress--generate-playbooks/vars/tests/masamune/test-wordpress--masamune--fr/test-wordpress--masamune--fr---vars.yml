@@ -6,6 +6,15 @@
 # Generate random strings with lookup, cf. https://github.com/youpiwaza/server-related-tutorials/tree/master/02-ansible/14-password-generation
 #   /!\ Do not touch "{{ lookup stuff, it will be generated and store (in case of update) automatically
 
+# Do not edit.
+constants:
+  # Aesthetic, for cleaner folder tree (alpha-reorder)
+  FILE_PREFIX: '200---'
+  # Keyword used to generate common files (README.md, etc.)
+  TECHNOLOGY: 'wordpress'
+
+# Edit below :)
+
 database:
   # https://hub.docker.com/r/bitnami/mariadb/tags?page=1&ordering=last_updated
   image: 'bitnami/mariadb:10.5.10'
