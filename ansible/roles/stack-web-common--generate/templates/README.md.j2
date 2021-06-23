@@ -27,9 +27,9 @@ Each command runs an ansible playbook dedicated to your website.
 ## builder_guy & docker_guy
 ansible-playbook -i hostsWithCustomSSHPort {{ constants.FILE_PREFIX }}{{ project.dashed_domain }}---{{ constants.TECHNOLOGY }}-stack--start--generated.yml
 
-### Stop {{ constants.TECHNOLOGY }} stack, as ansible auto reload it
+### Stop {{ constants.TECHNOLOGY }} stack properly, as ansible auto reload it
 ## docker_guy
-# > ansible-playbook -i hostsWithCustomSSHPort {{ constants.FILE_PREFIX }}{{ project.dashed_domain }}---{{ constants.TECHNOLOGY }}-stack--stop--generated.yml
+ansible-playbook -i hostsWithCustomSSHPort {{ constants.FILE_PREFIX }}{{ project.dashed_domain }}---{{ constants.TECHNOLOGY }}-stack--stop--generated.yml
 ```
 
 ## What

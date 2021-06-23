@@ -20,15 +20,26 @@ You'll **need ansible/python** installed to run those commands. See this [other 
 Each command runs an ansible playbook dedicated to your website.
 
 ```bash
+# You'll need the_builder_guy to have it's ssh key added to the local agent, cf. the_builder_guy generated documentation
+# You'll need the_docker_guy  to have it's ssh key added to the local agent, cf. the_docker_guy  generated documentation
+
 # Setup a WordPress stack: generate or update .yml files, upload them and deploy stack
+## builder_guy & docker_guy
 ansible-playbook -i hostsWithCustomSSHPort 200---test-wordpress--masamune--fr---wordpress-stack--start--generated.yml
+
+### Stop WordPress stack properly, as ansible auto reload it
+## docker_guy
+ansible-playbook -i hostsWithCustomSSHPort {{ constants.FILE_PREFIX }}{{ project.dashed_domain }}---{{ constants.TECHNOLOGY }}-stack--stop--generated.yml
 ```
 
 ## What
 
 I'd strongly recommand to check on the [original project](https://github.com/youpiwaza/ansible-install-web-server/).
 
-The infrastructure is heavily automated & can generate a lot of stuff. See the playbooks generators : [10-forge-a-nginx.yml](https://github.com/youpiwaza/ansible-install-web-server/blob/master/ansible/10-forge-a-nginx.yml) / [20-forge-a-wordpress.yml](https://github.com/youpiwaza/ansible-install-web-server/blob/master/ansible/20-forge-a-wordpress.yml).
+The infrastructure is heavily automated & can generate a lot of stuff. See the playbooks generators :
+
+- [10-forge-a-nginx.yml](https://github.com/youpiwaza/ansible-install-web-server/blob/master/ansible/10-forge-a-nginx.yml)
+- [20-forge-a-wordpress.yml](https://github.com/youpiwaza/ansible-install-web-server/blob/master/ansible/20-forge-a-wordpress.yml).
 
 It's mostly *Infrastructure As Code*, so even if it's scary at first glance, it unroll pretty well if you follow the files trail ;)
 
