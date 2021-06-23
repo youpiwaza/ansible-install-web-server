@@ -31,13 +31,6 @@
   # 🔧 project.vars_file_path
   - {{ project.vars_file_path }}
 
-  tasks:
-    - name: "Stop {{ constants.TECHNOLOGY }} stack '{REMOVE-ME-TO-PRESERVE-VARS{ project.type }}---{REMOVE-ME-TO-PRESERVE-VARS{ project.dashed_domain }}'"
-      docker_stack:
-        name: '{REMOVE-ME-TO-PRESERVE-VARS{ project.type }}---{REMOVE-ME-TO-PRESERVE-VARS{ project.dashed_domain }}'
-        state: absent
-    #   register: my_stack_status
-    
-    # - debug:
-    #     msg: '{REMOVE-ME-TO-PRESERVE-VARS{ my_stack_status }}'
+  roles:
+    - stack-web-common--stop
 ...

@@ -19,13 +19,6 @@
   - roles/users/vars/main.yml
   - roles/stack-web-nginx--generate-playbooks/vars/tests/masamune/hello--masamune--fr/hello--masamune--fr---vars.yml
 
-  tasks:
-    - name: "Stop nginx stack '{{ project.type }}---{{ project.dashed_domain }}'"
-      docker_stack:
-        name: '{{ project.type }}---{{ project.dashed_domain }}'
-        state: absent
-      register: my_stack_status
-    
-    - debug:
-        msg: '{{ my_stack_status }}'
+  roles:
+    - stack-web-common--stop
 ...
