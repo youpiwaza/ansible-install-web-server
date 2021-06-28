@@ -27,6 +27,13 @@
   vars:
     root_folder: './generated'
 
+- name: Local / Generate project README.md at root, for convenience
+  delegate_to: 127.0.0.1
+  template:
+    ##                                                              v 4 dashes to provide alphabetical priority
+    dest: './{{ constants.FILE_PREFIX }}{{ project.dashed_domain }}----README--generated.md'
+    src: templates/README.md.j2
+
 - name: Server / Generate project README.md
   include: generate-README.md.yml
   vars:
