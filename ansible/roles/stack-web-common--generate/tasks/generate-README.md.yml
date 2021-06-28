@@ -7,6 +7,6 @@
 
 - name: Generate README.md'
   template:
-    dest: '{{ root_folder }}/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/{{ project.dashed_domain }}---README--generated.md'
+    dest: '{{ root_folder }}/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/{{ constants.FILE_PREFIX }}{{ project.dashed_domain }}---README--generated.md'
     src: templates/README.md.j2
 ...
