@@ -1,5 +1,5 @@
 ---
-### Uninstall a Nginx stack: stop stack, then remove containers
+### Uninstall a Nginx stack: stop stack, then remove volumes
 ## docker_guy
 # > ansible-playbook -i hostsWithCustomSSHPort 100---hello--masamune--fr---nginx-stack--uninstall--generated.yml
 
