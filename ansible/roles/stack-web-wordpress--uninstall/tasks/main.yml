@@ -28,7 +28,7 @@
 
 
 ## Files
-- name: "Create a named volume for WordPress files '{{ project.type }}---{{ project.dashed_domain }}---wordpress--files'"
+- name: "Remove named volume for WordPress files '{{ project.type }}---{{ project.dashed_domain }}---wordpress--files'"
   docker_volume:
     name: '{{ project.type }}---{{ project.dashed_domain }}---wordpress--files'
     state: absent
