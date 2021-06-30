@@ -22,16 +22,18 @@
 - debug:
     msg:
       - "Warning, this role will remove the named volumes associated to the project '{{ project.dashed_domain }}' from client '{{ project.client_name }}'"
+      - "If the playbook fails, wait a little longer and restart it."
       # - "TODO: Add a final backup before removing"
 
 - name: Wait for containers shutdown, 5 seconds
   wait_for:
     timeout: 5
 
-# docker volume rm test---hello--masamune--fr---nginx--logs
+
 
 ### Volumes management
 ## Logs
+# docker volume rm test---hello--masamune--fr---nginx--logs
 - name: "Remove named volume for Nginx logs '{{ project.type }}---{{ project.dashed_domain }}---nginx--logs'"
   docker_volume:
     name: '{{ project.type }}---{{ project.dashed_domain }}---nginx--logs'
