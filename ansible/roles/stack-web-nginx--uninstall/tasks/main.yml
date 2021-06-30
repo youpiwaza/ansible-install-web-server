@@ -7,9 +7,6 @@
 
 ## This role is meant to be run AFTER the 'stack-web-common--stop' role which will stop the containers.
 
-### Volumes management
-## Logs
-
 ## TODO: Run the backup role before removing named volume
 
 ## Note: No container state test yet. I've kept it simple with a time delay.
@@ -33,6 +30,8 @@
 
 # docker volume rm test---hello--masamune--fr---nginx--logs
 
+### Volumes management
+## Logs
 - name: "Remove named volume for Nginx logs '{{ project.type }}---{{ project.dashed_domain }}---nginx--logs'"
   docker_volume:
     name: '{{ project.type }}---{{ project.dashed_domain }}---nginx--logs'
