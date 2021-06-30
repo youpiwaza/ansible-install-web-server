@@ -1,0 +1,19 @@
+---
+### Nginx stack uninstall: Remove volumes, configs, etc.
+## docker_guy
+
+## This role must be run through a specific playbook.
+## cf. ansible/10-forge-a-nginx-stack.yml for use case and example.
+
+## This role is meant to be run AFTER the 'stack-web-common--stop' role which will stop the containers.
+
+### Volumes management
+## Logs
+
+# docker volume rm test---hello--masamune--fr---nginx--logs
+
+- name: "Remove named volume for Nginx logs '{{ project.type }}---{{ project.dashed_domain }}---nginx--logs'"
+  docker_volume:
+    name: '{{ project.type }}---{{ project.dashed_domain }}---nginx--logs'
+    state: absent
+...
