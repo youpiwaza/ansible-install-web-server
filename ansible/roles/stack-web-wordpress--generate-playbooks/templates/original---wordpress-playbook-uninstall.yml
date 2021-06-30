@@ -1,0 +1,33 @@
+---
+### Uninstall a WordPress stack: stop stack, then remove volumes
+## docker_guy
+# > ansible-playbook -i hostsWithCustomSSHPort 200---test-wordpress--masamune--fr---wordpress-stack--uninstall--generated.yml
+
+# This role have been generated through ansible/20-forge-a-wordpress.yml
+#   Variables should be properly sourced by your file, created previously:
+#   'roles/stack-web-wordpress--generate-role/vars/tests/masamune/test-wordpress--masamune--fr/test-wordpress--masamune--fr---vars.yml'
+
+# Based on bitnami's WordPress & MariaDB images
+#   https://hub.docker.com/r/bitnami/wordpress/
+#   https://hub.docker.com/r/bitnami/mariadb/
+
+# You'll need the_docker_guy to have it's ssh key added to the local agent, cf. the_docker_guy  generated documentation
+
+## docker_guy
+- name: 'Stop WordPress stack, then remove related volumes'
+  become: no
+  hosts: likorneWithCustomSSHPort
+  # docker_guy / cf. /ansible/roles/users/vars/main.yml
+  remote_user: '{{ users.2.name }}'
+  vars_files:
+  - defaults/main.yml
+  - roles/users/defaults/main.yml
+  - roles/users/vars/main.yml
+  - vars/main.yml
+  # - roles/stack-web-wordpress--generate-role/vars/TYPE/CLIENT/DASHED-URI/DASHED-URI---vars_secret.yml
+  - roles/stack-web-wordpress--generate-role/vars/tests/masamune/test-wordpress--masamune--fr/test-wordpress--masamune--fr---vars.yml
+
+  roles:
+    - stack-web-common--stop
+    - stack-web-wordpress--uninstall
+...
