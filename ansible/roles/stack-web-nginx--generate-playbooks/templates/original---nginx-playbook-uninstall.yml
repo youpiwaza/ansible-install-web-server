@@ -1,0 +1,33 @@
+---
+### Uninstall a Nginx stack: stop stack, then remove containers
+## docker_guy
+# > ansible-playbook -i hostsWithCustomSSHPort 100---hello--masamune--fr---nginx-stack--uninstall--generated.yml
+
+# This role have been generated through ansible/10-forge-a-nginx.yml
+#   Variables should be properly sourced by your file, created previously:
+#   'roles/stack-web-nginx--generate-role/vars/tests/masamune/hello--masamune--fr/hello--masamune--fr---vars.yml'
+
+# Based on tutum/helloworld image
+#   https://hub.docker.com/r/tutum/hello-world/
+
+# You'll need the_docker_guy  to have it's ssh key added to the local agent, cf. the_docker_guy  generated documentation
+
+## docker_guy
+- name: 'Stop nginx stack, then remove related volumes'
+  become: no
+  hosts: likorneWithCustomSSHPort
+
+  # docker_guy / cf. /ansible/roles/users/vars/main.yml
+  remote_user: '{{ users.2.name }}'
+  vars_files:
+  - defaults/main.yml
+  - roles/users/defaults/main.yml
+  - roles/users/vars/main.yml
+  - vars/main.yml
+  # 🔧 project.vars_file_path
+  - roles/stack-web-nginx--generate-playbooks/vars/tests/masamune/hello--masamune--fr/hello--masamune--fr---vars.yml
+
+  roles:
+    - stack-web-common--stop
+    - stack-web-nginx--uninstall
+...
