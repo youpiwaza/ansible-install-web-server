@@ -10,7 +10,7 @@ hostsWithCustomSSHPort
 
 ## Generated files
 # everything in the generated/ folder..
-generated/*
+generated/
 # .. except README.md
 !generated/README.md
 # also ignore everywhere any generated file
