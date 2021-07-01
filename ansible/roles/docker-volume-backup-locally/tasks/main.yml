@@ -3,26 +3,25 @@
 ## docker_guy
 
 # 🚨🔧 Variables must be properly defined in playbook:
-# - type            : clients/manual-backups/tests
 # - volumeName      : identifier of the named volume
 
 # Create generated/ local directory
-- name: Create directory './generated/backups/volumes/{{ currentYear }}/{{ type }}/{{ volumeName }}/'
+- name: Create directory './generated/backups/volumes/{{ currentYear }}/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/{{ volumeName }}/'
   delegate_to: 127.0.0.1
   file:
-    path: './generated/backups/volumes/{{ currentYear }}/{{ type }}/{{ volumeName }}/'
+    path: './generated/backups/volumes/{{ currentYear }}/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/{{ volumeName }}/'
     state: directory
 
-- name: "Gather backup and save it locally: './generated/backups/volumes/{{ currentYear }}/{{ type }}/{{ volumeName }}/{{ volumeName }}---backup---latest.tar'"
+- name: "Gather backup and save it locally: './generated/backups/volumes/{{ currentYear }}/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/{{ volumeName }}/{{ volumeName }}---backup---latest.tar'"
   fetch:
-    dest: './generated/backups/volumes/{{ currentYear }}/{{ type }}/{{ volumeName }}/{{ volumeName }}---backup---latest.tar'
-    src: '/home/{{ users.2.name }}/backups/volumes/{{ currentYear }}/{{ type }}/{{ volumeName }}/{{ volumeName }}---backup---latest.tar'
+    dest: './generated/backups/volumes/{{ currentYear }}/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/{{ volumeName }}/{{ volumeName }}---backup---latest.tar'
+    src: '/home/{{ users.2.name }}/backups/volumes/{{ currentYear }}/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/{{ volumeName }}/{{ volumeName }}---backup---latest.tar'
 
 - debug:
     msg:
       - 'Everything went fine, your backup is located on the host here:'
       - ''
-      - './generated/backups/volumes/{{ currentYear }}/{{ type }}/{{ volumeName }}/{{ volumeName }}---backup---latest.tar'
+      - './generated/backups/volumes/{{ currentYear }}/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/{{ volumeName }}/{{ volumeName }}---backup---latest.tar'
       - ''
       - ''
       - "Use 'tar -xvf {{ volumeName }}---backup---{{ currentDateTime }}.tar --strip 1' to extract files and folders"

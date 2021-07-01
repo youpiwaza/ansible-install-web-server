@@ -51,7 +51,6 @@
     ## 🔧 Edit variables here
     # cf. ansible/roles/stack-web-wordpress--generate-stack/templates/wordpress.yml.j2 > volumes > target
     folderToBackup: '/bitnami/mariadb/'
-    type: '{REMOVE-ME-TO-PRESERVE-VARS{ project.type }}s'
     # cf. ansible/roles/stack-web-nginx--deploy/tasks/main.yml
     volumeName: '{REMOVE-ME-TO-PRESERVE-VARS{ project.type }}---{REMOVE-ME-TO-PRESERVE-VARS{ project.dashed_domain }}---wordpress--database'
   vars_files:
@@ -80,7 +79,6 @@
     ## 🔧 Edit variables here
     # cf. ansible/roles/stack-web-wordpress--generate-stack/templates/wordpress.yml.j2 > volumes > target
     folderToBackup: '/bitnami/wordpress/'
-    type: '{REMOVE-ME-TO-PRESERVE-VARS{ project.type }}s'
     # cf. ansible/roles/stack-web-nginx--deploy/tasks/main.yml
     volumeName: '{REMOVE-ME-TO-PRESERVE-VARS{ project.type }}---{REMOVE-ME-TO-PRESERVE-VARS{ project.dashed_domain }}---wordpress--files'
   vars_files:

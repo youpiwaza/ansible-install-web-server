@@ -6,7 +6,6 @@
 # 🔧 Variables must be properly filled:
 # - folderToBackup  : The folder where the files are stored INSIDE the volume
 #     cf. ansible/roles/stack-web-nginx--generate-stack/templates/nginx.yml.j2 > volumes > target  
-# - type            : clients/manual-backups/tests
 # - volumeName      : identifier of the named volume
 #     cf. ansible/roles/stack-web-nginx--deploy/tasks/main.yml
 
@@ -24,7 +23,6 @@
     ## 🔧 Edit variables here
     # cf. ansible/roles/stack-web-wordpress--generate-stack/templates/wordpress.yml.j2 > volumes > target
     folderToBackup: '/bitnami/mariadb/'
-    type: '{{ project.type }}s'
     # cf. ansible/roles/stack-web-nginx--deploy/tasks/main.yml
     volumeName: '{{ project.type }}---{{ project.dashed_domain }}---wordpress--database'
   vars_files:
@@ -52,7 +50,6 @@
     ## 🔧 Edit variables here
     # cf. ansible/roles/stack-web-wordpress--generate-stack/templates/wordpress.yml.j2 > volumes > target
     folderToBackup: '/bitnami/wordpress/'
-    type: '{{ project.type }}s'
     # cf. ansible/roles/stack-web-nginx--deploy/tasks/main.yml
     volumeName: '{{ project.type }}---{{ project.dashed_domain }}---wordpress--files'
   vars_files:

@@ -4,7 +4,6 @@
 
 # 🚨🔧 Variables must be properly defined in playbook:
 # - folderToBackup  : The folder where the files are stored INSIDE the volume
-# - type            : clients/manual-backups/tests
 # - volumeName      : identifier of the named volume
 
 # 🤖 Automated:
@@ -13,9 +12,9 @@
 # - Where the archive will be stored, cf. nomenclature-and-folder-tree.md
 #     As a manual backup, it will be stored around ~/the-docker-guy/backups/volumes/YEAR/TYPE/...
 
-- name: Create directory '/home/{{ users.2.name }}/backups/volumes/{{ currentYear }}/{{ type }}/{{ volumeName }}/'
+- name: Create directory '/home/{{ users.2.name }}/backups/volumes/{{ currentYear }}/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/{{ volumeName }}/'
   file:
-    path: '/home/{{ users.2.name }}/backups/volumes/{{ currentYear }}/{{ type }}/{{ volumeName }}/'
+    path: '/home/{{ users.2.name }}/backups/volumes/{{ currentYear }}/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/{{ volumeName }}/'
     state: directory
     
 
@@ -30,7 +29,7 @@
 #   alpine:latest \
 #   tar -cvf /backup/test-helloDeux-logs---backup---$(date +%Y-%m-%d--%Hh%Mm%Ss).tar "/var/log/"
 
-# '/home/{{ users.2.name }}/backups/volumes/{{ currentYear }}/{{ type }}/{{ volumeName }}/{{ volumeName }}---backup---currentDateTime.tar'
+# '/home/{{ users.2.name }}/backups/volumes/{{ currentYear }}/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/{{ volumeName }}/{{ volumeName }}---backup---currentDateTime.tar'
 - name: "Backup folder '{{ folderToBackup }}' located inside named volume '{{ volumeName }}'"
   docker_container:
     auto_remove: yes
@@ -46,7 +45,7 @@
         # type: volume
       
         # Where to store backup
-      - source: '/home/{{ users.2.name }}/backups/volumes/{{ currentYear }}/{{ type }}/{{ volumeName }}/'
+      - source: '/home/{{ users.2.name }}/backups/volumes/{{ currentYear }}/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/{{ volumeName }}/'
         # temp folder, and isn't relevant, but MUST be different from the folder from the volume to backup
         target: '/backup'
         type: bind
@@ -56,7 +55,7 @@
 
 - name: Wait for archive creation
   wait_for:
-    path: '/home/{{ users.2.name }}/backups/volumes/{{ currentYear }}/{{ type }}/{{ volumeName }}/{{ volumeName }}---backup---{{ currentDateTime }}.tar'
+    path: '/home/{{ users.2.name }}/backups/volumes/{{ currentYear }}/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/{{ volumeName }}/{{ volumeName }}---backup---{{ currentDateTime }}.tar'
 
 ## Note: If contents are unchanged, it won't be replaced
 #   https://docs.ansible.com/ansible/latest/collections/ansible/builtin/copy_module.html#parameter-force
@@ -64,16 +63,16 @@
 
 - name: Duplicate backup to latest, to simplify local gathering
   copy:
-    dest: '/home/{{ users.2.name }}/backups/volumes/{{ currentYear }}/{{ type }}/{{ volumeName }}/{{ volumeName }}---backup---latest.tar'
+    dest: '/home/{{ users.2.name }}/backups/volumes/{{ currentYear }}/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/{{ volumeName }}/{{ volumeName }}---backup---latest.tar'
     force: yes
     remote_src: yes
-    src: '/home/{{ users.2.name }}/backups/volumes/{{ currentYear }}/{{ type }}/{{ volumeName }}/{{ volumeName }}---backup---{{ currentDateTime }}.tar'
+    src: '/home/{{ users.2.name }}/backups/volumes/{{ currentYear }}/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/{{ volumeName }}/{{ volumeName }}---backup---{{ currentDateTime }}.tar'
 
 - debug:
     msg:
       - 'Everything went fine, your backup is located on the host here:'
       - ''
-      - '/home/{{ users.2.name }}/backups/volumes/{{ currentYear }}/{{ type }}/{{ volumeName }}/{{ volumeName }}---backup---{{ currentDateTime }}.tar'
+      - '/home/{{ users.2.name }}/backups/volumes/{{ currentYear }}/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/{{ volumeName }}/{{ volumeName }}---backup---{{ currentDateTime }}.tar'
       - ''
       - ''
       - "Use 'tar -xvf {{ volumeName }}---backup---{{ currentDateTime }}.tar --strip 1' to extract files and folders"

@@ -5,7 +5,6 @@
 
 # 🔧 Variables must be properly filled:
 # - folderToBackup  : The folder where the files are stored INSIDE the volume
-# - type            : clients/manual-backups/tests
 # - volumeName      : identifier of the named volume
 
 # It will gather '/home/{{ users.2.name }}/backups/volumes/{{ currentYear }}/{{ type }}/{{ volumeName }}/{{ volumeName }}---backup---latest.tar'
@@ -21,9 +20,12 @@
     currentYear: "{{ ansible_date_time.year }}"
 
     ## 🔧 Edit variables here
-    # cf. ansible/roles/stack-web-nginx--generate-stack/templates/nginx.yml.j2 > volumes > target
+    # cf. generated .yml file > volumes > target
     folderToBackup: '/var/log/'
-    type: 'manual-backups'
+    project:
+      client_name: 'masamune'
+      dashed_domain: 'manual-backups'
+      type: 'test'
     volumeName: 'test---hello--masamune--fr---nginx--logs'
   vars_files:
   - defaults/main.yml
