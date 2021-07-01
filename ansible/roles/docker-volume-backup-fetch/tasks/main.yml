@@ -1,0 +1,31 @@
+---
+### Fetch a specific archive file, previously created through docker-volume-backup-on-host rple
+## docker_guy
+
+# 🚨🔧 Variables must be properly defined in playbook:
+# - type            : clients/manual-backups/tests
+# - volumeName      : identifier of the named volume
+
+# Create generated/ local directory
+- name: Create directory './generated/backups/volumes/{{ currentYear }}/{{ type }}/{{ volumeName }}/'
+  delegate_to: 127.0.0.1
+  file:
+    path: './generated/backups/volumes/{{ currentYear }}/{{ type }}/{{ volumeName }}/'
+    state: directory
+
+- name: "Gather backup and save it locally: './generated/backups/volumes/{{ currentYear }}/{{ type }}/{{ volumeName }}/{{ volumeName }}---backup---latest.tar'"
+  fetch:
+    dest: './generated/backups/volumes/{{ currentYear }}/{{ type }}/{{ volumeName }}/{{ volumeName }}---backup---latest.tar'
+    src: '/home/{{ users.2.name }}/backups/volumes/{{ currentYear }}/{{ type }}/{{ volumeName }}/{{ volumeName }}---backup---latest.tar'
+
+- debug:
+    msg:
+      - 'Everything went fine, your backup is located on the host here:'
+      - ''
+      - './generated/backups/volumes/{{ currentYear }}/{{ type }}/{{ volumeName }}/{{ volumeName }}---backup---latest.tar'
+      - ''
+      - ''
+      - "Use 'tar -xvf {{ volumeName }}---backup---{{ currentDateTime }}.tar --strip 1' to extract files and folders"
+      - ''
+      - 'For more details, have a look at docker-commands-template.md###Create a backup'
+...
