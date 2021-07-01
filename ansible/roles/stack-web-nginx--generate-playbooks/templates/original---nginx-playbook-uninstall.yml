@@ -1,5 +1,5 @@
 ---
-### Uninstall a Nginx stack: stop stack, then remove volumes
+### Uninstall a Nginx stack: stop stack, then backup & remove volumes
 ## docker_guy
 # > ansible-playbook -i hostsWithCustomSSHPort 100---hello--masamune--fr---nginx-stack--uninstall--generated.yml
 
@@ -7,18 +7,33 @@
 #   Variables should be properly sourced by your file, created previously:
 #   'roles/stack-web-nginx--generate-role/vars/tests/masamune/hello--masamune--fr/hello--masamune--fr---vars.yml'
 
+# 🔧 Variables must be properly filled:
+# - folderToBackup  : The folder where the files are stored INSIDE the volume
+#     cf. ansible/roles/stack-web-nginx--generate-stack/templates/nginx.yml.j2 > volumes > target  
+# - type            : clients/manual-backups/tests
+# - volumeName      : identifier of the named volume
+#     cf. ansible/roles/stack-web-nginx--deploy/tasks/main.yml
+
 # Based on tutum/helloworld image
 #   https://hub.docker.com/r/tutum/hello-world/
 
 # You'll need the_docker_guy to have it's ssh key added to the local agent, cf. the_docker_guy generated documentation
 
-## docker_guy
-- name: 'Stop nginx stack, then remove related volumes'
+- name: 'Stop nginx stack, then backup & remove related volumes'
   become: no
   hosts: likorneWithCustomSSHPort
-
   # docker_guy / cf. /ansible/roles/users/vars/main.yml
   remote_user: '{{ users.2.name }}'
+  vars:
+    currentDateTime: "{{ ansible_date_time.date }}--{{ ansible_date_time.hour }}h{{ ansible_date_time.minute }}m{{ ansible_date_time.second }}s"
+    currentYear: "{{ ansible_date_time.year }}"
+
+    ## 🔧 Edit variables here
+    # cf. ansible/roles/stack-web-nginx--generate-stack/templates/nginx.yml.j2 > volumes > target
+    folderToBackup: '/var/log/'
+    type: '{{ project.type }}s'
+    # cf. ansible/roles/stack-web-nginx--deploy/tasks/main.yml
+    volumeName: '{{ project.type }}---{{ project.dashed_domain }}---nginx--logs'
   vars_files:
   - defaults/main.yml
   - roles/users/defaults/main.yml
@@ -29,5 +44,7 @@
 
   roles:
     - stack-web-common--stop
+    - docker-volume-backup-on-host
+    - docker-volume-backup-fetch
     - stack-web-nginx--uninstall
 ...
