@@ -1,0 +1,92 @@
+---
+### Backup a specific volume: Extract a specific folder, then archive it on host (.tar)
+## docker_guy
+# > ansible-playbook -i hostsWithCustomSSHPort 95-backup-volume-on-server.yml
+
+# 🔧 Variables must be properly filled:
+# - Folder to backup  : The folder where the files are stored INSIDE the volume
+# - Volume name       : identifier of the named volume
+
+# 🤖 Automated:
+# - Name of the archive
+# - Timestamp
+# - Where the archive will be stored, cf. nomenclature-and-folder-tree.md
+#     As a manual backup, it will be stored around ~/the-docker-guy/backups/volumes/YEAR/manual-backup/...
+
+# You'll need the_docker_guy to have it's ssh key added to the local agent, cf. the_docker_guy generated documentation
+
+- name: 'Backup a specific volume'
+  become: no
+  hosts: likorneWithCustomSSHPort
+  # docker_guy / cf. /ansible/roles/users/vars/main.yml
+  remote_user: '{{ users.2.name }}'
+  # builder_guy / cf. /ansible/roles/users/vars/main.yml
+  # remote_user: '{{ users.0.name }}'
+  vars:
+    currentDateTime: "{{ ansible_date_time.date }}--{{ ansible_date_time.hour }}h{{ ansible_date_time.minute }}m{{ ansible_date_time.second }}s"
+    currentYear: "{{ ansible_date_time.year }}"
+
+    ## 🔧 Edit variables here
+    # cf. generated .yml file > volumes > target
+    folderToBackup: '/var/log/'
+    volumeName: 'test---hello--masamune--fr---nginx--logs'
+  vars_files:
+  - defaults/main.yml
+  - roles/users/defaults/main.yml
+  - vars/main.yml
+  - roles/users/vars/main.yml
+
+  tasks:
+    ## Create folder tree
+    - name: Create directory '/home/{{ users.2.name }}/backups/volumes/{{ currentYear }}/manual-backups/{{ volumeName }}/'
+      file:
+        path: '/home/{{ users.2.name }}/backups/volumes/{{ currentYear }}/manual-backups/{{ volumeName }}/'
+        state: directory
+        
+    
+    ## Backup
+    # cf. docker-commands-template.md###Create a backup
+    
+    # docker run --rm -i -t  \
+    #   --mount source=test-helloDeux-logs,destination=/var/log/ \
+    #   --mount type=bind,source=$(pwd),destination=/backup \
+    #   --userns=host \
+    #   -w /home/backup \
+    #   alpine:latest \
+    #   tar -cvf /backup/test-helloDeux-logs---backup---$(date +%Y-%m-%d--%Hh%Mm%Ss).tar "/var/log/"
+
+    # '/home/{{ users.2.name }}/backups/volumes/{{ currentYear }}/manual-backups/{{ volumeName }}/{{ volumeName }}---backup---currentDateTime.tar'
+    - name: "Backup folder '{{ folderToBackup }}' located inside named volume '{{ volumeName }}'"
+      docker_container:
+        auto_remove: yes
+        # tar -cvf /backup/SAVE_NAME.tar "/FOLDER_IN_VOLUME_TO_BACKUP"
+        command: 'tar -cvf /backup/{{ volumeName }}---backup---{{ currentDateTime }}.tar "{{ folderToBackup }}"'
+        container_default_behavior: compatibility
+        image: alpine:latest
+        interactive: yes
+        mounts:
+          # What to backup
+          - source: '{{ volumeName }}'
+            target: '{{ folderToBackup }}'
+            # type: volume
+          
+            # Where to store backup
+          - source: '/home/{{ users.2.name }}/backups/volumes/{{ currentYear }}/manual-backups/{{ volumeName }}/'
+            # temp folder, and isn't relevant, but MUST be different from the folder from the volume to backup
+            target: '/backup'
+            type: bind
+        name: temp---backup-volume
+        userns_mode: host
+        working_dir: /home/backup
+    
+    - debug:
+        msg:
+          - 'Everything went fine, your backup is located on the host here:'
+          - ''
+          - '/home/{{ users.2.name }}/backups/volumes/{{ currentYear }}/manual-backups/{{ volumeName }}/{{ volumeName }}---backup---{{ currentDateTime }}.tar'
+          - ''
+          - ''
+          - "Use 'tar -xvf {{ volumeName }}---backup---{{ currentDateTime }}.tar --strip 1' to extract files and folders"
+          - ''
+          - 'For more details, have a look at docker-commands-template.md###Create a backup'
+...

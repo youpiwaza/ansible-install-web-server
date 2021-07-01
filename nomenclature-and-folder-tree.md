@@ -115,6 +115,9 @@ Which allow the generation of
                 - client---dev--masamune--fr---wordpress--db---backup---2021-05-27--11h23m57s.tar
           - /core
             - /traefik
+          - /manual-backups
+            - /VOLUME-NAME
+              - VOLUME-NAME---backup---$(date +%Y-%m-%d--%Hh%Mm%Ss).tar
           - /tests
             - /wtv
     - /tests
