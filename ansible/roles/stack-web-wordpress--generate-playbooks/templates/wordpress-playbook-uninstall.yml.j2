@@ -21,7 +21,7 @@
 # You'll need the_docker_guy to have it's ssh key added to the local agent, cf. the_docker_guy generated documentation
 
 ## docker_guy
-- name: 'Stop WordPress stack, then remove related volumes'
+- name: 'Stop WordPress stack'
   become: no
   hosts: likorneWithCustomSSHPort
   # docker_guy / cf. /ansible/roles/users/vars/main.yml
@@ -36,5 +36,80 @@
 
   roles:
     - stack-web-common--stop
+
+
+
+- name: 'Backup a specific volume : WordPress database, then download the generated archive'
+  become: no
+  hosts: likorneWithCustomSSHPort
+  # docker_guy / cf. /ansible/roles/users/vars/main.yml
+  remote_user: '{REMOVE-ME-TO-PRESERVE-VARS{ users.2.name }}'
+  vars:
+    currentDateTime: "{REMOVE-ME-TO-PRESERVE-VARS{ ansible_date_time.date }}--{REMOVE-ME-TO-PRESERVE-VARS{ ansible_date_time.hour }}h{REMOVE-ME-TO-PRESERVE-VARS{ ansible_date_time.minute }}m{REMOVE-ME-TO-PRESERVE-VARS{ ansible_date_time.second }}s"
+    currentYear: "{REMOVE-ME-TO-PRESERVE-VARS{ ansible_date_time.year }}"
+
+    ## 🔧 Edit variables here
+    # cf. ansible/roles/stack-web-wordpress--generate-stack/templates/wordpress.yml.j2 > volumes > target
+    folderToBackup: '/bitnami/mariadb/'
+    type: '{REMOVE-ME-TO-PRESERVE-VARS{ project.type }}s'
+    # cf. ansible/roles/stack-web-nginx--deploy/tasks/main.yml
+    volumeName: '{REMOVE-ME-TO-PRESERVE-VARS{ project.type }}---{REMOVE-ME-TO-PRESERVE-VARS{ project.dashed_domain }}---wordpress--database'
+  vars_files:
+  - defaults/main.yml
+  - roles/users/defaults/main.yml
+  - roles/users/vars/main.yml
+  - vars/main.yml
+    # 🔧 project.vars_file_path
+  - {{ project.vars_file_path }}
+
+  roles:
+    - docker-volume-backup-on-host
+    - docker-volume-backup-fetch
+
+
+
+- name: 'Backup a specific volume : WordPress files, then download the generated archive'
+  become: no
+  hosts: likorneWithCustomSSHPort
+  # docker_guy / cf. /ansible/roles/users/vars/main.yml
+  remote_user: '{REMOVE-ME-TO-PRESERVE-VARS{ users.2.name }}'
+  vars:
+    currentDateTime: "{REMOVE-ME-TO-PRESERVE-VARS{ ansible_date_time.date }}--{REMOVE-ME-TO-PRESERVE-VARS{ ansible_date_time.hour }}h{REMOVE-ME-TO-PRESERVE-VARS{ ansible_date_time.minute }}m{REMOVE-ME-TO-PRESERVE-VARS{ ansible_date_time.second }}s"
+    currentYear: "{REMOVE-ME-TO-PRESERVE-VARS{ ansible_date_time.year }}"
+
+    ## 🔧 Edit variables here
+    # cf. ansible/roles/stack-web-wordpress--generate-stack/templates/wordpress.yml.j2 > volumes > target
+    folderToBackup: '/bitnami/wordpress/'
+    type: '{REMOVE-ME-TO-PRESERVE-VARS{ project.type }}s'
+    # cf. ansible/roles/stack-web-nginx--deploy/tasks/main.yml
+    volumeName: '{REMOVE-ME-TO-PRESERVE-VARS{ project.type }}---{REMOVE-ME-TO-PRESERVE-VARS{ project.dashed_domain }}---wordpress--files'
+  vars_files:
+  - defaults/main.yml
+  - roles/users/defaults/main.yml
+  - vars/main.yml
+  - roles/users/vars/main.yml
+    # 🔧 project.vars_file_path
+  - {{ project.vars_file_path }}
+
+  roles:
+    - docker-volume-backup-on-host
+    - docker-volume-backup-fetch
+
+
+
+- name: 'Remove related volumes'
+  become: no
+  hosts: likorneWithCustomSSHPort
+  # docker_guy / cf. /ansible/roles/users/vars/main.yml
+  remote_user: '{REMOVE-ME-TO-PRESERVE-VARS{ users.2.name }}'
+  vars_files:
+  - defaults/main.yml
+  - roles/users/defaults/main.yml
+  - roles/users/vars/main.yml
+  - vars/main.yml
+    # 🔧 project.vars_file_path
+  - {{ project.vars_file_path }}
+
+  roles:
     - stack-web-wordpress--uninstall
 ...

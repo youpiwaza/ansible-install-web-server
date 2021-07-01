@@ -1,11 +1,18 @@
 ---
-### Uninstall a WordPress stack: stop stack, then remove volumes
+### Uninstall a WordPress stack: stop stack, then backup & remove volumes
 ## docker_guy
 # > ansible-playbook -i hostsWithCustomSSHPort 200---test-wordpress--masamune--fr---wordpress-stack--uninstall--generated.yml
 
 # This role have been generated through ansible/20-forge-a-wordpress.yml
 #   Variables should be properly sourced by your file, created previously:
 #   'roles/stack-web-wordpress--generate-role/vars/tests/masamune/test-wordpress--masamune--fr/test-wordpress--masamune--fr---vars.yml'
+
+# 🔧 Variables must be properly filled:
+# - folderToBackup  : The folder where the files are stored INSIDE the volume
+#     cf. ansible/roles/stack-web-nginx--generate-stack/templates/nginx.yml.j2 > volumes > target  
+# - type            : clients/manual-backups/tests
+# - volumeName      : identifier of the named volume
+#     cf. ansible/roles/stack-web-nginx--deploy/tasks/main.yml
 
 # Based on bitnami's WordPress & MariaDB images
 #   https://hub.docker.com/r/bitnami/wordpress/
@@ -14,7 +21,7 @@
 # You'll need the_docker_guy to have it's ssh key added to the local agent, cf. the_docker_guy generated documentation
 
 ## docker_guy
-- name: 'Stop WordPress stack, then remove related volumes'
+- name: 'Stop WordPress stack'
   become: no
   hosts: likorneWithCustomSSHPort
   # docker_guy / cf. /ansible/roles/users/vars/main.yml
@@ -29,5 +36,80 @@
 
   roles:
     - stack-web-common--stop
+
+
+
+- name: 'Backup a specific volume : WordPress database, then download the generated archive'
+  become: no
+  hosts: likorneWithCustomSSHPort
+  # docker_guy / cf. /ansible/roles/users/vars/main.yml
+  remote_user: '{{ users.2.name }}'
+  vars:
+    currentDateTime: "{{ ansible_date_time.date }}--{{ ansible_date_time.hour }}h{{ ansible_date_time.minute }}m{{ ansible_date_time.second }}s"
+    currentYear: "{{ ansible_date_time.year }}"
+
+    ## 🔧 Edit variables here
+    # cf. ansible/roles/stack-web-wordpress--generate-stack/templates/wordpress.yml.j2 > volumes > target
+    folderToBackup: '/bitnami/mariadb/'
+    type: '{{ project.type }}s'
+    # cf. ansible/roles/stack-web-nginx--deploy/tasks/main.yml
+    volumeName: '{{ project.type }}---{{ project.dashed_domain }}---wordpress--database'
+  vars_files:
+  - defaults/main.yml
+  - roles/users/defaults/main.yml
+  - vars/main.yml
+  - roles/users/vars/main.yml
+  # 🔧 project.vars_file_path
+  - roles/stack-web-wordpress--generate-playbooks/vars/tests/masamune/test-wordpress--masamune--fr/test-wordpress--masamune--fr---vars.yml
+
+  roles:
+    - docker-volume-backup-on-host
+    - docker-volume-backup-fetch
+
+
+
+- name: 'Backup a specific volume : WordPress files, then download the generated archive'
+  become: no
+  hosts: likorneWithCustomSSHPort
+  # docker_guy / cf. /ansible/roles/users/vars/main.yml
+  remote_user: '{{ users.2.name }}'
+  vars:
+    currentDateTime: "{{ ansible_date_time.date }}--{{ ansible_date_time.hour }}h{{ ansible_date_time.minute }}m{{ ansible_date_time.second }}s"
+    currentYear: "{{ ansible_date_time.year }}"
+
+    ## 🔧 Edit variables here
+    # cf. ansible/roles/stack-web-wordpress--generate-stack/templates/wordpress.yml.j2 > volumes > target
+    folderToBackup: '/bitnami/wordpress/'
+    type: '{{ project.type }}s'
+    # cf. ansible/roles/stack-web-nginx--deploy/tasks/main.yml
+    volumeName: '{{ project.type }}---{{ project.dashed_domain }}---wordpress--files'
+  vars_files:
+  - defaults/main.yml
+  - roles/users/defaults/main.yml
+  - vars/main.yml
+  - roles/users/vars/main.yml
+  # 🔧 project.vars_file_path
+  - roles/stack-web-wordpress--generate-playbooks/vars/tests/masamune/test-wordpress--masamune--fr/test-wordpress--masamune--fr---vars.yml
+
+  roles:
+    - docker-volume-backup-on-host
+    - docker-volume-backup-fetch
+
+
+
+- name: 'Remove related volumes'
+  become: no
+  hosts: likorneWithCustomSSHPort
+  # docker_guy / cf. /ansible/roles/users/vars/main.yml
+  remote_user: '{{ users.2.name }}'
+  vars_files:
+  - defaults/main.yml
+  - roles/users/defaults/main.yml
+  - roles/users/vars/main.yml
+  - vars/main.yml
+  # - roles/stack-web-wordpress--generate-role/vars/TYPE/CLIENT/DASHED-URI/DASHED-URI---vars_secret.yml
+  - roles/stack-web-wordpress--generate-role/vars/tests/masamune/test-wordpress--masamune--fr/test-wordpress--masamune--fr---vars.yml
+
+  roles:
     - stack-web-wordpress--uninstall
 ...
