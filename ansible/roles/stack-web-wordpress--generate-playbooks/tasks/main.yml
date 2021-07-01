@@ -27,6 +27,17 @@
 
 
 ## Generate all playbooks, customized using the duplicated project vars files
+- name: 'Generate WordPress "backup locally" playbook'
+  delegate_to: 127.0.0.1
+  template:
+    dest: '{{ item }}'
+    src: wordpress-playbook-backup-locally.yml.j2
+  loop:
+    - './generated/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/{{ constants.FILE_PREFIX }}{{ project.dashed_domain }}---wordpress-backup-volume--locally--generated.yml'
+    - './generated/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/history/{{ constants.FILE_PREFIX }}{{ project.dashed_domain }}---wordpress-backup-volume--locally--generated-{{ currentDateTime }}.yml'
+    # Convenience : duplicate to root
+    - './{{ constants.FILE_PREFIX }}{{ project.dashed_domain }}---wordpress-backup-volume--locally--generated.yml'
+
 - name: 'Generate WordPress "backup on host" playbook'
   delegate_to: 127.0.0.1
   template:
@@ -70,6 +81,9 @@
     regexp: 'REMOVE-ME-TO-PRESERVE-VARS'
     replace: ''
   loop:
+    - './generated/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/{{ constants.FILE_PREFIX }}{{ project.dashed_domain }}---wordpress-backup-volume--locally--generated.yml'
+    - './generated/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/history/{{ constants.FILE_PREFIX }}{{ project.dashed_domain }}---wordpress-backup-volume--locally--generated-{{ currentDateTime }}.yml'
+    - './{{ constants.FILE_PREFIX }}{{ project.dashed_domain }}---wordpress-backup-volume--locally--generated.yml'
     - './generated/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/{{ constants.FILE_PREFIX }}{{ project.dashed_domain }}---wordpress-backup-volume--on-host--generated.yml'
     - './generated/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/history/{{ constants.FILE_PREFIX }}{{ project.dashed_domain }}---wordpress-backup-volume--on-host--generated-{{ currentDateTime }}.yml'
     - './{{ constants.FILE_PREFIX }}{{ project.dashed_domain }}---wordpress-backup-volume--on-host--generated.yml'
