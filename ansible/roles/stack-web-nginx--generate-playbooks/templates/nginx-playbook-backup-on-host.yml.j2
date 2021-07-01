@@ -1,0 +1,48 @@
+---
+##---
+## 🤖 This file has been generated automatically through Ansible and **should not be edited by hand**.
+## See the [original script](https://github.com/youpiwaza/ansible-install-web-server/blob/master/ansible/roles/stack-web-nginx--generate-playbooks/tasks/main.yml)
+## & [original template file](https://github.com/youpiwaza/ansible-install-web-server/blob/master/ansible/roles/stack-web-nginx--generate-playbooks/templates/original---nginx-playbook-backup-on-host.yml.j2).
+## *Generated (yyyy-mm-dd) {{ currentDateTime }}*.
+##---
+
+### Backup a specific volume: Extract a specific folder, then archive it on host (.tar)
+## docker_guy
+# > ansible-playbook -i hostsWithCustomSSHPort 100---{{ project.dashed_domain }}---nginx-backup-volume--on-host--generated.yml
+
+# This role have been generated through ansible/10-forge-a-nginx.yml
+#   🔧 Variables should be properly sourced by your file, created previously:
+#   '{{ project.vars_file_path }}'
+
+# Based on tutum/helloworld image
+#   https://hub.docker.com/r/tutum/hello-world/
+
+# You'll need the_docker_guy to have it's ssh key added to the local agent, cf. the_docker_guy generated documentation
+
+## docker_guy
+- name: 'Backup a specific volume'
+  become: no
+  hosts: likorneWithCustomSSHPort
+  # docker_guy / cf. /ansible/roles/users/vars/main.yml
+  remote_user: '{REMOVE-ME-TO-PRESERVE-VARS{ users.2.name }}'
+  vars:
+    currentDateTime: "{REMOVE-ME-TO-PRESERVE-VARS{ ansible_date_time.date }}--{REMOVE-ME-TO-PRESERVE-VARS{ ansible_date_time.hour }}h{REMOVE-ME-TO-PRESERVE-VARS{ ansible_date_time.minute }}m{REMOVE-ME-TO-PRESERVE-VARS{ ansible_date_time.second }}s"
+    currentYear: "{REMOVE-ME-TO-PRESERVE-VARS{ ansible_date_time.year }}"
+
+    ## 🔧 Edit variables here
+    # cf. ansible/roles/stack-web-nginx--generate-stack/templates/nginx.yml.j2 > volumes > target
+    folderToBackup: '/var/log/'
+    type: '{REMOVE-ME-TO-PRESERVE-VARS{ project.type }}s'
+    # cf. ansible/roles/stack-web-nginx--deploy/tasks/main.yml
+    volumeName: '{REMOVE-ME-TO-PRESERVE-VARS{ project.type }}---{REMOVE-ME-TO-PRESERVE-VARS{ project.dashed_domain }}---nginx--logs'
+  vars_files:
+  - defaults/main.yml
+  - roles/users/defaults/main.yml
+  - roles/users/vars/main.yml
+  - vars/main.yml
+  # 🔧 project.vars_file_path
+  - {{ project.vars_file_path }}
+
+  roles:
+    - docker-volume-backup-on-host
+...
