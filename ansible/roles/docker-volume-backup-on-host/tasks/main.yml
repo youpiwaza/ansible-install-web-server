@@ -11,11 +11,11 @@
 # - Name of the archive
 # - Timestamp
 # - Where the archive will be stored, cf. nomenclature-and-folder-tree.md
-#     As a manual backup, it will be stored around ~/the-docker-guy/backups/volumes/YEAR/manual-backup/...
+#     As a manual backup, it will be stored around ~/the-docker-guy/backups/volumes/YEAR/TYPE/...
 
-- name: Create directory '/home/{{ users.2.name }}/backups/volumes/{{ currentYear }}/manual-backups/{{ volumeName }}/'
+- name: Create directory '/home/{{ users.2.name }}/backups/volumes/{{ currentYear }}/{{ type }}/{{ volumeName }}/'
   file:
-    path: '/home/{{ users.2.name }}/backups/volumes/{{ currentYear }}/manual-backups/{{ volumeName }}/'
+    path: '/home/{{ users.2.name }}/backups/volumes/{{ currentYear }}/{{ type }}/{{ volumeName }}/'
     state: directory
     
 
@@ -30,7 +30,7 @@
 #   alpine:latest \
 #   tar -cvf /backup/test-helloDeux-logs---backup---$(date +%Y-%m-%d--%Hh%Mm%Ss).tar "/var/log/"
 
-# '/home/{{ users.2.name }}/backups/volumes/{{ currentYear }}/manual-backups/{{ volumeName }}/{{ volumeName }}---backup---currentDateTime.tar'
+# '/home/{{ users.2.name }}/backups/volumes/{{ currentYear }}/{{ type }}/{{ volumeName }}/{{ volumeName }}---backup---currentDateTime.tar'
 - name: "Backup folder '{{ folderToBackup }}' located inside named volume '{{ volumeName }}'"
   docker_container:
     auto_remove: yes
@@ -46,7 +46,7 @@
         # type: volume
       
         # Where to store backup
-      - source: '/home/{{ users.2.name }}/backups/volumes/{{ currentYear }}/manual-backups/{{ volumeName }}/'
+      - source: '/home/{{ users.2.name }}/backups/volumes/{{ currentYear }}/{{ type }}/{{ volumeName }}/'
         # temp folder, and isn't relevant, but MUST be different from the folder from the volume to backup
         target: '/backup'
         type: bind
@@ -54,11 +54,16 @@
     userns_mode: host
     working_dir: /home/backup
 
+- name: Duplicate backup to latest, to simplify local gathering
+  copy:
+    src: /srv/myfiles/foo.conf
+    dest: /etc/foo.conf
+
 - debug:
     msg:
       - 'Everything went fine, your backup is located on the host here:'
       - ''
-      - '/home/{{ users.2.name }}/backups/volumes/{{ currentYear }}/manual-backups/{{ volumeName }}/{{ volumeName }}---backup---{{ currentDateTime }}.tar'
+      - '/home/{{ users.2.name }}/backups/volumes/{{ currentYear }}/{{ type }}/{{ volumeName }}/{{ volumeName }}---backup---{{ currentDateTime }}.tar'
       - ''
       - ''
       - "Use 'tar -xvf {{ volumeName }}---backup---{{ currentDateTime }}.tar --strip 1' to extract files and folders"
