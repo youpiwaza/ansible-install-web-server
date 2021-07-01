@@ -58,6 +58,10 @@
   wait_for:
     path: '/home/{{ users.2.name }}/backups/volumes/{{ currentYear }}/{{ type }}/{{ volumeName }}/{{ volumeName }}---backup---{{ currentDateTime }}.tar'
 
+## Note: If contents are unchanged, it won't be replaced
+#   https://docs.ansible.com/ansible/latest/collections/ansible/builtin/copy_module.html#parameter-force
+#     If yes, the remote file will be replaced when contents are different than the source.
+
 - name: Duplicate backup to latest, to simplify local gathering
   copy:
     dest: '/home/{{ users.2.name }}/backups/volumes/{{ currentYear }}/{{ type }}/{{ volumeName }}/{{ volumeName }}---backup---latest.tar'
