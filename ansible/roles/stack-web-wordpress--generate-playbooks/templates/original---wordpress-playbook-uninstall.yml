@@ -64,7 +64,7 @@
 
   roles:
     - docker-volume-backup-on-host
-    - docker-volume-backup-fetch
+    - docker-volume-backup-locally
 
 
 
@@ -93,7 +93,7 @@
 
   roles:
     - docker-volume-backup-on-host
-    - docker-volume-backup-fetch
+    - docker-volume-backup-locally
 
 
 
