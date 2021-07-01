@@ -54,10 +54,16 @@
     userns_mode: host
     working_dir: /home/backup
 
+- name: Wait for archive creation
+  wait_for:
+    path: '/home/{{ users.2.name }}/backups/volumes/{{ currentYear }}/{{ type }}/{{ volumeName }}/{{ volumeName }}---backup---{{ currentDateTime }}.tar'
+
 - name: Duplicate backup to latest, to simplify local gathering
   copy:
-    src: /srv/myfiles/foo.conf
-    dest: /etc/foo.conf
+    dest: '/home/{{ users.2.name }}/backups/volumes/{{ currentYear }}/{{ type }}/{{ volumeName }}/{{ volumeName }}---backup---latest.tar'
+    force: yes
+    remote_src: yes
+    src: '/home/{{ users.2.name }}/backups/volumes/{{ currentYear }}/{{ type }}/{{ volumeName }}/{{ volumeName }}---backup---{{ currentDateTime }}.tar'
 
 - debug:
     msg:
