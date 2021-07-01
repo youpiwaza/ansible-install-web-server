@@ -38,7 +38,7 @@
     # Convenience : duplicate to root
     - './{{ constants.FILE_PREFIX }}{{ project.dashed_domain }}---nginx-stack--start--generated.yml'
 
-- name: Generate nginx uninstall playbook
+- name: 'Generate nginx "uninstall" playbook'
   delegate_to: 127.0.0.1
   template:
     dest: '{{ item }}'

@@ -27,7 +27,7 @@
 
 
 ## Generate all playbooks, customized using the duplicated project vars files
-- name: Generate WordPress start playbook
+- name: 'Generate WordPress "start" playbook'
   delegate_to: 127.0.0.1
   template:
     dest: '{{ item }}'
@@ -38,7 +38,7 @@
     # Convenience : duplicate to root
     - './{{ constants.FILE_PREFIX }}{{ project.dashed_domain }}---wordpress-stack--start--generated.yml'
 
-- name: Generate WordPress uninstall playbook
+- name: 'Generate WordPress "uninstall" playbook'
   delegate_to: 127.0.0.1
   template:
     dest: '{{ item }}'
