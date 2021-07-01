@@ -21,8 +21,6 @@
   hosts: likorneWithCustomSSHPort
   # docker_guy / cf. /ansible/roles/users/vars/main.yml
   remote_user: '{{ users.2.name }}'
-  # builder_guy / cf. /ansible/roles/users/vars/main.yml
-  # remote_user: '{{ users.0.name }}'
   vars:
     currentDateTime: "{{ ansible_date_time.date }}--{{ ansible_date_time.hour }}h{{ ansible_date_time.minute }}m{{ ansible_date_time.second }}s"
     currentYear: "{{ ansible_date_time.year }}"
