@@ -11,7 +11,7 @@
 # - Name of the archive
 # - Timestamp
 # - Where the archive will be stored, cf. nomenclature-and-folder-tree.md
-#     As a manual backup, it will be stored around ~/home/the-docker-guy/backups/volumes/{{ currentYear }}/manual-backup/{{ client }}/{{ volumeName }}/...
+#     As a manual backup, it will be stored around ~/home/the-docker-guy/backups/volumes/{{ currentYear }}/{{ client }}/{{ volumeName || manual-backup }}/...
 
 # For more details, have a look at docker-commands-template.md###Create a backup
 
