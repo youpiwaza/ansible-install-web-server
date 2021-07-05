@@ -1,7 +1,7 @@
 ---
 ### Backup a specific volume: Extract a specific folder, archive it on host (.tar), and download it
 ## docker_guy
-# > ansible-playbook -i hostsWithCustomSSHPort 96-backup-volume-locally.yml
+# > ansible-playbook -i hostsWithCustomSSHPort 91-backup-volume-locally.yml
 
 # 🔧 Variables must be properly filled:
 # - folderToBackup  : The folder where the files are stored INSIDE the volume
