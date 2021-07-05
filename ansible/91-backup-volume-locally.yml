@@ -7,7 +7,9 @@
 # - folderToBackup  : The folder where the files are stored INSIDE the volume
 # - volumeName      : Identifier of the named volume
 
-# It will gather '/home/{{ users.2.name }}/backups/volumes/{{ currentYear }}/{{ type }}/{{ client }}/{{ volumeName || manual-backup }}/{{ volumeName }}---backup---latest.tar'
+# It will gather '/home/{{ users.2.name }}/backups/volumes/{{ currentYear }}/{{ type || "manual-backup" }}/{{ client }}/{{ volumeName }}/{{ volumeName }}---backup---latest.tar'
+#     Ex: '/home/the-docker-guy/backups/volumes/2021/manual-backups/masamune/hello--masamune--fr/test---hello--masamune--fr---nginx--logs/test---hello--masamune--fr---nginx--logs---backup---latest.tar'
+#     Ex: '/home/the-docker-guy/backups/volumes/tests/masamune/hello--masamune--fr/test---hello--masamune--fr---nginx--logs/test---hello--masamune--fr---nginx--logs---backup---latest.tar'
 
 # For more details, have a look at docker-commands-template.md###Create a backup
 
@@ -27,8 +29,8 @@
     folderToBackup: '/var/log/'
     project:
       client_name: 'masamune'
-      dashed_domain: 'manual-backups'
-      type: 'test'
+      dashed_domain: 'hello--masamune--fr'
+      type: 'manual-backup'
     volumeName: 'test---hello--masamune--fr---nginx--logs'
   vars_files:
   - defaults/main.yml

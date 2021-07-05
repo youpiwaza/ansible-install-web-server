@@ -100,19 +100,20 @@ Which allow the generation of
   - /the-builder-guy
     - /tests
       - /some-server-test
-  - /the-docker-guy
     - /backups
       - /volumes
         - /YEAR
         - /2021
           - /TYPE
           - /clients
+          - /manual-backups
             - /CLIENT-NAME
             - /masamune
               - /DASHED-URI
               - /dev--masamune--fr
                 - VOLUME-NAME---backup---$(date +%Y-%m-%d--%Hh%Mm%Ss).tar
                 - client---dev--masamune--fr---wordpress--db---backup---2021-05-27--11h23m57s.tar
+                - test---hello--masamune--fr---nginx--logs---backup---latest.tar
           - /core
             - /traefik
           - /manual-backups
