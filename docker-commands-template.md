@@ -182,7 +182,7 @@ Note : This will replace existing files but **not erase new files**.
 #   --userns=host \
 #   -w /FOLDER_IN_VOLUME_TO_RESTORE \
 #   alpine:latest \
-#   tar -xvf SAVE_NAME.tar --strip 1
+#   tar -xvf /home/backup/SAVE_NAME.tar --strip 1
 
 ## Example
 docker run --rm -i -t  \
