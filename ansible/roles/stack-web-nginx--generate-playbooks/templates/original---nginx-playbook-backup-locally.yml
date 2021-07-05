@@ -6,7 +6,7 @@
 # 🔧 Variables must be properly filled:
 # - folderToBackup  : The folder where the files are stored INSIDE the volume
 #     cf. ansible/roles/stack-web-nginx--generate-stack/templates/nginx.yml.j2 > volumes > target  
-# - volumeName      : identifier of the named volume
+# - volumeName      : Identifier of the named volume
 #     cf. ansible/roles/stack-web-nginx--deploy/tasks/main.yml
 
 # For more details, have a look at docker-commands-template.md###Create a backup
