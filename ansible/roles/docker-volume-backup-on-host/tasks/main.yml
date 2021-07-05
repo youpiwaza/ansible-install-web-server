@@ -2,6 +2,8 @@
 ### Backup a specific volume: Extract a specific folder, then archive it on host (.tar)
 ## docker_guy
 
+# cf. playbook : ansible/90-backup-volume-on-host.yml
+
 # 🚨🔧 Variables must be properly defined in playbook:
 # - folderToBackup  : The folder where the files are stored INSIDE the volume
 # - volumeName      : identifier of the named volume
