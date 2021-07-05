@@ -40,15 +40,15 @@
   vars:
     ## 🔧 Edit variables here
     # cf. generated .yml file > volumes > target
-    # archiveLocation : '/home/{{ users.2.name }}/backups/volumes/{{ currentYear }}/{{ type || "manual-backup" }}/{{ client }}/{{ volumeName }}'
-    # archiveLocation : '/home/the-docker-guy/backups/volumes/2021/manual-backups/masamune/hello--masamune--fr/test---hello--masamune--fr---nginx--logs'
-    # archiveLocation : '/home/the-docker-guy/backups/volumes/2021/tests/masamune/hello--masamune--fr/test---hello--masamune--fr---nginx--logs'
+    # archiveLocation: '/home/{{ users.2.name }}/backups/volumes/{{ currentYear }}/{{ type || "manual-backup" }}/{{ client }}/{{ volumeName }}'
+    # archiveLocation: '/home/the-docker-guy/backups/volumes/2021/manual-backups/masamune/hello--masamune--fr/test---hello--masamune--fr---nginx--logs'
+    # archiveLocation: '/home/the-docker-guy/backups/volumes/2021/tests/masamune/hello--masamune--fr/test---hello--masamune--fr---nginx--logs'
     archiveLocation: '/home/{{ users.2.name }}/backups/volumes/2021/manual-backups/masamune/hello--masamune--fr/test---hello--masamune--fr---nginx--logs'
     
     # archiveName     : '{{ volumeName }}---backup---latest.tar'
     archiveName: 'test---hello--masamune--fr---nginx--logs---backup---latest.tar'
     ## 📌Test:
-    # archiveName: 'updated-archive.tar'
+    # archiveName:'updated-archive.tar'
     
     folderToRestore: '/var/log/'
     volumeName: 'test---hello--masamune--fr---nginx--logs'
