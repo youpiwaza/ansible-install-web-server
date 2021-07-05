@@ -5,7 +5,8 @@
 # cf. playbook : ansible/92-backup-restore-volume-from-host-archive.yml
 
 # 🚨🔧 Variables must be properly defined in playbook:
-# - archiveLocation : The folder where the files are going to be restored INSIDE the volume
+# - archiveLocation : The path to the folder containing the archive to restore from (.tar file), located on host, without last slash
+# - archiveName     : The archive filename to restore from (.tar file), located on host. Includes extension
 # - folderToRestore : The folder where the files are going to be restored INSIDE the volume
 # - volumeName      : Identifier of the named volume to restore to a previous state
 
