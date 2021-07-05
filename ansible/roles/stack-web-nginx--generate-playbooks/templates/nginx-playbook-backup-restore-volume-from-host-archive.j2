@@ -1,0 +1,61 @@
+---
+##---
+## 🤖 This file has been generated automatically through Ansible and **should not be edited by hand**.
+## See the [original script](https://github.com/youpiwaza/ansible-install-web-server/blob/master/ansible/roles/stack-web-nginx--generate-playbooks/tasks/main.yml)
+## & [original template file](https://github.com/youpiwaza/ansible-install-web-server/blob/master/ansible/roles/stack-web-nginx--generate-playbooks/templates/nginx-playbook-backup-restore-volume-from-host-archive.j2).
+## *Generated (yyyy-mm-dd) {{ currentDateTime }}*.
+##---
+
+### Restore a previously backuped volume: Extract an (host) archive into a volume
+## docker_guy
+# > ansible-playbook -i hostsWithCustomSSHPort 100---{{ project.dashed_domain }}---nginx-backup-restore-volume-from-host-archive--generated.yml
+
+# This role have been generated through ansible/10-forge-a-nginx.yml
+#   🔧 Variables should be properly sourced by your file, created previously:
+#   '{{ project.vars_file_path }}'
+
+# 🚨 Note 🚨 : This will replace existing files but **not erase new files**.
+#        Best practice would be to create a new volume, populate it with the backup and remap the container accordingly.
+#        This also allow the previous volume (..and datas) to persist.
+
+# 🔧🚨💥 Variables must be properly filled:
+# - archiveLocationOnHost : The path to the folder containing the archive to restore from (.tar file), located on host, without last slash
+# - archiveName           : The archive filename to restore from (.tar file), located on host. Includes extension
+# - folderToRestore       : The folder where the files are going to be restored INSIDE the volume
+# - volumeName            : Identifier of the named volume to restore to a previous state
+
+# For more details, have a look at docker-commands-template.md###Create a backup
+
+# Based on tutum/helloworld image
+#   https://hub.docker.com/r/tutum/hello-world/
+
+# You'll need the_docker_guy to have it's ssh key added to the local agent, cf. the_docker_guy generated documentation
+
+- name: 'Restore a backup archive into a specific volume'
+  become: no
+  hosts: likorneWithCustomSSHPort
+  # docker_guy / cf. /ansible/roles/users/vars/main.yml
+  remote_user: '{REMOVE-ME-TO-PRESERVE-VARS{ users.2.name }}'
+  vars:
+    ## 🔧 Edit variables here
+    # cf. ansible/roles/stack-web-nginx--generate-stack/templates/nginx.yml.j2 > volumes > target
+    # archiveLocationOnHost: '/home/{REMOVE-ME-TO-PRESERVE-VARS{ users.2.name }}/backups/volumes/{REMOVE-ME-TO-PRESERVE-VARS{ currentYear }}/{REMOVE-ME-TO-PRESERVE-VARS{ type || "manual-backup" }}s/{REMOVE-ME-TO-PRESERVE-VARS{ client }}/{REMOVE-ME-TO-PRESERVE-VARS{ volumeName }}'
+    # archiveLocationOnHost: '/home/{REMOVE-ME-TO-PRESERVE-VARS{ users.2.name }}/backups/volumes/{{ ansible_date_time.year }}/manual-backups/{{ project.client_name }}/{{ project.dashed_domain }}/{{ project.type }}---{{ project.dashed_domain }}---nginx--logs'
+    # archiveLocationOnHost: '/home/{REMOVE-ME-TO-PRESERVE-VARS{ users.2.name }}/backups/volumes/{{ ansible_date_time.year }}/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/{{ project.type }}---{{ project.dashed_domain }}---nginx--logs'
+    archiveLocationOnHost: '/home/{REMOVE-ME-TO-PRESERVE-VARS{ users.2.name }}/backups/volumes/{{ ansible_date_time.year }}/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/{{ project.type }}---{{ project.dashed_domain }}---nginx--logs'
+    
+    # archiveName     : '{REMOVE-ME-TO-PRESERVE-VARS{ volumeName }}---backup---latest.tar'
+    archiveName: '{{ project.type }}---{{ project.dashed_domain }}---nginx--logs---backup---latest.tar'
+    folderToRestore: '/var/log/'
+    volumeName: '{{ project.type }}---{{ project.dashed_domain }}---nginx--logs'
+  vars_files:
+  - defaults/main.yml
+  - roles/users/defaults/main.yml
+  - roles/users/vars/main.yml
+  - vars/main.yml
+  # 🔧 project.vars_file_path
+  - {{ project.vars_file_path }}
+
+  roles:
+    - docker-volume-restore-from-host-archive
+...

@@ -49,6 +49,17 @@
     # Convenience : duplicate to root
     - './{{ constants.FILE_PREFIX }}{{ project.dashed_domain }}---nginx-backup-volume--on-host--generated.yml'
 
+- name: 'Generate nginx "backup > restore from host archive" playbook'
+  delegate_to: 127.0.0.1
+  template:
+    dest: '{{ item }}'
+    src: nginx-playbook-backup-restore-volume-from-host-archive.j2
+  loop:
+    - './generated/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/{{ constants.FILE_PREFIX }}{{ project.dashed_domain }}---nginx-backup-restore-volume-from-host-archive--generated.yml'
+    - './generated/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/history/{{ constants.FILE_PREFIX }}{{ project.dashed_domain }}---nginx-backup-restore-volume-from-host-archive--generated-{{ currentDateTime }}.yml'
+    # Convenience : duplicate to root
+    - './{{ constants.FILE_PREFIX }}{{ project.dashed_domain }}---nginx-backup-restore-volume-from-host-archive--generated.yml'
+
 - name: 'Generate nginx "start" playbook'
   delegate_to: 127.0.0.1
   template:
@@ -86,6 +97,9 @@
     - './generated/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/{{ constants.FILE_PREFIX }}{{ project.dashed_domain }}---nginx-backup-volume--on-host--generated.yml'
     - './generated/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/history/{{ constants.FILE_PREFIX }}{{ project.dashed_domain }}---nginx-backup-volume--on-host--generated-{{ currentDateTime }}.yml'
     - './{{ constants.FILE_PREFIX }}{{ project.dashed_domain }}---nginx-backup-volume--on-host--generated.yml'
+    - './generated/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/{{ constants.FILE_PREFIX }}{{ project.dashed_domain }}---nginx-backup-restore-volume-from-host-archive--generated.yml'
+    - './generated/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/history/{{ constants.FILE_PREFIX }}{{ project.dashed_domain }}---nginx-backup-restore-volume-from-host-archive--generated-{{ currentDateTime }}.yml'
+    - './{{ constants.FILE_PREFIX }}{{ project.dashed_domain }}---nginx-backup-restore-volume-from-host-archive--generated.yml'
     - './generated/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/{{ constants.FILE_PREFIX }}{{ project.dashed_domain }}---nginx-stack--start--generated.yml'
     - './generated/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/history/{{ constants.FILE_PREFIX }}{{ project.dashed_domain }}---nginx-stack--start--generated-{{ currentDateTime }}.yml'
     - './{{ constants.FILE_PREFIX }}{{ project.dashed_domain }}---nginx-stack--start--generated.yml'
