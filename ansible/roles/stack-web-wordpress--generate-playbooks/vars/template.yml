@@ -17,7 +17,7 @@ constants:
 
 database:
   # https://hub.docker.com/r/bitnami/mariadb/tags?page=1&ordering=last_updated
-  image: 'bitnami/mariadb:10.5.10'
+  image: 'bitnami/mariadb:10.5.11'
 
   MARIADB_DATABASE: "{{ lookup('password', './generated/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/vars-files/MARIADB_DATABASE-generated.txt length=32 chars=ascii_letters,digits') }}"
   MARIADB_PASSWORD: "{{ lookup('password', './generated/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/vars-files/MARIADB_PASSWORD-generated.txt length=32 chars=ascii_letters,digits') }}"
