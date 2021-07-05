@@ -44,6 +44,6 @@
   - roles/stack-web-wordpress--generate-playbooks/vars/tests/masamune/test-wordpress--masamune--fr/test-wordpress--masamune--fr---vars.yml
 
   roles:
-    - stack-web-common--generate
     - stack-web-wordpress--generate-playbooks
+    - stack-web-common--generate
 ...

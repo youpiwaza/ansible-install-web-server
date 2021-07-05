@@ -44,6 +44,6 @@
   - roles/stack-web-nginx--generate-playbooks/vars/tests/masamune/hello--masamune--fr/hello--masamune--fr---vars.yml
 
   roles:
-    - stack-web-common--generate
     - stack-web-nginx--generate-playbooks
+    - stack-web-common--generate
 ...
