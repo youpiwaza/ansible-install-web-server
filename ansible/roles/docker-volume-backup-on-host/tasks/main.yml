@@ -10,7 +10,7 @@
 # - Name of the archive
 # - Timestamp
 # - Where the archive will be stored, cf. nomenclature-and-folder-tree.md
-#     As a manual backup, it will be stored around ~/the-docker-guy/backups/volumes/YEAR/TYPE/...
+#     As a manual backup, it will be stored around ~ '/home/{{ users.2.name }}/backups/volumes/{{ currentYear }}/{{ type }}/{{ client }}/{{ volumeName || manual-backup }}/{{ volumeName }}---backup---latest.tar'
 
 - name: Create directory '/home/{{ users.2.name }}/backups/volumes/{{ currentYear }}/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/{{ volumeName }}/'
   file:

@@ -7,7 +7,7 @@
 # - folderToBackup  : The folder where the files are stored INSIDE the volume
 # - volumeName      : Identifier of the named volume
 
-# It will gather '/home/{{ users.2.name }}/backups/volumes/{{ currentYear }}/{{ type }}/{{ volumeName }}/{{ volumeName }}---backup---latest.tar'
+# It will gather '/home/{{ users.2.name }}/backups/volumes/{{ currentYear }}/{{ type }}/{{ client }}/{{ volumeName || manual-backup }}/{{ volumeName }}---backup---latest.tar'
 
 # For more details, have a look at docker-commands-template.md###Create a backup
 
