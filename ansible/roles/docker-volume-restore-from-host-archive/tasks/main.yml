@@ -5,10 +5,10 @@
 # cf. playbook : ansible/92-backup-restore-volume-from-host-archive.yml
 
 # 🚨🔧 Variables must be properly defined in playbook:
-# - archiveLocation : The path to the folder containing the archive to restore from (.tar file), located on host, without last slash
-# - archiveName     : The archive filename to restore from (.tar file), located on host. Includes extension
-# - folderToRestore : The folder where the files are going to be restored INSIDE the volume
-# - volumeName      : Identifier of the named volume to restore to a previous state
+# - archiveLocationOnHost : The path to the folder containing the archive to restore from (.tar file), located on host, without last slash
+# - archiveName           : The archive filename to restore from (.tar file), located on host. Includes extension
+# - folderToRestore       : The folder where the files are going to be restored INSIDE the volume
+# - volumeName            : Identifier of the named volume to restore to a previous state
 
 ## Backup
 # cf. docker-commands-template.md###Create a backup
@@ -19,7 +19,7 @@
 #   1.2 Extract it `tar -xvf test---hello--masamune--fr---nginx--logs---backup---latest.tar`
 #   1.3 Edit the content `cd /FOLDER && touch hey.txt`
 #   1.4 Archive it `tar -cvf updated-archive.tar "/FOLDER"`
-# 2. Execute this playbook, with adjusted variables (~archiveName & archiveLocation)
+# 2. Execute this playbook, with adjusted variables (~archiveName & archiveLocationOnHost)
 # 3. Run a temporary interactive container, with mounted volume to inspect
 #       docker run --rm -i -t  \
 #         --mount source=test---hello--masamune--fr---nginx--logs,destination=/home/whatever \
@@ -38,12 +38,12 @@
 #   alpine:latest \
 #   tar -xvf SAVE_NAME.tar
 
-# archiveLocation:  '/home/{{ users.2.name }}/backups/volumes/{{ currentYear }}/{{ type || "manual-backup" }}/{{ client }}/{{ volumeName }}/'
-# archiveLocation:  '/home/the-docker-guy/backups/volumes/2021/manual-backups/masamune/hello--masamune--fr/test---hello--masamune--fr---nginx--logs/'
-# archiveLocation:  '/home/the-docker-guy/backups/volumes/2021/tests/masamune/hello--masamune--fr/test---hello--masamune--fr---nginx--logs/'
+# archiveLocationOnHost:  '/home/{{ users.2.name }}/backups/volumes/{{ currentYear }}/{{ type || "manual-backup" }}/{{ client }}/{{ volumeName }}/'
+# archiveLocationOnHost:  '/home/the-docker-guy/backups/volumes/2021/manual-backups/masamune/hello--masamune--fr/test---hello--masamune--fr---nginx--logs/'
+# archiveLocationOnHost:  '/home/the-docker-guy/backups/volumes/2021/tests/masamune/hello--masamune--fr/test---hello--masamune--fr---nginx--logs/'
 # archiveName:      '{{ volumeName }}---backup---latest.tar'
 # archiveName:      'test---hello--masamune--fr---nginx--logs---backup---latest.tar'
-- name: "Restore archive '{{ archiveLocation }}/{{ archiveName }}' into named volume '{{ volumeName }}'"
+- name: "Restore archive '{{ archiveLocationOnHost }}/{{ archiveName }}' into named volume '{{ volumeName }}'"
   docker_container:
     auto_remove: yes
     # tar -xvf /home/backup/SAVE_NAME.tar
@@ -59,7 +59,7 @@
         # type: volume
       
         # What archive to restore from # The path & filename to restore from (.tar file), located on host
-      - source: '{{ archiveLocation }}'
+      - source: '{{ archiveLocationOnHost }}'
         # temp folder, and isn't relevant, but MUST be different from the folder from the volume to backup
         target: '/home/backup'
         type: bind
