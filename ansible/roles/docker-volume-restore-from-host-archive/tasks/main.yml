@@ -16,7 +16,7 @@
 # 📌 How to test manually:
 # 1. Prepare a backup with a variation
 #   1.1 Create a backup (through ansible/90-backup-volume-on-host.yml)
-#   1.2 Extract it `tar -xvf test---hello--masamune--fr---nginx--logs---backup---latest.tar --strip 1`
+#   1.2 Extract it `tar -xvf test---hello--masamune--fr---nginx--logs---backup---latest.tar`
 #   1.3 Edit the content `cd /FOLDER && touch hey.txt`
 #   1.4 Archive it `tar -cvf updated-archive.tar "/FOLDER"`
 # 2. Execute this playbook, with adjusted variables (~archiveName & archiveLocation)
@@ -35,9 +35,8 @@
 #   --mount source=VOLUME_TO_RESTORE_NAME,destination=/FOLDER_IN_VOLUME_TO_RESTORE \
 #   --mount type=bind,source=/HOST_SAVE_ARCHIVE_LOCATION,destination=/home/backup \
 #   --userns=host \
-#   -w /FOLDER_IN_VOLUME_TO_RESTORE \
 #   alpine:latest \
-#   tar -xvf SAVE_NAME.tar --strip 1
+#   tar -xvf SAVE_NAME.tar
 
 # archiveLocation:  '/home/{{ users.2.name }}/backups/volumes/{{ currentYear }}/{{ type || "manual-backup" }}/{{ client }}/{{ volumeName }}/'
 # archiveLocation:  '/home/the-docker-guy/backups/volumes/2021/manual-backups/masamune/hello--masamune--fr/test---hello--masamune--fr---nginx--logs/'
@@ -47,13 +46,14 @@
 - name: "Restore archive '{{ archiveLocation }}/{{ archiveName }}' into named volume '{{ volumeName }}'"
   docker_container:
     auto_remove: yes
-    # tar -xvf /home/backup/SAVE_NAME.tar --strip 1
-    command: 'tar -xvf /home/backup/{{ archiveName }} --strip 1'
+    # tar -xvf /home/backup/SAVE_NAME.tar
+    # command: 'tar -xvf /home/backup/{{ archiveName }}'
+    command: 'tar -xvf /home/backup/{{ archiveName }}'
     container_default_behavior: compatibility
     image: alpine:latest
     interactive: yes
     mounts:
-      # Which volume to restore, in wich folder
+      # Which volume to restore, in which folder
       - source: '{{ volumeName }}'
         target: '{{ folderToRestore }}'
         # type: volume
@@ -65,5 +65,4 @@
         type: bind
     name: temp---backup-volume
     userns_mode: host
-    working_dir: '{{ folderToRestore }}'
 ...

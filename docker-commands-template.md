@@ -150,9 +150,12 @@ docker run --rm -i -t  \
 
 #### Test/Debug archive
 
+🚨  Be careful with --strip=XXX which removes XXX surrounding folders. If mounted volume got a tree folder (ex: /var/log/) this can be problematic.
+    Files & folder won't be restored to the good place. It's better off to not use it (.. and don't use a working directory with the temp container)
+
 ```bash
 ## Untar, without surronding /home folder
-tar -xvf test-example---backup---2021-05-28--07h27m40s.tar --strip 1
+tar -xvf test-example---backup---2021-05-28--07h27m40s.tar --strip=1
 # home/volumeContent/
 # home/volumeContent/nginx/
 # home/volumeContent/nginx/error.log
@@ -173,25 +176,26 @@ Note : This will replace existing files but **not erase new files**.
        This also allow the previous volume (..and datas) to persist.
 
 ```bash
-## Note: Contrary to the docker doc example, no need to 'cd' into the right directory
-##       Use '-w' working directory instead
 ##    Note: the 'backup/' folder is a temp folder, and isn't relevant, but MUST be different from the folder from the volume to restore
 # docker run --rm -i -t  \
 #   --mount source=VOLUME_TO_RESTORE_NAME,destination=/FOLDER_IN_VOLUME_TO_RESTORE \
 #   --mount type=bind,source=/HOST_SAVE_ARCHIVE_LOCATION,destination=/home/backup \
 #   --userns=host \
-#   -w /FOLDER_IN_VOLUME_TO_RESTORE \
 #   alpine:latest \
-#   tar -xvf /home/backup/SAVE_NAME.tar --strip 1
+#   tar -xvf /home/backup/SAVE_NAME.tar
+
+## Don't use working directory unless you use --strip=XXX # depending on the tree folder. It's simplier to replace from /
+#   -w /FOLDER_IN_VOLUME_TO_RESTORE \
+#   tar -xvf /home/backup/SAVE_NAME.tar --strip=1
+
 
 ## Example
 docker run --rm -i -t  \
   --mount source=test-helloDeux-logs,destination=/home/volumeContent \
   --mount type=bind,source=$(pwd),destination=/home/backup \
   --userns=host \
-  -w /home/volumeContent \
   alpine:latest \
-  tar -xvf /home/backup/updated-volume.tar --strip 1
+  tar -xvf /home/backup/updated-volume.tar
 ```
 
 ## Docker compose commands
