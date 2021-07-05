@@ -51,10 +51,7 @@
     archiveLocationOnLocal: './generated/backups/volumes/2021/manual-backups/masamune/hello--masamune--fr/test---hello--masamune--fr---nginx--logs'
     
     # archiveName*: '{{ volumeName }}---backup---latest.tar'
-    # archiveName: 'test---hello--masamune--fr---nginx--logs---backup---latest.tar'
-    archiveName: 'hey.txt'
-    ## 📌Test:
-    # archiveName: 'updated-archive.tar'
+    archiveName: 'test---hello--masamune--fr---nginx--logs---backup---latest.tar'
     
     folderToRestore: '/var/log/'
     
@@ -73,5 +70,5 @@
 
   roles:
     - docker-volume-copy-backup-archive-to-host
-    # - docker-volume-restore-from-host-archive
+    - docker-volume-restore-from-host-archive
 ...
