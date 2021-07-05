@@ -1,6 +1,15 @@
 ---
 ### Install desired packages and configuration
-# # https://docs.ansible.com/ansible/latest/modules/apt_module.html#apt-module
+
+# Clean eventual packages conflicts and stuff
+# eq. apt --fix-broken install
+# 📌TEST: Needs to be validated
+- name: Clean eventual packages conflicts and stuff / apt --fix-broken install
+  apt:
+    state: fixed
+
+## Packages installation
+#     https://docs.ansible.com/ansible/latest/modules/apt_module.html#apt-module
 - name: Ubuntu multiple package installations
   apt:
     cache_valid_time: '3600'

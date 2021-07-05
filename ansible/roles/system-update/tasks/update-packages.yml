@@ -6,6 +6,13 @@
     update_cache: yes
     cache_valid_time: 3600
 
+# Clean eventual packages conflicts and stuff
+# eq. apt --fix-broken install
+# 📌TEST: Needs to be validated
+- name: Clean eventual packages conflicts and stuff / apt --fix-broken install
+  apt:
+    state: fixed
+
 # eq. apt upgrade
 # TODO: BUG: Ne renvoie pas OK, renvoie la liste du bousin effectué
 # 01/06/21 : Pas de package mis a jour, bug non constaté :/
