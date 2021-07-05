@@ -7,7 +7,7 @@
 # - folderToBackup  : The folder where the files are stored INSIDE the volume
 # - volumeName      : Identifier of the named volume
 
-# It will gather '/home/{{ users.2.name }}/backups/volumes/{{ currentYear }}/{{ type || "manual-backup" }}/{{ client }}/{{ volumeName }}/{{ volumeName }}---backup---latest.tar'
+# It will gather '/home/{{ users.2.name }}/backups/volumes/{{ currentYear }}/{{ type || "manual-backup" }}s/{{ client }}/{{ volumeName }}/{{ volumeName }}---backup---latest.tar'
 #     Ex: '/home/the-docker-guy/backups/volumes/2021/manual-backups/masamune/hello--masamune--fr/test---hello--masamune--fr---nginx--logs/test---hello--masamune--fr---nginx--logs---backup---latest.tar'
 #     Ex: '/home/the-docker-guy/backups/volumes/tests/masamune/hello--masamune--fr/test---hello--masamune--fr---nginx--logs/test---hello--masamune--fr---nginx--logs---backup---latest.tar'
 

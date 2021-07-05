@@ -40,7 +40,7 @@
   vars:
     ## 🔧 Edit variables here
     # cf. generated .yml file > volumes > target
-    # archiveLocationOnHost: '/home/{{ users.2.name }}/backups/volumes/{{ currentYear }}/{{ type || "manual-backup" }}/{{ client }}/{{ volumeName }}'
+    # archiveLocationOnHost: '/home/{{ users.2.name }}/backups/volumes/{{ currentYear }}/{{ type || "manual-backup" }}s/{{ client }}/{{ volumeName }}'
     # archiveLocationOnHost: '/home/the-docker-guy/backups/volumes/2021/manual-backups/masamune/hello--masamune--fr/test---hello--masamune--fr---nginx--logs'
     # archiveLocationOnHost: '/home/the-docker-guy/backups/volumes/2021/tests/masamune/hello--masamune--fr/test---hello--masamune--fr---nginx--logs'
     archiveLocationOnHost: '/home/{{ users.2.name }}/backups/volumes/2021/manual-backups/masamune/hello--masamune--fr/test---hello--masamune--fr---nginx--logs'
