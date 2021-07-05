@@ -9,6 +9,8 @@
 # - volumeName      : identifier of the named volume
 #     cf. ansible/roles/stack-web-nginx--deploy/tasks/main.yml
 
+# For more details, have a look at docker-commands-template.md###Create a backup
+
 # You'll need the_docker_guy to have it's ssh key added to the local agent, cf. the_docker_guy generated documentation
 
 - name: 'Backup a specific volume : WordPress database, then download the generated archive'
