@@ -7,7 +7,7 @@
 #        Best practice would be to create a new volume, populate it with the backup and remap the container accordingly.
 #        This also allow the previous volume (..and datas) to persist.
 
-# 🔧 Variables must be properly filled:
+# 🔧🚨💥 Variables must be properly filled:
 # - archiveLocationOnHost : The path to the folder containing the archive to restore from (.tar file), located on host, without last slash
 # - archiveName           : The archive filename to restore from (.tar file), located on host. Includes extension
 # - folderToRestore       : The folder where the files are going to be restored INSIDE the volume
@@ -47,14 +47,8 @@
     
     # archiveName     : '{{ volumeName }}---backup---latest.tar'
     archiveName: 'test---hello--masamune--fr---nginx--logs---backup---latest.tar'
-    
+
     folderToRestore: '/var/log/'
-    
-    # project:
-    #   client_name: 'masamune'
-    #   dashed_domain: 'manual-backups'
-    #   type: 'test'
-    
     volumeName: 'test---hello--masamune--fr---nginx--logs'
 
   vars_files:
