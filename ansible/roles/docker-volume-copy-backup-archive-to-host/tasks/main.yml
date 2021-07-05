@@ -1,0 +1,24 @@
+---
+### Upload a (volume) archive to the host
+## docker_guy
+
+# cf. playbook : ansible/93-backup-restore-volume-from-local-archive.yml
+
+# 🚨🔧 Variables must be properly defined in playbook:
+# - archiveLocationOnHost   : The path to the folder to copy the local archive on host
+# - archiveLocationOnLocal  : The path to the folder containing the archive to restore from (.tar file), locally (depending on current directory), without last slash
+# - archiveName             : The archive filename to restore from (.tar file), located on host. Includes extension
+
+- name: Create directory '{{ archiveLocationOnHost }}'
+  file:
+    path: '{{ archiveLocationOnHost }}'
+    state: directory
+
+- name: Upload a (volume) archive to the host
+  copy:
+    src: '{{ archiveLocationOnLocal }}/{{ archiveName }}'
+    dest: '{{ archiveLocationOnHost }}/{{ archiveName }}'
+    owner: '{{ users.2.name }}'
+    group: '{{ users.2.name }}'
+    mode: '0644'
+...
