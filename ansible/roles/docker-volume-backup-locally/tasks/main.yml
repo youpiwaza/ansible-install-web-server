@@ -17,6 +17,8 @@
 - name: "Gather backup and save it locally: './generated/backups/volumes/{{ currentYear }}/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/{{ volumeName }}/{{ volumeName }}---backup---latest.tar'"
   fetch:
     dest: './generated/backups/volumes/{{ currentYear }}/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/{{ volumeName }}/{{ volumeName }}---backup---latest.tar'
+    # Do not copy the whole tree folder -_-
+    flat: yes
     src: '/home/{{ users.2.name }}/backups/volumes/{{ currentYear }}/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/{{ volumeName }}/{{ volumeName }}---backup---latest.tar'
 
 - debug:
@@ -26,7 +28,7 @@
       - './generated/backups/volumes/{{ currentYear }}/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/{{ volumeName }}/{{ volumeName }}---backup---latest.tar'
       - ''
       - ''
-      - "Use 'tar -xvf {{ volumeName }}---backup---{{ currentDateTime }}.tar --strip 1' to extract files and folders"
+      - "Use 'tar -xvf {{ volumeName }}---backup---latest.tar --strip 1' to extract files and folders"
       - ''
       - 'For more details, have a look at docker-commands-template.md###Create a backup'
 ...
