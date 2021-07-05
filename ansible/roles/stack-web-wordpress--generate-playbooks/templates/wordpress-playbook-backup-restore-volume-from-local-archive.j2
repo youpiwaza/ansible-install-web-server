@@ -6,9 +6,9 @@
 ## *Generated (yyyy-mm-dd) {{ currentDateTime }}*.
 ##---
 
-### Restore a previously backuped volume: Extract an (host) archive into a volume
+### Restore a previously backuped volume: Upload a local archive to the host, then extract it into a volume
 ## docker_guy
-# > ansible-playbook -i hostsWithCustomSSHPort 200---{{ project.dashed_domain }}---wordpress-backup-restore-volume-from-host-archive--generated.yml
+# > ansible-playbook -i hostsWithCustomSSHPort 200---{{ project.dashed_domain }}---wordpress-backup-restore-volume-from-local-archive--generated.yml
 
 # This role have been generated through ansible/20-forge-a-wordpress.yml
 #   Variables should be properly sourced by your file, created previously:
@@ -19,10 +19,11 @@
 #        This also allow the previous volume (..and datas) to persist.
 
 # 🔧🚨💥 Variables must be properly filled 💥FOR BOTH💥 database & files volumes:
-# - archiveLocationOnHost : The path to the folder containing the archive to restore from (.tar file), located on host, without last slash
-# - archiveName           : The archive filename to restore from (.tar file), located on host. Includes extension
-# - folderToRestore       : The folder where the files are going to be restored INSIDE the volume
-# - volumeName            : Identifier of the named volume to restore to a previous state
+# - archiveLocationOnHost   : The path to the folder to copy the local archive on host
+# - archiveLocationOnLocal  : The path to the folder containing the archive to restore from (.tar file), locally (depending on current directory), without last slash
+# - archiveName             : The archive filename to restore from (.tar file), located on host. Includes extension
+# - folderToRestore         : The folder where the files are going to be restored INSIDE the volume
+# - volumeName              : Identifier of the named volume to restore to a previous state
 
 # For more details, have a look at docker-commands-template.md###Create a backup
 
@@ -32,7 +33,7 @@
 
 # You'll need the_docker_guy to have it's ssh key added to the local agent, cf. the_docker_guy generated documentation
 
-- name: 'Restore a backup archive into a specific volume: WordPress database'
+- name: 'Restore a previously backuped volume: Upload a local archive to the host, then extract it into a volume: WordPress database'
   become: no
   hosts: likorneWithCustomSSHPort
   # docker_guy / cf. /ansible/roles/users/vars/main.yml
@@ -44,6 +45,11 @@
     # archiveLocationOnHost: '/home/{REMOVE-ME-TO-PRESERVE-VARS{ users.2.name }}/backups/volumes/{{ ansible_date_time.year }}/manual-backups/{{ project.client_name }}/{{ project.dashed_domain }}/{{ project.type }}---{{ project.dashed_domain }}---wordpress--database'
     # archiveLocationOnHost: '/home/{REMOVE-ME-TO-PRESERVE-VARS{ users.2.name }}/backups/volumes/{{ ansible_date_time.year }}/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/{{ project.type }}---{{ project.dashed_domain }}---wordpress--database'
     archiveLocationOnHost: '/home/{REMOVE-ME-TO-PRESERVE-VARS{ users.2.name }}/backups/volumes/{{ ansible_date_time.year }}/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/{{ project.type }}---{{ project.dashed_domain }}---wordpress--database'
+
+    # archiveLocationOnLocal: './generated/backups/volumes/{REMOVE-ME-TO-PRESERVE-VARS{ currentYear }}/{REMOVE-ME-TO-PRESERVE-VARS{ type || "manual-backup" }}s/{REMOVE-ME-TO-PRESERVE-VARS{ project.client_name }}/{REMOVE-ME-TO-PRESERVE-VARS{ project.dashed_domain }}/{REMOVE-ME-TO-PRESERVE-VARS{ volumeName }}'
+    # archiveLocationOnLocal: './generated/backups/volumes/{{ ansible_date_time.year }}/manual-backups/{{ project.client_name }}/{{ project.dashed_domain }}/{{ project.type }}---{{ project.dashed_domain }}---wordpress--database'
+    # archiveLocationOnLocal: './generated/backups/volumes/{{ ansible_date_time.year }}/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/{{ project.type }}---{{ project.dashed_domain }}---wordpress--database'
+    archiveLocationOnLocal: './generated/backups/volumes/{{ ansible_date_time.year }}/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/{{ project.type }}---{{ project.dashed_domain }}---wordpress--database'
     
     # archiveName     : '{REMOVE-ME-TO-PRESERVE-VARS{ volumeName }}---backup---latest.tar'
     archiveName: '{{ project.type }}---{{ project.dashed_domain }}---wordpress--database---backup---latest.tar'
@@ -60,11 +66,12 @@
   - {{ project.vars_file_path }}
 
   roles:
+    - docker-volume-copy-backup-archive-to-host
     - docker-volume-restore-from-host-archive
 
 
 
-- name: 'Restore a backup archive into a specific volume: WordPress files'
+- name: 'Restore a previously backuped volume: Upload a local archive to the host, then extract it into a volume: WordPress files'
   become: no
   hosts: likorneWithCustomSSHPort
   # docker_guy / cf. /ansible/roles/users/vars/main.yml
@@ -76,6 +83,11 @@
     # archiveLocationOnHost: '/home/{REMOVE-ME-TO-PRESERVE-VARS{ users.2.name }}/backups/volumes/{{ ansible_date_time.year }}/manual-backups/{{ project.client_name }}/{{ project.dashed_domain }}/{{ project.type }}---{{ project.dashed_domain }}---wordpress--files'
     # archiveLocationOnHost: '/home/{REMOVE-ME-TO-PRESERVE-VARS{ users.2.name }}/backups/volumes/{{ ansible_date_time.year }}/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/{{ project.type }}---{{ project.dashed_domain }}---wordpress--files'
     archiveLocationOnHost: '/home/{REMOVE-ME-TO-PRESERVE-VARS{ users.2.name }}/backups/volumes/{{ ansible_date_time.year }}/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/{{ project.type }}---{{ project.dashed_domain }}---wordpress--files'
+
+        # archiveLocationOnLocal: './generated/backups/volumes/{REMOVE-ME-TO-PRESERVE-VARS{ currentYear }}/{REMOVE-ME-TO-PRESERVE-VARS{ type || "manual-backup" }}s/{REMOVE-ME-TO-PRESERVE-VARS{ project.client_name }}/{REMOVE-ME-TO-PRESERVE-VARS{ project.dashed_domain }}/{REMOVE-ME-TO-PRESERVE-VARS{ volumeName }}'
+    # archiveLocationOnLocal: './generated/backups/volumes/{{ ansible_date_time.year }}/manual-backups/{{ project.client_name }}/{{ project.dashed_domain }}/{{ project.type }}---{{ project.dashed_domain }}---wordpress--files'
+    # archiveLocationOnLocal: './generated/backups/volumes/{{ ansible_date_time.year }}/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/{{ project.type }}---{{ project.dashed_domain }}---wordpress--files'
+    archiveLocationOnLocal: './generated/backups/volumes/{{ ansible_date_time.year }}/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/{{ project.type }}---{{ project.dashed_domain }}---wordpress--files'
     
     # archiveName     : '{REMOVE-ME-TO-PRESERVE-VARS{ volumeName }}---backup---latest.tar'
     archiveName: '{{ project.type }}---{{ project.dashed_domain }}---wordpress--files---backup---latest.tar'
@@ -92,5 +104,6 @@
   - {{ project.vars_file_path }}
 
   roles:
+    - docker-volume-copy-backup-archive-to-host
     - docker-volume-restore-from-host-archive
 ...
