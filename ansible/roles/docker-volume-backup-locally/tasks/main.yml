@@ -1,5 +1,5 @@
 ---
-### Fetch a specific archive file, previously created through docker-volume-backup-on-host rple
+### Fetch a specific archive file, previously created through docker-volume-backup-on-host role
 ## docker_guy
 
 # 🚨🔧 Variables must be properly defined in playbook:
