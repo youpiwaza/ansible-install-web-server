@@ -5,7 +5,7 @@
 
 # 🔧 Variables must be properly filled:
 # - folderToBackup  : The folder where the files are stored INSIDE the volume
-# - volumeName      : identifier of the named volume
+# - volumeName      : Identifier of the named volume
 
 # It will gather '/home/{{ users.2.name }}/backups/volumes/{{ currentYear }}/{{ type }}/{{ volumeName }}/{{ volumeName }}---backup---latest.tar'
 
