@@ -30,7 +30,7 @@
     # archiveLocationOnHost: '/home/the-docker-guy/backups/volumes/2021/tests/masamune/test-wordpress--masamune--fr/test---test-wordpress--masamune--fr---wordpress--database'
     archiveLocationOnHost: '/home/{{ users.2.name }}/backups/volumes/2021/manual-backups/masamune/test-wordpress--masamune--fr/test---test-wordpress--masamune--fr---wordpress--database'
     
-    # archiveName     : '{{ volumeName }}---backup---latest.tar'
+    # archiveName: '{{ volumeName }}---backup---latest.tar'
     archiveName: 'test---test-wordpress--masamune--fr---wordpress--database---backup---latest.tar'
     
     folderToRestore: '/bitnami/mariadb/'
