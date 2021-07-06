@@ -16,6 +16,15 @@
 
 # For more details, have a look at docker-commands-template.md###Create a backup
 
+# 📌 Manual verification: Run a temporary interactive container, with mounted volume to inspect
+# docker run --rm -i -t  \
+#   --mount source=VOLUME_NAME,destination=/home/whatever \
+#   --userns=host \
+#   -w /home/whatever \
+#   alpine:latest \
+#   /bin/ash
+# >> `cd` & `ls` & constat that the new file is here :)
+
 # You'll need the_docker_guy to have it's ssh key added to the local agent, cf. the_docker_guy generated documentation
 
 - name: 'Restore a previously backuped volume: Upload a local archive to the host, then extract it into a volume: WordPress database'

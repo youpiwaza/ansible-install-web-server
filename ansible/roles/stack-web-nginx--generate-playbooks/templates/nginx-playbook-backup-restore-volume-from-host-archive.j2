@@ -26,6 +26,15 @@
 
 # For more details, have a look at docker-commands-template.md###Create a backup
 
+# 📌 Manual verification: Run a temporary interactive container, with mounted volume to inspect
+# docker run --rm -i -t  \
+#   --mount source=VOLUME_NAME,destination=/home/whatever \
+#   --userns=host \
+#   -w /home/whatever \
+#   alpine:latest \
+#   /bin/ash
+# >> `cd` & `ls` & constat that the new file is here :)
+
 # Based on tutum/helloworld image
 #   https://hub.docker.com/r/tutum/hello-world/
 
