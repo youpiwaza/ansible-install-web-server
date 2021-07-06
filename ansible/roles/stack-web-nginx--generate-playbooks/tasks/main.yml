@@ -6,6 +6,7 @@
 ## cf. ansible/10-forge-a-nginx.yml for use case and example.
 
 - name: Warning, without manual action this role will run an example
+  delegate_to: 127.0.0.1
   debug:
     msg:
       - "BEFORE RUNNING THIS ROLE !"
@@ -14,6 +15,7 @@
       - "and modify the '10-forge-a-nginx.yml' playbook accordingly in vars : set the path to the new file."
 
 - name: 'Read the warning message ^'
+  delegate_to: 127.0.0.1
   wait_for:
     timeout: 5
 
@@ -122,6 +124,7 @@
     - './{{ constants.FILE_PREFIX }}{{ project.dashed_domain }}---nginx-stack--uninstall--generated.yml'
 
 - name: Everything went fine :)
+  delegate_to: 127.0.0.1
   debug:
     msg:
       - "You can now run the newly generated playbook, it will use the same file for your project's vars."

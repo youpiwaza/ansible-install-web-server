@@ -11,19 +11,23 @@
   register: result
 
 # - name: Display full info
+#   delegate_to: 127.0.0.1
 #   debug:
 #     msg: '{{ result.host_info }}'
 
 # - name: Display swarm started info
+#   delegate_to: 127.0.0.1
 #   debug:
 #     msg: '{{ result.host_info.Swarm.ControlAvailable }}'
 
 - name: 'Swarm started ? {{ result.host_info.Swarm.ControlAvailable }}'
+  delegate_to: 127.0.0.1
   debug:
     msg: "Swarm detected, using it for this test"
   when: result.host_info.Swarm.ControlAvailable|bool == true
 
 - name: 'Swarm started ? {{ result.host_info.Swarm.ControlAvailable }}'
+  delegate_to: 127.0.0.1
   debug:
     msg: "No swarm detected, creating one for this test, and remove it afterwards"
   when: result.host_info.Swarm.ControlAvailable|bool == false
@@ -38,6 +42,7 @@
 
 ## Test services
 - name: Warning about running service
+  delegate_to: 127.0.0.1
   debug:
     msg: 'Be careful, if this playbook fails, it will not end and 2 services and a network will still be running !'
 
@@ -98,6 +103,7 @@
   failed_when: "'Fuck yeah' not in da_webpage.content"
 
 - name: Display page content in ansible logs
+  delegate_to: 127.0.0.1
   debug:
     msg:
       - 'Affichage du contenu de la page :'
@@ -111,6 +117,7 @@
     state: absent
 
 - name: Let docker remove stack / sleep for 5 seconds and continue with play
+  delegate_to: 127.0.0.1
   wait_for:
     timeout: 5
 

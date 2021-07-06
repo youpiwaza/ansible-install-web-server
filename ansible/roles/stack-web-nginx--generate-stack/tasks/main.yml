@@ -6,6 +6,7 @@
 ## cf. ansible/10-forge-a-nginx.yml for use case and example.
 
 - name: Warning, this role needs a file providing variables
+  delegate_to: 127.0.0.1
   debug:
     msg:
       - "BEFORE RUNNING THIS ROLE !"
@@ -13,6 +14,7 @@
       - "It also needs a specific file containing variables"
 
 - name: 'Read the warning message ^'
+  delegate_to: 127.0.0.1
   wait_for:
     timeout: 5
 

@@ -79,6 +79,7 @@
 # TODO: Will be fine tuned after the set up of Grafana
 
 - name: 'Enable swap limit support ? {{ docker_installation__enableDockerSwapLimitSupport }}'
+  delegate_to: 127.0.0.1
   debug:
     msg: "By default, in this cookbook, swap limit support (managing Memory, CPUs, GPUs) isn't enabled, as it's not mandatory if you exclusively uses services."
 
@@ -89,6 +90,7 @@
   register: result
 
 - name: Do we need to enable swap limit support ?
+  delegate_to: 127.0.0.1
   debug:
     msg:
       - 'Docker host warnings :'
@@ -138,6 +140,7 @@
   - "'WARNING: No swap limit support' in result.host_info"
 
 - name: Validation
+  delegate_to: 127.0.0.1
   debug:
     msg: 'Docker SwapLimit : {{ new_result.host_info.SwapLimit }}'
   when:

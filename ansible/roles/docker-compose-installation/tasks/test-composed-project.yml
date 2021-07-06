@@ -25,6 +25,7 @@
     repo: '{{ docker_compose_installation__publicRepo.uri }}'
 
 - name: Warning about running container
+  delegate_to: 127.0.0.1
   debug:
     msg: 'Be careful, if this playbook fails, it will not end and 2 containers will still be running !'
 
@@ -43,6 +44,7 @@
   register: output
 
 # - name: Debug
+#   delegate_to: 127.0.0.1
 #   debug:
 #     var: output
 
@@ -59,6 +61,7 @@
   failed_when: "'Fuck yeah' not in da_webpage.content"
 
 - name: Display page content in ansible logs
+  delegate_to: 127.0.0.1
   debug:
     msg:
       - 'Affichage du contenu de la page :'

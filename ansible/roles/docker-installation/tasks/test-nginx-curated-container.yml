@@ -88,6 +88,7 @@
     source: pull
 
 - name: Warning about running container
+  delegate_to: 127.0.0.1
   debug:
     msg: 'Be careful, if this playbook fails, it will not end and the container will still be running !'
 

@@ -95,6 +95,7 @@
 #     msg: '{{ my_stack_status }}'
 
 - name: 'Everything went fine :), but WordPress has setup delay'
+  delegate_to: 127.0.0.1
   debug:
     msg:
       - "Be patient =)"

@@ -7,6 +7,7 @@
 ## cf. ansible/20-forge-a-wordpress.yml for use case and example.
 
 - name: Warning, this role needs some vars_file population
+  delegate_to: 127.0.0.1
   debug:
     msg:
       - "This role should be run through a web stack playbooks generator"

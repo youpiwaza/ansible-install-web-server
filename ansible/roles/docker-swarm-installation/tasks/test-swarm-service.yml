@@ -22,19 +22,23 @@
   register: result
 
 # - name: Display full info
+#   delegate_to: 127.0.0.1
 #   debug:
 #     msg: '{{ result.host_info }}'
 
 # - name: Display swarm started info
+#   delegate_to: 127.0.0.1
 #   debug:
 #     msg: '{{ result.host_info.Swarm.ControlAvailable }}'
 
 - name: 'Swarm started ? {{ result.host_info.Swarm.ControlAvailable }}'
+  delegate_to: 127.0.0.1
   debug:
     msg: "Swarm detected, using it for this test"
   when: result.host_info.Swarm.ControlAvailable|bool == true
 
 - name: 'Swarm started ? {{ result.host_info.Swarm.ControlAvailable }}'
+  delegate_to: 127.0.0.1
   debug:
     msg: "No swarm detected, creating one for this test, and remove it afterwards"
   when: result.host_info.Swarm.ControlAvailable|bool == false
@@ -48,6 +52,7 @@
 
 ## Test services
 - name: Warning about running service
+  delegate_to: 127.0.0.1
   debug:
     msg: 'Be careful, if this playbook fails, it will not end and 1 service will still be running !'
 
@@ -70,6 +75,7 @@
   register: my_service_status
 
 # - name: Display service status
+#   delegate_to: 127.0.0.1
 #   debug:
 #     msg: '{{ my_service_status }}'
 
@@ -92,6 +98,7 @@
   failed_when: "'Welcome to nginx!' not in da_webpage.content"
 
 - name: Display page content in ansible logs
+  delegate_to: 127.0.0.1
   debug:
     msg:
       - 'Affichage du contenu de la page :'

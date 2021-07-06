@@ -8,19 +8,23 @@
   register: result
 
 # - name: Display full info
+#   delegate_to: 127.0.0.1
 #   debug:
 #     msg: '{{ result.host_info }}'
 
 # - name: Display swarm started info
+#   delegate_to: 127.0.0.1
 #   debug:
 #     msg: '{{ result.host_info.Swarm.ControlAvailable }}'
 
 - name: 'Swarm started ? {{ result.host_info.Swarm.ControlAvailable }}'
+  delegate_to: 127.0.0.1
   debug:
     msg: "Swarm detected, using it"
   when: result.host_info.Swarm.ControlAvailable|bool == true
 
 - name: 'Swarm started ? {{ result.host_info.Swarm.ControlAvailable }}'
+  delegate_to: 127.0.0.1
   debug:
     msg: "No swarm detected, creating one"
   when: result.host_info.Swarm.ControlAvailable|bool == false

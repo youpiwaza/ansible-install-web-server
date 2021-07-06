@@ -62,6 +62,7 @@
   when: iptables_register_unit.changed
 
 - name: Let some time before iptables restart / sleep for 5 seconds and continue with play
+  delegate_to: 127.0.0.1
   wait_for:
     timeout: 5
 

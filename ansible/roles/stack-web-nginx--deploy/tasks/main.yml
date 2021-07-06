@@ -94,6 +94,7 @@
 
 
 - name: Everything went fine :)
+  delegate_to: 127.0.0.1
   debug:
     msg:
       - "You should be able to see the website at the designated uri :"
