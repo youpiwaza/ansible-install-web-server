@@ -30,7 +30,7 @@
 #        -w /home/whatever \
 #        alpine:latest \
 #        /bin/ash
-# 4. `ls` & constat that the new file is here :)
+# 4. `cd` & `ls` & constat that the new file is here :)
 
 # You'll need the_docker_guy to have it's ssh key added to the local agent, cf. the_docker_guy generated documentation
 
