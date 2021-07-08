@@ -1,6 +1,6 @@
 ---
 ### Create user
-# https://docs.ansible.com/ansible/latest/modules/user_module.html#user-module
+# https://docs.ansible.com/ansible/latest/collections/ansible/builtin/user_module.html
 - name: 'Create a new user {{ item.name }}'
   user:
     name: '{{ item.name }}'

@@ -4,7 +4,8 @@
 # > ansible-playbook -i hostsWithCustomSSHPort 99-craft-and-tests.yml
 
 # ---
-# Currently working on: web common > generate stack playbook stop
+# Currently working on: creating a stfp user per client
+# Based on ansible\2-generate-users-and-change-ssh-port.yml
 
 # ---
 
@@ -13,23 +14,30 @@
 
 # ---
 
-## builder_guy
-- name: Generate nginx staph
-  become: yes
+# the_builder_guy
+- name: Install my web server / Generate users and set custom SSH port
   hosts: likorneWithCustomSSHPort
-  # builder_guy / cf. /ansible/roles/users/vars/main.yml
+  # the_builder_guy / cf. /ansible/roles/users/vars/main.yml
   remote_user: '{{ users.0.name }}'
-  vars:
-    currentDateTime: "{{ ansible_date_time.date }}--{{ ansible_date_time.hour }}h{{ ansible_date_time.minute }}m{{ ansible_date_time.second }}s"
+  become: yes
   vars_files:
   - defaults/main.yml
   - roles/users/defaults/main.yml
   - vars/main.yml
   - roles/users/vars/main.yml
-  # ✏️Edit project vars files here...
-  # - roles/stack-web-nginx--generate-playbooks/vars/TYPE/CLIENT/DASHED-URI/DASHED-URI---vars_secret.yml
-  - roles/stack-web-nginx--generate-playbooks/vars/tests/masamune/hello--masamune--fr/hello--masamune--fr---vars.yml
+  vars:
+    currentDateTime: "{{ ansible_date_time.date }}--{{ ansible_date_time.hour }}h{{ ansible_date_time.minute }}m{{ ansible_date_time.second }}s"
+    # Est-ce que ca surcharge les variables de rôle ?
+    newUser:
+      - name: bob
+        allowCron: no
+        dockerManagement: no
+        mail: masamune.code@gmail.com
+        preventHomeAccess: no
+        restrictUser: yes
+        ssh_passphrase: 'bonjour'
+        sudoer: no
 
   roles:
-    - stack-web-common--generate
+    - users
 ...
