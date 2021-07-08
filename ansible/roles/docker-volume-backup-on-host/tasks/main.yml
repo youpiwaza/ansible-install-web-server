@@ -78,7 +78,7 @@
       - '/home/{{ users.2.name }}/backups/volumes/{{ currentYear }}/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/{{ volumeName }}/{{ volumeName }}---backup---{{ currentDateTime }}.tar'
       - ''
       - ''
-      - "Use 'tar -xvf {{ volumeName }}---backup---{{ currentDateTime }}.tar --strip 1' to extract files and folders"
+      - "Use 'tar -xvf {{ volumeName }}---backup---{{ currentDateTime }}.tar' to extract files and folders"
       - ''
       - 'For more details, have a look at docker-commands-template.md###Create a backup'
 ...

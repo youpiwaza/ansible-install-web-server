@@ -150,12 +150,12 @@ docker run --rm -i -t  \
 
 #### Test/Debug archive
 
-🚨  Be careful with --strip=XXX which removes XXX surrounding folders. If mounted volume got a tree folder (ex: /var/log/) this can be problematic.
+🚨  Be careful with --strip XXX which removes XXX surrounding folders. If mounted volume got a tree folder (ex: /var/log/) this can be problematic.
     Files & folder won't be restored to the good place. It's better off to not use it (.. and don't use a working directory with the temp container)
 
 ```bash
 ## Untar, without surronding /home folder
-tar -xvf test-example---backup---2021-05-28--07h27m40s.tar --strip=1
+tar -xvf test-example---backup---2021-05-28--07h27m40s.tar --strip 1
 # home/volumeContent/
 # home/volumeContent/nginx/
 # home/volumeContent/nginx/error.log
@@ -184,9 +184,9 @@ Note : This will replace existing files but **not erase new files**.
 #   alpine:latest \
 #   tar -xvf /home/backup/SAVE_NAME.tar
 
-## Don't use working directory unless you use --strip=XXX # depending on the tree folder. It's simplier to replace from /
+## Don't use working directory unless you use --strip XXX # depending on the tree folder. It's simplier to replace from /
 #   -w /FOLDER_IN_VOLUME_TO_RESTORE \
-#   tar -xvf /home/backup/SAVE_NAME.tar --strip=1
+#   tar -xvf /home/backup/SAVE_NAME.tar --strip 1
 
 
 ## Example
