@@ -3,20 +3,19 @@
 # You'll need it's ssh key added to the local agent, cf. the_builder_guy generated documentation
 # > ansible-playbook -i hostsWithCustomSSHPort 97-punctal.yml
 
-# Package installation/updates
-# /!\ Be careful ! Might include reboots !
+- name: Install my web server / Generate users and set custom SSH port
+  # hosts: likorne
+  hosts: likorneWithCustomSSHPort
+  # remote_user: '{{ global__remote_user }}'
+  # # the_builder_guy / cf. /ansible/roles/users/vars/main.yml
+  remote_user: '{{ users.0.name }}'
+  become: yes
+  vars_files:
+  - defaults/main.yml
+  - roles/users/defaults/main.yml
+  - vars/main.yml
+  - roles/users/vars/main.yml
 
-# - name: 'Execute admin stuff / {{ users.0.name }}'
-#   become: yes
-#   hosts: likorneWithCustomSSHPort
-#   # the_builder_guy / cf. /ansible/roles/users/vars/main.yml
-#   remote_user: '{{ users.0.name }}'
-#   vars_files:
-#   - defaults/main.yml
-#   - roles/users/defaults/main.yml
-#   - vars/main.yml
-#   - roles/users/vars/main.yml
-
-#   roles:
-#     - packages-installation
+  roles:
+    - security-custom-ssh-port
 ...
