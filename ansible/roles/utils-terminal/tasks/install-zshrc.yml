@@ -25,7 +25,7 @@
 
 ## Set user's terminal to zsh, AFTER INSTALLATION
 # else it prevents SSH login !
-- name: 'Change default terminal for {{ item.name }}'
+- name: 'Change default terminal to zsh for {{ item.name }}'
   user:
     name: '{{ item.name }}'
     shell: /usr/bin/zsh

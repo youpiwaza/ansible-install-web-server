@@ -11,4 +11,25 @@
     # register isn't templatable / is_local_ssh_key_{{ item.name }} // KO
     # - is_local_ssh_key.stat.exists
     - users is defined
+
+## Prevent overriding of zsh terminal (later in the setup) for bash
+## LATER: ♻️Refacto > Gather package facts only one time
+# It occurs if this the task:
+#   2-generate-users-and-change-ssh-port.yml
+# is called again, without calling:
+#   3-utils-security-docker-setup.yml
+# afterwards. So here's the fix
+
+## Get facts to know if zsh is already installed
+#     https://docs.ansible.com/ansible/latest/collections/ansible/builtin/package_facts_module.html
+- name: Gather the package facts
+  package_facts:
+    manager: auto
+
+## If zsh is installed, use it as terminal
+- name: 'Change default terminal to zsh for {{ item.name }}'
+  user:
+    name: '{{ item.name }}'
+    shell: /usr/bin/zsh
+  when: "'zsh' in ansible_facts.packages"
 ...
