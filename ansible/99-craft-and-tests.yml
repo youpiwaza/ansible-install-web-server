@@ -27,17 +27,34 @@
   - roles/users/vars/main.yml
   vars:
     currentDateTime: "{{ ansible_date_time.date }}--{{ ansible_date_time.hour }}h{{ ansible_date_time.minute }}m{{ ansible_date_time.second }}s"
-    # Est-ce que ca surcharge les variables de rôle ?
+    ## Role variable overload (there's a if in the role)
     newUser:
       - name: bob
         allowCron: no
         dockerManagement: no
         mail: masamune.code@gmail.com
         preventHomeAccess: no
-        restrictUser: yes
+        restrictUser: no
         ssh_passphrase: 'bonjour'
         sudoer: no
 
   roles:
     - users
+  
+### v A réutiliser après le tuto a la mano dans /home ET dans /docker_peon
+#   tasks:
+#     ## 🚨 Must be executed BEFORE role users (supercharger with variable newUser)
+#     ## (else ansible fuckup, user > create_home / home / move_home/ are jank AF if user is already created)
+#     - name: "Move bob's home"
+#       user:
+#         # the_docker_peon / cf. /ansible/roles/users/vars/main.yml
+#         # home: '/home/{{ users.3.name }}/TYPE/CLIENT_NAME/DASHED-URI/bindVolumes/VOLUME-NAME/chroot/USER-NAME'
+#         home: '/home/{{ users.3.name }}/tests/masamune/hello--masamune--fr/bindVolumes/test---hello--masamune--fr---nginx--logs/chroot/bob'
+#         name: bob
+#         skeleton: '/home/{{ users.0.name }}/skeletons/users/bindVolumesChroot'
+
+
+### Notes
+# 🚨 Test without chroot tutorial : sftp login ko when using restrict-user.yml yes
+# Needs BOTH a proper shell (!= rbash) & home folder not chowned by root:root
 ...
