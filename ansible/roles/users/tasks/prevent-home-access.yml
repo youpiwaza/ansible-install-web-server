@@ -8,5 +8,5 @@
     mode: '0750'
   when:
     - users is defined
-    - item.preventHomeAccess|default(false)|bool == true
+    - item.preventHomeAccess|default(true)|bool == true
 ...

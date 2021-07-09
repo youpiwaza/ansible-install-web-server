@@ -13,7 +13,7 @@
     # shell: /usr/bin/nologin
   when:
     - users is defined
-    - item.restrictUser|default(false)|bool == true
+    - item.restrictUser|default(true)|bool == true
 
 # Change rights & owner of user's home
 - name: Change rights & owner of user's home
@@ -26,7 +26,7 @@
     state: directory
   when:
     - users is defined
-    - item.restrictUser|default(false)|bool == true
+    - item.restrictUser|default(true)|bool == true
 
 # >> Can't cd nor touch some .sh files nor remove stuff
 
