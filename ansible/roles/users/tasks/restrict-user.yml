@@ -39,12 +39,4 @@
 #   > ll
 # File should be created with dedicated namespace, cf. docker installation
 #   -rw-r--r-- 1 362144 362144   10 avril  1 13:13 test
-
-## 🌱LATER: SSH Chrooted Jail
-# Seems a better alternative, but too much steps :3
-#   nest docker_peon /home in a root:root directory to prevent cd .. ?
-# Also maybe consider the use of nologin ?
-# Need to test more stuff related to docker
-# - ~does it work if the user can't login ?
-# - ~even if the user can't login, which stuff can we do from the inside of a container ?
 ...
