@@ -40,21 +40,114 @@
 
   roles:
     - users
-  
-### v A réutiliser après le tuto a la mano dans /home ET dans /docker_peon
-#   tasks:
-#     ## 🚨 Must be executed BEFORE role users (supercharger with variable newUser)
-#     ## (else ansible fuckup, user > create_home / home / move_home/ are jank AF if user is already created)
-#     - name: "Move bob's home"
-#       user:
-#         # the_docker_peon / cf. /ansible/roles/users/vars/main.yml
-#         # home: '/home/{{ users.3.name }}/TYPE/CLIENT_NAME/DASHED-URI/bindVolumes/VOLUME-NAME/chroot/USER-NAME'
-#         home: '/home/{{ users.3.name }}/tests/masamune/hello--masamune--fr/bindVolumes/test---hello--masamune--fr---nginx--logs/chroot/bob'
-#         name: bob
-#         skeleton: '/home/{{ users.0.name }}/skeletons/users/bindVolumesChroot'
-
 
 ### Notes
 # 🚨 Test without chroot tutorial : sftp login ko when using restrict-user.yml yes
 # Needs BOTH a proper shell (!= rbash) & home folder not chowned by root:root
+
+### Manual commands
+# List ubuntu users > sudo cat /etc/passwd
+# Remove ubuntu user > sudo userdel -r bob
+
+## Tester chroot prison a la racine des utilisateurs, à la main
+## shaco
+## Création du répertoire chroot
+# sudo mkdir -p /test_chroot/
+# sudo chown root:root /test_chroot/
+
+### Création de l'utilisateur / "Pas possible" de le faire à la main pour clés connexions SSH
+
+## Vidanger utilisateur
+## Local > C:\Users\Patolash\.ssh >> Virer bob*
+# sudo userdel -r bob
+
+## Créer utilisateur AVEC connexion alakon
+# Local > ansible-playbook -i hostsWithCustomSSHPort 99-craft-and-tests.yml
+## Local > C:\Users\Patolash\.ssh\_filezilla sftp commeng.txt // Ajouter clé & tester connexion
+
+## Changer le répertoire home de l'utilisateur
+# sudo mkdir -p /test_chroot/bob
+# sudo chown bob:bob /test_chroot/bob/
+# sudo chmod 700 /test_chroot/bob/
+
+## Ne doit pas être connecté en même temps !
+# sudo usermod --home /test_chroot/bob bob
+# // ^ connexion filezilla KO
+# sudo rm -R /home/bob
+
+## Changer son shell en nologin
+# sudo usermod --shell /sbin/nologin bob
+# 
+
+## Configurer le ssh afin de mettre en place la prison chroot
+# sudo nano /etc/ssh/sshd_config
+#> Subsystem sftp  internal-sftp
+#> 
+#> Match User bob
+#>    ChrootDirectory /test_chroot/
+#>    ForceCommand internal-sftp
+#>    X11Forwarding no
+#>    AllowTcpForwarding no
+## Tester la nouvelle configuration du ssh avant reboot
+# sudo sshd -t
+## Reboot ssh
+# sudo systemctl restart sshd (OU ||) sudo service sshd restart
+
+### Tester connexion via filezilla
+## KO :'(
+## Tests empiriques
+# sudo chmod 777 /test_chroot/bob/      // nope
+# sudo usermod --shell /bin/bash bob    // nope
+
+## Restoration du shell & du répertoire par défaut
+# sudo mkdir /home/bob
+# sudo chown bob:bob /home/bob
+# sudo usermod --home /home/bob bob
+## Toujours KO
+
+## Restoration de la config sshd
+# sudo nano /etc/ssh/sshd_config
+#> # *
+# sudo sshd -t
+## Reboot ssh
+# sudo systemctl restart sshd
+## Toujours KO
+
+### Script création user >> ansible-install-web-server\ansible\roles\users\tasks\add-ssh-key.yml
+### La clé est ajoutée dans le répertoire home de l'utilisateur dans le dossier (caché) /.ssh lelelel
+# Local > ansible-playbook -i hostsWithCustomSSHPort 99-craft-and-tests.yml
+## /home/bob/.ssh/ restauré > possibilité de se connecter
+
+
+
+##### DU COUP
+### Même chose en conservant .ssh/
+# sudo cp -R /home/bob/ /test_chroot/
+# sudo chown -R bob:bob /test_chroot/bob/
+# sudo chmod -R 700 /test_chroot/bob/
+# sudo usermod --home /test_chroot/bob bob
+## Connexion toujours ok mais pas emprisonné
+# sudo usermod --shell /sbin/nologin bob
+## Connexion KO ^
+# sudo usermod --shell /usr/bin/zsh bob
+## Connexion re-OK
+## Modif sshd_config..
+## Test connexion > user arrive sur /   -_-"""""
+## OK > Léger lag du au reboot du service sshd ?
+## User bien bloqué dans /test_chroot/, ne peux pas remonter.
+## Ne peux créer des fichiers que dans /test_chroot/bob/
+## MAIS il peut aussi modifier les droits des fichiers (~777 > executable)
+
+## Shell > nologin
+# sudo usermod --shell /sbin/nologin bob
+## OKé, mais droits toujours modifiables (fait partie du sftp après tout)
+
+## Teste de goyer depuis le terminal
+#> eval `ssh-agent` && ssh-add ~/.ssh/bob-ssh-key-ed25519
+#> bonjour
+#> sftp -P 6942 bob@188.165.253.170
+#> // Lancement de script etc. >> Tout est KO en dehors de mkdir/touch/cd/chmod, c'est oké
+
+
+##### Tester avec conf sshd dans fichier utilisateur dédié plutôt que dans conf générale !
 ...
