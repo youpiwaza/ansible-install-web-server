@@ -1,0 +1,9 @@
+---
+### Setup chroot prison
+#     https://github.com/youpiwaza/server-related-tutorials/tree/master/04-user-restrict-and-sftp
+
+- name: Create dedicated sftp user group
+  group:
+    name: chroot-prison-sftp-users
+    state: present
+...

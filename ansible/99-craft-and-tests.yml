@@ -14,10 +14,49 @@
 
 # ---
 
-# the_builder_guy
-- name: Install my web server / Generate users and set custom SSH port
+#//   # the_builder_guy
+#//   - name: Install my web server / Generate users and set custom SSH port
+#//     hosts: likorneWithCustomSSHPort
+#//     # the_builder_guy / cf. /ansible/roles/users/vars/main.yml
+#//     remote_user: '{{ users.0.name }}'
+#//     become: yes
+#//     vars_files:
+#//     - defaults/main.yml
+#//     - roles/users/defaults/main.yml
+#//     - vars/main.yml
+#//     - roles/users/vars/main.yml
+#//     vars:
+#//       currentDateTime: "{{ ansible_date_time.date }}--{{ ansible_date_time.hour }}h{{ ansible_date_time.minute }}m{{ ansible_date_time.second }}s"
+#//       ## Role variable overload (there's a if in the role)
+#//       newUser:
+#//         - name: bob
+#//           allowCron: no
+#//           dockerManagement: no
+#//           mail: masamune.code@gmail.com
+#//           preventHomeAccess: no
+#//           restrictUser: no
+#//           ssh_passphrase: 'bonjour'
+#//           sudoer: no
+#//   
+#//     roles:
+#//       - users
+
+# Notes: https://github.com/youpiwaza/server-related-tutorials/tree/master/04-user-restrict-and-sftp
+
+### Setup chroot prison
+# - ✅ Create sftp user group
+# - Create folder /home/docker_peon/_websites_files_sftp_access_chroot_prison/    / root:root 755
+# - Add /home/docker_peon/_websites_files_sftp_access_chroot_prison/README.md     / root:root 311
+# - Edit /etc/ssh/sshd_config
+#   - Edit
+#   - Test
+#   - Restart ssh service
+
+
+# builder_guy
+- name: Setup chroot prison
   hosts: likorneWithCustomSSHPort
-  # the_builder_guy / cf. /ansible/roles/users/vars/main.yml
+  # builder_guy / cf. /ansible/roles/users/vars/main.yml
   remote_user: '{{ users.0.name }}'
   become: yes
   vars_files:
@@ -25,21 +64,10 @@
   - roles/users/defaults/main.yml
   - vars/main.yml
   - roles/users/vars/main.yml
-  vars:
-    currentDateTime: "{{ ansible_date_time.date }}--{{ ansible_date_time.hour }}h{{ ansible_date_time.minute }}m{{ ansible_date_time.second }}s"
-    ## Role variable overload (there's a if in the role)
-    newUser:
-      - name: bob
-        allowCron: no
-        dockerManagement: no
-        mail: masamune.code@gmail.com
-        preventHomeAccess: no
-        restrictUser: no
-        ssh_passphrase: 'bonjour'
-        sudoer: no
 
-  roles:
-    - users
-
-# Notes: https://github.com/youpiwaza/server-related-tutorials/tree/master/04-user-restrict-and-sftp
+  tasks:
+    - name: Run dedicated task for test, as it will be included in the user playbook
+      include_role:
+        name: users
+        tasks_from: setup-chroot-prison
 ...
