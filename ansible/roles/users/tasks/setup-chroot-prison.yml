@@ -6,4 +6,12 @@
   group:
     name: chroot-prison-sftp-users
     state: present
+
+- name: Create chroot prison main folder
+  file:
+    group: root
+    mode: 755
+    owner: root
+    path: '/home/{{ users.3.name }}/clients/_websites_files_sftp_access_chroot_prison/'
+    state: directory
 ...
