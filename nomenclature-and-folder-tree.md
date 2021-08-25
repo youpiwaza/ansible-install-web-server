@@ -137,6 +137,18 @@ Which allow the generation of
           - client---sub--spongebob--com---wordpress--generated-2021-06-03--11h48m36s.yml
         - ~~/mini-website-preview~~           # Always use Uri notation, reflecting https access ; if not applicable go local
           - main.yml
+        - _websites_files_sftp_access_chroot_prison/    # Multiples chroot prison root, cf. sftp access
+          - /CLIENT-NAME---DASHED-URI                   # 1 chroot prison AND 1 sftp user per site
+          - /bob---spongebob--com                       # chroot prison for bob's spongebob.com. root:root root folder is mandatory
+            - /.cache/                                  # mandatory / root:root 700
+            - /.ssh/                                    # mandatory / root:root 700
+            - /README.md                                # root:root 311 -rw-r--r-- > No no
+            - /my-stuff                                 # user dedicated folder / bob:SFTP_GROUP 700
+              - /README.md                              # root:root 311 -rw-r--r-- > Ask for temp container for sftp
+              - /configs                                # docker bind config accessible through temp containers ?
+              - /volume1                                # docker bind volumes accessible through temp containers
+              - /volume2                                # docker bind volumes accessible through temp containers
+          -/bob---sub--bob--com
     - /core
       - /reverse-proxy
         - /traefik
@@ -188,6 +200,7 @@ Clients project will be splitted in 3:
   - Injected in projects' dedicated named volumes according to needs, through ansible
 - Clients generated datas (uploads, database contents)
   - Stored in named volumes
+    - Will accessed by temporaries sftp user + dedicated container with bind volumes
 
 #### Named volumes
 
@@ -213,3 +226,11 @@ Note: Folders populated in named volume are described in relative docker-compose
 - Used named volumes with stacks
   - bind volumes are a security risk
   - anonymous volumes are destroyed when/if stacks are shutdown (manually or failures)
+
+#### SFTP access
+
+As datas are stored in named volumes, and users should still have access to their datas, here's the plan:
+
+- Each website will have a dedicated sftp (only) user
+- This user will be restricted to it's own website folder (cf. docker_peon/clients/_websites_files_sftp_access_chroot_prison/CLIENT-NAME---DASHED-URI/ )
+- In this folder, temp containers will mount bind volumes, granting access to named volumes
