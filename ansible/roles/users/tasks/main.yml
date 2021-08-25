@@ -7,34 +7,31 @@
 # - ansible/roles/users/vars/main.yml
 # - ansible/roles/users/defaults/main.yml
 
-# Is also used to generate custom clients users (sftp) IF the newUser is defined
-#   the syntax is a bit off, but it's a way to manage over variables precedence/priority
-#     https://docs.ansible.com/ansible/latest/user_guide/playbooks_variables.html#variable-precedence-where-should-i-put-a-variable
-#     https://stackoverflow.com/questions/31310688/conditionally-define-variable-in-ansible#comment86310852_43403229
+# Note that this role is also used to generate custom clients users (sftp), cf. ansible/sftp-create-user
 
 - name: Generate SSH keys locally if needed
   include: generate-ssh-key.yml
-  loop: '{{ newUser if newUser is defined else users }}'
+  loop: '{{ users }}'
 
 - name: Create all users
   include: create.yml
-  loop: '{{ newUser if newUser is defined else users }}'
+  loop: '{{ users }}'
 
 - name: Add SSH keys
   include: add-ssh-key.yml
-  loop: '{{ newUser if newUser is defined else users }}'
+  loop: '{{ users }}'
 
 - name: Add sudoers rights
   include: add-sudoer.yml
-  loop: '{{ newUser if newUser is defined else users }}'
+  loop: '{{ users }}'
 
 - name: Add CRON rights
   include: allow-cron.yml
-  loop: '{{ newUser if newUser is defined else users }}'
+  loop: '{{ users }}'
 
 - name: Prevent access to /home/da_user from other users
   include: prevent-home-access.yml
-  loop: '{{ newUser if newUser is defined else users }}'
+  loop: '{{ users }}'
 
 # https://help.ubuntu.com/lts/serverguide/serverguide.pdf#page=188&zoom=100,72,96
 - name: Set default user creation / Prevent access to /home/da_user from other users
@@ -45,7 +42,7 @@
 
 - name: Restrict user
   include: restrict-user.yml
-  loop: '{{ newUser if newUser is defined else users }}'
+  loop: '{{ users }}'
 
 # https://docs.docker.com/install/linux/linux-postinstall/#manage-docker-as-a-non-root-user
 - name: Create docker group
@@ -58,12 +55,12 @@
 # But in this playbook the docker_guy won't work until the third playbook, which forces reconnexion
 - name: Add docker rights
   include: allow-docker.yml
-  loop: '{{ newUser if newUser is defined else users }}'
+  loop: '{{ users }}'
   when: users__docker.createDockerGroup|bool == true
 
 - name: Generate a file with manual commands for convenience
   include: generate-users-manual-commands.yml
-  loop: '{{ newUser if newUser is defined else users }}'
+  loop: '{{ users }}'
 
 - name: Setup chroot prison
   include: setup-chroot-prison.yml
