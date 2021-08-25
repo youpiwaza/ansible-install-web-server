@@ -16,10 +16,18 @@
 
 ### Setup sftp user
 ##    Notes: https://github.com/youpiwaza/server-related-tutorials/tree/master/04-user-restrict-and-sftp
-# - 
+# - Create dedicated user
+#   - Use role or wtv but needs auth keyz
+#   - name : CLIENT---DASHED-URI
+#   - Create chroot folder, with proper location/rights/own + move .ssh/ & .cache/ + README.md
+#   - Remove original home folder
+#   - usermod: group, shell nologin, new home folder
+#   - 
+#   - Create home/my-stuff folder, with proper location/rights/own + keep .ssh/ & .cache/ + README.md
+#   - Generate user README.md ansible-install-web-server\ansible\roles\users\templates\ssh-users-manual-commands.md.j2
 
 # the_builder_guy
-- name: Install my web server / Generate users and set custom SSH port
+- name: Crafts and tests / Creating a stfp user per client
   hosts: likorneWithCustomSSHPort
   # the_builder_guy / cf. /ansible/roles/users/vars/main.yml
   remote_user: '{{ users.0.name }}'
@@ -44,4 +52,6 @@
 
   roles:
     - users
+    # - sftp-create-user
+    # - sftp-remove-user
 ...
