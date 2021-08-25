@@ -64,4 +64,7 @@
 - name: Generate a file with manual commands for convenience
   include: generate-users-manual-commands.yml
   loop: '{{ newUser if newUser is defined else users }}'
+
+- name: Setup chroot prison
+  include: setup-chroot-prison.yml
 ...
