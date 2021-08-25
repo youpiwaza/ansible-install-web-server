@@ -10,8 +10,12 @@
 - name: Create chroot prison main folder
   file:
     group: root
-    mode: 755
     owner: root
     path: '/home/{{ users.3.name }}/clients/_websites_files_sftp_access_chroot_prison/'
     state: directory
+
+- name: Create chroot prison main folder README.md
+  template:
+    dest: '/home/{{ users.3.name }}/clients/_websites_files_sftp_access_chroot_prison/README.md'
+    src: chroot-prison-root-README.md.j2
 ...
