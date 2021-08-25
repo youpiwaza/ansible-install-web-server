@@ -2,22 +2,22 @@
 ### Setup chroot prison
 #     https://github.com/youpiwaza/server-related-tutorials/tree/master/04-user-restrict-and-sftp
 
-# - name: Create dedicated sftp user group
-#   group:
-#     name: chroot-prison-sftp-users
-#     state: present
+- name: Create dedicated sftp user group
+  group:
+    name: chroot-prison-sftp-users
+    state: present
 
-# - name: Create chroot prison main folder
-#   file:
-#     group: root
-#     owner: root
-#     path: '/home/{{ users.3.name }}/clients/_websites_files_sftp_access_chroot_prison/'
-#     state: directory
+- name: Create chroot prison main folder
+  file:
+    group: root
+    owner: root
+    path: '/home/{{ users.3.name }}/clients/_websites_files_sftp_access_chroot_prison/'
+    state: directory
 
-# - name: Create chroot prison main folder README.md
-#   template:
-#     dest: '/home/{{ users.3.name }}/clients/_websites_files_sftp_access_chroot_prison/README.md'
-#     src: chroot-prison-root-README.md.j2
+- name: Create chroot prison main folder README.md
+  template:
+    dest: '/home/{{ users.3.name }}/clients/_websites_files_sftp_access_chroot_prison/README.md'
+    src: chroot-prison-root-README.md.j2
 
 ### Replace
 ## # Subsystem     sftp    /usr/lib/openssh/sftp-server
@@ -31,14 +31,10 @@
     validate: /usr/sbin/sshd -T -f %s
   notify: Restart ssh service
 
-
-# Subsystem     sftp    /usr/lib/openssh/sftp-server
-
-
-# - name: Insert comment line in /etc/ssh/sshd_config
-#   lineinfile:
-#     path: /etc/ssh/sshd_config
-#     line: '### Ansible automated stuff'
+- name: Insert comment line in /etc/ssh/sshd_config
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    line: '### Ansible automated stuff'
 
 - name: Insert/Update "Match Group" configuration block in /etc/ssh/sshd_config
   blockinfile:
