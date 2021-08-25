@@ -46,11 +46,13 @@
 ### Setup chroot prison
 # - ✅ Create sftp user group
 # - ✅ Create folder /home/docker_peon/_websites_files_sftp_access_chroot_prison/    / root:root 755
-# - Add /home/docker_peon/_websites_files_sftp_access_chroot_prison/README.md     / root:root 311
-# - Edit /etc/ssh/sshd_config
-#   - Edit
-#   - Test
-#   - Restart ssh service
+# - ✅ Add /home/docker_peon/_websites_files_sftp_access_chroot_prison/README.md     / root:root 311
+# - ✅ Edit /etc/ssh/sshd_config
+#   - ✅ Edit / https://docs.ansible.com/ansible/latest/collections/ansible/builtin/blockinfile_module.html
+#   - ✅ Pas oublier de changer sft-server
+#   - ✅ Test
+#   - ✅ Restart ssh service
+# - Add to user playbook
 
 
 # builder_guy

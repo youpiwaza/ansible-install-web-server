@@ -2,20 +2,57 @@
 ### Setup chroot prison
 #     https://github.com/youpiwaza/server-related-tutorials/tree/master/04-user-restrict-and-sftp
 
-- name: Create dedicated sftp user group
-  group:
-    name: chroot-prison-sftp-users
-    state: present
+# - name: Create dedicated sftp user group
+#   group:
+#     name: chroot-prison-sftp-users
+#     state: present
 
-- name: Create chroot prison main folder
-  file:
-    group: root
-    owner: root
-    path: '/home/{{ users.3.name }}/clients/_websites_files_sftp_access_chroot_prison/'
-    state: directory
+# - name: Create chroot prison main folder
+#   file:
+#     group: root
+#     owner: root
+#     path: '/home/{{ users.3.name }}/clients/_websites_files_sftp_access_chroot_prison/'
+#     state: directory
 
-- name: Create chroot prison main folder README.md
-  template:
-    dest: '/home/{{ users.3.name }}/clients/_websites_files_sftp_access_chroot_prison/README.md'
-    src: chroot-prison-root-README.md.j2
+# - name: Create chroot prison main folder README.md
+#   template:
+#     dest: '/home/{{ users.3.name }}/clients/_websites_files_sftp_access_chroot_prison/README.md'
+#     src: chroot-prison-root-README.md.j2
+
+### Replace
+## # Subsystem     sftp    /usr/lib/openssh/sftp-server
+## Subsystem   sftp    internal-sftp
+- name: Replace default subsystem
+  lineinfile:
+    line: 'Subsystem   sftp    internal-sftp'
+    path: /etc/ssh/sshd_config
+    regexp: '^Subsystem'
+    # Validate sshd config file before change, # %s is mandatory for ansible but useless for this command
+    validate: /usr/sbin/sshd -T -f %s
+  notify: Restart ssh service
+
+
+# Subsystem     sftp    /usr/lib/openssh/sftp-server
+
+
+# - name: Insert comment line in /etc/ssh/sshd_config
+#   lineinfile:
+#     path: /etc/ssh/sshd_config
+#     line: '### Ansible automated stuff'
+
+- name: Insert/Update "Match Group" configuration block in /etc/ssh/sshd_config
+  blockinfile:
+    # backup: yes
+    block: |
+      Match Group chroot-prison-sftp-users
+        ChrootDirectory   /home/{{ users.3.name }}/clients/_websites_files_sftp_access_chroot_prison/%u/
+        ForceCommand    internal-sftp -d /my-stuff
+        X11Forwarding   no
+        AllowTcpForwarding    no
+    insertafter: '### Ansible automated stuff'
+    marker: "## {mark} ANSIBLE MANAGED BLOCK / chroot prison"
+    path: /etc/ssh/sshd_config
+    # Validate sshd config file before change, # %s is mandatory for ansible but useless for this command
+    validate: /usr/sbin/sshd -T -f %s
+  notify: Restart ssh service
 ...

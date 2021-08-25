@@ -14,6 +14,8 @@
     regexp: '^Port'
     # Validate sshd config file before change, # %s is mandatory for ansible but useless for this command
     validate: 'sshd -t %s'
+    # https://docs.ansible.com/ansible/latest/collections/ansible/builtin/blockinfile_module.html
+    # validate: /usr/sbin/sshd -T -f %s
   # Restart ssh service
   notify: Restart ssh service
 ...
