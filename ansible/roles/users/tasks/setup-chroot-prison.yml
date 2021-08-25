@@ -29,7 +29,7 @@
     regexp: '^Subsystem'
     # Validate sshd config file before change, # %s is mandatory for ansible but useless for this command
     validate: /usr/sbin/sshd -T -f %s
-  notify: Restart ssh service
+  notify: Restart sshd service
 
 - name: Insert comment line in /etc/ssh/sshd_config
   lineinfile:
@@ -50,5 +50,5 @@
     path: /etc/ssh/sshd_config
     # Validate sshd config file before change, # %s is mandatory for ansible but useless for this command
     validate: /usr/sbin/sshd -T -f %s
-  notify: Restart ssh service
+  notify: Restart sshd service
 ...

@@ -137,13 +137,13 @@ Which allow the generation of
           - client---sub--spongebob--com---wordpress--generated-2021-06-03--11h48m36s.yml
         - ~~/mini-website-preview~~           # Always use Uri notation, reflecting https access ; if not applicable go local
           - main.yml
-        - _websites_files_sftp_access_chroot_prison/    # Multiples chroot prison root, cf. sftp access
-          - /CLIENT-NAME---DASHED-URI                   # 1 chroot prison AND 1 sftp user per site
-          - /bob---spongebob--com                       # chroot prison for bob's spongebob.com. root:root root folder is mandatory
-            - /.cache/                                  # mandatory / root:root 700
-            - /.ssh/                                    # mandatory / root:root 700
-            - /README.md                                # root:root 311 -rw-r--r-- > No no
-            - /my-stuff                                 # user dedicated folder / bob:SFTP_GROUP 700
+        - _websites_files_sftp_access_chroot_prison/    # Multiples chroot prison root, cf. sftp access.                    / root:root 755
+          - /CLIENT-NAME---DASHED-URI                   # 1 chroot prison AND 1 sftp user per site                          / root:root 755
+          - /bob---spongebob--com                       # chroot prison for bob's spongebob.com. root folder is mandatory   / root:root 755
+            - /.cache/                                  # mandatory                                                         / bob:bob 700
+            - /.ssh/                                    # mandatory                                                         / bob:bob 700
+            - /README.md                                # root:root 311 -rw-r--r--
+            - /my-stuff                                 # user dedicated folder                                             / bob:bob 700
               - /README.md                              # root:root 311 -rw-r--r-- > Ask for temp container for sftp
               - /configs                                # docker bind config accessible through temp containers ?
               - /volume1                                # docker bind volumes accessible through temp containers
