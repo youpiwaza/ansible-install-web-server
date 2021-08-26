@@ -34,6 +34,13 @@
   remote_user: '{{ users.0.name }}'
   vars:
     currentDateTime: "{{ ansible_date_time.date }}--{{ ansible_date_time.hour }}h{{ ansible_date_time.minute }}m{{ ansible_date_time.second }}s"
+    # Create a new sftp user
+    newUser:
+      - mail: '{{ project.client_email }}'
+        name: '{{ project.client_name }}---{{ project.dashed_domain }}'
+        preventHomeAccess: no
+        restrictUser: no
+        ssh_passphrase: '{{ sftp.passphrase }}'
   vars_files:
   - defaults/main.yml
   - roles/users/defaults/main.yml
@@ -46,4 +53,5 @@
   roles:
     - stack-web-nginx--generate-playbooks
     - stack-web-common--generate
+    - sftp-create-user
 ...
