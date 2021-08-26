@@ -1,0 +1,120 @@
+# Comment se connecter aux fichiers du site ?
+
+---
+
+> 🤖 This file has been generated automatically through Ansible and **should not be edited by hand**.
+> See the [original script](https://github.com/youpiwaza/ansible-install-web-server/blob/master/ansible/roles/sftp-create-user/tasks/main.yml)
+> & [original template file](https://github.com/youpiwaza/ansible-install-web-server/blob/master/ansible/roles/sftp-create-user/templates/tutorial-users-installation-sftp-README.md.j2).
+> *Generated (yyyy-mm-dd) {{ currentDateTime }}*.
+
+---
+
+L'accès au serveur se fait via une connexion sécurisée.
+
+Je recommande l'utilisation d'un logiciel dédié, tel que [Filezilla](https://filezilla-project.org/).
+
+Une fois installé, vous devrez configurer la connexion et ajouter votre fichier de clé SSH.
+
+| Voici les infos nécessaires : |  |
+|---|---|
+| Hôte | {{ global__remote_host }} |
+| Port | {{ global__custom_ssh_port }} |
+| Identifiant | {{ newUser[0].name }} |
+| Nom du fichier de clé | {{ newUser[0].name }}-ssh-key-ed25519.ppk |
+| Phrase secrète | {{ newUser[0].ssh_passphrase }} |
+
+Voici comment faire :
+
+![filezilla-ouvrir-gestionnaire-de-site](01-filezilla-ouvrir-gestionnaire-de-site.png)
+
+---
+
+![cliquer-sur-le-bouton-nouveau-site](02-cliquer-sur-le-bouton-nouveau-site.png)
+
+---
+
+![nommer-puis-choisir-protocole-sftp](03-nommer-puis-choisir-protocole-sftp.png)
+
+---
+
+![remplir-hote-et-port-puis-type-authentification-fichier-de-cle](04-remplir-hote-et-port-puis-type-authentification-fichier-de-cle.png)
+
+---
+
+![fichier-de-cle-bouton-parcourir](05-fichier-de-cle-bouton-parcourir.png)
+
+---
+
+![choisir-le-fichier-fourni-cle-ssh-ppk](06-choisir-le-fichier-fourni-cle-ssh-ppk.png)
+
+---
+
+![enregistrer-la-configuration](07-enregistrer-la-configuration.png)
+
+---
+
+![pour-se-connecter-fleche-gestionnaire-puis-nom-du-site](08-pour-se-connecter-fleche-gestionnaire-puis-nom-du-site.png)
+
+---
+
+![entrer-phrase-secrete](09-entrer-phrase-secrete.png)
+
+---
+
+![vous-etes-connectes](10-vous-etes-connectes.png)
+
+---
+
+![a-gauche-votre-pc-a-droite-le-serveur](11-a-gauche-votre-pc-a-droite-le-serveur.png)
+
+---
+
+![clic-droit-envoyer-c-est-tout](12-clic-droit-envoyer-c-est-tout.png)
+
+### Accès via terminal
+
+Pour les puristes ;)
+
+```bash
+# (Une fois par terminal) Démarrer l'agent local ssh-agent
+eval `ssh-agent`
+
+# (Une fois par terminal) Ajouter la clé privée
+ssh-add ~/.ssh/{{ newUser[0].name }}-ssh-key-ed25519
+(pass phrase)
+
+# (Optionnel) Vérifier que la clé est bien ajoutée à l'agent
+ssh-add -l
+
+## Essayer de vous connecter (attention à la casse & à l'ordre, le port va devant)
+sftp -P {{ global__custom_ssh_port }} {{ newUser[0].name }}@{{ global__remote_host }} 
+```
+
+## How to connect to my website files ?
+
+Server acces goes through a secure connection.
+
+I recommand the use of a dedicated software, such as [Filezilla](https://filezilla-project.org/).
+
+Once installed, you will need to configure the connection and add your SSH key. Here is how to do it :
+
+See all the infos up there ^
+
+### Access via terminal
+
+For the purists ;)
+
+```bash
+# (Once per terminal) Start the local ssh-agent
+eval `ssh-agent`
+
+# (Once per terminal) Add private key to local ssh-agent
+ssh-add ~/.ssh/{{ newUser[0].name }}-ssh-key-ed25519
+(pass phrase)
+
+# (Optionnal) Verify key has been added to local ssh agent
+ssh-add -l
+
+## Try connecting with the new custom SSH port
+sftp -P {{ global__custom_ssh_port }} {{ newUser[0].name }}@{{ global__remote_host }} 
+```

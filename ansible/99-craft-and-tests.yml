@@ -25,7 +25,8 @@
 #   - 
 #   - ✅ Create home/my-stuff folder, with proper location/rights/own + README.md
 #   - ✅ Generate user README.md ansible-install-web-server\ansible\roles\users\templates\ssh-users-manual-commands.md.j2
-#   - 🚀 Refaire README.md avec tuto images etc.
+#   - ✅ Refaire README.md avec tuto images etc. pour connexion via filezillah
+#   - 🚀 Adapté au projet
 #   - 
 #   - ✅ It works
 

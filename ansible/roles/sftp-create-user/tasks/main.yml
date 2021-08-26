@@ -5,88 +5,98 @@
 # Use with roles:
 # - ?
 
-## Re-use basic user creation stuff
-- name: Generate SSH keys locally if needed
-  include_role:
-    name: users
-    tasks_from: generate-ssh-key
-  loop: '{{ newUser }}'
+# ## Re-use basic user creation stuff
+# - name: Generate SSH keys locally if needed
+#   include_role:
+#     name: users
+#     tasks_from: generate-ssh-key
+#   loop: '{{ newUser }}'
 
-- name: Create all users
-  include_role:
-    name: users
-    tasks_from: create
-  loop: '{{ newUser }}'
+# - name: Create all users
+#   include_role:
+#     name: users
+#     tasks_from: create
+#   loop: '{{ newUser }}'
 
-- name: Add SSH keys
-  include_role:
-    name: users
-    tasks_from: add-ssh-key
-  loop: '{{ newUser }}'
+# - name: Add SSH keys
+#   include_role:
+#     name: users
+#     tasks_from: add-ssh-key
+#   loop: '{{ newUser }}'
 
-- name: Generate a file with manual commands for convenience
-  include_role:
-    name: users
-    tasks_from: generate-users-manual-commands
-  loop: '{{ newUser }}'
 
-- name: Copy default /home folder to chroot location, with proper rights
+# {{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}
+- name: 'Generate basic files for tutorial : user instructions to setup sftp connection'
   copy:
-    dest: '/home/{{ users.3.name }}/clients/_websites_files_sftp_access_chroot_prison/{{ newUser[0].name }}/'
-    group: '{{ newUser[0].name }}'
-    mode: '0700'
-    owner: '{{ newUser[0].name }}'
-    remote_src: yes
-    src: '/home/{{ newUser[0].name }}/'
+    dest: './generated/clients/{{ newUser[0].name }}/_{{ newUser[0].name }}-tutorial-setup-sftp--generated/'
+    src: tutorial-user-setup-sftp/
+  # On the local machine
+  delegate_to: 127.0.0.1
 
-# Problème ici (apu clés ssh)
-- name: Delete default /home folder
-  file:
-    path: '/home/{{ newUser[0].name }}/'
-    state: absent
-
-## root:root root folder is mandatory for chroot prison to work
-- name: chroot ownership to root:root
-  file:
-    group: root
-    ## Don't change mode else it just doesn't work
-    mode: '0755'
-    owner: root
-    path: '/home/{{ users.3.name }}/clients/_websites_files_sftp_access_chroot_prison/{{ newUser[0].name }}/'
-
-- name: Create chroot prison user folder's README.md
+- name: Generate a README file with user instructions to setup sftp connection
   template:
-    dest: '/home/{{ users.3.name }}/clients/_websites_files_sftp_access_chroot_prison/{{ newUser[0].name }}/README.md'
-    src: chroot-prison-user-README.md.j2
+    dest: './generated/clients/{{ newUser[0].name }}/_{{ newUser[0].name }}-tutorial-setup-sftp--generated/_{{ newUser[0].name }}-tutorial-setup-sftp--generated.md'
+    src: templates/tutorial-users-installation-sftp-README.md.j2
+  # On the local machine
+  delegate_to: 127.0.0.1
 
-- name: 'Config user for sftp: new /home, dedicated group, & nologin shell'
-  user:
-    append: yes
-    comment: Sftp only
-    groups: chroot-prison-sftp-users
-    home: '/home/{{ users.3.name }}/clients/_websites_files_sftp_access_chroot_prison/{{ newUser[0].name }}'
-    name: '{{ newUser[0].name }}'
-    shell: /sbin/nologin
+# - name: Copy default /home folder to chroot location, with proper rights
+#   copy:
+#     dest: '/home/{{ users.3.name }}/clients/_websites_files_sftp_access_chroot_prison/{{ newUser[0].name }}/'
+#     group: '{{ newUser[0].name }}'
+#     mode: '0700'
+#     owner: '{{ newUser[0].name }}'
+#     remote_src: yes
+#     src: '/home/{{ newUser[0].name }}/'
 
-- name: Create user sweet home folder
-  file:
-    ## group: chroot-prison-sftp-users
-    group: '{{ newUser[0].name }}'
-    mode: '0700'
-    owner: '{{ newUser[0].name }}'
-    path: '/home/{{ users.3.name }}/clients/_websites_files_sftp_access_chroot_prison/{{ newUser[0].name }}/my-stuff'
-    state: directory
+# # Problème ici (apu clés ssh)
+# - name: Delete default /home folder
+#   file:
+#     path: '/home/{{ newUser[0].name }}/'
+#     state: absent
 
-- name: Create user my-stuff folder's README.md
-  template:
-    dest: '/home/{{ users.3.name }}/clients/_websites_files_sftp_access_chroot_prison/{{ newUser[0].name }}/my-stuff/README.md'
-    src: chroot-prison-user-my-stuff-README.md.j2
+# ## root:root root folder is mandatory for chroot prison to work
+# - name: chroot ownership to root:root
+#   file:
+#     group: root
+#     ## Don't change mode else it just doesn't work
+#     mode: '0755'
+#     owner: root
+#     path: '/home/{{ users.3.name }}/clients/_websites_files_sftp_access_chroot_prison/{{ newUser[0].name }}/'
 
-- name: Visual clue
-  file:
-    group: root
-    mode: '0311'
-    owner: root
-    path: '/home/{{ users.3.name }}/clients/_websites_files_sftp_access_chroot_prison/{{ newUser[0].name }}/NOTE-that-your-stuff-is-in-the-_my-stuff_-folder'
-    state: touch
+# - name: Create chroot prison user folder's README.md
+#   template:
+#     dest: '/home/{{ users.3.name }}/clients/_websites_files_sftp_access_chroot_prison/{{ newUser[0].name }}/README.md'
+#     src: chroot-prison-user-README.md.j2
+
+# - name: 'Config user for sftp: new /home, dedicated group, & nologin shell'
+#   user:
+#     append: yes
+#     comment: Sftp only
+#     groups: chroot-prison-sftp-users
+#     home: '/home/{{ users.3.name }}/clients/_websites_files_sftp_access_chroot_prison/{{ newUser[0].name }}'
+#     name: '{{ newUser[0].name }}'
+#     shell: /sbin/nologin
+
+# - name: Create user sweet home folder
+#   file:
+#     ## group: chroot-prison-sftp-users
+#     group: '{{ newUser[0].name }}'
+#     mode: '0700'
+#     owner: '{{ newUser[0].name }}'
+#     path: '/home/{{ users.3.name }}/clients/_websites_files_sftp_access_chroot_prison/{{ newUser[0].name }}/my-stuff'
+#     state: directory
+
+# - name: Create user my-stuff folder's README.md
+#   template:
+#     dest: '/home/{{ users.3.name }}/clients/_websites_files_sftp_access_chroot_prison/{{ newUser[0].name }}/my-stuff/README.md'
+#     src: chroot-prison-user-my-stuff-README.md.j2
+
+# - name: Visual clue
+#   file:
+#     group: root
+#     mode: '0311'
+#     owner: root
+#     path: '/home/{{ users.3.name }}/clients/_websites_files_sftp_access_chroot_prison/{{ newUser[0].name }}/NOTE-that-your-stuff-is-in-the-_my-stuff_-folder'
+#     state: touch
 ...
