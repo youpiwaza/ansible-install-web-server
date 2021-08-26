@@ -2,8 +2,11 @@
 ### Create a sftp user, not related to any project
 # > ansible-playbook -i hostsWithCustomSSHPort 94-create-standalone-sftp-user.yml
 
-# You'll need the_builder_guy to have it's ssh key added to the local agent, cf. the_builder_guy generated documentation
+# 🔧 Variables should be properly filled:
+# - newUser.name  : Id to connect (& name of the dedicated folder on the server)
+# - newUser.mail  : mail rattached to the sftp user
 
+# You'll need the_builder_guy to have it's ssh key added to the local agent, cf. the_builder_guy generated documentation
 # builder_guy
 - name: "Create a sftp user, not related to any project"
   hosts: likorneWithCustomSSHPort
@@ -27,7 +30,7 @@
         sudoer: no
 
         ## 🔧 Edit variables here
-        name: bobba
+        name: bob
         mail: masamune.code@gmail.com
         ## If you want a specific ssh pass phrase... Not recommanded for security reasons
         # ssh_passphrase: 'bonjour'
