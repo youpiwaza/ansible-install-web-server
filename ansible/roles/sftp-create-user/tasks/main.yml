@@ -24,18 +24,16 @@
     tasks_from: add-ssh-key
   loop: '{{ newUser }}'
 
-
-# {{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}
 - name: 'Generate basic files for tutorial : user instructions to setup sftp connection'
   copy:
-    dest: './generated/clients/{{ newUser[0].name }}/_{{ newUser[0].name }}-tutorial-setup-sftp--generated/'
+    dest: './generated/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/tutorial-setup-sftp/'
     src: tutorial-user-setup-sftp/
   # On the local machine
   delegate_to: 127.0.0.1
 
 - name: Generate a README file with user instructions to setup sftp connection
   template:
-    dest: './generated/clients/{{ newUser[0].name }}/_{{ newUser[0].name }}-tutorial-setup-sftp--generated/_{{ newUser[0].name }}-tutorial-setup-sftp--generated.md'
+    dest: './generated/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/tutorial-setup-sftp/_{{ newUser[0].name }}-tutorial-setup-sftp--generated.md'
     src: templates/tutorial-users-installation-sftp-README.md.j2
   # On the local machine
   delegate_to: 127.0.0.1
@@ -56,7 +54,6 @@
     src: '/home/{{ newUser[0].name }}/'
   when: isUserOriginalHome.stat.exists
 
-# Problème ici (apu clés ssh)
 - name: Delete default /home folder
   file:
     path: '/home/{{ newUser[0].name }}/'

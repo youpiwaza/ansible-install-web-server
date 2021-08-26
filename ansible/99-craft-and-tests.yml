@@ -18,7 +18,7 @@
 ##    Notes: https://github.com/youpiwaza/server-related-tutorials/tree/master/04-user-restrict-and-sftp
 # - Create dedicated user
 #   - ✅ Use role or wtv but needs auth keyz
-#   - 🚀 name : CLIENT---DASHED-URI
+#   - ✅ name : CLIENT---DASHED-URI
 #   - ✅ Create chroot folder, with proper ✅location/✅rights/✅own + move ✅.ssh/ & .cache/ + ✅README.md
 #   - ✅ Remove original home folder
 #   - ✅ usermod: ✅ group, ✅ shell nologin, ✅ new home folder
@@ -26,7 +26,8 @@
 #   - ✅ Create home/my-stuff folder, with proper location/rights/own + README.md
 #   - ✅ Generate user README.md ansible-install-web-server\ansible\roles\users\templates\ssh-users-manual-commands.md.j2
 #   - ✅ Refaire README.md avec tuto images etc. pour connexion via filezillah
-#   - 🚀 Adapté au projet
+#   - ✅ Adapté au projet
+#   - ✅ include dans ✅ nginx & 🚀 wp
 #   - 
 #   - ✅ It works
 
@@ -46,14 +47,19 @@
     ## Role variable overload (there's a if in the role), don't use {{ users }} as it won't overload
     newUser:
       # 'Member CLIENT_NAME---DASHED-URI
-      - name: bob
+      - name: bobby
         allowCron: no
         dockerManagement: no
         mail: masamune.code@gmail.com
         preventHomeAccess: no
         restrictUser: no
-        ssh_passphrase: 'bonjour'
+        # ssh_passphrase: 'bonjour'
+        ssh_passphrase: "{{ lookup('password', './generated/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/vars-files/SFTP_PASSPHRASE-generated.txt length=32') }}"
         sudoer: no
+    project:
+      type: 'test'
+      client_name: 'masamune'
+      dashed_domain: 'standalone-sftp-user'
 
   roles:
     - sftp-create-user
