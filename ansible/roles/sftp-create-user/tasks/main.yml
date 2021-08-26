@@ -40,6 +40,12 @@
   # On the local machine
   delegate_to: 127.0.0.1
 
+# If repeated, the user's original /home folder has been deleted by next tasks and causes error, so check for existence
+- name: "Has user's original /home folder been deleted yet ?"
+  stat: "path=/home/{{ newUser[0].name }}/"
+  register: isUserOriginalHome
+
+# User's .ssh/ hidden directory is mandatory in it's home, else it won't allow connection
 - name: Copy default /home folder to chroot location, with proper rights
   copy:
     dest: '/home/{{ users.3.name }}/clients/_websites_files_sftp_access_chroot_prison/{{ newUser[0].name }}/'
@@ -48,6 +54,7 @@
     owner: '{{ newUser[0].name }}'
     remote_src: yes
     src: '/home/{{ newUser[0].name }}/'
+  when: isUserOriginalHome.stat.exists
 
 # Problème ici (apu clés ssh)
 - name: Delete default /home folder
