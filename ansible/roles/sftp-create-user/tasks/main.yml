@@ -3,7 +3,9 @@
 ## Note: Use '0755' to declare folders/files modes, if you forget ' > octal = horsesh*t
 
 # Use with roles:
-# - ?
+# - 94-create-standalone-sftp-user.yml
+# - 10-forge-a-nginx.yml
+# - 20-forge-a-wordpress.yml
 
 ## Re-use basic user creation stuff
 - name: Generate SSH keys locally if needed
