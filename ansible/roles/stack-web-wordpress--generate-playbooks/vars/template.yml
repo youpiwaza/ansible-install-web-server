@@ -26,6 +26,7 @@ database:
   MARIADB_ROOT_USER: "{{ lookup('password', './generated/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/vars-files/MARIADB_ROOT_USER-generated.txt length=32 chars=ascii_letters,digits') }}"
 
 project:
+  client_email: 'masamune.code@gmail.com'
   client_name: 'masamune'
   dashed_domain: 'test-wordpress--masamune--fr'
   # Docker recommanded notation: extension.site.subdomain.SOME-LABEL
@@ -37,6 +38,9 @@ project:
   # Adjust path to you var file here 🔧
   # vars_file_path: 'roles/stack-web-wordpress--generate-playbooks/vars/TYPE/CLIENT/DASHED-URI/DASHED-URI---vars_secret.yml'
   vars_file_path: 'roles/stack-web-wordpress--generate-playbooks/vars/tests/masamune/test-wordpress--masamune--fr/test-wordpress--masamune--fr---vars.yml'
+
+sftp:
+  passphrase: "{{ lookup('password', './generated/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/vars-files/SFTP_PASSPHRASE-generated.txt length=32') }}"
 
 traefik:
   # Ensure DNS are set accordingly to point towards host IP
