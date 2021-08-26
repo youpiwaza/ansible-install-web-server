@@ -30,6 +30,8 @@
         sudoer: no
 
         ## 🔧 Edit variables here
+        # Ubuntu user max 32 chars. >> truncated "CLIENT_NAME---DASHED_DOMAIN"
+        # name: '{{ "bob" | truncate(32, True, "") }}'
         name: bob
         mail: masamune.code@gmail.com
         ## If you want a specific ssh pass phrase... Not recommanded for security reasons
