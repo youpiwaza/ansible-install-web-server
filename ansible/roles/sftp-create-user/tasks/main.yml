@@ -2,7 +2,7 @@
 ### Create sftp user
 ## Note: Use '0755' to declare folders/files modes, if you forget ' > octal = horsesh*t
 
-# Use with roles:
+# Use with playbooks:
 # - 94-create-standalone-sftp-user.yml
 # - 10-forge-a-nginx.yml
 # - 20-forge-a-wordpress.yml
