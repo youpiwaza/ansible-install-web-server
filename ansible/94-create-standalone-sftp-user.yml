@@ -1,0 +1,49 @@
+---
+### Create a sftp user, not related to any project
+# > ansible-playbook -i hostsWithCustomSSHPort 94-create-standalone-sftp-user.yml
+
+# You'll need the_builder_guy to have it's ssh key added to the local agent, cf. the_builder_guy generated documentation
+
+# builder_guy
+- name: "Create a sftp user, not related to any project"
+  hosts: likorneWithCustomSSHPort
+  # the_builder_guy / cf. /ansible/roles/users/vars/main.yml
+  remote_user: '{{ users.0.name }}'
+  become: yes
+  vars_files:
+  - defaults/main.yml
+  - roles/users/defaults/main.yml
+  - vars/main.yml
+  - roles/users/vars/main.yml
+  vars:
+    currentDateTime: "{{ ansible_date_time.date }}--{{ ansible_date_time.hour }}h{{ ansible_date_time.minute }}m{{ ansible_date_time.second }}s"
+    ## Role variable overload (there's a if in the role), don't use {{ users }} as it won't overload
+    
+    newUser:
+      - allowCron: no
+        dockerManagement: no
+        preventHomeAccess: no
+        restrictUser: no
+        sudoer: no
+
+        ## 🔧 Edit variables here
+        name: bobba
+        mail: masamune.code@gmail.com
+        ## If you want a specific ssh pass phrase... Not recommanded for security reasons
+        # ssh_passphrase: 'bonjour'
+        ssh_passphrase: "{{ lookup('password', './generated/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/vars-files/SFTP_PASSPHRASE-generated.txt length=32') }}"
+
+    project:
+      type: 'test'
+      client_name: 'masamune'
+      dashed_domain: 'standalone-sftp-user'
+
+  roles:
+    - sftp-create-user
+
+  tasks:
+    - debug:
+        msg:
+        - "See related README file for access : "
+        - './generated/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/tutorial-setup-sftp/_{{ newUser[0].name }}-tutorial-setup-sftp--generated.md'
+...
