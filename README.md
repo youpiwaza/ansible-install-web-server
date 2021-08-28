@@ -18,7 +18,7 @@ Working on Windows WSL, personnal notes for my setup
 
 ```bash
 # Acceder au projet
-cd /mnt/c/Users/Patolash/Documents/_dev/ansible-install-web-server/ansible/
+cd /mnt/c/Users/Patolash/Documents/_dev/__dev_current/ansible-install-web-server/ansible/
 
 # Une seule fois, lancer le playbook pour configurer la première connexion
 ansible-playbook -i hosts 1-first-connexion-setup.yml
