@@ -14,25 +14,19 @@
 
 # ---
 
-### Setup sftp user
+### Remove sftp user
 ##    Notes: https://github.com/youpiwaza/server-related-tutorials/tree/master/04-user-restrict-and-sftp
-# - Create dedicated user
-#   - ✅ Use role or wtv but needs auth keyz
-#   - ✅ name : CLIENT---DASHED-URI
-#   - ✅ Create chroot folder, with proper ✅location/✅rights/✅own + move ✅.ssh/ & .cache/ + ✅README.md
-#   - ✅ Remove original home folder
-#   - ✅ usermod: ✅ group, ✅ shell nologin, ✅ new home folder
-#   - 
-#   - ✅ Create home/my-stuff folder, with proper location/rights/own + README.md
-#   - ✅ Generate user README.md ansible-install-web-server\ansible\roles\users\templates\ssh-users-manual-commands.md.j2
-#   - ✅ Refaire README.md avec tuto images etc. pour connexion via filezillah
-#   - ✅ Adapté au projet
-#   - ✅ include dans ✅ nginx & 🚀 wp
-#   - 
-#   - ✅ It works
+# - Lister les trucs à retirer
+# - 
+# - 
+# - 
+# - 
+# - 
+# - 
+# - 
 
 # the_builder_guy
-- name: Crafts and tests / Creating a stfp user per client
+- name: Crafts and tests / Removing a stfp user
   hosts: likorneWithCustomSSHPort
   # the_builder_guy / cf. /ansible/roles/users/vars/main.yml
   remote_user: '{{ users.0.name }}'
@@ -45,29 +39,22 @@
   vars:
     currentDateTime: "{{ ansible_date_time.date }}--{{ ansible_date_time.hour }}h{{ ansible_date_time.minute }}m{{ ansible_date_time.second }}s"
     ## Role variable overload (there's a if in the role), don't use {{ users }} as it won't overload
-    newUser:
-      # 'Member CLIENT_NAME---DASHED-URI
-      - name: bobby
-        allowCron: no
-        dockerManagement: no
-        mail: masamune.code@gmail.com
-        preventHomeAccess: no
-        restrictUser: no
-        # ssh_passphrase: 'bonjour'
-        ssh_passphrase: "{{ lookup('password', './generated/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/vars-files/SFTP_PASSPHRASE-generated.txt length=32') }}"
-        sudoer: no
-    project:
-      type: 'test'
-      client_name: 'masamune'
-      dashed_domain: 'standalone-sftp-user'
+    # newUser:
+    #   # 'Member CLIENT_NAME---DASHED-URI
+    #   - name: bobby
+    #     allowCron: no
+    #     dockerManagement: no
+    #     mail: masamune.code@gmail.com
+    #     preventHomeAccess: no
+    #     restrictUser: no
+    #     # ssh_passphrase: 'bonjour'
+    #     ssh_passphrase: "{{ lookup('password', './generated/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/vars-files/SFTP_PASSPHRASE-generated.txt length=32') }}"
+    #     sudoer: no
+    # project:
+    #   type: 'test'
+    #   client_name: 'masamune'
+    #   dashed_domain: 'standalone-sftp-user'
 
   roles:
-    - sftp-create-user
-    # - sftp-remove-user
-
-  # tasks:
-  #   - name: Setup chroot prison
-  #     include_role:
-  #       name: users
-  #       tasks_from: setup-chroot-prison
+    - sftp-remove-user
 ...

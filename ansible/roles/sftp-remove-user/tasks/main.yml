@@ -1,0 +1,10 @@
+---
+### Remove a sftp user
+# Use with playbook:
+# - 95-remove-sftp-user.yml
+
+## Re-use basic user creation stuff
+- name: Say hey
+  debug:
+    msg: hey
+...
