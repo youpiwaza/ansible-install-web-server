@@ -4,8 +4,7 @@
 # > ansible-playbook -i hostsWithCustomSSHPort 99-craft-and-tests.yml
 
 # ---
-# Currently working on: creating a stfp user per client
-# Based on ansible\2-generate-users-and-change-ssh-port.yml
+# Currently working on: Beating S.T.A.L.K.E.R
 
 # ---
 
@@ -14,19 +13,13 @@
 
 # ---
 
-### Remove sftp user
-##    Notes: https://github.com/youpiwaza/server-related-tutorials/tree/master/04-user-restrict-and-sftp
-# - Lister les trucs à retirer
-# - 
-# - 
-# - 
-# - 
+### Roadmap
 # - 
 # - 
 # - 
 
 # the_builder_guy
-- name: Crafts and tests / Removing a stfp user
+- name: Crafts and tests / yay fun
   hosts: likorneWithCustomSSHPort
   # the_builder_guy / cf. /ansible/roles/users/vars/main.yml
   remote_user: '{{ users.0.name }}'
@@ -39,22 +32,9 @@
   vars:
     currentDateTime: "{{ ansible_date_time.date }}--{{ ansible_date_time.hour }}h{{ ansible_date_time.minute }}m{{ ansible_date_time.second }}s"
     ## Role variable overload (there's a if in the role), don't use {{ users }} as it won't overload
-    # newUser:
-    #   # 'Member CLIENT_NAME---DASHED-URI
-    #   - name: bobby
-    #     allowCron: no
-    #     dockerManagement: no
-    #     mail: masamune.code@gmail.com
-    #     preventHomeAccess: no
-    #     restrictUser: no
-    #     # ssh_passphrase: 'bonjour'
-    #     ssh_passphrase: "{{ lookup('password', './generated/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/vars-files/SFTP_PASSPHRASE-generated.txt length=32') }}"
-    #     sudoer: no
-    # project:
-    #   type: 'test'
-    #   client_name: 'masamune'
-    #   dashed_domain: 'standalone-sftp-user'
-
-  roles:
-    - sftp-remove-user
+  # roles:
+  #   - stuff
+  tasks:
+    - debug:
+        msg: yay do stuff
 ...
