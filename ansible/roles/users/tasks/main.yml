@@ -9,16 +9,12 @@
 
 # Note that this role is also used to generate custom clients users (sftp), cf. ansible/sftp-create-user
 
-- name: Generate SSH keys locally if needed
-  include: generate-ssh-key.yml
-  loop: '{{ users }}'
-
 - name: Create all users
   include: create.yml
   loop: '{{ users }}'
 
-- name: Add SSH keys
-  include: add-ssh-key.yml
+- name: Setup SSH stuff
+  include: setup-ssh-stuff.yml
   loop: '{{ users }}'
 
 - name: Add sudoers rights

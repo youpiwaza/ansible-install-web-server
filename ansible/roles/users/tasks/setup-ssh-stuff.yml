@@ -1,0 +1,54 @@
+---
+### Setup SSH key both for local & host
+- name: 'Generate SSH keyz for user {{ item.name }}'
+  user:
+    name: '{{ item.name }}'
+    ## Generate ssh keys
+    generate_ssh_key: yes
+    ## Long term security / https://nbeguier.medium.com/a-real-world-comparison-of-the-ssh-key-algorithms-b26b0b31bfd9#3754
+    ssh_key_bits: 512
+    ssh_key_comment: '{{ item.name }} / {{ item.mail }}'
+    ssh_key_file: '.ssh/{{ item.name }}-ssh-key-ed25519'
+    ssh_key_passphrase: '{{ item.ssh_passphrase }}'
+    ## Latest / https://en.wikipedia.org/wiki/Ssh-keygen
+    ssh_key_type: ed25519
+  when: users is defined
+
+## Gather locally the ssh keys
+- name: Gather locally the private ssh key
+  fetch:
+    dest: '~/.ssh/{{ item.name }}-ssh-key-ed25519.ppk'
+    flat: yes
+    src: '/home/{{ item.name }}/.ssh/{{ item.name }}-ssh-key-ed25519'
+
+- name: Gather locally the public ssh key
+  fetch:
+    dest: '~/.ssh/{{ item.name }}-ssh-key-ed25519.pub'
+    flat: yes
+    src: '/home/{{ item.name }}/.ssh/{{ item.name }}-ssh-key-ed25519.pub'
+
+### Add SSH key for user
+# https://docs.ansible.com/ansible/latest/modules/authorized_key_module.html
+- name: 'Set SSH key on host taken from file, for {{ item.name }}'
+  authorized_key:
+    # Need to be generated BEFORE, and added to local SSH agent
+    key: "{{ lookup('file', '~/.ssh/{{ item.name }}-ssh-key-ed25519.pub') }}"
+    state: present
+    user: '{{ item.name }}'
+  notify: Restart ssh service
+  when:
+    - users is defined
+
+# # Vérifier la configuration, PubkeyAuthentication doit être true (par défaut)
+# #   https://www.ssh.com/ssh/sshd_config
+# > sudo nano /etc/ssh/sshd_config
+
+# # Vérifier l'ajout de la clé (par défaut dans le dossier de l'utilisateur courant)
+# > nano ~/.ssh/authorized_keys
+# # En tant que root
+# > sudo nano home/THE_USER/.ssh/authorized_keys
+
+# # Debug avancé : vérifier les logs de connexion si toujours ko
+# # En tant que root
+# > sudo nano /var/log/auth.log
+...

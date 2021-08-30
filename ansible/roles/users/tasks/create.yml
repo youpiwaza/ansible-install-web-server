@@ -7,10 +7,7 @@
     # BE CAREFUL, if the terminal isn't installed, it prevents users from ssh login !
     # zsh will be set as default shell after it's installation
     shell: /bin/bash
-  when:
-    # register isn't templatable / is_local_ssh_key_{{ item.name }} // KO
-    # - is_local_ssh_key.stat.exists
-    - users is defined
+  when: users is defined
 
 ## Prevent overriding of zsh terminal (later in the setup) for bash
 ## LATER: ♻️Refacto > Gather package facts only one time
