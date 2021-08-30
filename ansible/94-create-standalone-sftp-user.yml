@@ -20,8 +20,9 @@
   - roles/users/vars/main.yml
   vars:
     currentDateTime: "{{ ansible_date_time.date }}--{{ ansible_date_time.hour }}h{{ ansible_date_time.minute }}m{{ ansible_date_time.second }}s"
-    ## Role variable overload (there's a if in the role), don't use {{ users }} as it won't overload
     
+    ## Role variable overload (there's a if in the role), don't use {{ users }} as it won't overload
+    ## 🚨 Attention, newUser is actuelly a list of users, in order to be compatible with users role
     newUser:
       - allowCron: no
         dockerManagement: no
