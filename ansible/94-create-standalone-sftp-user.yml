@@ -40,7 +40,7 @@
         mail: masamune.code@gmail.com
         ## If you want a specific ssh pass phrase... Not recommanded for security reasons
         # ssh_passphrase: 'bonjour'
-        ssh_passphrase: "{{ lookup('password', './generated/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/vars-files/SFTP_PASSPHRASE-generated.txt length=32') }}"
+        ssh_passphrase: "{{ lookup('password', './generated/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/vars-files/{{ project.client_name }}---{{ project.dashed_domain }}---SFTP_PASSPHRASE-generated.txt length=32') }}"
 
     project:
       type: 'test'
