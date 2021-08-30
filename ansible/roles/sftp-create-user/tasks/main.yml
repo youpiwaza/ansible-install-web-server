@@ -36,7 +36,7 @@
 
 # If repeated, the user's original /home folder has been deleted by next tasks and causes error, so check for existence
 - name: "Has user's original /home folder been deleted yet ?"
-  stat: "path=/home/{{ newUser[0].name }}/"
+  stat: 'path=/home/{{ newUser[0].name }}/'
   register: isUserOriginalHome
 
 # User's .ssh/ hidden directory is mandatory in it's home, else it won't allow connection
