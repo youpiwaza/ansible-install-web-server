@@ -7,6 +7,8 @@
 # - 10-forge-a-nginx.yml
 # - 20-forge-a-wordpress.yml
 
+# TODO: LATER: Generate Filezilla/WinSCP import files
+
 ## Now also contains host ssh key generation
 - name: Create all users
   include_role:
