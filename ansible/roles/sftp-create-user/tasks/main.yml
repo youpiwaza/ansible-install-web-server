@@ -7,6 +7,8 @@
 # - 10-forge-a-nginx.yml
 # - 20-forge-a-wordpress.yml
 
+# 💥 If edits are made to this role, please adjust the following: roles/sftp-remove-user
+
 # TODO: LATER: Generate Filezilla/WinSCP import files
 
 ## Now also contains host ssh key generation
