@@ -21,7 +21,7 @@ project:
   maintainer: 'masamune.code@gmail.com'
   name: 'test nginx'
   type: 'test'
-  # Adjust path to you var file here 🔧
+  # Adjust path to your var file here 🔧
   # vars_file_path: 'roles/stack-web-nginx--generate-playbooks/vars/TYPE/CLIENT/DASHED-URI/DASHED-URI---vars_secret.yml'
   vars_file_path: 'roles/stack-web-nginx--generate-playbooks/vars/tests/masamune/hello--masamune--fr/hello--masamune--fr---vars.yml'
 
