@@ -39,9 +39,14 @@
   when:
     - users is defined
 
-# # Vérifier la configuration, PubkeyAuthentication doit être true (par défaut)
+# # Forcer la configuration, PubkeyAuthentication doit être true (par défaut)
 # #   https://www.ssh.com/ssh/sshd_config
 # > sudo nano /etc/ssh/sshd_config
+- name: Forcer la configuration, /etc/ssh/sshd_config > PubkeyAuthentication doit être true (par défaut)
+  lineinfile:
+    path: '/etc/ssh/sshd_config'
+    regexp: '^PubkeyAuthentication'
+    line: "PubkeyAuthentication yes"
 
 # # Vérifier l'ajout de la clé (par défaut dans le dossier de l'utilisateur courant)
 # > nano ~/.ssh/authorized_keys
