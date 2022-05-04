@@ -9,6 +9,14 @@
 
 # Note that this role is also used to generate custom clients users (sftp), cf. ansible/sftp-create-user
 
+- name: Python3 package installation, required to check packages facts
+  apt:
+    cache_valid_time: '3600'
+    force_apt_get: yes
+    name: python3-apt
+    update_cache: yes
+    state: latest
+
 - name: Create all users
   include: create.yml
   loop: '{{ users }}'
