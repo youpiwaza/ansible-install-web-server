@@ -3,7 +3,7 @@
 # You'll need it's ssh key added to the local agent, cf. the_builder_guy generated documentation
 # > ansible-playbook -i hostsWithCustomSSHPort 98-maintenance.yml
 
-# /!\ Be careful ! Might include reboots !
+# 🚨 Might reboot server if needed
 
 - name: 'Update/Upgrade my web server / {{ users.0.name }}'
   become: yes
