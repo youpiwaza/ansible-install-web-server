@@ -14,6 +14,7 @@
 #     'roles/stack-web-nginx--generate-playbooks/vars/tests/masamune/hello--masamune--fr/hello--masamune--fr---vars.yml'
 
 # 🧾Step-by-step How to:
+# 0. Change DNS according to the URI of the website
 # 1. Duplicate 'ansible/roles/stack-web-nginx--generate-playbooks/vars/template.yml' to a proper location
 #                                             Add '_secret' suffix to add this sensible file to .gitignore vv
 #    like 'ansible/roles/stack-web-nginx--generate-playbooks/vars/TYPE/CLIENT/DASHED-URI/DASHED-URI---vars_secret.yml' (which will be 🔧 vars_file_path)

@@ -14,12 +14,13 @@
 #     'roles/stack-web-wordpress--generate-playbooks/vars/tests/masamune/test-wordpress--masamune--fr/test-wordpress--masamune--fr---vars.yml'
 
 # 🧾Step-by-step How to:
+# 0. Change DNS according to the URI of the website
 # 1. Duplicate 'ansible/roles/stack-web-wordpress--generate-playbooks/vars/template.yml' to a proper location
 #                                             Add '_secret' suffix to add this sensible file to .gitignore vv
 #    like 'ansible/roles/stack-web-wordpress--generate-playbooks/vars/TYPE/CLIENT/DASHED-URI/DASHED-URI---vars_secret.yml' (which will be 🔧 vars_file_path)
 # 1.1. Edit your file according to your needs
 #      Adjust project.vars_file_path  to reflect the path from step 1. See the 🔧 around line ~39
-# 2. Edit this file '20-forge-a-wordpress.yml' to use your vars file,see the ✏️ around line ~44
+# 2. Edit this file '20-forge-a-wordpress.yml' to use your vars file,see the ✏️ around line ~53
 # 3. Run/Test your playbook: ~> ansible-playbook -i hostsWithCustomSSHPort 20-forge-a-wordpress.yml
 #    You can check the generated playbook file at the root/ or in the /generated folder
 # 4. Make backup to a private github repository if everything runs smoothly, and save your file with the variables, and the generated/ folder
@@ -49,10 +50,12 @@
   - roles/users/vars/main.yml
   # ✏️Edit project vars files here...
   # - roles/stack-web-wordpress--generate-playbooks/vars/TYPE/CLIENT/DASHED-URI/DASHED-URI---vars_secret.yml
-  - roles/stack-web-wordpress--generate-playbooks/vars/tests/masamune/test-wordpress--masamune--fr/test-wordpress--masamune--fr---vars.yml
+  # - roles/stack-web-wordpress--generate-playbooks/vars/tests/masamune/test-wordpress--masamune--fr/test-wordpress--masamune--fr---vars.yml
+  # - roles/stack-web-wordpress--generate-playbooks/vars/clients/fof/dev--sophieberberian--com/dev--sophieberberian--com---vars_secret.yml
+  - roles/stack-web-wordpress--generate-playbooks/vars/clients/fof/sophieberberian--com/sophieberberian--com---vars_secret.yml
 
   roles:
     - stack-web-wordpress--generate-playbooks
     - stack-web-common--generate
-    - sftp-create-user
+    # - sftp-create-user
 ...
