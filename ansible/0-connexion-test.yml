@@ -1,0 +1,20 @@
+---
+# Use through README.md recommandations
+
+- name: Connexion test
+  # hosts: likorne
+  # remote_user: '{{ global__remote_user }}'
+  hosts: likorneWithCustomSSHPort
+  # the_builder_guy / cf. /ansible/roles/users/vars/main.yml
+  remote_user: '{{ users.0.name }}'
+  become: yes
+  vars_files:
+  - defaults/main.yml
+  - roles/users/defaults/main.yml
+  - vars/main.yml
+  - roles/users/vars/main.yml
+
+  tasks:
+    - debug:
+        msg: 'Connexion ok'
+...
