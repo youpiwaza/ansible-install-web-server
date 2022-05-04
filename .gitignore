@@ -15,3 +15,6 @@ generated/
 !generated/README.md
 # also ignore everywhere any generated file
 **/*-generated*
+
+## Temporary files, used for WIP notes or debug
+tmp/
