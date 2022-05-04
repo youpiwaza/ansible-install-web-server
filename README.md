@@ -18,7 +18,14 @@ Working on Windows WSL, personnal notes for my setup
 
 ```bash
 # Acceder au projet
-cd /mnt/c/Users/Patolash/Documents/_dev/__dev_current/ansible-install-web-server/ansible/
+# cd /mnt/c/Users/Patolash/Documents/_dev/__dev_current/ansible-install-web-server/ansible/
+cd /mnt/c/Users/masam/Documents/_dev/_current/ansible-install-web-server/ansible/
+
+# Tester la connexion au serveur
+#     🚨 Checker le rôle en fonction de l'avancement (~root/user, port ssh classique ou custom)
+# ansible-playbook -i hosts 0-connexion-test.yml
+ansible-playbook -i hostsWithCustomSSHPort 0-connexion-test.yml
+
 
 # Une seule fois, lancer le playbook pour configurer la première connexion
 ansible-playbook -i hosts 1-first-connexion-setup.yml
@@ -73,8 +80,8 @@ ansible-playbook -i hostsWithCustomSSHPort 52-force-host-reboot.yml
 ansible-playbook -i hostsWithCustomSSHPort 97-punctal.yml
 
 # Update/Upgrade web server packages & OS, docker system prune
-#  /!\ Be careful ! Might include reboots !
-#  /!\ Be careful ! Removes stopped containers, dangling images, networks & volumes
+#  🚨 Might reboot server if needed
+#  🚨 Be careful ! Removes stopped containers, dangling images, networks & volumes
 ansible-playbook -i hostsWithCustomSSHPort 98-maintenance.yml
 
 # WIP & tests
