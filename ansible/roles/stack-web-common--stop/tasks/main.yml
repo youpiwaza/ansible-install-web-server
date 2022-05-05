@@ -1,6 +1,6 @@
 ---
 ### Stop {{ constants.TECHNOLOGY }} stack properly, as ansible auto reload it
-## docker_guy
+## the_docker_guy
 
 ## This role must be run through a specific generated playbook.
 ## cf. ansible/10-forge-a-nginx.yml for use case and example.

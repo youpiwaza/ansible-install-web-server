@@ -7,7 +7,7 @@
 ##---
 
 ### Backup a specific volume: Extract a specific folder, archive it on host (.tar), and download it
-## docker_guy
+## the_docker_guy
 # > ansible-playbook -i hostsWithCustomSSHPort 200---{{ project.dashed_domain }}---wordpress-backup-volume--locally--generated.yml
 
 # This role have been generated through ansible/20-forge-a-wordpress.yml
@@ -25,7 +25,7 @@
 - name: 'Backup a specific volume : WordPress database, then download the generated archive'
   become: no
   hosts: likorneWithCustomSSHPort
-  # docker_guy / cf. /ansible/roles/users/vars/main.yml
+  # the_docker_guy / cf. /ansible/roles/users/vars/main.yml
   remote_user: '{REMOVE-ME-TO-PRESERVE-VARS{ users.2.name }}'
   vars:
     currentDateTime: "{REMOVE-ME-TO-PRESERVE-VARS{ ansible_date_time.date }}--{REMOVE-ME-TO-PRESERVE-VARS{ ansible_date_time.hour }}h{REMOVE-ME-TO-PRESERVE-VARS{ ansible_date_time.minute }}m{REMOVE-ME-TO-PRESERVE-VARS{ ansible_date_time.second }}s"
@@ -53,7 +53,7 @@
 - name: 'Backup a specific volume : WordPress files, then download the generated archive'
   become: no
   hosts: likorneWithCustomSSHPort
-  # docker_guy / cf. /ansible/roles/users/vars/main.yml
+  # the_docker_guy / cf. /ansible/roles/users/vars/main.yml
   remote_user: '{REMOVE-ME-TO-PRESERVE-VARS{ users.2.name }}'
   vars:
     currentDateTime: "{REMOVE-ME-TO-PRESERVE-VARS{ ansible_date_time.date }}--{REMOVE-ME-TO-PRESERVE-VARS{ ansible_date_time.hour }}h{REMOVE-ME-TO-PRESERVE-VARS{ ansible_date_time.minute }}m{REMOVE-ME-TO-PRESERVE-VARS{ ansible_date_time.second }}s"

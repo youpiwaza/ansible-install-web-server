@@ -37,10 +37,10 @@ Do not use underscores.
       - It's recommanded to manually make an history, or at least comment :)
     - Local / Generated file:                 `ansible/generated/core/reverse-proxy/traefik/traefik--generated.yml`
     - Local / History / Generated file:       `ansible/generated/core/reverse-proxy/traefik/traefik--generated-2021-06-03--11h48m36s.yml`
-    - Server / Generated file:                `/home/DOCKER_PEON/core/reverse-proxy/traefik/traefik--generated.yml`
+    - Server / Generated file:                `/home/THE_DOCKER_PEON/core/reverse-proxy/traefik/traefik--generated.yml`
       - ^ This is the one actually **deployed**
       - ^ This allow to update the running stacks through the same files (consecutive deploys), and always know which one is running
-    - Server / History / Generated file:      `/home/DOCKER_PEON/core/reverse-proxy/traefik/traefik--generated-{{ currentDateTime }}.yml`
+    - Server / History / Generated file:      `/home/THE_DOCKER_PEON/core/reverse-proxy/traefik/traefik--generated-{{ currentDateTime }}.yml`
   - Regarding clients stacks : 2 parts : Generate the playbooks generator, then run those new playbooks
     - Example with wordpress
       - Run the `ansible/20-forge-a-wordpress-stack.yml` playbook, which uses for vars
@@ -232,5 +232,5 @@ Note: Folders populated in named volume are described in relative docker-compose
 As datas are stored in named volumes, and users should still have access to their datas, here's the plan:
 
 - Each website will have a dedicated sftp (only) user
-- This user will be restricted to it's own website folder (cf. docker_peon/clients/_websites_files_sftp_access_chroot_prison/CLIENT-NAME---DASHED-URI/ )
+- This user will be restricted to it's own website folder (cf. the_docker_peon/clients/_websites_files_sftp_access_chroot_prison/CLIENT-NAME---DASHED-URI/ )
 - In this folder, temp containers will mount bind volumes, granting access to named volumes

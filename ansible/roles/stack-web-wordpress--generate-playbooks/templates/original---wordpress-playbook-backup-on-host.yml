@@ -1,6 +1,6 @@
 ---
 ### Backup specific volumes: Extract a specific folder, then archive it on host (.tar)
-## docker_guy
+## the_docker_guy
 # > ansible-playbook -i hostsWithCustomSSHPort 200---test-wordpress--masamune--fr---wordpress-backup-volume--on-host--generated.yml
 
 # 🔧 Variables must be properly filled:
@@ -16,7 +16,7 @@
 - name: 'Backup a specific volume : WordPress database'
   become: no
   hosts: likorneWithCustomSSHPort
-  # docker_guy / cf. /ansible/roles/users/vars/main.yml
+  # the_docker_guy / cf. /ansible/roles/users/vars/main.yml
   remote_user: '{{ users.2.name }}'
   vars:
     currentDateTime: "{{ ansible_date_time.date }}--{{ ansible_date_time.hour }}h{{ ansible_date_time.minute }}m{{ ansible_date_time.second }}s"
@@ -43,7 +43,7 @@
 - name: 'Backup a specific volume : WordPress files'
   become: no
   hosts: likorneWithCustomSSHPort
-  # docker_guy / cf. /ansible/roles/users/vars/main.yml
+  # the_docker_guy / cf. /ansible/roles/users/vars/main.yml
   remote_user: '{{ users.2.name }}'
   vars:
     currentDateTime: "{{ ansible_date_time.date }}--{{ ansible_date_time.hour }}h{{ ansible_date_time.minute }}m{{ ansible_date_time.second }}s"

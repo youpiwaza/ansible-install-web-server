@@ -1,6 +1,6 @@
 ---
 ### Backup a specific volume: Extract a specific folder, archive it on host (.tar), and download it
-## docker_guy
+## the_docker_guy
 # > ansible-playbook -i hostsWithCustomSSHPort 100---hello--masamune--fr---nginx-backup-volume--locally--generated.yml
 
 # 🔧 Variables must be properly filled:
@@ -16,7 +16,7 @@
 - name: 'Backup a specific volume, then download the generated archive'
   become: no
   hosts: likorneWithCustomSSHPort
-  # docker_guy / cf. /ansible/roles/users/vars/main.yml
+  # the_docker_guy / cf. /ansible/roles/users/vars/main.yml
   remote_user: '{{ users.2.name }}'
   vars:
     currentDateTime: "{{ ansible_date_time.date }}--{{ ansible_date_time.hour }}h{{ ansible_date_time.minute }}m{{ ansible_date_time.second }}s"

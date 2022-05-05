@@ -108,7 +108,7 @@ services:
       - apparmor=docker-default
       - seccomp=/etc/docker/seccomp-profiles/default-docker-profile.json
     # bitnami's needs default root to chown volumes, then switches to 1001. LATER: Custom Dockerfile
-    # docker_peon unpriviledged namespaced user
+    # the_docker_peon unpriviledged namespaced user
     # user: 1003:1003
     volumes:
       - type: volume
@@ -275,7 +275,7 @@ services:
       - apparmor=docker-default
       - seccomp=/etc/docker/seccomp-profiles/default-docker-profile.json
     # bitnami's needs default root to chown volumes, then switches to 1001. LATER: Custom Dockerfile
-    # docker_peon unpriviledged namespaced user
+    # the_docker_peon unpriviledged namespaced user
     # user: 1003:1003
     volumes:
       - type: volume

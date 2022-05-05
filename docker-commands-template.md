@@ -92,7 +92,7 @@ Use an interactive temp container binded to the desired volume (or use `volume-f
 ## Get volume name
 docker volume ls
 
-## Refer to container initialisation (~.yml in DOCKER_PEON > clients or core to get info on containers volume dedicated folders)
+## Refer to container initialisation (~.yml in THE_DOCKER_PEON > clients or core to get info on containers volume dedicated folders)
 # docker run --rm -i -t  \
 #   --mount source=VOLUME_TO_INSPECT_NAME,destination=/FOLDER_IN_VOLUME_TO_INSPECT \
 #   -w /FOLDER_IN_VOLUME_TO_INSPECT \
@@ -124,9 +124,9 @@ Logic:
 
 ```bash
 ## Create volume archive on host
-##    Note: '--userns=host' is mandatory to remove user mapping to docker_peon (defined in docker_daemon.json)
+##    Note: '--userns=host' is mandatory to remove user mapping to the_docker_peon (defined in docker_daemon.json)
 ##    Note: the 'backup/' folder is a temp folder, and isn't relevant, but MUST be different from the folder from the volume to backup
-##    Use with DOCKER_GUY, or BUILDER_GUY (with sudo)
+##    Use with the_docker_guy, or the_builder_guy (with sudo)
 # docker run --rm -i -t  \
 #   --mount source=VOLUME_TO_BACKUP_NAME,destination=/FOLDER_IN_VOLUME_TO_BACKUP \
 #   --mount type=bind,source=/HOST_FOLDER_WHERE_TO_STORE_THE_ARCHIVE,destination=/backup \
@@ -136,7 +136,7 @@ Logic:
 #   tar -cvf /backup/SAVE_NAME.tar "/FOLDER_IN_VOLUME_TO_BACKUP"
 
 ## Example
-## $(pwd) is current directory, be sure to have mandatory rights (eg: be in /home_DOCKER_GUY/)
+## $(pwd) is current directory, be sure to have mandatory rights (eg: be in /home_THE_DOCKER_GUY/)
 docker run --rm -i -t  \
   --mount source=test-helloDeux-logs,destination=/home/volumeContent \
   --mount type=bind,source=$(pwd),destination=/backup \
@@ -144,8 +144,8 @@ docker run --rm -i -t  \
   -w /home/backup \
   alpine:latest \
   tar -cvf /backup/test-example---backup---$(date +%Y-%m-%d--%Hh%Mm%Ss).tar "/home/volumeContent"
-## Assuming we are in /home/DOCKER_GUY/tests/backups-volumes, this will generate:
-##    /home/DOCKER_GUY/tests/backups-volumes/test-example---backup---2021-05-28--07h27m40s.tar
+## Assuming we are in /home/THE_DOCKER_GUY/tests/backups-volumes, this will generate:
+##    /home/THE_DOCKER_GUY/tests/backups-volumes/test-example---backup---2021-05-28--07h27m40s.tar
 ```
 
 #### Test/Debug archive
@@ -164,7 +164,7 @@ tar -xvf test-example---backup---2021-05-28--07h27m40s.tar --strip 1
 # home/volumeContent/php-fpm.log
 
 ls -la
-# drwxr-xr-x 3 DOCKER_GUY DOCKER_GUY  4096 mai   27 11:41 volumeContent
+# drwxr-xr-x 3 THE_DOCKER_GUY THE_DOCKER_GUY  4096 mai   27 11:41 volumeContent
 ```
 
 ### Restore a volume

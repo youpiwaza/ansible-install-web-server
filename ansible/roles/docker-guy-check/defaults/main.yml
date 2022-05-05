@@ -1,5 +1,5 @@
 ---
-docker_guy_check__publicRepoCurated: 
+the_docker_guy_check__publicRepoCurated: 
   name: docker-compose-curated-example
   uri: https://github.com/youpiwaza/docker-compose-curated-example.git
 ...

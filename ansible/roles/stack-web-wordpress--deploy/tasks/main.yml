@@ -1,6 +1,6 @@
 ---
 ### WordPress stack setup: Create volumes & start containers
-## docker_guy
+## the_docker_guy
 
 ## This role must be run through a specific playbook.
 ## cf. ansible/20-forge-a-wordpress-stack.yml for use case and example.

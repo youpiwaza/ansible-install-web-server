@@ -24,31 +24,31 @@ Each command runs an ansible playbook dedicated to your website.
 # You'll need the_docker_guy to have it's ssh key added to the local agent, cf. the_docker_guy generated documentation
 
 ### 🎬 Setup a WordPress stack: generate or update .yml files, upload them and deploy stack
-## builder_guy & docker_guy
+## the_builder_guy & the_docker_guy
 ansible-playbook -i hostsWithCustomSSHPort 200---test-wordpress--masamune--fr---wordpress-stack--start--generated.yml
 
 ### ⏳ Stop {{ constants.TECHNOLOGY }} stack properly, as ansible auto reload it
-## docker_guy
+## the_docker_guy
 ansible-playbook -i hostsWithCustomSSHPort {{ constants.FILE_PREFIX }}{{ project.dashed_domain }}---{{ constants.TECHNOLOGY }}-stack--stop--generated.yml
 
 ### 💾📡 Backup volume on host: Create a .tar archive containing a specific folder in the designated volume
-## docker_guy
+## the_docker_guy
 ansible-playbook -i hostsWithCustomSSHPort {{ constants.FILE_PREFIX }}{{ project.dashed_domain }}---{{ constants.TECHNOLOGY }}-backup-volume--on-host--generated.yml
 
 ### 💾🏡 Backup volume locally: Same thing, then download the .tar archive on your computer
-## docker_guy
+## the_docker_guy
 ansible-playbook -i hostsWithCustomSSHPort {{ constants.FILE_PREFIX }}{{ project.dashed_domain }}---{{ constants.TECHNOLOGY }}-backup-volume--locally--generated.yml
 
 ### 💉📡 Restore volume from host: Re-use previous backup on host to populate a volume. Does not remove new files.
-## docker_guy
+## the_docker_guy
 ansible-playbook -i hostsWithCustomSSHPort {{ constants.FILE_PREFIX }}{{ project.dashed_domain }}---{{ constants.TECHNOLOGY }}-backup-restore-volume-from-host-archive--generated.yml
 
 ### 💉🏡 Restore volume locally: Re-use previous backup on your computer to populate a volume. Does not remove new files.
-## docker_guy
+## the_docker_guy
 ansible-playbook -i hostsWithCustomSSHPort {{ constants.FILE_PREFIX }}{{ project.dashed_domain }}---{{ constants.TECHNOLOGY }}-backup-restore-volume-from-local-archive--generated.yml
 
 ### 🔥 Uninstall stack: Stop the stack, backup volume on host, the remove volumes
-## docker_guy
+## the_docker_guy
 ansible-playbook -i hostsWithCustomSSHPort {{ constants.FILE_PREFIX }}{{ project.dashed_domain }}---{{ constants.TECHNOLOGY }}-stack--uninstall--generated.yml
 ```
 

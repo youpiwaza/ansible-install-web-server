@@ -7,7 +7,7 @@
 ##---
 
 ### Restore a previously backuped volume: Upload a local archive to the host, then extract it into a volume
-## docker_guy
+## the_docker_guy
 # > ansible-playbook -i hostsWithCustomSSHPort 100---{{ project.dashed_domain }}---nginx-backup-restore-volume-from-local-archive--generated.yml
 
 # This role have been generated through ansible/10-forge-a-nginx.yml
@@ -44,7 +44,7 @@
 - name: 'Restore a previously backuped volume: Upload a local archive to the host, then extract it into a volume'
   become: no
   hosts: likorneWithCustomSSHPort
-  # docker_guy / cf. /ansible/roles/users/vars/main.yml
+  # the_docker_guy / cf. /ansible/roles/users/vars/main.yml
   remote_user: '{REMOVE-ME-TO-PRESERVE-VARS{ users.2.name }}'
   vars:
     ## 🔧 Edit variables here

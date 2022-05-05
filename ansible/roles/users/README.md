@@ -10,17 +10,17 @@ Password connexion will be desactivated, and replace with SSH key/pass phrases.
 
 Basic user at installation, must be desactivated for security purposes.
 
-Will be replaced with a new user who can sudo (the builder guy).
+Will be replaced with a new user who can sudo (the_builder_guy).
 
-### the builder guy
+### the_builder_guy
 
 Is replacing root, for setup purposes.
 
-### the CRON guy
+### the_cron_guy
 
 Will manage repeated/planned CRON tasks, and only him.
 
-### the docker_guy
+### the_docker_guy
 
 Will manage everything related to Docker, and added to the docker group.
 

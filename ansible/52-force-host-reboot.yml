@@ -3,7 +3,7 @@
 #   For maintenance or tests purpose (service restart)
 # > ansible-playbook -i hostsWithCustomSSHPort 52-force-host-reboot.yml
 
-### builder_guy
+### the_builder_guy
 - name: 'Execute admin stuff / {{ users.0.name }}'
   become: yes
   hosts: likorneWithCustomSSHPort

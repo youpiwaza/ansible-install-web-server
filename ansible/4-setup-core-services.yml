@@ -32,9 +32,9 @@
 
 # For security reasons, the_docker_peon home folder is chown to root.
 # the_docker_guy permissions problems : no rights in the_docker_peon folder
-# Only the builder guy can manage folders
+# Only the the_builder_guy can manage folders
 
-### builder_guy
+### the_builder_guy
 - name: '{{ users.0.name }} / Core / Reverse proxy / Traefik / Generate or update service .yml files and upload them'
   become: yes
   hosts: likorneWithCustomSSHPort
@@ -51,7 +51,7 @@
   roles:
     - core-reverse-proxy-traefik--generate
 
-### docker_guy
+### the_docker_guy
 - name: '{{ users.2.name }} / Core / Reverse proxy / Traefik / Setup networks & volumes then start or update service'
   become: no
   hosts: likorneWithCustomSSHPort

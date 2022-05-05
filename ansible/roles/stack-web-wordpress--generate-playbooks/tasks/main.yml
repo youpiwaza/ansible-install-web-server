@@ -1,6 +1,6 @@
 ---
 ### WordPress ansible playbook generation: .yml file
-## builder_guy
+## the_builder_guy
 
 ## This role must be run through a specific playbook.
 ## cf. ansible/20-forge-a-wordpress.yml for use case and example.

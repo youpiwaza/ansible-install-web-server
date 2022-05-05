@@ -1,6 +1,6 @@
 ---
 ### Init core stack : reverse proxy (traefik)
-## docker_guy
+## the_docker_guy
 # File management in /home/the_docker_peon restricted folder done by the_builder_guy, cf. ansible/roles/core-reverse-proxy-traefik--generate
 
 # Configuration details, debug, etc. here:
@@ -74,7 +74,7 @@
 #     touch traefik-debug.log             && \
 #     chown 1003:1003 traefik-debug.log      '
 
-- name: "Edit 'core---traefik--logs' volume content : create files & docker_peon chown 1003:1003"
+- name: "Edit 'core---traefik--logs' volume content : create files & the_docker_peon chown 1003:1003"
   docker_container:
     auto_remove: yes
     command: "/bin/ash -c 'touch traefik-access.log && chown 1003:1003 traefik-access.log && touch traefik-debug.log && chown 1003:1003 traefik-debug.log'"
@@ -118,7 +118,7 @@
 #     mkdir https                 && \
 #     chown -R 1003:1003 https/      '
 
-- name: "Edit 'core---traefik--https-certificates' volume content : create folder /home/https/ & docker_peon chown -R 1003:1003"
+- name: "Edit 'core---traefik--https-certificates' volume content : create folder /home/https/ & the_docker_peon chown -R 1003:1003"
   docker_container:
     auto_remove: yes
     command: "/bin/ash -c 'mkdir https && chown -R 1003:1003 https/'"

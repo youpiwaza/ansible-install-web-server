@@ -1,6 +1,6 @@
 ---
 ### Generate or update a Nginx playbook
-## builder_guy
+## the_builder_guy
 # > ansible-playbook -i hostsWithCustomSSHPort 10-forge-a-nginx.yml
 
 # 💡How to use: Set variables in a dedicated file, and run this playbook to generate nginx playbooks dedicated to one site
@@ -27,11 +27,11 @@
 
 # You'll need the_builder_guy to have it's ssh key added to the local agent, cf. the_builder_guy generated documentation
 
-## builder_guy
+## the_builder_guy
 - name: Generate or update a Nginx project playbooks
   become: yes
   hosts: likorneWithCustomSSHPort
-  # builder_guy / cf. /ansible/roles/users/vars/main.yml
+  # the_builder_guy / cf. /ansible/roles/users/vars/main.yml
   remote_user: '{{ users.0.name }}'
   vars:
     currentDateTime: "{{ ansible_date_time.date }}--{{ ansible_date_time.hour }}h{{ ansible_date_time.minute }}m{{ ansible_date_time.second }}s"

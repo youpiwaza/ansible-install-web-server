@@ -7,7 +7,7 @@
 ##---
 
 ## Stop {{ constants.TECHNOLOGY }} stack, as ansible auto reload it
-## docker_guy
+## the_docker_guy
 # > ansible-playbook -i hostsWithCustomSSHPort {{ constants.FILE_PREFIX }}{{ project.dashed_domain }}---{{ constants.TECHNOLOGY }}-stack--stop--generated.yml
 
 # This role have been generated through ansible/X0-forge-a-{{ constants.TECHNOLOGY }}.yml
@@ -16,7 +16,7 @@
 
 # You'll need the_docker_guy to have it's ssh key added to the local agent, cf. the_docker_guy generated documentation
 
-## docker_guy
+## the_docker_guy
 - name: 'Stop {{ constants.TECHNOLOGY }} stack'
   become: no
   hosts: likorneWithCustomSSHPort

@@ -224,7 +224,7 @@ Mettre en place le nouveau serveur
           8. ✅ Compose containers recos (docker compose)
           9. ✅ Via ansible
           10. Maj anciens exemples
-              1. ✅ Dossier des projets (docker_peon)
+              1. ✅ Dossier des projets (the_docker_peon)
               2. ✅ Curated dcompose
           11. ⏩ Services recos (docker swarm & docker stack)
               1. Tester service simple (1 image)
@@ -354,7 +354,7 @@ Mettre en place le nouveau serveur
                 3. ✅ Activer l'encryptage du réseau d'accès à la socket [bret fisher stack example](https://github.com/BretFisher/dogvscat/blob/master/stack-proxy-global.yml)
                 4. ✅ Lancer traefik as read only, cf bret ^
                 5. ✅ Cap drop all + Cap_ADD "CAP_NET_BIND_SERVICE"
-                6. ✅ Specific user > docker peon
+                6. ✅ Specific user > the_docker_peon
                    1. command traefik error: error while building entryPoint web: error preparing server: error opening listener: listen tcp :80: bind: permission denied
                    2. // Specific unprivileged user needs access to ports < 1024
                      - sysctls:
@@ -410,7 +410,7 @@ Mettre en place le nouveau serveur
                 2. Mais pas en [v2+](https://docs.traefik.io/observability/logs/)
             22. 🌱 Traefik [log rotation](https://docs.traefik.io/observability/logs/#log-rotation)
             23. ✅ Récupérer nomenclature server-related-tutorials/01-docker/04-my-tests/09-traefik-curated/Nomenclatures.md
-                1. ✅ Fixer arborescence prod ( docker_peon/core/ )
+                1. ✅ Fixer arborescence prod ( the_docker_peon/core/ )
          3. ✅ Vérifier que l'accès est bien bloqué en ligne [http://localhost:2375/version](http://localhost:2375/version) avec l'IP du serveur
          4. ✅ Tester routing via 3 conteneurs alakon > test.DOMAIN.COM, grafana.DOMAIN.COM & test.DOMAIN.COM/sub
             1. ✅ Lint user & attention network prefixe + "core-"
@@ -444,11 +444,11 @@ Reprise du taf en juin 2021
             1. `nom-volume---backup---$(date +%Y-%m-%d--%H.%M.%S).tar`
          2. ✅ Contenu de l'archive propre : 1 seul dossier bien nommé
          3. ✅ Bien le ranger sur l'hôte (emplacement à choisir + maj ansible-install-web-server/nomenclature-and-folder-tree.md)
-            1. Les volumes sont liés aux conteneurs, mais contenu sensible (!DOCKER_PEON) > dans le dossier de DOCKER_GUY/
-            2. Arbo logique ek details `DOCKER_GUY/backups/volumes/clients/LE_CLIENT/SITE_COM/ANNEE/nom-volume---backup---$(date +%Y-%m-%d--%H.%M.%S).tar`
+            1. Les volumes sont liés aux conteneurs, mais contenu sensible (!the_docker_peon) > dans le dossier de DOCKER_GUY/
+            2. Arbo logique ek details `THE_DOCKER_GUY/backups/volumes/clients/LE_CLIENT/SITE_COM/ANNEE/nom-volume---backup---$(date +%Y-%m-%d--%H.%M.%S).tar`
             3. Mais, les noms de volumes ont de l'info, ex : `client---dev--masamune-fr---wordpress--db`, mais les sauvegardes seront récurrentes (vite le bordel si beaucoup de fichiers)
-            4. `DOCKER_GUY/backups/volumes/ANNEE/TYPE/LE_CLIENT/SITE_COM/nom-volume---backup---$(date +%Y-%m-%d--%Hh%Mm%Ss).tar`
-            5. Eg. `DOCKER_GUY/backups/volumes/2021/clients/masamune/dev--masamune--fr/client---dev--masamune--fr---wordpress--db---backup---2021-05-27--11h23m57s.tar`
+            4. `THE_DOCKER_GUY/backups/volumes/ANNEE/TYPE/LE_CLIENT/SITE_COM/nom-volume---backup---$(date +%Y-%m-%d--%Hh%Mm%Ss).tar`
+            5. Eg. `THE_DOCKER_GUY/backups/volumes/2021/clients/masamune/dev--masamune--fr/client---dev--masamune--fr---wordpress--db---backup---2021-05-27--11h23m57s.tar`
          4. ✅ Documenter
             1. ✅ Fichier de commandes usuelles, pour sauvegarde manuelle
             2. ✅ Arborescence du serveur

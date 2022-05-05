@@ -1,6 +1,6 @@
 ---
 ### Setup a WordPress stack: generate or update .yml files, upload them and deploy stack
-## builder_guy & docker_guy
+## the_builder_guy & the_docker_guy
 # > ansible-playbook -i hostsWithCustomSSHPort 200---test-wordpress--masamune--fr---wordpress-stack--start--generated.yml
 
 # This role have been generated through ansible/20-forge-a-wordpress.yml
@@ -14,11 +14,11 @@
 # You'll need the_builder_guy to have it's ssh key added to the local agent, cf. the_builder_guy generated documentation
 # You'll need the_docker_guy to have it's ssh key added to the local agent, cf. the_docker_guy generated documentation
 
-## builder_guy
+## the_builder_guy
 - name: 'Generate or update a WordPress stack'
   become: yes
   hosts: likorneWithCustomSSHPort
-  # builder_guy / cf. /ansible/roles/users/vars/main.yml
+  # the_builder_guy / cf. /ansible/roles/users/vars/main.yml
   remote_user: '{{ users.0.name }}'
   vars:
     currentDateTime: "{{ ansible_date_time.date }}--{{ ansible_date_time.hour }}h{{ ansible_date_time.minute }}m{{ ansible_date_time.second }}s"
@@ -33,11 +33,11 @@
   roles:
     - stack-web-wordpress--generate-stack
 
-## docker_guy
+## the_docker_guy
 - name: 'Setup networks & volumes then start or update WordPress stack'
   become: no
   hosts: likorneWithCustomSSHPort
-  # docker_guy / cf. /ansible/roles/users/vars/main.yml
+  # the_docker_guy / cf. /ansible/roles/users/vars/main.yml
   remote_user: '{{ users.2.name }}'
   vars_files:
   - defaults/main.yml

@@ -7,7 +7,7 @@
 ##---
 
 ### Uninstall a WordPress stack: stop stack, then remove volumes
-## docker_guy
+## the_docker_guy
 # > ansible-playbook -i hostsWithCustomSSHPort 200---{{ project.dashed_domain }}---wordpress-stack--uninstall--generated.yml
 
 # This role have been generated through ansible/20-forge-a-wordpress.yml
@@ -20,11 +20,11 @@
 
 # You'll need the_docker_guy to have it's ssh key added to the local agent, cf. the_docker_guy generated documentation
 
-## docker_guy
+## the_docker_guy
 - name: 'Stop WordPress stack'
   become: no
   hosts: likorneWithCustomSSHPort
-  # docker_guy / cf. /ansible/roles/users/vars/main.yml
+  # the_docker_guy / cf. /ansible/roles/users/vars/main.yml
   remote_user: '{REMOVE-ME-TO-PRESERVE-VARS{ users.2.name }}'
   vars_files:
   - defaults/main.yml
@@ -42,7 +42,7 @@
 - name: 'Backup a specific volume : WordPress database, then download the generated archive'
   become: no
   hosts: likorneWithCustomSSHPort
-  # docker_guy / cf. /ansible/roles/users/vars/main.yml
+  # the_docker_guy / cf. /ansible/roles/users/vars/main.yml
   remote_user: '{REMOVE-ME-TO-PRESERVE-VARS{ users.2.name }}'
   vars:
     currentDateTime: "{REMOVE-ME-TO-PRESERVE-VARS{ ansible_date_time.date }}--{REMOVE-ME-TO-PRESERVE-VARS{ ansible_date_time.hour }}h{REMOVE-ME-TO-PRESERVE-VARS{ ansible_date_time.minute }}m{REMOVE-ME-TO-PRESERVE-VARS{ ansible_date_time.second }}s"
@@ -70,7 +70,7 @@
 - name: 'Backup a specific volume : WordPress files, then download the generated archive'
   become: no
   hosts: likorneWithCustomSSHPort
-  # docker_guy / cf. /ansible/roles/users/vars/main.yml
+  # the_docker_guy / cf. /ansible/roles/users/vars/main.yml
   remote_user: '{REMOVE-ME-TO-PRESERVE-VARS{ users.2.name }}'
   vars:
     currentDateTime: "{REMOVE-ME-TO-PRESERVE-VARS{ ansible_date_time.date }}--{REMOVE-ME-TO-PRESERVE-VARS{ ansible_date_time.hour }}h{REMOVE-ME-TO-PRESERVE-VARS{ ansible_date_time.minute }}m{REMOVE-ME-TO-PRESERVE-VARS{ ansible_date_time.second }}s"
@@ -98,7 +98,7 @@
 - name: 'Remove related volumes'
   become: no
   hosts: likorneWithCustomSSHPort
-  # docker_guy / cf. /ansible/roles/users/vars/main.yml
+  # the_docker_guy / cf. /ansible/roles/users/vars/main.yml
   remote_user: '{REMOVE-ME-TO-PRESERVE-VARS{ users.2.name }}'
   vars_files:
   - defaults/main.yml

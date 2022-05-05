@@ -1,6 +1,6 @@
 ---
 ### Nginx stack setup: Create volumes & start containers
-## docker_guy
+## the_docker_guy
 
 ## This role must be run through a specific playbook.
 ## cf. ansible/10-forge-a-nginx-stack.yml for use case and example.
@@ -63,7 +63,7 @@
 #     touch ./nginx/error.log             && \
 #     chown -R 1003:1003 nginx               '
 
-- name: "Edit '{{ project.type }}---{{ project.dashed_domain }}---nginx--logs' volume content : create files & docker_peon chown 1003:1003"
+- name: "Edit '{{ project.type }}---{{ project.dashed_domain }}---nginx--logs' volume content : create files & the_docker_peon chown 1003:1003"
   docker_container:
     auto_remove: yes
     command: "/bin/ash -c 'touch php-fpm.log && chown 1003:1003 php-fpm.log && mkdir nginx && touch ./nginx/access.log && touch ./nginx/error.log && chown -R 1003:1003 nginx'"

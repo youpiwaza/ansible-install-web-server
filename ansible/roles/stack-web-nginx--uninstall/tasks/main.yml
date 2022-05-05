@@ -1,6 +1,6 @@
 ---
 ### Nginx stack uninstall: Remove volumes, configs, etc.
-## docker_guy
+## the_docker_guy
 
 ## This role must be run through a specific playbook.
 ## cf. ansible/10-forge-a-nginx-stack.yml for use case and example.

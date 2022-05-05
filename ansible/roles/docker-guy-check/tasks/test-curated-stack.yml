@@ -5,11 +5,11 @@
 
 # ### Test stack directly on remote host
 # ## Swarm must be initiated, cf. below
-# ## Project must be present on server, cf. git clone docker_guy_check__publicRepoCurated below
+# ## Project must be present on server, cf. git clone the_docker_guy_check__publicRepoCurated below
 # ## Create stack
 # #   https://docs.docker.com/engine/reference/commandline/stack_deploy/
 # > docker stack deploy  \
-#   --compose-file /home/the_docker_peon/tests/{{ docker_guy_check__publicRepoCurated.name }}/docker-compose.yml \
+#   --compose-file /home/the_docker_peon/tests/{{ the_docker_guy_check__publicRepoCurated.name }}/docker-compose.yml \
 #   test-nginx-phpfpm-stack
 
 # ## Verify stack / Display all services in a stack
@@ -78,7 +78,7 @@
   docker_stack:
     name: test-nginx-phpfpm-curated-stack
     compose:
-      - '/home/{{ users.3.name }}/tests/{{ docker_guy_check__publicRepoCurated.name }}/docker-compose.yml'
+      - '/home/{{ users.3.name }}/tests/{{ the_docker_guy_check__publicRepoCurated.name }}/docker-compose.yml'
     state: present
 
 # Wait for the service to start before testing

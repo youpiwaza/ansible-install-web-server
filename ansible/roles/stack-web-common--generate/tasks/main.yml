@@ -1,6 +1,6 @@
 ---
 ### Web common files generation: Project README.md file
-## builder_guy
+## the_builder_guy
 
 ## This role must be run through a specific playbook.
 ## cf. ansible/10-forge-a-nginx.yml for use case and example.
