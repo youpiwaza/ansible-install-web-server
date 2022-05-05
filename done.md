@@ -623,3 +623,13 @@ Legend:
   - 🔒🔒🔒🔒✅✅✅✅ [Update behavior](https://docs.docker.com/engine/swarm/services/#configure-a-services-update-behavior)
   - 🔒🔒🔒🔒✅✅✅✅ [Rollback behavior](https://docs.docker.com/engine/swarm/services/#roll-back-to-the-previous-version-of-a-service)
   - 🔒🔒🔒🔒✅✅✅✅ [Labels](https://docs.docker.com/engine/reference/commandline/service_create/#set-metadata-on-a-service--l---label)
+
+## Done, the second part
+
+La reprise, ~05/2022
+
+1. ✅ Lint done : ansible-install-web-server > README.MD
+2. ✅ harmoniser builder guy > tout the_builder_guy, idem autres XXX_GUY
+3. ✅🐛 Traefik doesn't restart on host reboot
+4. ✅ Rapatrier `my-todos\_TODO_Serveur.md`
+5. ✅ Re-prioriser les tâches restantes du serveur
