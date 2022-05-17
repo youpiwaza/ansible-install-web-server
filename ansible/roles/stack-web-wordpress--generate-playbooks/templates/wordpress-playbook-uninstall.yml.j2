@@ -8,7 +8,7 @@
 
 ### Uninstall a WordPress stack: stop stack, then remove volumes
 ## the_docker_guy
-# > ansible-playbook -i hostsWithCustomSSHPort 200---{{ project.dashed_domain }}---wordpress-stack--uninstall--generated.yml
+# > ansible-playbook -i hostsWithCustomSSHPort {{ constants.FILE_PREFIX }}{{ project.dashed_domain }}---wordpress-stack--uninstall--generated.yml
 
 # This role have been generated through ansible/20-forge-a-wordpress.yml
 #   Variables should be properly sourced by your file, created previously:

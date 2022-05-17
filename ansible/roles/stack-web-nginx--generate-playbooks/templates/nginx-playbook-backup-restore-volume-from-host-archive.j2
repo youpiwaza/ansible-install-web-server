@@ -8,7 +8,7 @@
 
 ### Restore a previously backuped volume: Extract an (host) archive into a volume
 ## the_docker_guy
-# > ansible-playbook -i hostsWithCustomSSHPort 100---{{ project.dashed_domain }}---nginx-backup-restore-volume-from-host-archive--generated.yml
+# > ansible-playbook -i hostsWithCustomSSHPort {{ constants.FILE_PREFIX }}{{ project.dashed_domain }}---nginx-backup-restore-volume-from-host-archive--generated.yml
 
 # This role have been generated through ansible/10-forge-a-nginx.yml
 #   🔧 Variables should be properly sourced by your file, created previously:

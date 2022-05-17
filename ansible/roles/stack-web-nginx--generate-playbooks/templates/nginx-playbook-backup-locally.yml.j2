@@ -8,7 +8,7 @@
 
 ### Backup a specific volume: Extract a specific folder, archive it on host (.tar), and download it
 ## the_docker_guy
-# > ansible-playbook -i hostsWithCustomSSHPort 100---{{ project.dashed_domain }}---nginx-backup-volume--locally--generated.yml
+# > ansible-playbook -i hostsWithCustomSSHPort {{ constants.FILE_PREFIX }}{{ project.dashed_domain }}---nginx-backup-volume--locally--generated.yml
 
 # This role have been generated through ansible/10-forge-a-nginx.yml
 #   🔧 Variables should be properly sourced by your file, created previously:

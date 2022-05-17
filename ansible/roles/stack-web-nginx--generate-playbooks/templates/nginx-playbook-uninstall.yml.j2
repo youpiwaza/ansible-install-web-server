@@ -8,7 +8,7 @@
 
 ### Uninstall a Nginx stack: stop stack, then backup & remove volumes
 ## the_docker_guy
-# > ansible-playbook -i hostsWithCustomSSHPort 100---{{ project.dashed_domain }}---nginx-stack--uninstall--generated.yml
+# > ansible-playbook -i hostsWithCustomSSHPort {{ constants.FILE_PREFIX }}{{ project.dashed_domain }}---nginx---nginx-stack--uninstall--generated.yml
 
 # This role have been generated through ansible/10-forge-a-nginx.yml
 #   🔧 Variables should be properly sourced by your file, created previously:
