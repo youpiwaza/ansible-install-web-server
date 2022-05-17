@@ -50,9 +50,9 @@
   - roles/users/vars/main.yml
   # ✏️Edit project vars files here...
   # - roles/stack-web-wordpress--generate-playbooks/vars/TYPE/CLIENT/DASHED-URI/DASHED-URI---vars_secret.yml
-  # - roles/stack-web-wordpress--generate-playbooks/vars/tests/masamune/test-wordpress--masamune--fr/test-wordpress--masamune--fr---vars.yml
+  - roles/stack-web-wordpress--generate-playbooks/vars/tests/masamune/test-wordpress--masamune--fr/test-wordpress--masamune--fr---vars.yml
   # - roles/stack-web-wordpress--generate-playbooks/vars/clients/fof/dev--sophieberberian--com/dev--sophieberberian--com---vars_secret.yml
-  - roles/stack-web-wordpress--generate-playbooks/vars/clients/fof/sophieberberian--com/sophieberberian--com---vars_secret.yml
+  # - roles/stack-web-wordpress--generate-playbooks/vars/clients/fof/sophieberberian--com/sophieberberian--com---vars_secret.yml
 
   roles:
     - stack-web-wordpress--generate-playbooks
