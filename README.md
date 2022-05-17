@@ -14,55 +14,60 @@ Note: I'm letting this repo public for educationnal purposes, and obfuscate real
 
 ## Usage
 
-Working on Windows WSL, personnal notes for my setup
+Working on Windows WSL 2, personnal notes for my setup
+
+See [how I setup my dev environnement](https://github.com/youpiwaza/install-dev-env) if you are interested.
 
 ```bash
-# Acceder au projet
+## Access project
 # cd /mnt/c/Users/Patolash/Documents/_dev/__dev_current/ansible-install-web-server/ansible/
 cd /mnt/c/Users/masam/Documents/_dev/_current/ansible-install-web-server/ansible/
 
-# Tester la connexion au serveur
-#     🚨 Checker le rôle en fonction de l'avancement (~root/user, port ssh classique ou custom)
-# ansible-playbook -i hosts 0-connexion-test.yml
-ansible-playbook -i hostsWithCustomSSHPort 0-connexion-test.yml
+## Test server connexion
+#   🚨  It will channge regarding project automation execution status
+#       For starters it will be root on default SSH port
+#       After user creation, root access will be prohibited, you'll need to connect through
+#       the_builder_guy, with ssh key files, and a custom ssh port
+ansible-playbook -i hosts 0-connexion-test.yml
+# ansible-playbook -i hostsWithCustomSSHPort 0-connexion-test.yml
 
 
-# Une seule fois, lancer le playbook pour configurer la première connexion
+## Only once, setup user & ssh connexion
 ansible-playbook -i hosts 1-first-connexion-setup.yml
 
-# Executer les commandes dans le fichier généré 'manual-commands.md'
+# 🚨👷 You must now execute commands in generated file 'manual-commands.md'
 # Add ~root ssh key to local ssh agent, cf. __root-manual-commands.md
 eval `ssh-agent`
 ssh-add ~/.ssh/YOUR_REMOTE_USER-ssh-key-ed25519
 
-# Lancer le playbook de création des utilisateurs et changement du port SSH
+## Create users & change default SSH port
 ansible-playbook -i hosts 2-generate-users-and-change-ssh-port.yml
 # ansible-playbook -i hostsWithCustomSSHPort 2-generate-users-and-change-ssh-port.yml
 
 # Add ~the_builder_guy ssh key to local ssh agent, cf. _the_builder_guy-manual-commands.md
 ssh-add ~/.ssh/_the_builder_guy-ssh-key-ed25519
 
-# Lancer le playbook d'installation de l'hôte (sécurité, docker, docker swarm)
+# Setup host server installation (security, docker, docker swarm)
 ansible-playbook -i hostsWithCustomSSHPort 3-utils-security-docker-setup.yml
 
 # ---
 
-### 🛂 A partir de la, les stack (fichiers docker-compose lancés via swarm) seront composés de 3 parties :
-##    the_builder_guy : Génération des fichiers de configs, et mise en ligne sur le serveur
-##    the_builder_guy : Génération des fichiers .yml, et mise en ligne sur le serveur
-##    the_docker_guy  : Lancement ou mise à jour des instances (~docker run / docker stack deploy)
+### 🛂 From there, docker stacks (docker-compose files started via swarm) will be execute in 3 parts :
+##    the_builder_guy : Generate config files, update to host server
+##    the_builder_guy : Generate .yml files (docker), update to host server
+##    the_docker_guy  : Start or update instances (~docker run / docker stack deploy)
 
-## Lancer le playbook de mise en place des services docker de base (reverse proxy, monitoring)
+## Setup & start docker core services (reverse proxy, monitoring)
 ansible-playbook -i hostsWithCustomSSHPort 4-setup-core-services.yml
 
 # ---
 
-# Lancer le playbook de génération d'un playbook de mise en place d'un serveur nginx
-#     🔧 Nécessite la configuration de variables ! (défaut: hello.masamune.fr)
+# Setup & start a nginx server
+#     🚨🔧 You need to configure vars ! (default: hello.masamune.fr)
 ansible-playbook -i hostsWithCustomSSHPort 10-forge-a-nginx.yml
 
-# Lancer le playbook de génération d'un playbook de mise en place d'une base wordpress (serveur & mariadb, via image bitnami).
-#     🔧 Nécessite la configuration de variables ! (défaut: test-wordpress.masamune.fr)
+# Setup & start a wordpress server (server & mariadb, via bitnami image).
+#     🚨🔧 You need to configure vars ! (default: test-wordpress.masamune.fr)
 ansible-playbook -i hostsWithCustomSSHPort 20-forge-a-wordpress.yml
 
 # ---
@@ -84,6 +89,6 @@ ansible-playbook -i hostsWithCustomSSHPort 97-punctal.yml
 #  🚨 Be careful ! Removes stopped containers, dangling images, networks & volumes
 ansible-playbook -i hostsWithCustomSSHPort 98-maintenance.yml
 
-# WIP & tests
+# WIP & tests, used for crafting without going through every task in a playbook
 ansible-playbook -i hostsWithCustomSSHPort 99-craft-and-tests.yml
 ```
