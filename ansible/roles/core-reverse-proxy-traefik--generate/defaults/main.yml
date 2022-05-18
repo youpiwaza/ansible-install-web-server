@@ -8,6 +8,6 @@ core_install_reverse_proxy__docker_socket_proxy_image: 'tecnativa/docker-socket-
 
 # https://hub.docker.com/_/traefik
 # In case of migration break the glass / https://doc.traefik.io/traefik/migration/v2/
-core_install_reverse_proxy__traefik_image: 'traefik:2.4.8'
-core_install_reverse_proxy__traefik_image_label: 'Traefik 2.4.8 / livarot'
+core_install_reverse_proxy__traefik_image: 'traefik:2.7.0-rc2'
+core_install_reverse_proxy__traefik_image_label: 'Traefik 2.7.0-rc2 / epoisses'
 ...
