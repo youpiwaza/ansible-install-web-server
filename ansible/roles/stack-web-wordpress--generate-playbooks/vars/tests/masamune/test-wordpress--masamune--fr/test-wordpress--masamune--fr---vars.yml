@@ -17,7 +17,7 @@ constants:
 
 database:
   # https://hub.docker.com/r/bitnami/mariadb/tags?page=1&ordering=last_updated
-  image: 'bitnami/mariadb:10.5.10'
+  image: 'bitnami/mariadb:10.7.3'
 
   MARIADB_DATABASE: "{{ lookup('password', './generated/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/vars-files/MARIADB_DATABASE-generated.txt length=32 chars=ascii_letters,digits') }}"
   MARIADB_PASSWORD: "{{ lookup('password', './generated/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/vars-files/MARIADB_PASSWORD-generated.txt length=32 chars=ascii_letters,digits') }}"
@@ -52,7 +52,7 @@ traefik:
 
 wordpress:
   # https://hub.docker.com/r/bitnami/wordpress/tags?page=1&ordering=last_updated
-  image: 'bitnami/wordpress:5.7.2'
+  image: 'bitnami/wordpress:5.9.3'
 
   WORDPRESS_TABLE_PREFIX: "{{ lookup('password', './generated/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/vars-files/WORDPRESS_TABLE_PREFIX-generated.txt length=16 chars=ascii_letters,digits') }}"
   WORDPRESS_BLOG_NAME: "Sponge Bob's blog"
