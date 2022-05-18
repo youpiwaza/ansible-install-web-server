@@ -116,17 +116,17 @@ sudo tail -f /var/log/syslog |grep dockerd
 # Debug > specify log driver when using docker service create
 #   --log-driver=json-file
 # (get service name)
-# sudo docker service ls
+# docker service ls
 # Then use on another instance (or in detached mode)
-sudo docker logs -f CONTAINER_NAME_OR_ID
-sudo docker service logs -f SERVICE_NAME_OR_ID
+docker logs -f CONTAINER_NAME_OR_ID
+docker service logs -f SERVICE_NAME_OR_ID
 
 # Accès direct au conteneur
-sudo docker exec -it CONTAINER_NAME_OR_ID bash
+docker exec -it CONTAINER_NAME_OR_ID bash
 # ~alpine
-sudo docker exec -it CONTAINER_NAME_OR_ID bin/ash
+docker exec -it CONTAINER_NAME_OR_ID bin/ash
 # with user
-sudo docker exec -it -u THE_USER CONTAINER_NAME_OR_ID bin/ash
+docker exec -it -u THE_USER CONTAINER_NAME_OR_ID bin/ash
 ```
 
 ## Docker tests
