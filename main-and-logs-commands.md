@@ -46,6 +46,33 @@ sudo tail -f /var/log/dist-upgrade/main.log
 
 # Récap utilisation de cpu/mémoire
 ps -eo pmem,pcpu,rss,vsize,args | sort -k 1 -r | less
+
+
+
+# 🚥 Traefik, accès aux logs
+docker run                                                              \
+      -i                                                                \
+      --mount type=volume,source=core---traefik--logs,target=/home/logs \
+      --name temp-check-traefik-logs                                    \
+      --read-only                                                       \
+      --rm                                                              \
+      -t                                                                \
+      -w /home/logs                                                     \
+      alpine                                                            \
+      /bin/ash
+>> tail traefik-debug.log
+
+# 🚥 Traefik, afficher les logs en direct
+docker run                                                              \
+      -i                                                                \
+      --mount type=volume,source=core---traefik--logs,target=/home/logs \
+      --name temp-check-traefik-logs                                    \
+      --read-only                                                       \
+      --rm                                                              \
+      -t                                                                \
+      -w /home/logs                                                     \
+      alpine                                                            \
+      tail -f traefik-debug.log
 ```
 
 ## Docker logs
