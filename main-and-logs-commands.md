@@ -50,6 +50,22 @@ ps -eo pmem,pcpu,rss,vsize,args | sort -k 1 -r | less
 
 
 # 🚥 Traefik, accès aux logs
+#           ..depuis les logs conteneur
+docker logs -f core---traefik_traefik_1
+
+# 🚥 Traefik, afficher les logs en direct
+#           ..extraire du conteneur
+#           Ne pas tail -f, cela fonctionne mais pas de sortie, ~bash planté
+docker run                                                              \
+      --mount type=volume,source=core---traefik--logs,target=/home/logs \
+      --name temp-check-traefik-logs                                    \
+      --read-only                                                       \
+      --rm                                                              \
+      -w /home/logs                                                     \
+      alpine                                                            \
+      tail traefik-debug.log
+
+#           ..depuis l'intérieur du conteneur
 docker run                                                              \
       -i                                                                \
       --mount type=volume,source=core---traefik--logs,target=/home/logs \
@@ -60,19 +76,25 @@ docker run                                                              \
       -w /home/logs                                                     \
       alpine                                                            \
       /bin/ash
->> tail traefik-debug.log
+>> tail -f traefik-debug.log
+>> exit
 
-# 🚥 Traefik, afficher les logs en direct
-docker run                                                              \
-      -i                                                                \
-      --mount type=volume,source=core---traefik--logs,target=/home/logs \
-      --name temp-check-traefik-logs                                    \
-      --read-only                                                       \
-      --rm                                                              \
-      -t                                                                \
-      -w /home/logs                                                     \
-      alpine                                                            \
-      tail -f traefik-debug.log
+# Arrêter le conteneur, sera détruit via --rm
+docker stop temp-check-traefik-logs
+
+# 🚥 Traefik, accès aux certificats https
+docker run                                                                          \
+      -i                                                                            \
+      --mount type=volume,source=core---traefik--https-certificates,target=/home    \
+      --name temp-check-traefik-certificates                                        \
+      --read-only                                                                   \
+      --rm                                                                          \
+      -t                                                                            \
+      -w /home                                                                      \
+      alpine                                                                        \
+      /bin/ash
+
+> cat https/acme.json
 ```
 
 ## Docker logs
