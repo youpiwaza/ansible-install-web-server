@@ -42,10 +42,10 @@ services:
       resources:
         limits:
           cpus: '0.50'
-          memory: 256M
+          memory: 512M
         reservations:
           cpus: '0.25'
-          memory: 128M
+          memory: 256M
       restart_policy:
         condition: any
         delay: 5s
@@ -147,6 +147,12 @@ services:
         - "traefik.http.routers.https_testWordpress_MasamuneFr_Wordpress_Router.service=https_testWordpress_MasamuneFr_Wordpress_Service"
         # Enable TLS
         - "traefik.http.routers.https_testWordpress_MasamuneFr_Wordpress_Router.tls=true"
+        
+        # Automatic generation on all subdomains, using SANs
+        # cf. server-related-tutorials/01-docker/04-my-tests/09-traefik-curated/08-prod-traefik-https-subdomains/hello.yml
+        - "traefik.http.routers.https_testWordpress_MasamuneFr_Wordpress_Router.tls.domains[0].main=test-wordpress.masamune.fr"
+        - "traefik.http.routers.https_testWordpress_MasamuneFr_Wordpress_Router.tls.domains[0].sans=*.test-wordpress.masamune.fr"
+
         # Automtic certifcate resolver, created in traefik.yml
         - "traefik.http.routers.https_testWordpress_MasamuneFr_Wordpress_Router.tls.certresolver=leresolver"
         
@@ -159,7 +165,10 @@ services:
         #     Middleware aren't shared ?
         - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
         # All hosts..
-        - "traefik.http.routers.http_testWordpress_MasamuneFr_Wordpress_Router.rule=hostregexp(`{host:.+}`)"
+        # - "traefik.http.routers.http_testWordpress_MasamuneFr_Wordpress_Router.rule=hostregexp(`{host:.+}`)"
+        ## Forcer redrection www. vers https
+        ##    https://doc.traefik.io/traefik/routing/routers/#rule > HostRegexp !?? 
+        - "traefik.http.routers.http_testWordpress_MasamuneFr_Wordpress_Router.rule=hostregexp(`{host:.+}`, `{subdomain:[a-z]+}.test-wordpress.masamune.fr`)"
         # .. coming from entrypoint web ..
         - "traefik.http.routers.http_testWordpress_MasamuneFr_Wordpress_Router.entrypoints=web"
         # .. use the previously created middleware
@@ -173,11 +182,11 @@ services:
       replicas: 1
       resources:
         limits:
-          cpus: '0.50'
-          memory: 256M
+          cpus: '4'
+          memory: 1024M
         reservations:
-          cpus: '0.25'
-          memory: 128M
+          cpus: '2'
+          memory: 256M
       restart_policy:
         condition: any
         delay: 5s
