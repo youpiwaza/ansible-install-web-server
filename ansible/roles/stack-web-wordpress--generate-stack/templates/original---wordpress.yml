@@ -151,10 +151,16 @@ services:
         
         # Automatic generation on all subdomains, using SANs
         # cf. server-related-tutorials/01-docker/04-my-tests/09-traefik-curated/08-prod-traefik-https-subdomains/hello.yml
-        - "traefik.http.routers.https_testWordpress_MasamuneFr_Wordpress_Router.tls.domains[0].main=test-wordpress.masamune.fr"
-        - "traefik.http.routers.https_testWordpress_MasamuneFr_Wordpress_Router.tls.domains[0].sans=*.test-wordpress.masamune.fr"
+        # - "traefik.http.routers.https_testWordpress_MasamuneFr_Wordpress_Router.tls.domains[0].main=masamune.fr"
+        # - "traefik.http.routers.https_testWordpress_MasamuneFr_Wordpress_Router.tls.domains[0].sans=*.masamune.fr"
 
-        # Automtic certifcate resolver, created in traefik.yml
+        # ^ No definition needed
+        #   If no tls.domains option is set, then the certificate resolver uses the router's rule, by checking the Host() matchers
+        #   Works for one or more Host defined "routers.blog.rule=(Host(`example.com`) || Host(`blog.example.org`)"
+        #   "tls.domains" can be used to explicitly specify main domain, and SANs subdomains
+        #       🚨 Using SANs : Only one certificate for all domains & subs, if it gets revoked, all loose https
+
+        # Automatic certificate resolver, created in traefik.yml
         - "traefik.http.routers.https_testWordpress_MasamuneFr_Wordpress_Router.tls.certresolver=leresolver"
         
         # Create a service specifying the internal port
