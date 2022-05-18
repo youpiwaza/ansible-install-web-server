@@ -140,6 +140,10 @@ services:
       # Specify internet access > HTTP 80 & HTTPS 443
       # Note that "web" & "websecure" are abitrary names, but will be reused in services' contrainers
       - "--entrypoints.web.address=:80"
+      # HTTPS Redirection (80 to 443)
+      #     https://doc.traefik.io/traefik/routing/entrypoints/#redirection > example > cli
+      - "--entrypoints.web.http.redirections.entryPoint.to=websecure"
+      - "--entrypoints.web.http.redirections.entryPoint.scheme=https"
       - "--entryPoints.websecure.address=:443"
       
       # Send Traefik anonymous usage data / https://docs.traefik.io/contributing/data-collection/

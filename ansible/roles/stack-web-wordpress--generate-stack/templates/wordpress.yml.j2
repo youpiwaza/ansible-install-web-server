@@ -152,19 +152,8 @@ services:
         # Internal port > 1024 to prevent usage of root restricted ports
         - "traefik.http.services.https_{{ traefik.uid }}__wordpress__Service.loadbalancer.server.port=8080"
 
-        ## HTTP_ router / Redirect every http requests to their https equivalent
-        # Create a middleware to redirect http to https
-        #     Middleware aren't shared ?
-        - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
-        # All hosts..
-        # - "traefik.http.routers.http_{{ traefik.uid }}__wordpress__Router.rule=hostregexp(`{host:.+}`)"
-        ## Forcer redrection www. vers https
-        ##    https://doc.traefik.io/traefik/routing/routers/#rule > HostRegexp !?? 
-        - "traefik.http.routers.http_{{ traefik.uid }}__wordpress__Router.rule=hostregexp(`{host:.+}`, `{subdomain:[a-z]+}.{{ traefik.public_uri }}`)"
-        # .. coming from entrypoint web ..
-        - "traefik.http.routers.http_{{ traefik.uid }}__wordpress__Router.entrypoints=web"
-        # .. use the previously created middleware
-        - "traefik.http.routers.http_{{ traefik.uid }}__wordpress__Router.middlewares=redirect-to-https"
+        # Redirect every http requests to their https equivalent, now done in traefik.yml
+        #   @see ansible/roles/core-reverse-proxy-traefik--generate/templates/traefik.yml.j2 > "HTTPS Redirection (80 to 443)"
         
         - "{{ project.labels_prefix }}.client='{{ project.client_name }}'"
         - "{{ project.labels_prefix }}.maintainer='{{ project.maintainer }}'"
