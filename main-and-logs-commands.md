@@ -76,6 +76,8 @@ sudo docker service logs -f SERVICE_NAME_OR_ID
 sudo docker exec -it CONTAINER_NAME_OR_ID bash
 # ~alpine
 sudo docker exec -it CONTAINER_NAME_OR_ID bin/ash
+# with user
+sudo docker exec -it -u THE_USER CONTAINER_NAME_OR_ID bin/ash
 ```
 
 ## Docker tests
