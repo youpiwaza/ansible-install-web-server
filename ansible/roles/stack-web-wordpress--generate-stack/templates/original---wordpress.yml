@@ -139,6 +139,7 @@ services:
         - "traefik.enable=true"
 
         ## HTTPS router specifications
+        #     https://doc.traefik.io/traefik/https/acme/#configuration-examples > Docker swarm
         # Entrypoint
         - "traefik.http.routers.https_testWordpress_MasamuneFr_Wordpress_Router.entrypoints=websecure"
         # On which url ? Reverse proxy regexp
