@@ -3,6 +3,11 @@
 ## the_docker_guy
 # > ansible-playbook -i hostsWithCustomSSHPort 92-backup-restore-volume-from-host-archive.yml
 
+# 🛑💥 Containers using the volume to backup MUST be stopped before running this playbook
+#       else it can produce erratic behavior or incomplete/no restoration
+#       (.. and restarted/re-deployed afterward)
+#         Can't automate due to multiple technology, use appropriate roles 🤖 or do it manually 👋
+
 # 🚨 Note 🚨 : This will replace existing files but **not erase new files**.
 #        Best practice would be to create a new volume, populate it with the backup and remap the container accordingly.
 #        This also allow the previous volume (..and datas) to persist.

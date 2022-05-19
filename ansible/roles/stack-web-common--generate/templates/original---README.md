@@ -31,6 +31,10 @@ ansible-playbook -i hostsWithCustomSSHPort 200---test-wordpress--masamune--fr---
 ## the_docker_guy
 ansible-playbook -i hostsWithCustomSSHPort {{ constants.FILE_PREFIX }}{{ project.dashed_domain }}---{{ constants.TECHNOLOGY }}-stack--stop--generated.yml
 
+
+
+### 🚨 Each backup or restoration will 🛑 STOP 🛑 the container, execute it's task, and then restart it ♻️
+
 ### 💾📡 Backup volume on host: Create a .tar archive containing a specific folder in the designated volume
 ## the_docker_guy
 ansible-playbook -i hostsWithCustomSSHPort {{ constants.FILE_PREFIX }}{{ project.dashed_domain }}---{{ constants.TECHNOLOGY }}-backup-volume--on-host--generated.yml

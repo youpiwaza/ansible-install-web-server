@@ -72,6 +72,8 @@
   - {{ project.vars_file_path }}
 
   roles:
+    - stack-web-common--stop
     - docker-volume-copy-backup-archive-to-host
     - docker-volume-restore-from-host-archive
+    - stack-web-nginx--deploy
 ...

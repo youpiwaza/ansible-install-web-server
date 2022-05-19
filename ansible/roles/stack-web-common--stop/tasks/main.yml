@@ -17,4 +17,9 @@
     
     # - debug:
     #     msg: '{{ my_stack_status }}'
+
+- name: Wait for containers shutdown, 5 seconds
+  delegate_to: 127.0.0.1
+  wait_for:
+    timeout: 5
 ...

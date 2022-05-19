@@ -62,6 +62,8 @@
   - roles/users/vars/main.yml
 
   roles:
+    - stack-web-common--stop
     - docker-volume-copy-backup-archive-to-host
     - docker-volume-restore-from-host-archive
+    - stack-web-nginx--deploy
 ...

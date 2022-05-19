@@ -44,5 +44,7 @@
   - {{ project.vars_file_path }}
 
   roles:
+    - stack-web-common--stop
     - docker-volume-backup-on-host
+    - stack-web-nginx--deploy
 ...

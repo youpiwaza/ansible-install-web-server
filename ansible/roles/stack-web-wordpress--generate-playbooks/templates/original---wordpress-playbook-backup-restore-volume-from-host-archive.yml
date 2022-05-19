@@ -54,6 +54,7 @@
   - roles/stack-web-wordpress--generate-playbooks/vars/tests/masamune/test-wordpress--masamune--fr/test-wordpress--masamune--fr---vars.yml
 
   roles:
+    - stack-web-common--stop
     - docker-volume-restore-from-host-archive
 
 
@@ -87,4 +88,5 @@
 
   roles:
     - docker-volume-restore-from-host-archive
+    - stack-web-wordpress--deploy
 ...

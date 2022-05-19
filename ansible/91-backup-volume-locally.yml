@@ -3,6 +3,11 @@
 ## the_docker_guy
 # > ansible-playbook -i hostsWithCustomSSHPort 91-backup-volume-locally.yml
 
+# 🛑💥 Containers using the volume to backup MUST be stopped before running this playbook
+#       else it can produce erratic behavior or incomplete backups
+#       (.. and restarted/re-deployed afterward)
+#         Can't automate due to multiple technology, use appropriate roles 🤖 or do it manually 👋
+
 # 🔧 Variables must be properly filled:
 # - folderToBackup  : The folder where the files are stored INSIDE the volume
 # - volumeName      : Identifier of the named volume

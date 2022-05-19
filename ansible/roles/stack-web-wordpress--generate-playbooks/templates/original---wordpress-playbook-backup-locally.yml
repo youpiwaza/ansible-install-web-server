@@ -36,6 +36,7 @@
   - roles/stack-web-wordpress--generate-playbooks/vars/tests/masamune/test-wordpress--masamune--fr/test-wordpress--masamune--fr---vars.yml
 
   roles:
+    - stack-web-common--stop
     - docker-volume-backup-on-host
     - docker-volume-backup-locally
 
@@ -66,4 +67,5 @@
   roles:
     - docker-volume-backup-on-host
     - docker-volume-backup-locally
+    - stack-web-wordpress--deploy
 ...

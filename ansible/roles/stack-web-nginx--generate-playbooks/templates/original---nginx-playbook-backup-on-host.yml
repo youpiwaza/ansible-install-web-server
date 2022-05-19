@@ -34,5 +34,7 @@
   - roles/users/vars/main.yml
 
   roles:
+    - stack-web-common--stop
     - docker-volume-backup-on-host
+    - stack-web-nginx--deploy
 ...
