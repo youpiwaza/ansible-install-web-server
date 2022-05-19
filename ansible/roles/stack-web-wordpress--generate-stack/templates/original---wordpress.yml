@@ -39,13 +39,14 @@ services:
       mode: replicated
       # Possibility to implement replicas : https://hub.docker.com/r/bitnami/mariadb/ > Setting up a replication cluster
       replicas: 1
+      # 🚨 /_debug_notes/container-wont-start-if-too-many-due-to-reservations.md
       resources:
         limits:
-          cpus: '0.50'
-          memory: 512M
-        reservations:
-          cpus: '0.25'
+          cpus: '0.5'
           memory: 256M
+        reservations:
+          # cpus: '0.25'
+          memory: 128M
       restart_policy:
         condition: any
         delay: 5s
@@ -176,12 +177,13 @@ services:
         - "fr.masamune.type='test'"
       mode: replicated
       replicas: 1
+      # 🚨 /_debug_notes/container-wont-start-if-too-many-due-to-reservations.md
       resources:
         limits:
           cpus: '4'
-          memory: 1024M
+          memory: 2048M
         reservations:
-          cpus: '2'
+          # cpus: '2'
           memory: 256M
       restart_policy:
         condition: any
