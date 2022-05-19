@@ -47,7 +47,7 @@ ansible-playbook -i hostsWithCustomSSHPort {{ constants.FILE_PREFIX }}{{ project
 ## the_docker_guy
 ansible-playbook -i hostsWithCustomSSHPort {{ constants.FILE_PREFIX }}{{ project.dashed_domain }}---{{ constants.TECHNOLOGY }}-backup-restore-volume-from-local-archive--generated.yml
 
-### 🔥 Uninstall stack: Stop the stack, backup volume on host, the remove volumes
+### 🔥 Uninstall stack: Stop the stack, backup volume(s) both on host & locally, the remove volumes
 ## the_docker_guy
 ansible-playbook -i hostsWithCustomSSHPort {{ constants.FILE_PREFIX }}{{ project.dashed_domain }}---{{ constants.TECHNOLOGY }}-stack--uninstall--generated.yml
 ```
