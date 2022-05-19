@@ -132,9 +132,9 @@ services:
       #   Use staging for tests, to avoid proc'ing the limits (~1week black listed)
       #   KEYWORD: https, Let's Encrypt, LetsEncrypt, not working, black list, limit exceeded, exceeding, Limit Reached
       # 📌 Staging url > 💥 Activate for https tests to prevent limit exceeding
-      - "--certificatesresolvers.leresolver.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory"
+      # - "--certificatesresolvers.leresolver.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory"
       # 💼 Production url > Re-activate after tests
-      # - "--certificatesresolvers.leresolver.acme.caserver=https://acme-v02.api.letsencrypt.org/directory"
+      - "--certificatesresolvers.leresolver.acme.caserver=https://acme-v02.api.letsencrypt.org/directory"
       - "--certificatesresolvers.leresolver.acme.email=masamune.code@gmail.com"
       - "--certificatesresolvers.leresolver.acme.storage=/home/https/acme.json"
       - "--certificatesresolvers.leresolver.acme.tlschallenge=true"
