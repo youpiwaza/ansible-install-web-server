@@ -15,6 +15,8 @@
     state: directory
 
 - name: "Gather backup and save it locally: './generated/backups/volumes/{{ currentYear }}/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/{{ volumeName }}/{{ volumeName }}---backup---latest.tar'"
+  # Files that already exist at dest will be overwritten if they are different than the src
+  #   https://docs.ansible.com/ansible/latest/collections/ansible/builtin/fetch_module.html
   fetch:
     dest: './generated/backups/volumes/{{ currentYear }}/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/{{ volumeName }}/{{ volumeName }}---backup---latest.tar'
     # Do not copy the whole tree folder -_-
