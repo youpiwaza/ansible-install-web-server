@@ -91,3 +91,10 @@ I'll configure:
 - reservation to idle usage
   - Or no reservations if I reach the hardware limit with multiple containers
 - limit to the double of stress tests
+
+## Note
+
+220519 Memory swap seems not implemented yet for `compose` & `stack`.
+
+- [Open ticket](https://github.com/moby/moby/issues/25303)
+- [--memory-swap & --memory-swappiness link](https://github.com/moby/moby/issues/34654)
