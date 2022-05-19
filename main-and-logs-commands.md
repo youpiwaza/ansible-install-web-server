@@ -147,7 +147,7 @@ sudo systemctl restart docker
 sudo systemctl status docker.service
 
 # Inspect container health (healthchecks)
-sudo docker inspect --format='{{.State.Health.Status}}' CONTAINER_NAME
+docker inspect --format='{{.State.Health.Status}}' CONTAINER_NAME
 ```
 
 ### Clean ps
@@ -175,10 +175,10 @@ docker ps --format "table {{.Names}}\t{{.Image}}\t{{.Status}}\t{{.Ports}}" | (re
 ps -eo pmem,pcpu,rss,vsize,args | sort -k 1 -r | less
 
 # Tous les conteneurs
-sudo docker stats
+docker stats
 
 # Un conteneur
-sudo docker stats CONTAINER_NAME_OR_ID
+docker stats CONTAINER_NAME_OR_ID
 
 # Espace occupé sur le disque dur (images, repos, volumes, docker builds)
 docker system df -v
