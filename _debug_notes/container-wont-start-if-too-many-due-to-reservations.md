@@ -48,11 +48,11 @@ Test with less reserved CPU on last wp : .25/.5 instead of 2/4
 
 ## The documentation is misleading
 
-In the most SEO favorable documentation [resource_constraints#limit-a-containers-access-to-memory](https://docs.docker.com/config/containers/resource_constraints/#limit-a-containers-access-to-memory), limit is the point where container will crash/reboot, and reservation is a "soft" limit.
+In the most SEO favorable documentation [💩 resource_constraints#limit-a-containers-access-to-memory 💩](https://docs.docker.com/config/containers/resource_constraints/#limit-a-containers-access-to-memory), limit is the point where container will crash/reboot, and reservation is a "soft" limit.
 
-You must use the [docker compose documentation](https://docs.docker.com/compose/compose-file/compose-file-v3/#resources), which has same terms but different applications.
+You must use the [✅ docker compose documentation](https://docs.docker.com/compose/compose-file/compose-file-v3/#resources), which has same terms but different applications.
 
-More details in the [CLI counterpart](https://docs.docker.com/engine/reference/commandline/service_create/#specify-memory-requirements-and-constraints-for-a-service---reserve-memory-and---limit-memory).
+More details in the [✅ CLI counterpart](https://docs.docker.com/engine/reference/commandline/service_create/#specify-memory-requirements-and-constraints-for-a-service---reserve-memory-and---limit-memory).
 
 ```yaml
 version: "3.9"
