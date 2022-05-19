@@ -39,4 +39,20 @@
 #   Won't be needed as mot things will run through ssh ansible
 
 # Other steps concern troubleshooting and won't be handled here
+
+# ---
+
+## Your kernel does not support cgroup swap limit capabilities
+#     https://docs.docker.com/engine/install/linux-postinstall/#your-kernel-does-not-support-cgroup-swap-limit-capabilities
+- name: 'Enable cgroup swap limit capabilities : Edit grub'
+  ansible.builtin.lineinfile:
+    path: /etc/default/grub
+    regexp: '^GRUB_CMDLINE_LINUX='
+    line: 'GRUB_CMDLINE_LINUX="cgroup_enable=memory swapaccount=1"'
+  # 📌 Reboot needs to occur after grub update v
+  notify: Reboot the Debian or Ubuntu server
+
+- name: 'Enable cgroup swap limit capabilities : update grub'
+  # Needs sudo
+  ansible.builtin.shell: update-grub
 ...

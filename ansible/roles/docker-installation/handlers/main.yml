@@ -1,0 +1,11 @@
+---
+### Event based tasks ###
+- name: Reboot the Debian or Ubuntu server
+  reboot:
+    msg: 'Reboot initiated by Ansible due to kernel updates'
+    connect_timeout: 5
+    reboot_timeout: 300
+    pre_reboot_delay: 0
+    post_reboot_delay: 5
+    test_command: uptime
+...
