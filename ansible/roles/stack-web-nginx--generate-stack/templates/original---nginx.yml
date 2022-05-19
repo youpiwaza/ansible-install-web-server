@@ -64,12 +64,13 @@ services:
         - "fr.masamune.type='test'"
       mode: replicated
       replicas: 1
+      # 🚨 /_debug_notes/container-wont-start-if-too-many-due-to-reservations.md
       resources:
         limits:
-          cpus: '0.50'
-          memory: 256M
+          cpus: '1'
+          memory: 1024M
         reservations:
-          cpus: '0.25'
+          # cpus: '0.25'
           memory: 128M
       restart_policy:
         condition: any
