@@ -9,7 +9,8 @@
 ## Docker swarm doesn't need installation, it's already installed with docker
 # Only testing is needed
 - name: Test docker swarm through a nginx service
-  include: test-swarm-service.yml
+  # include: test-swarm-service.yml
+  include_tasks: test-swarm-service.yml
 
 ## Docker stack needs installations
 # https://docs.ansible.com/ansible/latest/modules/docker_stack_module.html#requirements
@@ -24,7 +25,8 @@
 
 # Test docker stack
 - name: Test docker stack through a nginx service and a phpfpm linked via network
-  include: test-stack-services-and-network.yml
+  # include: test-stack-services-and-network.yml
+  include_tasks: test-stack-services-and-network.yml
 
 ## Apply security recomandations (docker security bench)
 # # 7.4  - Ensure that all Docker swarm overlay networks are encrypted
@@ -33,8 +35,10 @@
 # ingress option not available in ansible docker_network
 
 - name: Test docker swarm through a nginx service
-  include: test-curated-swarm-service.yml
+  # include: test-curated-swarm-service.yml
+  include_tasks: test-curated-swarm-service.yml
 
 - name: Test curated docker stack through a nginx service and a phpfpm linked via network
-  include: test-curated-stack-services-and-network.yml
+  # include: test-curated-stack-services-and-network.yml
+  include_tasks: test-curated-stack-services-and-network.yml
 ...

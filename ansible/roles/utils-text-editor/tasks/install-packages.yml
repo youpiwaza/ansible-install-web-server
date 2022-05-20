@@ -18,5 +18,6 @@
     autoremove: yes
 
 - name: Reboot system if required
-  include: reboot-if-needed.yml
+  # include: reboot-if-needed.yml
+  include_tasks: reboot-if-needed.yml
 ...

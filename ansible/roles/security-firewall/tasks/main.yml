@@ -20,7 +20,8 @@
 # > sudo systemctl start iptables-restore.service
 
 - name: Install required packages
-  include: install-packages.yml
+  # include: install-packages.yml
+  include_tasks: install-packages.yml
 
 - name: Configure iptables firewall / Create /var/lib/iptables directory
   file:

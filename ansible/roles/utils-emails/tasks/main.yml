@@ -10,7 +10,8 @@
 # Currently works with default sender but goes into spam > use a gmail filter
 
 - name: Install required packages
-  include: install-packages.yml
+  # include: install-packages.yml
+  include_tasks: install-packages.yml
 
 # TODO: configure SPF/DKIM/DMARC
 # Note: mail.cnf seems overriden by hostname and hosts files, still can use this config

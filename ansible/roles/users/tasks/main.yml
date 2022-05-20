@@ -18,23 +18,28 @@
     state: latest
 
 - name: Create all users
-  include: create.yml
+  # include: create.yml
+  include_tasks: create.yml
   loop: '{{ users }}'
 
 - name: Setup SSH stuff
-  include: setup-ssh-stuff.yml
+  # include: setup-ssh-stuff.yml
+  include_tasks: setup-ssh-stuff.yml
   loop: '{{ users }}'
 
 - name: Add sudoers rights
-  include: add-sudoer.yml
+  # include: add-sudoer.yml
+  include_tasks: add-sudoer.yml
   loop: '{{ users }}'
 
 - name: Add CRON rights
-  include: allow-cron.yml
+  # include: allow-cron.yml
+  include_tasks: allow-cron.yml
   loop: '{{ users }}'
 
 - name: Prevent access to /home/da_user from other users
-  include: prevent-home-access.yml
+  # include: prevent-home-access.yml
+  include_tasks: prevent-home-access.yml
   loop: '{{ users }}'
 
 # https://help.ubuntu.com/lts/serverguide/serverguide.pdf#page=188&zoom=100,72,96
@@ -45,7 +50,8 @@
     regexp: '^DIR_MODE='
 
 - name: Restrict user
-  include: restrict-user.yml
+  # include: restrict-user.yml
+  include_tasks: restrict-user.yml
   loop: '{{ users }}'
 
 # https://docs.docker.com/install/linux/linux-postinstall/#manage-docker-as-a-non-root-user
@@ -58,14 +64,17 @@
 # Usually you need to reconnect for the changes to take place, or use newgrp docker
 # But in this playbook the_docker_guy won't work until the third playbook, which forces reconnexion
 - name: Add docker rights
-  include: allow-docker.yml
+  # include: allow-docker.yml
+  include_tasks: allow-docker.yml
   loop: '{{ users }}'
   when: users__docker.createDockerGroup|bool == true
 
 - name: Generate a file with manual commands for convenience
-  include: generate-users-manual-commands.yml
+  # include: generate-users-manual-commands.yml
+  include_tasks: generate-users-manual-commands.yml
   loop: '{{ users }}'
 
 - name: Setup chroot prison
-  include: setup-chroot-prison.yml
+  # include: setup-chroot-prison.yml
+  include_tasks: setup-chroot-prison.yml
 ...

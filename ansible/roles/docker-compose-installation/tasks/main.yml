@@ -18,8 +18,10 @@
     name: '{{ docker_compose_installation__bothHostsPipPackagesToInstall }}'
 
 - name: Test docker-compose through nginx + phpfpm
-  include: test-composed-project.yml
+  # include: test-composed-project.yml
+  include_tasks: test-composed-project.yml
 
 - name: Test curated docker-compose through nginx + phpfpm
-  include: test-curated-composed-project.yml
+  # include: test-curated-composed-project.yml
+  include_tasks: test-curated-composed-project.yml
 ...

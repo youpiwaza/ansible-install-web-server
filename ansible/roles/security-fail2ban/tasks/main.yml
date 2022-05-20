@@ -23,7 +23,8 @@
 # > sudo fail2ban-regex /var/log/auth.log /etc/fail2ban/filter.d/sshd.conf
 
 - name: Install required packages
-  include: install-packages.yml
+  # include: install-packages.yml
+  include_tasks: install-packages.yml
 
 # Ensure fail2ban is running
 - name: Ensure fail2ban is running

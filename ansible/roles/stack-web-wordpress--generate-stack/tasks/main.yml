@@ -21,17 +21,20 @@
 ## Generate, then upload or update wordpress files
 - name: Local / Test / Web / Wordpress / Generate files
   delegate_to: 127.0.0.1
+  # 👴 deprecation warning > new 'include_tasks' can't delegate
   include: generate-yml.yml
   vars:
     root_folder: './generated'
 
 - name: Server / Test / Web / Wordpress / Upload or update stack
-  include: generate-yml.yml
+  # include: generate-yml.yml
+  include_tasks: generate-yml.yml
   vars:
     root_folder: '/home/{{ users.3.name }}'
 
 # Local > Generate ids in a clean doc
 - name: Local / Test / Web / Wordpress / Generate ids in a local README.md file
   delegate_to: 127.0.0.1
+  # 👴 deprecation warning > new 'include_tasks' can't delegate
   include: generate-ids-readme.yml
 ...

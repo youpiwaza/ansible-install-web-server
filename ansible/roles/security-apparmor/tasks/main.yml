@@ -41,7 +41,8 @@
 
 # Load profiles
 - name: Add custom AppArmor profiles
-  include: add-profile.yml
+  # include: add-profile.yml
+  include_tasks: add-profile.yml
   loop: '{{ security_apparmor__appArmorProfilesToAdd }}'
 
 ## If need test..

@@ -14,28 +14,24 @@
 # ---
 
 ### Roadmap
-# - Backups & re-injection
+# - Remove deprecation warning
 # - 
 # - 
 
-# For security reasons, the_docker_peon home folder is chown to root.
-# the_docker_guy permissions problems : no rights in the_docker_peon folder
-# Only the the_builder_guy can manage folders
-
-## the_docker_guy
-- name: 'Setup networks & volumes then deploy or update WordPress stack'
-  become: no
+### the_builder_guy
+- name: '{{ users.0.name }} / Core / Reverse proxy / Traefik / Generate or update service .yml files and upload them'
+  become: yes
   hosts: likorneWithCustomSSHPort
-  # the_docker_guy / cf. /ansible/roles/users/vars/main.yml
-  remote_user: '{{ users.2.name }}'
+  # the_builder_guy / cf. /ansible/roles/users/vars/main.yml
+  remote_user: '{{ users.0.name }}'
+  vars:
+    currentDateTime: "{{ ansible_date_time.date }}--{{ ansible_date_time.hour }}h{{ ansible_date_time.minute }}m{{ ansible_date_time.second }}s"
   vars_files:
   - defaults/main.yml
+  - vars/main.yml
   - roles/users/defaults/main.yml
   - roles/users/vars/main.yml
-  - vars/main.yml
-    # 🔧 project.vars_file_path
-  - roles/stack-web-wordpress--generate-playbooks/vars/clients/fof/dev--sophieberberian--com/dev--sophieberberian--com---vars_secret.yml
 
   roles:
-    - stack-web-wordpress--deploy
+    - core-reverse-proxy-traefik--generate
 ...

@@ -35,7 +35,8 @@
 # > chronyc tracking
 
 - name: Install required packages
-  include: install-packages.yml
+  # include: install-packages.yml
+  include_tasks: install-packages.yml
 
 ## Change time zone
 - name: Register timezone infos

@@ -1,4 +1,5 @@
 ---
 - name: Ensure that the the_docker_guy can run docker without sudo, and initiate a stack
-  include: test-curated-stack.yml
+  # include: test-curated-stack.yml
+  include_tasks: test-curated-stack.yml
 ...

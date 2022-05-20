@@ -12,7 +12,8 @@
     state: present
 
 - name: Reboot system if required
-  include: reboot-if-needed.yml
+  # include: reboot-if-needed.yml
+  include_tasks: reboot-if-needed.yml
 
 # Warn user
 - debug:
@@ -37,5 +38,6 @@
     msg: "Ubuntu upgrade message : {{ result.stdout }}"
 
 - name: Reboot system if required
-  include: reboot-if-needed.yml
+  # include: reboot-if-needed.yml
+  include_tasks: reboot-if-needed.yml
 ...

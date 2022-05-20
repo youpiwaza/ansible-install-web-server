@@ -24,6 +24,7 @@
 ## Generate common project README.md
 - name: Local / Generate project README.md
   delegate_to: 127.0.0.1
+  # 👴 deprecation warning > new 'include_tasks' can't delegate
   include: generate-README.md.yml
   vars:
     root_folder: './generated'
@@ -36,7 +37,8 @@
     src: templates/README.md.j2
 
 - name: Server / Generate project README.md
-  include: generate-README.md.yml
+  # include: generate-README.md.yml
+  include_tasks: generate-README.md.yml
   vars:
     root_folder: '/home/{{ users.3.name }}'
 

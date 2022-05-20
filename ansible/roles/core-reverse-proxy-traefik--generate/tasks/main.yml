@@ -3,13 +3,14 @@
 ## the_builder_guy
 - name: Local / Core / Reverse Proxy / Traefik / Generate files
   delegate_to: 127.0.0.1
+  # 👴 deprecation warning > new 'include_tasks' can't delegate
   include: generate.yml
   vars:
     root_folder: './generated'
 
 ### Upload or update stack files in the_docker_peon /home folder
 - name: Server / Core / Reverse Proxy / Traefik / Upload or update stack
-  include: generate.yml
+  include_tasks: generate.yml
   vars:
     root_folder: '/home/{{ users.3.name }}'
 

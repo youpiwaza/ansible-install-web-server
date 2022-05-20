@@ -9,7 +9,8 @@
 # This is defined during user creation
 
 - name: Install required packages
-  include: install-packages.yml
+  # include: install-packages.yml
+  include_tasks: install-packages.yml
 
 # Oh my zsh global installation / https://stackoverflow.com/questions/31624649/how-can-i-get-a-secure-system-wide-oh-my-zsh-configuration
 
@@ -41,7 +42,8 @@
 
 ## Loop for every user, including remote_user
 - name: Install and setup zsh for all users
-  include: install-zshrc.yml
+  # include: install-zshrc.yml
+  include_tasks: install-zshrc.yml
   loop: '{{ loaded_users.users }}'
   # loop: '{{ lists_merged }}'
 
@@ -49,7 +51,8 @@
 # Others have /home/$USERNAME
 # root has /root
 - name: Install and setup zsh for root
-  include: install-zshrc-for-root.yml
+  # include: install-zshrc-for-root.yml
+  include_tasks: install-zshrc-for-root.yml
 
 # Default config / https://github.com/ohmyzsh/ohmyzsh/blob/master/templates/zshrc.zsh-template
 - name: Creating zshrc default configuration for all users
