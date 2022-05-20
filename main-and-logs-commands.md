@@ -133,7 +133,17 @@ docker exec -it -u THE_USER CONTAINER_NAME_OR_ID bin/ash
 
 ```bash
 # Create an alpine container with a volume inside the dedicated folder, go in with shell and create a file
-docker run --name test-alpine --rm -i -t -v /home/THE_DOCKER_PEON/test-volume:/home -w /home alpine /bin/ash
+#     Prefer using --mount instead of -v
+#           https://docs.docker.com/engine/reference/commandline/service_create/#add-bind-mounts-volumes-or-memory-filesystems 
+docker run                                            \
+      -it                                             \
+      --name test-alpine                              \
+      --rm                                            \
+      -v /home/THE_DOCKER_PEON/test-volume:/home      \
+      -w /home                                        \
+      alpine                                          \
+      /bin/ash
+
 >> touch test
 >> exit
 cd /home/THE_DOCKER_PEON/test-volume
