@@ -1,7 +1,7 @@
 ---
 ### Generate or update a Nginx playbook
 ## the_builder_guy
-# > ansible-playbook -i hostsWithCustomSSHPort 100----forge-nginx---hello--masamune--fr.yml
+# > ansible-playbook -i hostsWithCustomSSHPort 201----forge-nginx---hello--masamune--fr.yml
 
 # 💡 How to use: Set variables in a dedicated file, and run this playbook to generate nginx playbooks dedicated to one site
 #   Run the newly created playbook "start" to generate, upload & deploy the .yml stack file.
