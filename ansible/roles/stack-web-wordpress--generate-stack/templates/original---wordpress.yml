@@ -125,6 +125,74 @@ services:
         source: test---test-wordpress--masamune--fr---wordpress-database
         target: /bitnami/mariadb
 
+  # cf. /_debug_notes/sftp-tests_secret.md
+  # cf. https://hub.docker.com/r/atmoz/sftp
+  sftp:
+    command: 'foo:pass:1001:0'
+    deploy:
+      endpoint_mode: vip
+      labels:
+        - "fr.masamune.client='masamune'"
+        - "fr.masamune.maintainer='masamune.code@gmail.com'"
+        - "fr.masamune.project='test service wordpress / sftp'"
+        - "fr.masamune.type='test'"
+      mode: replicated
+      replicas: 1
+      # 🚨 /_debug_notes/container-wont-start-if-too-many-due-to-reservations.md
+      resources:
+        limits:
+          cpus: '0.25'
+          memory: 256M
+        reservations:
+          # cpus: '0.25'
+          memory: 128M
+      restart_policy:
+        condition: any
+        delay: 5s
+        max_attempts: 5
+        window: 120s
+      rollback_config:
+        delay: 0s
+        failure_action: pause
+        max_failure_ratio: 0
+        monitor: 0s
+        order: stop-first
+        parallelism: 1
+      update_config:
+        delay: 10s
+        failure_action: pause
+        max_failure_ratio: 0
+        monitor: 0s
+        order: stop-first
+        parallelism: 1
+    healthcheck:
+      test: 'stat /etc/ssh/sshd_config || exit 1'
+      interval: 10s
+      timeout: 10s
+      retries: 3
+      start_period: 0s
+    image: 'atmoz/sftp'
+    labels:
+      fr.masamune.client: 'masamune'
+      fr.masamune.maintainer: 'masamune.code@gmail.com'
+      fr.masamune.project: 'curated service wordpress / sftp'
+      fr.masamune.type: 'test'
+    networks:
+      # Connect to traefik dedicated overlay network, allow reverse proxy
+      - core---traefik-public--access-internet
+    ports:
+      - '22200:22'
+    security_opt:
+      - no-new-privileges=true
+      - apparmor=docker-default
+      - seccomp=/etc/docker/seccomp-profiles/default-docker-profile.json
+    volumes:
+      - type: volume
+        read_only: false
+        source: test---test-wordpress--masamune--fr---wordpress-files
+        target: /home/foo/upload
+    working_dir: /home/foo/upload
+  
   wordpress:
     # cap_drop:
     #   - ALL
