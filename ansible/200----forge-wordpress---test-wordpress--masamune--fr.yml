@@ -35,14 +35,6 @@
   remote_user: '{{ users.0.name }}'
   vars:
     currentDateTime: "{{ ansible_date_time.date }}--{{ ansible_date_time.hour }}h{{ ansible_date_time.minute }}m{{ ansible_date_time.second }}s"
-    # Create a new sftp user
-    newUser:
-      - mail: '{{ project.client_email }}'
-        # Ubuntu user max 32 chars. >> truncated "CLIENT_NAME---DASHED_DOMAIN"
-        name: '{{ [project.client_name, project.dashed_domain]|join("---") | truncate(32, True, "") }}'
-        preventHomeAccess: no
-        restrictUser: no
-        ssh_passphrase: '{{ sftp.passphrase }}'
   vars_files:
   - defaults/main.yml
   - roles/users/defaults/main.yml
@@ -55,5 +47,4 @@
   roles:
     - stack-web-wordpress--generate-playbooks
     - stack-web-common--generate
-    # - sftp-create-user
 ...

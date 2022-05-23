@@ -55,5 +55,4 @@
   roles:
     - stack-web-nginx--generate-playbooks
     - stack-web-common--generate
-    # - sftp-create-user
 ...

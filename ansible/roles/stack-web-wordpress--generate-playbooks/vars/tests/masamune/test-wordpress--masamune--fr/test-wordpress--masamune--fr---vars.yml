@@ -40,7 +40,7 @@ project:
   vars_file_path: 'roles/stack-web-wordpress--generate-playbooks/vars/tests/masamune/test-wordpress--masamune--fr/test-wordpress--masamune--fr---vars.yml'
 
 sftp:
-  passphrase: "{{ lookup('password', './generated/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/vars-files/SFTP_PASSPHRASE-generated.txt length=32') }}"
+  sftp_password: "{{ lookup('password', './generated/{{ project.type }}s/{{ project.client_name }}/{{ project.dashed_domain }}/vars-files/SFTP_PASSPHRASE-generated.txt length=32') }}"
 
 traefik:
   # Ensure DNS are set accordingly to point towards host IP
