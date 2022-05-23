@@ -26,6 +26,14 @@
 | public_uri | {{ traefik.public_uri }} | Ensure DNS are set accordingly to point towards host IP. This will point towards 'https://{{ traefik.public_uri }}/' |
 | uid | {{ traefik.uid }} | For router & middleware names generation. Recommanded notation: `subDomain__domain__ext` |
 
+## SFTP
+
+| Variable | Value | Notes |
+|-|-|-|
+| SFTP_USER | {{ project.dashed_domain }} |  |
+| SFTP_PASSWORD | {{ sftp.sftp_password }} |  |
+| SFTP_PORT | {{ sftp.sftp_port_unique }} |  |
+
 ## Database
 
 | Variable | Value | Notes |

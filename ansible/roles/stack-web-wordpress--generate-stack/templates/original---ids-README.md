@@ -19,6 +19,14 @@ Généré automatiquement via ansible, cf. [github repo](https://github.com/youp
 | public_uri | test-wordpress.masamune.fr | Ensure DNS are set accordingly to point towards host IP. This will point towards 'https://test-wordpress.masamune.fr/' |
 | uid | testWordpress__masamune__fr | For router & middleware names generation. Recommanded notation: `subDomain__domain__ext` |
 
+## SFTP
+
+| Variable | Value | Notes |
+|-|-|-|
+| SFTP_USER | test-wordpress--masamune--fr |  |
+| SFTP_PASSWORD | y5TwS4QbBS3s0qrrncl!OuhzOjtrPgJV |  |
+| SFTP_PORT | 22200 |  |
+
 ## Database
 
 | Variable | Value | Notes |
