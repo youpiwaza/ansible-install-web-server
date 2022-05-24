@@ -1,5 +1,11 @@
 # Ansible cookbook to install my web server
 
+## End of developement
+
+Too much hard work, too complex, frustrating. All stuff left listed in `shame.md`.
+
+## What is it ?
+
 Install a web server through ansible, based on personnal [researches](https://github.com/youpiwaza/notes-installation-serveur-web-docker) and [tests](https://github.com/youpiwaza/server-related-tutorials).
 
 cf. [dedicated repo](https://github.com/youpiwaza/server-related-tutorials/tree/master/02-ansible) for ansible installation, setup and tests :
